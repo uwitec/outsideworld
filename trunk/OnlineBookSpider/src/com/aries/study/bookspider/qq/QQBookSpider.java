@@ -9,7 +9,7 @@ import com.aries.htmlmodifier.exception.HtmlParseException;
 import com.aries.study.bookspider.WebContent;
 import com.aries.util.db.SimpleDataBase;
 
-public class QQBookSpider extends Thread {
+public class QQBookSpider {
 	private DataSource dataSource;
 
 	public QQBookSpider() {
@@ -21,11 +21,11 @@ public class QQBookSpider extends Thread {
 				password);
 	}
 
-	@Override
-	public void run() {
+	public void execute() {
 		try {
 			WebContent bookList = new WebContent(
 					"http://bookapp.book.qq.com/book_list/6_0_1_0.htm");
+			System.out.println("asdf");
 			List<ITagNode> bookNodeList = bookList
 					.getNodeList(QQBookConfig.bookList);
 			for (ITagNode node : bookNodeList) {
@@ -38,6 +38,6 @@ public class QQBookSpider extends Thread {
 	}
 
 	public static void main(String[] args) {
-		new QQBookSpider().start();
+		new QQBookSpider().execute();
 	}
 }
