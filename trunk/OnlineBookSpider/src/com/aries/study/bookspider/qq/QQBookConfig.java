@@ -7,6 +7,14 @@ import com.aries.htmlmodifier.dom.ITagNode;
 
 public class QQBookConfig {
 
+	public static INodeFilter bookList = new INodeFilter() {
+
+		@Override
+		public boolean accept(ITagNode arg0) {
+			return false;
+		}
+	};
+
 	public static INodeFilter title = new INodeFilter() {
 		@Override
 		public boolean accept(ITagNode node) {

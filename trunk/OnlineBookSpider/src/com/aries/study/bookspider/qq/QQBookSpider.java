@@ -9,7 +9,7 @@ public class QQBookSpider {
 
 	public QQBookSpider() {
 		String url = "jdbc:postgresql://localhost:3306/bookreader?useUnicode=true;characterEncoding=utf8";
-		String driverClass = "org.postgresql.Driver";
+		String driverClass = "com.mysql.jdbc.Driver";
 		String user = "root";
 		String password = "root";
 		dataSource = SimpleDataBase.setupDataSource(url, driverClass, user,
