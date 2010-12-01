@@ -1,10 +1,15 @@
 package com.aries.study.bookspider.qq;
 
+import java.util.List;
+
 import javax.sql.DataSource;
 
+import com.aries.htmlmodifier.dom.ITagNode;
+import com.aries.htmlmodifier.exception.HtmlParseException;
+import com.aries.study.bookspider.WebContent;
 import com.aries.util.db.SimpleDataBase;
 
-public class QQBookSpider {
+public class QQBookSpider extends Thread {
 	private DataSource dataSource;
 
 	public QQBookSpider() {
@@ -14,5 +19,25 @@ public class QQBookSpider {
 		String password = "root";
 		dataSource = SimpleDataBase.setupDataSource(url, driverClass, user,
 				password);
+	}
+
+	@Override
+	public void run() {
+		try {
+			WebContent bookList = new WebContent(
+					"http://bookapp.book.qq.com/book_list/6_0_1_0.htm");
+			List<ITagNode> bookNodeList = bookList
+					.getNodeList(QQBookConfig.bookList);
+			for (ITagNode node : bookNodeList) {
+				String href = node.getAttr("href");
+				System.out.println(href);
+			}
+		} catch (HtmlParseException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void main(String[] args) {
+		new QQBookSpider().start();
 	}
 }

@@ -10,7 +10,18 @@ public class QQBookConfig {
 	public static INodeFilter bookList = new INodeFilter() {
 
 		@Override
-		public boolean accept(ITagNode arg0) {
+		public boolean accept(ITagNode node) {
+			if (!node.getTagName().equals("a")) {
+				return false;
+			}
+			if (node.getParent() == null) {
+				return false;
+			}
+			ITagNode parent = node.getParent();
+			if (parent.getTagName().equals("div")
+					&& parent.getAttr("class").equals("artName1")) {
+				return true;
+			}
 			return false;
 		}
 	};
