@@ -6,6 +6,6 @@ package com.aries.study.bookspider;
  */
 public class BookSpiderApp {
 	public static void main(String[] args) {
-		System.out.println("Hello World!");
+		System.out.println("Hello World!");    
 	}
 }
