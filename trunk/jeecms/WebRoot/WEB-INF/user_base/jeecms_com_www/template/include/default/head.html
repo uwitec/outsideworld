@@ -1,0 +1,26 @@
+<!--页头Begin-->
+
+<div class="top cbody">
+  <div class="toplogo"><a href=""><img alt="" src="${root}/default/article/img/logo.gif" /></a></div>
+  <div class="topbanner">&nbsp;</div>
+  <div class="toplink">
+    <ul>
+      <li><a href="#">高级搜索</a></li>
+      <li><a onclick="javascript:window.external.AddFavorite('http://www.jeecms.com','JEECMS - 国内专业、开源、免费的JAVA (JSP)版网站管理系统');" href="javascript:void(0);">收藏本站</a></li>
+      <li><a href="/">联系我们</a></li>
+      <li><a onclick="this.style.behavior='url(#default#homepage)';this.setHomePage(location.href)" href="javascript:void(0);">设为首页</a></li>
+    </ul>
+  </div>
+</div>
+<!--页头End-->
+<!--导航栏Begin-->
+<div class="topmenu cbody1">
+  <ul>
+    <li class="thisclass"><a href="${base}/">首 页</a> </li>
+    [@cms.ChnlList id='' inner='1';c]<li class="thisclass"><a href="${c.url}">${c.name}</a></li>[/@cms.ChnlList]
+	<li class="thisclass"><a target="_blank" href="${base}/down/index.htm">下载中心</a></li>
+	<li class="thisclass"><a target="_blank" href="${base}/jeecms/topic.jspx">专题</a></li>
+    <li class="thisclass"><a target="_blank" href="${base}/jeecms/Guestbook.jspx">留言板</a></li>
+  </ul>
+</div>
+<!--导航栏End-->
