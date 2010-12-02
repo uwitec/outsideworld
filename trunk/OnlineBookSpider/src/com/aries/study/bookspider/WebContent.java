@@ -1,6 +1,8 @@
 package com.aries.study.bookspider;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +32,10 @@ public class WebContent {
 		parser.parse(content);
 	}
 
+	public String getContent() {
+		return content;
+	}
+
 	public String getHref(String href) {
 		if (href.startsWith("http://")) {
 			return href;
@@ -37,6 +43,12 @@ public class WebContent {
 			int index = url.replace("http://", "").indexOf('/');
 			return url.substring(0, index + "http://".length()) + href;
 		}
+	}
+
+	public Matcher getMatcher(Pattern pattern) {
+		Matcher matcher = pattern.matcher(content);
+		matcher.find();
+		return matcher;
 	}
 
 	public ITagNode getFirstNode(INodeFilter nodeFilter) {

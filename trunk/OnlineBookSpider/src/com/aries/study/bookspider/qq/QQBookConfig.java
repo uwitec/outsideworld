@@ -26,6 +26,9 @@ public class QQBookConfig {
 		}
 	};
 
+	public static Pattern bookDis = Pattern
+			.compile("<script language=\'javascript\'>window.location=\'(.+)\';</script>");
+
 	public static INodeFilter title = new INodeFilter() {
 		@Override
 		public boolean accept(ITagNode node) {

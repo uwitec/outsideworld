@@ -1,8 +1,13 @@
 package com.aries.study.bookspider.qq;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
+
+import javax.sql.DataSource;
+
+import org.apache.commons.dbutils.QueryRunner;
 
 import com.aries.htmlmodifier.dom.INode;
 import com.aries.htmlmodifier.dom.ITagNode;
@@ -60,6 +65,19 @@ public class QQBook extends WebContent {
 				content.add(html);
 				System.out.println(html);
 			}
+		}
+	}
+
+	public void persistBook(DataSource dataSource) {
+		QueryRunner queryRunner = new QueryRunner(dataSource);
+		try {
+			queryRunner
+					.update(
+							"insert into t_book_info set category_id=1, author_id=1, name=?,update_time=now()",
+							title);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.exit(1);
 		}
 	}
 }
