@@ -25,9 +25,10 @@ public class WebContent {
 	public WebContent(String url) throws HtmlParseException {
 		this.url = url;
 		HttpToolkit httpToolkiet = new HttpToolkit();
-		LOG.info("Get content from {}", url);
+		LOG.debug("Get content from {}", url);
+		// ÷ÿ ‘10¥Œ
 		content = httpToolkiet.get(url, 10);
-		LOG.info("Parse HTML content of {}", url);
+		LOG.debug("Parse HTML content of {}", url);
 		parser = new HtmlParser();
 		parser.parse(content);
 	}

@@ -2,11 +2,17 @@ package com.aries.study.bookspider.qq;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.aries.htmlmodifier.dom.ITagNode;
 import com.aries.htmlmodifier.exception.HtmlParseException;
 import com.aries.study.bookspider.WebContent;
 
 public class QQBookSpider {
+
+	private static final Logger LOG = LoggerFactory
+			.getLogger(QQBookSpider.class);
 
 	public QQBookSpider() {
 
@@ -20,6 +26,7 @@ public class QQBookSpider {
 	 *            http://bookapp.book.qq.com/book_list/6_0_1_0.htm
 	 */
 	public void spideFromBookListPage(String bookListUrl, int myCategoryId) {
+		LOG.info("将页面{}的图书放入{}分类", bookListUrl, myCategoryId);
 		try {
 			// 图书List
 			WebContent bookList = new WebContent(bookListUrl);

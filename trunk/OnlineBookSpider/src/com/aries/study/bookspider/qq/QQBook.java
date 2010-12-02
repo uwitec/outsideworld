@@ -8,6 +8,8 @@ import java.util.regex.Matcher;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.aries.htmlmodifier.dom.INode;
 import com.aries.htmlmodifier.dom.ITagNode;
@@ -18,6 +20,8 @@ import com.aries.study.bookspider.ObjectResultSetHandler;
 import com.aries.study.bookspider.WebContent;
 
 public class QQBook extends WebContent {
+
+	private static final Logger LOG = LoggerFactory.getLogger(QQBook.class);
 
 	/**
 	 * @param myCategoryId
@@ -32,6 +36,7 @@ public class QQBook extends WebContent {
 	 */
 	public QQBook(int myCategoryId, String url) throws HtmlParseException {
 		super(url);
+		LOG.info("从 {} 向分类 {} 添加图书", url, myCategoryId);
 
 		// 图书作者
 		String author = super.getFirstNode(QQBookConfig.author).innerHtml();
@@ -44,12 +49,18 @@ public class QQBook extends WebContent {
 			List<Object[]> list = queryRunner.query(
 					"select id from t_book_author where name=?", objRs, author);
 			if (list == null || list.size() == 0) {
+				LOG.info("添加作者：{}", author);
 				queryRunner.update("insert into t_book_author set name=?",
 						author);
 				objRs = new ObjectResultSetHandler();
 				authorId = Integer.parseInt(queryRunner.query(
 						"select id from t_book_author where name=?", objRs,
 						author).get(0)[0].toString());
+			} else {
+				authorId = Integer.parseInt(queryRunner.query(
+						"select id from t_book_author where name=?", objRs,
+						author).get(0)[0].toString());
+				LOG.info("设定作者：{}", author);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -67,6 +78,7 @@ public class QQBook extends WebContent {
 		// TODO 验证是否存在
 
 		// 插入数据库,并且取得当前图书的Id
+		LOG.info("添加图书：{}", bookName);
 		int newBookId = -1;
 		queryRunner = new QueryRunner(DataCenter.getDataSource());
 		try {
@@ -144,6 +156,7 @@ public class QQBook extends WebContent {
 
 				queryRunner = new QueryRunner(DataCenter.getDataSource());
 				try {
+					LOG.info("向图书：{} 添加章节：{}", bookName, chapterName);
 					queryRunner
 							.update(
 									"insert into t_book_chapter set book_id=?, name=?, url=?, txt=?,html=?,update_time=now()",
