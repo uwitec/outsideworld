@@ -2,39 +2,43 @@ package com.aries.study.bookspider.qq;
 
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import com.aries.htmlmodifier.dom.ITagNode;
 import com.aries.htmlmodifier.exception.HtmlParseException;
 import com.aries.study.bookspider.WebContent;
-import com.aries.util.db.SimpleDataBase;
 
 public class QQBookSpider {
-	private DataSource dataSource;
 
 	public QQBookSpider() {
-		String url = "jdbc:mysql://localhost:3306/bookreader";
-		String driverClass = "com.mysql.jdbc.Driver";
-		String user = "root";
-		String password = "root";
-		dataSource = SimpleDataBase.setupDataSource(url, driverClass, user,
-				password);
+
 	}
 
-	public void execute() {
+	/**
+	 * @param myCategoryId
+	 * @param bookListUrl
+	 *            图书列表页面 URL，如：
+	 *            http://bookapp.book.qq.com/book_list/1_0_1_0.htm，
+	 *            http://bookapp.book.qq.com/book_list/6_0_1_0.htm
+	 */
+	public void spideFromBookListPage(String bookListUrl, int myCategoryId) {
 		try {
-			WebContent bookList = new WebContent(
-					"http://bookapp.book.qq.com/book_list/6_0_1_0.htm");
-			System.out.println("asdf");
+			// 图书List
+			WebContent bookList = new WebContent(bookListUrl);
 			List<ITagNode> bookNodeList = bookList
 					.getNodeList(QQBookConfig.bookList);
+
+			// 遍历图书List
 			for (ITagNode node : bookNodeList) {
+				// 图书链接
 				String href = node.getAttr("href");
 				String url = bookList.getHref(href);
-				WebContent redirect = new WebContent(url);
-				String realUrl = redirect.getMatcher(QQBookConfig.bookDis)
+
+				// 重定向页面（重定向到真正的图书页面）
+				WebContent redirectPage = new WebContent(url);
+
+				// 真正的图书链接
+				String realUrl = redirectPage.getMatcher(QQBookConfig.bookDis)
 						.group(1);
-				QQBook qqBook = new QQBook(realUrl);
+				new QQBook(myCategoryId, realUrl);
 			}
 		} catch (HtmlParseException e) {
 			e.printStackTrace();
@@ -42,6 +46,7 @@ public class QQBookSpider {
 	}
 
 	public static void main(String[] args) {
-		new QQBookSpider().execute();
+		new QQBookSpider().spideFromBookListPage(
+				"http://bookapp.book.qq.com/book_list/1_0_1_0.htm", 1);
 	}
 }
