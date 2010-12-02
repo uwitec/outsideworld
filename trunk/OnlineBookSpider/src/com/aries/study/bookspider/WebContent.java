@@ -28,9 +28,17 @@ public class WebContent {
 		LOG.debug("Get content from {}", url);
 		// ÷ÿ ‘10¥Œ
 		content = httpToolkiet.get(url, 10);
-		LOG.debug("Parse HTML content of {}", url);
-		parser = new HtmlParser();
-		parser.parse(content);
+		if (content == null) {
+			LOG.error("Can not get content from {} ", url);
+		} else {
+			LOG.debug("Parse HTML content of {}", url);
+			parser = new HtmlParser();
+			parser.parse(content);
+		}
+	}
+
+	public boolean isValid() {
+		return content != null;
 	}
 
 	public String getContent() {

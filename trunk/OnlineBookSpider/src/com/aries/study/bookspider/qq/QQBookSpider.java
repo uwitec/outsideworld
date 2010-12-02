@@ -30,6 +30,9 @@ public class QQBookSpider {
 		try {
 			// 图书List
 			WebContent bookList = new WebContent(bookListUrl);
+			if (!bookList.isValid()) {
+				System.exit(1);
+			}
 			List<ITagNode> bookNodeList = bookList
 					.getNodeList(QQBookConfig.bookList);
 
@@ -41,11 +44,12 @@ public class QQBookSpider {
 
 				// 重定向页面（重定向到真正的图书页面）
 				WebContent redirectPage = new WebContent(url);
-
-				// 真正的图书链接
-				String realUrl = redirectPage.getMatcher(QQBookConfig.bookDis)
-						.group(1);
-				new QQBook(myCategoryId, realUrl);
+				if (redirectPage.isValid()) {
+					// 真正的图书链接
+					String realUrl = redirectPage.getMatcher(
+							QQBookConfig.bookDis).group(1);
+					new QQBook(myCategoryId, realUrl);
+				}
 			}
 		} catch (HtmlParseException e) {
 			e.printStackTrace();

@@ -36,6 +36,12 @@ public class QQBook extends WebContent {
 	 */
 	public QQBook(int myCategoryId, String url) throws HtmlParseException {
 		super(url);
+
+		if (!super.isValid()) {
+			LOG.error("Can not get content from {}", url);
+			return;
+		}
+
 		LOG.info("从 {} 向分类 {} 添加图书", url, myCategoryId);
 
 		// 图书作者
@@ -129,6 +135,10 @@ public class QQBook extends WebContent {
 
 			// 章节页面内容
 			WebContent chapterContent = new WebContent(contentHref);
+			if (!chapterContent.isValid()) {
+				continue;
+			}
+
 			ITagNode contentTag = chapterContent
 					.getFirstNode(QQBookConfig.content);
 			if (contentTag == null) {
