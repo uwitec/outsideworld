@@ -59,6 +59,6 @@ public class QQBookSpider {
 
 	public static void main(String[] args) {
 		new QQBookSpider().spideFromBookListPage(
-				"http://bookapp.book.qq.com/book_list/6_0_1_0.htm", 2);
+				"http://bookapp.book.qq.com/book_list/16_0_1_0.htm", 3);
 	}
 }
