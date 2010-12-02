@@ -19,9 +19,13 @@ import com.aries.study.bookspider.Formater;
 import com.aries.study.bookspider.ObjectResultSetHandler;
 import com.aries.study.bookspider.WebContent;
 
-public class QQBook extends WebContent {
+public class QQBook extends WebContent implements Runnable {
 
 	private static final Logger LOG = LoggerFactory.getLogger(QQBook.class);
+
+	private int myCategoryId;
+
+	private String url;
 
 	/**
 	 * @param myCategoryId
@@ -37,6 +41,12 @@ public class QQBook extends WebContent {
 	public QQBook(int myCategoryId, String url) throws HtmlParseException {
 		super(url);
 
+		this.myCategoryId = myCategoryId;
+		this.url = url;
+	}
+
+	@Override
+	public void run() {
 		if (!super.isValid()) {
 			LOG.error("Can not get content from {}", url);
 			return;
@@ -159,8 +169,13 @@ public class QQBook extends WebContent {
 					+ chapterId + ".htm";
 
 			// ÕÂ½ÚÒ³ÃæÄÚÈÝ
-			WebContent chapterContent = new WebContent(contentHref);
-			if (!chapterContent.isValid()) {
+			WebContent chapterContent = null;
+			try {
+				chapterContent = new WebContent(contentHref);
+			} catch (HtmlParseException e2) {
+				e2.printStackTrace();
+			}
+			if (chapterContent == null || !chapterContent.isValid()) {
 				continue;
 			}
 

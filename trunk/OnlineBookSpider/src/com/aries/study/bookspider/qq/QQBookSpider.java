@@ -48,7 +48,8 @@ public class QQBookSpider {
 					// 真正的图书链接
 					String realUrl = redirectPage.getMatcher(
 							QQBookConfig.bookDis).group(1);
-					new QQBook(myCategoryId, realUrl);
+					Thread t = new Thread(new QQBook(myCategoryId, realUrl));
+					t.start();
 				}
 			}
 		} catch (HtmlParseException e) {
@@ -58,6 +59,6 @@ public class QQBookSpider {
 
 	public static void main(String[] args) {
 		new QQBookSpider().spideFromBookListPage(
-				"http://bookapp.book.qq.com/book_list/1_0_1_0.htm", 1);
+				"http://bookapp.book.qq.com/book_list/6_0_1_0.htm", 2);
 	}
 }
