@@ -60,6 +60,21 @@ public class QQBookConfig {
 		}
 	};
 
+	public static INodeFilter author = new INodeFilter() {
+		@Override
+		public boolean accept(ITagNode node) {
+			if (!node.getTagName().equals("a")) {
+				return false;
+			}
+
+			if ("co_1".equals(node.getAttr("class"))) {
+				return true;
+			}
+
+			return false;
+		}
+	};
+
 	public static INodeFilter abs = new INodeFilter() {
 		@Override
 		public boolean accept(ITagNode node) {

@@ -13,6 +13,7 @@ import com.aries.htmlmodifier.dom.INode;
 import com.aries.htmlmodifier.dom.ITagNode;
 import com.aries.htmlmodifier.exception.HtmlParseException;
 import com.aries.study.bookspider.DataCenter;
+import com.aries.study.bookspider.Formater;
 import com.aries.study.bookspider.ObjectResultSetHandler;
 import com.aries.study.bookspider.WebContent;
 
@@ -32,24 +33,50 @@ public class QQBook extends WebContent {
 	public QQBook(int myCategoryId, String url) throws HtmlParseException {
 		super(url);
 
+		// 图书作者
+		String author = super.getFirstNode(QQBookConfig.author).innerHtml();
+		author = Formater.formateTxt(author);
+
+		int authorId = -1;
+		QueryRunner queryRunner = new QueryRunner(DataCenter.getDataSource());
+		try {
+			ObjectResultSetHandler objRs = new ObjectResultSetHandler();
+			List<Object[]> list = queryRunner.query(
+					"select id from t_book_author where name=?", objRs, author);
+			if (list == null || list.size() == 0) {
+				queryRunner.update("insert into t_book_author set name=?",
+						author);
+				objRs = new ObjectResultSetHandler();
+				authorId = Integer.parseInt(queryRunner.query(
+						"select id from t_book_author where name=?", objRs,
+						author).get(0)[0].toString());
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+
 		// 图书名称
 		String bookName = super.getFirstNode(QQBookConfig.title).innerHtml();
+		bookName = Formater.formateTxt(bookName);
+
 		// 图书简介
 		String bookAbstract = super.getFirstNode(QQBookConfig.abs).innerHtml();
+		bookAbstract = Formater.formateTxt(bookAbstract);
 
 		// TODO 验证是否存在
 
 		// 插入数据库,并且取得当前图书的Id
 		int newBookId = -1;
-		QueryRunner queryRunner = new QueryRunner(DataCenter.getDataSource());
+		queryRunner = new QueryRunner(DataCenter.getDataSource());
 		try {
 			queryRunner
 					.update(
-							"insert into t_book_info set category_id=1, author_id=1, url=?, name=?,abstract=?,update_time=now()",
-							url, bookName, bookAbstract);
+							"insert into t_book_info set category_id=?, author_id=?, url=?, name=?,abstract=?,update_time=now()",
+							myCategoryId, authorId, url, bookName, bookAbstract);
 			ObjectResultSetHandler objRs = new ObjectResultSetHandler();
 			newBookId = Integer.parseInt(queryRunner.query(
-					"select id from t_book_info where url=?, name=?", objRs,
+					"select id from t_book_info where url=? and name=?", objRs,
 					url, bookName).get(0)[0].toString());
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -70,6 +97,7 @@ public class QQBook extends WebContent {
 
 			// 章节名称
 			String chapterName = aTag.innerHtml();
+			chapterName = Formater.formateTxt(chapterName);
 
 			// 章节ID
 			String href = aTag.getAttr("href");
@@ -97,6 +125,7 @@ public class QQBook extends WebContent {
 			} else {
 				String html = contentTag.outerHtml();
 				String txt = contentTag.innerHtml();
+				txt = Formater.formateTxt(txt);
 
 				// 图书分类ID/图书ID
 				String htmlPath = "/" + myCategoryId + "/" + newBookId + "/"
@@ -117,8 +146,9 @@ public class QQBook extends WebContent {
 				try {
 					queryRunner
 							.update(
-									"insert into t_book_chapter set book_id=1, name=?, url=?, txt=?,html=?,update_time=now()",
-									chapterName, contentHref, txtPath, htmlPath);
+									"insert into t_book_chapter set book_id=?, name=?, url=?, txt=?,html=?,update_time=now()",
+									newBookId, chapterName, contentHref,
+									txtPath, htmlPath);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
