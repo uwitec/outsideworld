@@ -21,7 +21,7 @@ DROP TABLE IF EXISTS t_book_info
 --  Create Tables 
 CREATE TABLE t_book_author
 (
-	id BIGINT NOT NULL,
+	id BIGINT NOT NULL AUTO_INCREMENT,
 	name VARCHAR(255) NOT NULL,
 	alias VARCHAR(255),
 	seq INTEGER NOT NULL DEFAULT 99,
@@ -33,7 +33,7 @@ CREATE TABLE t_book_author
 
 CREATE TABLE t_book_category
 (
-	id INTEGER NOT NULL,
+	id INTEGER NOT NULL AUTO_INCREMENT,
 	father_id INTEGER NOT NULL,
 	name VARCHAR(255) NOT NULL,
 	path VARCHAR(255) NOT NULL DEFAULT 99,
@@ -45,14 +45,15 @@ CREATE TABLE t_book_category
 
 CREATE TABLE t_book_chapter
 (
-	id BIGINT NOT NULL,
+	id BIGINT NOT NULL AUTO_INCREMENT,
 	father_id BIGINT COMMENT '多级章节时使用',
 	book_id BIGINT NOT NULL,
 	name VARCHAR(255) NOT NULL,
 	update_time DATE NOT NULL,
-	txt TEXT NOT NULL,
-	html TEXT NOT NULL,
+	txt VARCHAR(255) NOT NULL,
+	html VARCHAR(255) NOT NULL,
 	url VARCHAR(255) NOT NULL,
+	PRIMARY KEY (id),
 	KEY (book_id)
 ) 
 ;
@@ -60,7 +61,7 @@ CREATE TABLE t_book_chapter
 
 CREATE TABLE t_book_info
 (
-	id BIGINT NOT NULL,
+	id BIGINT NOT NULL AUTO_INCREMENT,
 	category_id INTEGER NOT NULL,
 	author_id BIGINT NOT NULL,
 	name VARCHAR(255) NOT NULL,
