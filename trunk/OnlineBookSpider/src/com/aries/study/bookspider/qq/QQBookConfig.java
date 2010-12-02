@@ -60,6 +60,28 @@ public class QQBookConfig {
 		}
 	};
 
+	public static INodeFilter abs = new INodeFilter() {
+		@Override
+		public boolean accept(ITagNode node) {
+			if (!node.getTagName().equals("p")) {
+				return false;
+			}
+
+			ITagNode parentNode = node.getParent();
+			if (parentNode == null) {
+				return false;
+			}
+			if (!parentNode.getTagName().equals("div")) {
+				return false;
+			}
+
+			if (parentNode.getAttr("id").equals("focus_book_info")) {
+				return true;
+			}
+			return false;
+		}
+	};
+
 	public static INodeFilter chapter = new INodeFilter() {
 		@Override
 		public boolean accept(ITagNode node) {

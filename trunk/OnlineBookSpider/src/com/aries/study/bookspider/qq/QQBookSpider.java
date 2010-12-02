@@ -13,7 +13,7 @@ public class QQBookSpider {
 	private DataSource dataSource;
 
 	public QQBookSpider() {
-		String url = "jdbc:mysql://localhost:3306/bookreader?useUnicode=true;characterEncoding=utf8";
+		String url = "jdbc:mysql://localhost:3306/bookreader";
 		String driverClass = "com.mysql.jdbc.Driver";
 		String user = "root";
 		String password = "root";

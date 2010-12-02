@@ -26,7 +26,7 @@ public class WebContent {
 		this.url = url;
 		HttpToolkit httpToolkiet = new HttpToolkit();
 		LOG.info("Get content from {}", url);
-		content = httpToolkiet.get(url);
+		content = httpToolkiet.get(url, 10);
 		LOG.info("Parse HTML content of {}", url);
 		parser = new HtmlParser();
 		parser.parse(content);
