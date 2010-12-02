@@ -70,7 +70,6 @@ public class QQBook extends WebContent {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.exit(1);
 		}
 
 		// 图书名称
@@ -81,7 +80,18 @@ public class QQBook extends WebContent {
 		String bookAbstract = super.getFirstNode(QQBookConfig.abs).innerHtml();
 		bookAbstract = Formater.formateTxt(bookAbstract);
 
-		// TODO 验证是否存在
+		// 验证图书是否存在
+		queryRunner = new QueryRunner(DataCenter.getDataSource());
+		try {
+			ObjectResultSetHandler objRs = new ObjectResultSetHandler();
+			List<Object[]> list = queryRunner.query(
+					"select id from t_book_info where name=?", objRs, bookName);
+			if (list != null && list.size() > 0) {
+				LOG.info("图书：{} 已经存在，跳过", bookName);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 		// 插入数据库,并且取得当前图书的Id
 		LOG.info("添加图书：{}", bookName);
@@ -116,6 +126,21 @@ public class QQBook extends WebContent {
 			// 章节名称
 			String chapterName = aTag.innerHtml();
 			chapterName = Formater.formateTxt(chapterName);
+
+			// 验证章节是否存在
+			queryRunner = new QueryRunner(DataCenter.getDataSource());
+			try {
+				ObjectResultSetHandler objRs = new ObjectResultSetHandler();
+				List<Object[]> list = queryRunner
+						.query(
+								"select id from t_book_chapter where name=? and book_id=?",
+								objRs, chapterName, newBookId);
+				if (list != null && list.size() > 0) {
+					LOG.info("章节：{} 已经存在，跳过", chapterName);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 
 			// 章节ID
 			String href = aTag.getAttr("href");
