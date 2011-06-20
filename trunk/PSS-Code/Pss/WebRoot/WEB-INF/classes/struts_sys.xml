@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC   
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="sys" namespace="/sys" extends="abs">
+		<action name="*_*"
+			class="com.ttl.dit.web.action.system.{2}Action" method="{1}">
+			<result type="freemarker">/ftl/sys/{2}/{1}_{2}.html</result>
+			<result name="input" type="freemarker">
+				/ftl/sys/{2}/{1}_{2}.html
+			</result>
+		</action>
+	</package>
+	<!-- 
+	<package name="query" namespace="/sys" extends="json-default">
+		<action name="*_query"
+			class="com.ttl.dit.web.action.system.{1}Action" method="query">
+			<result type="json">
+			    <param name="root">queryResults</param>
+			</result>
+		</action>
+	</package>
+	 -->
+</struts>
