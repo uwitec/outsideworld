@@ -1,0 +1,12 @@
+<!--设置全局需要引用的js-->
+<script src="${request.getContextPath()}/js/dojo/dojo.js"
+	djConfig="parseOnLoad: true"></script>
+<script type="text/javascript">
+    dojo.require("dijit.layout.BorderContainer");
+    dojo.require("dijit.layout.TabContainer");
+    dojo.require("dijit.layout.AccordionContainer");
+    dojo.require("dijit.layout.ContentPane");
+</script>
+<!-- 设置需要全局引用的css -->
+<link rel="stylesheet" type="text/css" href="${request.getContextPath()}/js/dijit/themes/claro/claro.css"/>
+<link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/common/common.css"/>
