@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html dir="ltr">    
+    <head>
+        <#include "common.html"/>
+    </head>    
+    <body class="claro">
+        <div dojoType="dijit.layout.BorderContainer" gutters="true" liveSplitters="true" style="width: 100%; height: 100%;">
+            <div dojoType="dijit.layout.ContentPane" region="top" style="height:50px;">
+                <#include "header.html"/>
+            </div>
+            <div dojoType="dijit.layout.AccordionContainer" region="leading" style="width:200px;">
+                <#include "menu.html"/>
+            </div>
+            <div dojoType="dijit.layout.ContentPane" region="center">
+                <#include "welcome.html"/>
+            </div>
+            <div dojoType="dijit.layout.ContentPane" region="bottom" style="height:20px;">
+                <#include "footer.html"/>
+            </div>
+        </div>
+        <script type="text/javascript">
+            dojo.addOnLoad(function() {
+               
+            });
+        </script>
+    </body>
+</html>
