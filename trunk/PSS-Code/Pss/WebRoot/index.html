@@ -3,15 +3,69 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title></title>
-		<script src="js/dojo/dojo.js"
-			djConfig="parseOnLoad: true"></script>
+		<script src="js/dojo/dojo.js" djConfig="parseOnLoad: true"></script>
 		<script type="text/javascript">
+		    dojo.require("dijit.form.Form");
+            dojo.require("dijit.form.Button");
+            dojo.require("dijit.form.ValidationTextBox");
+            function registVC(){
+                 dojo.attr(dojo.byId("validationImg"),"src","/Pss/ajax/getValidationCode.action?d="+new Date().toString());
+            }
             dojo.addOnLoad(function() {
-               window.location.href = "login_index.action";
-            });
+              //初始化验证码
+              registVC();
+              //注册刷新验证码的机制
+              dojo.connect(dojo.byId("refrash"),"onclick",null,registVC);
+              });
         </script>
+		<link rel="stylesheet" type="text/css"
+			href="js/dijit/themes/claro/claro.css" />
 	</head>
-	<body>
+	<body class="claro">
+		<!-- 登陆的div -->
+		<div dojoType="dijit.form.Form" id="login" jsId="login"
+			encType="multipart/form-data" action="" method="">
+			<table style="border: 1px solid #9f9f9f;" cellspacing="10">
+				<tr>
+					<td>
+						<label for="name">
+							UserName: 
+					</td>
+					<td>
+						<input type="text" id="name" name="name" required="true"
+							dojoType="dijit.form.ValidationTextBox" width="150"/>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="password">
+							Password: 
+					</td>
+					<td>
+						<input type="password" id="password" name="password" required="true" dojoType="dijit.form.ValidationTextBox" width="150"/>
+					</td>
+				</tr>
+				<tr>
+				    <td></td>
+				    <td>
+				        <input type="text" id="validationCode" name="validationCode" required="true" dojoType="dijit.form.ValidationTextBox" width="70"/>
+
+				        <img id="validationImg" src="" alt="" width="70" height="26"/>
+				    </td>
+				</tr>
+				    <td></td>
+				    <td></td>
+				    <td><a id="refrash" href="#">not see?</td>
+				<tr>
+				</tr>
+			</table>
+			<button dojoType="dijit.form.Button" type="submit"
+				onClick="" value="Submit">Submit				
+			</button>
+			<button dojoType="dijit.form.Button" type=button
+				 value="Regist">Regist
+			</button>
+		</div>
 	</body>
 </html>
 
