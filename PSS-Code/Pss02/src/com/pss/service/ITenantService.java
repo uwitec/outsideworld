@@ -2,7 +2,7 @@
  *
  * ========================================================================
  * 版权:   Travelsky  版权所有  (c) 2010 - 2030
- * 所含类(文件):  com.pss.service.IUserService.java
+ * 所含类(文件):  com.pss.service.ITenantService.java
  *
  *
  * 修改记录：
@@ -25,7 +25,6 @@ import com.pss.exception.BusinessHandleException;
  * @version 1.0
  * @since   Jun 27, 2011
  */
-public interface IUserService {
-    public LoginResult login(String userName,String password) throws BusinessHandleException;
-    
+public interface ITenantService {
+	public String regist(Tenant tenant) throws BusinessHandleException;
 }

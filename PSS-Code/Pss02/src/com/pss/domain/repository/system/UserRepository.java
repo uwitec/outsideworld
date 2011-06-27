@@ -2,7 +2,7 @@
  *
  * ========================================================================
  * 版权:   Travelsky  版权所有  (c) 2010 - 2030
- * 所含类(文件):  com.pss.service.IUserService.java
+ * 所含类(文件):  com.pss.domain.repository.system.UserRepository.java
  *
  *
  * 修改记录：
@@ -12,9 +12,9 @@
  * ========================================================================
  */
 
-package com.pss.service;
+package com.pss.domain.repository.system;
 
-import com.pss.domain.model.entity.sys.Tenant;
+import com.pss.domain.model.entity.sys.User;
 import com.pss.exception.BusinessHandleException;
 
 /**
@@ -25,7 +25,20 @@ import com.pss.exception.BusinessHandleException;
  * @version 1.0
  * @since   Jun 27, 2011
  */
-public interface IUserService {
-    public LoginResult login(String userName,String password) throws BusinessHandleException;
+public class UserRepository {
+    public void add(User user) throws BusinessHandleException {
+    	
+    }
     
+    public User query(String userName) throws BusinessHandleException {
+    	return null;
+    }
+    
+    public void update(User user) throws BusinessHandleException {
+    	
+    }
+    
+    public void delete(String userId) throws BusinessHandleException {
+    	
+    }
 }
