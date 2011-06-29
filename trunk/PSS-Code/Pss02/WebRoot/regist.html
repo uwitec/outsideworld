@@ -32,35 +32,36 @@
 				onsubmit="return checkAll();">
 				<table style="border: 1px solid #9f9f9f;" cellspacing="10">
 					<tr>
-						<td width="60" align="right"><label for="name">租户名称</label></td>
+						<td width="60" align="right"><label for="name">租户名称</label>
+						</td>
 						<td><input type="text" id="name" name="name" required="true"
 							dojoType="dijit.form.ValidationTextBox" maxLength="20"
 							regExp="^[a-zA-Z][a-zA-Z0-9_]{5,15}$"
-							invalidMessage="租户名称只能包含字母 A-Z或数字0-9" /></td>
+							invalidMessage="租户名称只能包含字母或数字" />
+						</td>
 					</tr>
 					<tr>
-						<td align="right"><label for="password">租户密码 </label>
-						</td>
+						<td align="right"><label for="password">租户密码 </label></td>
 						<td><input type="password" id="password" name="password"
 							required="true" dojoType="dijit.form.ValidationTextBox"
 							regExp="^[0-9|a-z|A-Z]{8,16}$" invalidMessage="租户密码必须是8至16位字母或数字" />
 						</td>
 					</tr>
 					<tr>
-						<td align="right"><label for="password_again">确认密码 </label>
-						</td>
+						<td align="right"><label for="password_again">确认密码 </label></td>
 						<td><input type="password" id="password_again"
 							name="password_again" required="true"
 							dojoType="dijit.form.ValidationTextBox"
-							regExp="^[0-9|a-z|A-Z]{8,16}$" /></td>
+							regExp="^[0-9|a-z|A-Z]{8,16}$" />
+						</td>
 					</tr>
 					<tr>
-						<td align="right"><label for="email">邮件地址 </label>
-						</td>
+						<td align="right"><label for="email">邮件地址 </label></td>
 						<td><input type="text" id="" email" name="email"
 							dojoType="dijit.form.ValidationTextBox"
 							regExp="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"
-							invalidMessage="邮件地址不合法" /></td>
+							invalidMessage="邮件地址不合法" />
+						</td>
 					</tr>
 				</table>
 				<center>
