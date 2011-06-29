@@ -20,45 +20,60 @@
         </script>
 <link rel="stylesheet" type="text/css"
 	href="js/dijit/themes/claro/claro.css" />
+<link rel="stylesheet" href="css/960.css" />
+<link rel="stylesheet" href="css/text.css" />
 </head>
 <body class="claro">
-	<!-- 登陆的div -->
-	<div dojoType="dijit.form.Form" id="login" jsId="login"
-		encType="multipart/form-data" action="" method="">
-		<table style="border: 1px solid #9f9f9f;" cellspacing="10">
-			<tr>
-				<td><label for="name"> UserName: 
-				</td>
-				<td><input type="text" id="name" name="name" required="true"
-					dojoType="dijit.form.ValidationTextBox" width="150" />
-				</td>
-			</tr>
-			<tr>
-				<td><label for="password"> Password: 
-				</td>
-				<td><input type="password" id="password" name="password"
-					required="true" dojoType="dijit.form.ValidationTextBox" width="150" />
-				</td>
-			</tr>
-			<tr>
-				<td></td>
-				<td><input type="text" id="validationCode"
-					name="validationCode" required="true"
-					dojoType="dijit.form.ValidationTextBox" width="70" /> <img
-					id="validationImg" src="" alt="" width="70" height="26" />
-				</td>
-			</tr>
-			<td></td>
-			<td></td>
-			<td><a id="refrash" href="#">not see? 
-			</td>
-			<tr>
-			</tr>
-		</table>
-		<button dojoType="dijit.form.Button" type="submit" onClick=""
-			value="Submit">Submit</button>
-		<button dojoType="dijit.form.Button" type=button value="Regist">Regist
-		</button>
+	<div class="container_12">
+
+		<div class="grid_12" style="height: 100px;"></div>
+
+		<div class="clear"></div>
+
+		<div class="grid_7">&nbsp;</div>
+
+		<div class="grid_5">
+			<!-- 登陆的div -->
+			<div dojoType="dijit.form.Form" id="login" jsId="login"
+				encType="multipart/form-data" action="" method="">
+				<table width="350" style="border: 1px solid #9f9f9f;"
+					cellspacing="10">
+					<tr>
+						<td width="50"><label for="name">账&nbsp;&nbsp;&nbsp;号</label>
+						</td>
+						<td width="150"><input type="text" id="name" name="name"
+							required="true" dojoType="dijit.form.ValidationTextBox"
+							style="width: 150px;" /></td>
+						<td width="150"></td>
+					</tr>
+					<tr>
+						<td><label for="password">密&nbsp;&nbsp;&nbsp;码</label></td>
+						<td><input type="password" id="password" name="password"
+							required="true" dojoType="dijit.form.ValidationTextBox"
+							style="width: 150px;" /></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>验证码</td>
+						<td><input type="text" id="validationCode"
+							name="validationCode" required="true"
+							dojoType="dijit.form.ValidationTextBox" style="width: 80px;" />
+							<img id="validationImg" src="" alt="" width="60" height="25"
+							style="vertical-align: middle;" />
+						</td>
+						<td><a id="refrash" href="#" style="line-height: 18px;">看不清</a>
+						</td>
+					</tr>
+				</table>
+				<center>
+					<button dojoType="dijit.form.Button" type="submit" onClick=""
+						value="Submit">登录</button>
+					<button dojoType="dijit.form.Button" type=button value="Regist">注册
+					</button>
+				</center>
+			</div>
+		</div>
+	</div>
 	</div>
 </body>
 </html>
