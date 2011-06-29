@@ -1,11 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title></title>
-		<script src="js/dojo/dojo.js" djConfig="parseOnLoad: true"></script>
-		<script src="js/regExp.js"></script>
-		<script type="text/javascript">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>注册</title>
+<script src="js/dojo/dojo.js" djConfig="parseOnLoad: true"></script>
+<script type="text/javascript">
 		    dojo.require("dijit.form.Form");
             dojo.require("dijit.form.Button");
             dojo.require("dijit.form.ValidationTextBox");
@@ -13,65 +12,78 @@
             dojo.addOnLoad(function() {
               });
         </script>
-		<link rel="stylesheet" type="text/css"
-			href="js/dijit/themes/claro/claro.css" />
-	</head>
-	<body class="claro">
-		<!-- 登陆的div -->
-		<div dojoType="dijit.form.Form" id="login" jsId="login"
-			encType="multipart/form-data" action="" method="">
-			<table style="border: 1px solid #9f9f9f;" cellspacing="10">
-				<tr>
-					<td>
-						<label for="name">
-							TenantName: 
-					</td>
-					<td>
-						<input type="text" id="name" name="name" required="true"
-							dojoType="dijit.form.ValidationTextBox" maxLength="20" regExp="^[a-zA-Z][a-zA-Z0-9_]{5,19}$"/>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label for="password">
-							Password: 
-					</td>
-					<td>
-						<input type="password" id="password" name="password" required="true" dojoType="dijit.form.ValidationTextBox" width="150" regExp="^[0-9|a-z|A-Z]{10,20}$"/>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label for="password_again">
-							PasswordAgain: 
-					</td>
-					<td>
-						<input type="password" id="password_again" name="password_again" required="true" dojoType="dijit.form.ValidationTextBox" width="150" regExp="^[0-9|a-z|A-Z]{10,20}$"/>
-					</td>
-				</tr>
-				<tr>
-				    <td>
-				        <label for="email">
-							Email: 
-				    </td>
-				    <td>
-				        <input type="text" id=""email" name="email"
-							dojoType="dijit.form.ValidationTextBox" width="150" regExp="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"/>
-				    </td>
-				</tr>
-				<tr>
-				    <td>
-				    <label for="note">Note:</label>
-				    </td>
-				    <td>
-							 <textarea id="note" name="note" dojoType="dijit.form.Textarea">
-							 </textarea>
-				    </td>
-				</tr>
-			</table>
-			<button dojoType="dijit.form.Button" type=submit
-				 value="Regist">Regist
-			</button>
+<link rel="stylesheet" type="text/css"
+	href="js/dijit/themes/claro/claro.css" />
+<link rel="stylesheet" href="css/960.css" />
+<link rel="stylesheet" href="css/text.css" />
+</head>
+<body class="claro">
+	<div class="container_12">
+		<div class="grid_12" style="height: 100px;"></div>
+
+		<div class="clear"></div>
+
+		<div class="grid_4">&nbsp;</div>
+
+		<div class="grid_4">
+
+			<form dojoType="dijit.form.Form" id="login" jsId="login"
+				encType="multipart/form-data" action="" method=""
+				onsubmit="return checkAll();">
+				<table style="border: 1px solid #9f9f9f;" cellspacing="10">
+					<tr>
+						<td width="60" align="right"><label for="name">租户名称</label></td>
+						<td><input type="text" id="name" name="name" required="true"
+							dojoType="dijit.form.ValidationTextBox" maxLength="20"
+							regExp="^[a-zA-Z][a-zA-Z0-9_]{5,15}$"
+							invalidMessage="租户名称只能包含字母 A-Z或数字0-9" /></td>
+					</tr>
+					<tr>
+						<td align="right"><label for="password">租户密码 </label>
+						</td>
+						<td><input type="password" id="password" name="password"
+							required="true" dojoType="dijit.form.ValidationTextBox"
+							regExp="^[0-9|a-z|A-Z]{8,16}$" invalidMessage="租户密码必须是8至16位字母或数字" />
+						</td>
+					</tr>
+					<tr>
+						<td align="right"><label for="password_again">确认密码 </label>
+						</td>
+						<td><input type="password" id="password_again"
+							name="password_again" required="true"
+							dojoType="dijit.form.ValidationTextBox"
+							regExp="^[0-9|a-z|A-Z]{8,16}$" /></td>
+					</tr>
+					<tr>
+						<td align="right"><label for="email">邮件地址 </label>
+						</td>
+						<td><input type="text" id="" email" name="email"
+							dojoType="dijit.form.ValidationTextBox"
+							regExp="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"
+							invalidMessage="邮件地址不合法" /></td>
+					</tr>
+				</table>
+				<center>
+					<button dojoType="dijit.form.Button" type=submit value="Regist">注册
+					</button>
+				</center>
+			</form>
+
+			<div class="grid_4">&nbsp;</div>
 		</div>
-	</body>
+	</div>
+	<script language="javascript"> 
+	function checkAll(){ 
+	var isOk=true; 
+	dijit.registry.filter(function(widget){return widget.declaredClass=="dijit.form.ValidationTextBox"?true:false;}).forEach(function(widget){ 
+	  if(!widget.isValid()){ 
+	   //alert(widget.invalidMessage); 
+	   isOk=false; 
+	   return; 
+	  } 
+	}); 
+	return isOk; 
+	} 
+	</script>
+</body>
 </html>
