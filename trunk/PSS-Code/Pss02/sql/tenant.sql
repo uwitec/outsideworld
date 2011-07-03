@@ -1,6 +1,6 @@
 CREATE TABLE `tenant` (
-  `tenant_id` varchar(64) NOT NULL COMMENT '×â»§ID',
-  `tenant_name` varchar(50) NOT NULL COMMENT '×â»§Ãû',
+  `tenant_id` varchar(64) NOT NULL,
+  `tenant_name` varchar(50) NOT NULL,
   `tenant_password` varchar(64) NOT NULL,
   `tenant_country` varchar(20) DEFAULT NULL,
   `tenant_city` varchar(20) DEFAULT NULL,
