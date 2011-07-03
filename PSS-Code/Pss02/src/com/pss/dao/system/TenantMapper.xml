@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pss.dao.system.TenantMapper">
+	<resultMap type="com.pss.domain.model.entity.sys.Tenant" id="TenantMapper">
+		<id property="tenantId" column="tenant_id" />
+		<result property="tenantName" column="tenant_name" />
+		<result property="tenantPassword" column="tenant_password" />
+	</resultMap>
+
+	<insert id="addTenant" parameterType="com.pss.domain.model.entity.sys.Tenant">
+		insert into
+		tenant(tenant_id,
+		tenant_name,tenant_password) values(#{tenantId},
+		#{tenantName},#{tenantPassword})
+	</insert>
 </mapper>
