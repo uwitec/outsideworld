@@ -44,7 +44,6 @@ if (!dojo._hasResource["custom.TextInput"]) {
 						hanldeResponse : function(response, ioArgs) {
 							if (response.valid != "true") {
 								this.self.displayMessage("Error");
-								this.self.focus();
 								dojo
 										.addClass(this.self.domNode,
 												"dijitTextBoxError dijitValidationTextBoxError dijitError");
