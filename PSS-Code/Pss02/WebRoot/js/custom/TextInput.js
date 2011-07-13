@@ -37,8 +37,6 @@ if (!dojo._hasResource["custom.TextInput"]) {
 								handleAs : 'json',
 								load : this.hanldeResponse()
 							});
-							dijit.setWaiState(this.focusNode, "invalid",
-									"false");
 						},
 						hanldeResponse : function(response, ioArgs) {
 							this.displayMessage("Error");
