@@ -33,6 +33,7 @@ dojo.declare("custom.TextInput", [ dijit.form.ValidationTextBox,
 		dijit.setWaiState(this.focusNode, "invalid","false");
 	},
 	hanldeResponse : function(response, ioArgs) {
-		this.displayMessage(response);
+		this.displayMessage("Error");
+		dojo.addClass(this.domNode,"dijitTextBoxError dijitValidationTextBoxError dijitError");
 	}
 });
