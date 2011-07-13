@@ -15,25 +15,27 @@ if (!dojo._hasResource["custom.TextInput"]) {
 						},
 						postCreate : function() {
 							this.inherited(arguments);
-							// If need server validate
+							// if need server validate
 							if (this.remote != "") {
 								dojo.connect(this.textbox, "onkeyup", this,
 										"remoteValidate");
 							}
 						},
 						remoteValidate : function(event) {
-							// If value is valid
+							// if value is valid
 							if (this.validate()) {
-								this.serverValidate(this.domNode.name,
-										this.domNode.value);
+								this.serverValidate(this.name, this
+										.get("value"));
 							}
 						},
 						serverValidate : function(name, value) {
+							// form data
+							var content = new Object();
+							content[name] = value;
+
 							dojo.xhrPost({
 								url : this.remote,
-								content : {
-									name : value
-								},
+								content : content,
 								handleAs : 'json',
 								load : this.hanldeResponse()
 							});
