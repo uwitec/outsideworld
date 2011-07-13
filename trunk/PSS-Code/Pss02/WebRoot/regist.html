@@ -4,11 +4,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>注册</title>
 <script src="js/dojo/dojo.js" djConfig="parseOnLoad: true"></script>
+<script src="js/common.js"></script>
 <script type="text/javascript">
 		    dojo.require("dijit.form.Form");
             dojo.require("dijit.form.Button");
             dojo.require("dijit.form.ValidationTextBox");
             dojo.require("dijit.form.Textarea");
+            dojo.require("dijit.Tooltip");
         </script>
 <link rel="stylesheet" type="text/css"
 	href="js/dijit/themes/claro/claro.css" />
@@ -25,100 +27,60 @@
 
 		<div class="grid_6">
 
-			<form dojoType="dijit.form.Form" id="login" jsId="login"
-				encType="multipart/form-data" action="" method=""
-				onsubmit="return checkAll();">
+			<form  id="login" jsId="login"  action="/Pss/json/registOfRegist">
 				<table style="border: 1px solid #9f9f9f;" cellspacing="10">
 					<tr>
 						<td width="80" align="right"><label for="name">租户名称</label>
 						</td>
-						<td><input type="text" id="name" name="name" required="true"
-							dojoType="dijit.form.ValidationTextBox" maxLength="20"
-							regExp="^[a-zA-Z][a-zA-Z0-9_]{5,15}$"
-							invalidMessage="租户名称只能包含字母或数字" onblur="checkAccount(this.value);" />
+						<td><input type="text" id="name" name="name" 
+						regExp="^[a-zA-Z][a-zA-Z0-9_]{5,15}$" invalidMessage="租户名称只能包含字母或数字" remote="true" 
+						url="/Pss/json/validateAccountOfRegist"/>
 						</td>
-						<td width="200"><label id="nameMsg"></label>
+						<td width="200"><label id="nameMsg" class="error_label"></label>
 						</td>
 					</tr>
 					<tr>
 						<td align="right"><label for="password">租户密码 </label></td>
 						<td><input type="password" id="password" name="password"
-							required="true" dojoType="dijit.form.ValidationTextBox"
 							regExp="^[0-9|a-z|A-Z]{8,16}$" invalidMessage="租户密码必须是8至16位字母或数字" />
 						</td>
-						<td><label id="passwordMsg"></label>
+						<td><label id="passwordMsg" class="error_label"></label>
 						</td>
 					</tr>
 					<tr>
 						<td align="right"><label for="password_again">确认密码 </label></td>
 						<td><input type="password" id="password_again"
-							name="password_again" required="true"
-							dojoType="dijit.form.ValidationTextBox"
+							name="password_again" 
 							regExp="^[0-9|a-z|A-Z]{8,16}$" />
 						</td>
-						<td><label id="passwordAgnMsg"></label>
+						<td><label id="passwordAgnMsg" class="error_label"></label>
 						</td>
 					</tr>
 					<tr>
 						<td align="right"><label for="email">邮件地址 </label></td>
 						<td><input type="text" id="email" name="email"
-							dojoType="dijit.form.ValidationTextBox"
 							regExp="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"
 							invalidMessage="邮件地址不合法" />
 						</td>
-						<td><label id="emailMsg"></label>
+						<td><label id="emailMsg" class="error_label"></label>
 						</td>
 					</tr>
+					<tr>
+					    <td><input type="submit" value="注册"/>
+					    </td>
+					</tr>
 				</table>
-				<center>
-					<a href="#" onclick="regist();">注册</a>
-				</center>
+				
 			</form>
 
 			<div class="grid_3">&nbsp;</div>
 		</div>
 	</div>
 	<script language="javascript"> 
-	function checkAccount(account){
-		dojo.xhrPost({
-		    url: "/Pss/json/validateAccountOfRegist.action",
-		    content:{account:dojo.byId('name').value},
-		    handleAs:'json',
-		    load: function(response, ioArgs){
-		       if(response.valid!='true'){
-		    	  dojo.byId("nameMsg").innerHTML = "租户名称已经存在";
-			   }else{
-				   dojo.byId("nameMsg").innerHTML = "";
-				}
-		    }
-		});
-	}
-	function checkAll(){ 
-	var isOk=true; 
-	dijit.registry.filter(function(widget){return widget.declaredClass=="dijit.form.ValidationTextBox"?true:false;}).forEach(function(widget){ 
-	  if(!widget.isValid()){ 
-	   //alert(widget.invalidMessage); 
-	   isOk=false; 
-	   return; 
-	  } 
-	}); 
-	return isOk; 
-	}
-
-	function regist(){
-		dojo.xhrPost({
-		    url: "/Pss/json/registOfRegist.action",
-		    content:{account:dojo.byId('name').value,
-			    password:dojo.byId('password').value,
-			    passwordAgn:dojo.byId('password_again').value,
-			    email:dojo.byId('email').value,
-			    },
-		    handleAs:'json',
-		    load: function(response, ioArgs){
-		       alert(response);
-		    }
-		});
-	} 
+	  dojo.addOnLoad(function(){
+		  Common.formValidation("login");
+		  Common.formSubmit("login");
+	  });
 	</script>
 </body>
 </html>
