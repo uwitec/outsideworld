@@ -17,7 +17,7 @@ if (!dojo._hasResource["custom.TextInput"]) {
 							this.inherited(arguments);
 							// if need server validate
 							if (this.remote != "") {
-								dojo.connect(this.textbox, "onkeyup", this,
+								dojo.connect(this.textbox, "onblur", this,
 										"remoteValidate");
 							}
 						},
@@ -34,17 +34,26 @@ if (!dojo._hasResource["custom.TextInput"]) {
 							content[name] = value;
 
 							dojo.xhrPost({
+								self : this,
 								url : this.remote,
 								content : content,
 								handleAs : 'json',
-								load : this.hanldeResponse()
+								load : this.hanldeResponse
 							});
 						},
 						hanldeResponse : function(response, ioArgs) {
-							this.displayMessage("Error");
-							dojo
-									.addClass(this.domNode,
-											"dijitTextBoxError dijitValidationTextBoxError dijitError");
+							if (response.valid != "true") {
+								this.self.displayMessage("Error");
+								this.self.focus();
+								dojo
+										.addClass(this.self.domNode,
+												"dijitTextBoxError dijitValidationTextBoxError dijitError");
+							} else {
+								this.self.displayMessage("");
+								dojo
+										.removeClass(this.self.domNode,
+												"dijitTextBoxError dijitValidationTextBoxError dijitError");
+							}
 						}
 					});
 }
