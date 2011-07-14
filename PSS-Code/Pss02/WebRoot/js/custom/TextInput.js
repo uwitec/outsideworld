@@ -10,22 +10,30 @@ if (!dojo._hasResource["custom.TextInput"]) {
 					[ dijit.form.ValidationTextBox ],
 					{
 						remote : "",
+						correct : "false",
 						constructor : function(params, node) {
 							this.remote = node.getAttribute("remote");
+							// if not required supposed correct and can submit
+							if (node.getAttribute("required") != "true") {
+								this.correct = "true";
+							}
 						},
 						postCreate : function() {
 							this.inherited(arguments);
-							// if need server validate
-							if (this.remote != "") {
-								dojo.connect(this.textbox, "onblur", this,
-										"remoteValidate");
-							}
+							// validate value
+							dojo
+									.connect(this.textbox, "onblur", this,
+											"onBlur");
 						},
-						remoteValidate : function(event) {
-							// if value is valid
-							if (this.validate()) {
+						onBlur : function(event) {
+							if (this.validate() && this.remote != "") {
 								this.serverValidate(this.name, this
 										.get("value"));
+								this.correct = "unknow";
+							} else if (this.validate() && this.remote == "") {
+								correct = "true";
+							} else {
+								correct = "false";
 							}
 						},
 						serverValidate : function(name, value) {
@@ -42,17 +50,21 @@ if (!dojo._hasResource["custom.TextInput"]) {
 							});
 						},
 						hanldeResponse : function(response, ioArgs) {
-							if (response.valid != true) {
+							if (response[this.self.name + "Valid"] != true) {
 								this.self.focus();
-								this.self.displayMessage("Error");
+								this.self
+										.displayMessage(response[this.self.name
+												+ "Msg"]);
 								dojo
 										.addClass(this.self.domNode,
 												"dijitTextBoxError dijitValidationTextBoxError dijitError");
+								this.self.correct = "false";
 							} else {
 								this.self.displayMessage("");
 								dojo
 										.removeClass(this.self.domNode,
 												"dijitTextBoxError dijitValidationTextBoxError dijitError");
+								this.self.correct = "true";
 							}
 						}
 					});

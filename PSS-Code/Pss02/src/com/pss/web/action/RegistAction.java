@@ -22,12 +22,17 @@ public class RegistAction extends ActionSupport {
 	private String passwordAgn;
 	private String email;
 
-	private boolean valid = false;
+	private boolean accountValid = false;
+	private String accountMsg = "";
 
 	public String validateAccount() {
 		// TODO 验证账号是否重复
 		if (account != null && account.contains("test")) {
-			valid = true;
+			accountValid = true;
+			accountMsg = "";
+		} else {
+			accountValid = false;
+			accountMsg = "租户账号已经被注册!";
 		}
 		return SUCCESS;
 	}
@@ -63,12 +68,12 @@ public class RegistAction extends ActionSupport {
 		this.email = email;
 	}
 
-	public void setValid(boolean valid) {
-		this.valid = valid;
+	@JSON
+	public boolean getAccountValid() {
+		return accountValid;
 	}
 
-	@JSON
-	public boolean getValid() {
-		return valid;
+	public String getAccountMsg() {
+		return accountMsg;
 	}
 }
