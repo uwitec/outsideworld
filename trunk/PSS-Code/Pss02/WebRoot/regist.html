@@ -4,7 +4,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>注册</title>
 <script src="js/dojo/dojo.js" djConfig="parseOnLoad: true"></script>
-<script src="js/common.js"></script>
 <script type="text/javascript">
 		    dojo.require("dijit.form.Form");
             dojo.require("dijit.form.Button");
@@ -33,17 +32,17 @@
 					<tr>
 						<td width="80" align="right"><label for="name">租户名称</label>
 						</td>
-						<td><div dojoType="custom.TextInput" required="true"
+						<td><input dojoType="custom.TextInput" required="true"
 								remote="/Pss/json/validateAccountOfRegist.action" name="account"
 								regExp="^[a-zA-Z][a-zA-Z0-9_]{5,15}$"
-								invalidMessage="租户名称只能包含字母或数字"></div>
+								invalidMessage="租户名称只能包含字母或数字"></input>
 						</td>
 						<td width="200"><label id="nameMsg" class="error_label"></label>
 						</td>
 					</tr>
 					<tr>
 						<td align="right"><label for="password">租户密码 </label></td>
-						<td><input type="password" id="password" name="password"
+						<td><input type="password"  dojoType="custom.TextInput" required="true" name="password"
 							regExp="^[0-9|a-z|A-Z]{8,16}$" invalidMessage="租户密码必须是8至16位字母或数字" />
 						</td>
 						<td><label id="passwordMsg" class="error_label"></label>
@@ -51,7 +50,7 @@
 					</tr>
 					<tr>
 						<td align="right"><label for="password_again">确认密码 </label></td>
-						<td><input type="password" id="password_again"
+						<td><input type="password" dojoType="custom.TextInput" required="true"
 							name="password_again" regExp="^[0-9|a-z|A-Z]{8,16}$" />
 						</td>
 						<td><label id="passwordAgnMsg" class="error_label"></label>
@@ -59,7 +58,7 @@
 					</tr>
 					<tr>
 						<td align="right"><label for="email">邮件地址 </label></td>
-						<td><input type="text" id="email" name="email"
+						<td><input  dojoType="custom.TextInput"  required="true" name="email"
 							regExp="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"
 							invalidMessage="邮件地址不合法" />
 						</td>
