@@ -7,9 +7,6 @@
 <script type="text/javascript">
 		    dojo.require("dijit.form.Form");
             dojo.require("dijit.form.Button");
-            dojo.require("dijit.form.ValidationTextBox");
-            dojo.require("dijit.form.Textarea");
-            dojo.require("dijit.Tooltip");
             dojo.require("custom.TextInput");
         </script>
 <link rel="stylesheet" type="text/css"
@@ -31,11 +28,10 @@
 				<table style="border: 1px solid #9f9f9f;" cellspacing="10">
 					<tr>
 						<td width="80" align="right"><label for="name">租户名称</label></td>
-						<td><input dojoType="custom.TextInput" required="true"
-							remote="/Pss/json/validateAccountOfRegist.action" name="account"
+						<td><input dojoType="custom.TextInput" name="account"
+							required="true" remote="/Pss/json/validateAccountOfRegist.action"
 							regExp="^[a-zA-Z][a-zA-Z0-9_]{5,15}$"
 							invalidMessage="租户名称只能包含字母或数字"></input></td>
-						<td width="200"><label id="nameMsg" class="error_label"></label>
 						</td>
 					</tr>
 					<tr>
@@ -44,7 +40,6 @@
 						<td><input type="password" dojoType="custom.TextInput"
 							required="true" name="password" regExp="^[0-9|a-z|A-Z]{8,16}$"
 							invalidMessage="租户密码必须是8至16位字母或数字" /></td>
-						<td><label id="passwordMsg" class="error_label"></label></td>
 					</tr>
 					<tr>
 						<td align="right"><label for="password_again">确认密码 </label>
@@ -52,7 +47,6 @@
 						<td><input type="password" dojoType="custom.TextInput"
 							required="true" name="password_again"
 							regExp="^[0-9|a-z|A-Z]{8,16}$" /></td>
-						<td><label id="passwordAgnMsg" class="error_label"></label></td>
 					</tr>
 					<tr>
 						<td align="right"><label for="email">邮件地址 </label>
@@ -60,10 +54,10 @@
 						<td><input dojoType="custom.TextInput" required="true"
 							name="email" regExp="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"
 							invalidMessage="邮件地址不合法" /></td>
-						<td><label id="emailMsg" class="error_label"></label></td>
 					</tr>
 					<tr>
-						<td><input type="submit" value="注册" /></td>
+						<td colspan="2" align="center"><input type="submit"
+							value="注册" /></td>
 					</tr>
 				</table>
 

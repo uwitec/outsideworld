@@ -26,14 +26,17 @@ if (!dojo._hasResource["custom.TextInput"]) {
 											"onBlur");
 						},
 						onBlur : function(event) {
-							if (this.validate() && this.remote != "") {
+							if (this.validate() && this.remote != null
+									&& this.remote != "") {
 								this.serverValidate(this.name, this
 										.get("value"));
 								this.correct = "unknow";
-							} else if (this.validate() && this.remote == "") {
+							} else if (this.validate()
+									&& (this.remote == "" || this.remote == null)) {
 								correct = "true";
 							} else {
 								correct = "false";
+								this.focus();
 							}
 						},
 						serverValidate : function(name, value) {
