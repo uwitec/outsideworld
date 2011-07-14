@@ -42,7 +42,8 @@ if (!dojo._hasResource["custom.TextInput"]) {
 							});
 						},
 						hanldeResponse : function(response, ioArgs) {
-							if (response.valid != "true") {
+							if (response.valid != true) {
+								this.self.focus();
 								this.self.displayMessage("Error");
 								dojo
 										.addClass(this.self.domNode,
