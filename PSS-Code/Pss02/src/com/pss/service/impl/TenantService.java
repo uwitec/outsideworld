@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.pss.domain.model.entity.sys.Tenant;
 import com.pss.domain.repository.system.TenantRepository;
+import com.pss.domain.repository.system.UserRepository;
 import com.pss.exception.BusinessHandleException;
 import com.pss.service.ITenantService;
 
@@ -14,11 +15,21 @@ public class TenantService implements ITenantService {
 
 	@Autowired
 	private TenantRepository tenantRepository;
+	@Autowired
+	private UserRepository userRepository;
 
 	@Override
 	public String regist(Tenant tenant) throws BusinessHandleException {
+		String vAcount = vAcount(tenant.getTenantName());
+		if(!StringUtils.isBlank(vAcount)){
+			return vAcount;
+		}
+		String vEmail = vEmail(tenant.getTenantEmail());
+		if(!StringUtils.isBlank(vEmail)){
+			return vEmail;
+		}
 		tenantRepository.add(tenant);
-		return null;
+		return "";
 	}
 
 	@Override
@@ -48,5 +59,22 @@ public class TenantService implements ITenantService {
 		}
 		return "";
 	}
+
+	public TenantRepository getTenantRepository() {
+		return tenantRepository;
+	}
+
+	public void setTenantRepository(TenantRepository tenantRepository) {
+		this.tenantRepository = tenantRepository;
+	}
+
+	public UserRepository getUserRepository() {
+		return userRepository;
+	}
+
+	public void setUserRepository(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
+	
 	
 }
