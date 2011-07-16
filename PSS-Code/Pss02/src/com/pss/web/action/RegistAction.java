@@ -7,20 +7,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.pss.domain.model.entity.sys.Tenant;
 import com.pss.exception.BusinessHandleException;
-import com.pss.service.impl.TenantService;
+import com.pss.service.ITenantService;
 
 public class RegistAction extends AbstractAction {
 
 	private static final long serialVersionUID = 1L;
 
 	@Autowired
-	private TenantService tenantService;
+	private ITenantService tenantService;
 
 	private String account;
 	private String password;
 	private String passwordAgn;
 	private String email;
 
+	/**
+	 * 对用户名的校验
+	 * @return
+	 */
 	public String validateAccount() {
 		try {
 			String result = tenantService.vAcount(account);
@@ -33,6 +37,10 @@ public class RegistAction extends AbstractAction {
 		return SUCCESS;
 	}
 	
+	/**
+	 * 对email的校验
+	 * @return
+	 */
 	public String validateEmail() {
 		try {
 			String result = tenantService.vEmail(email);
@@ -45,17 +53,25 @@ public class RegistAction extends AbstractAction {
 		return SUCCESS;
 	}
 
+	/**
+	 * 注册
+	 * @return
+	 */
 	public String regist() {
 		Tenant tenant = new Tenant();
 		tenant.setTenantId(new Date().toString());
 		tenant.setTenantName(account);
 		tenant.setTenantPassword(password);
 		tenant.setTenantEmail(email);
-
 		try {
-			tenantService.regist(tenant);
+			String result = tenantService.regist(tenant);
+			if(!StringUtils.isBlank(result)){
+				addActionError(getText(result));
+				return ERROR;
+			}
 			return SUCCESS;
 		} catch (BusinessHandleException e) {
+			addActionError(getText("exception"));
 			return ERROR;
 		}
 	}
@@ -76,4 +92,29 @@ public class RegistAction extends AbstractAction {
 		this.email = email;
 	}
 
+	
+	public String getAccount() {
+		return account;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public String getPasswordAgn() {
+		return passwordAgn;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public ITenantService getTenantService() {
+		return tenantService;
+	}
+
+	public void setTenantService(ITenantService tenantService) {
+		this.tenantService = tenantService;
+	}
+		
 }
