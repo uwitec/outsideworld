@@ -17,6 +17,7 @@ package com.pss.domain.repository.system;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.pss.dao.system.UserMapper;
 import com.pss.domain.model.entity.sys.User;
 import com.pss.exception.BusinessHandleException;
 
@@ -38,8 +39,9 @@ import com.pss.exception.BusinessHandleException;
 @Repository
 @Transactional
 public class UserRepository {
+	private UserMapper userMapper;
 	public void add(User user) throws BusinessHandleException {
-
+		userMapper.insert(user);
 	}
 
 	public User query(String userName) throws BusinessHandleException {
@@ -53,4 +55,13 @@ public class UserRepository {
 	public void delete(String userId) throws BusinessHandleException {
 
 	}
+
+	public UserMapper getUserMapper() {
+		return userMapper;
+	}
+
+	public void setUserMapper(UserMapper userMapper) {
+		this.userMapper = userMapper;
+	}
+	
 }
