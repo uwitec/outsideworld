@@ -2,15 +2,14 @@ package com.pss.web.action;
 
 import java.util.Date;
 
-import org.apache.struts2.json.annotations.JSON;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.opensymphony.xwork2.ActionSupport;
 import com.pss.domain.model.entity.sys.Tenant;
 import com.pss.exception.BusinessHandleException;
 import com.pss.service.impl.TenantService;
 
-public class RegistAction extends ActionSupport {
+public class RegistAction extends AbstractAction {
 
 	private static final long serialVersionUID = 1L;
 
@@ -22,18 +21,27 @@ public class RegistAction extends ActionSupport {
 	private String passwordAgn;
 	private String email;
 
-	private boolean accountValid = false;
-	private String accountMsg = "";
-
 	public String validateAccount() {
-		// TODO 验证账号是否重复
-		if (account != null && account.contains("test")) {
-			accountValid = true;
-			accountMsg = "";
-		} else {
-			accountValid = false;
-			accountMsg = "租户账号已经被注册!";
-		}
+		try {
+			String result = tenantService.vAcount(account);
+			if(!StringUtils.isBlank(result)){
+				setFieldError(getText(result));
+			}
+		} catch (BusinessHandleException e) {
+			return ERROR;
+		}		
+		return SUCCESS;
+	}
+	
+	public String validateEmail() {
+		try {
+			String result = tenantService.vEmail(email);
+			if(!StringUtils.isBlank(result)){
+				setFieldError(getText(result));
+			}
+		} catch (BusinessHandleException e) {
+			return ERROR;
+		}		
 		return SUCCESS;
 	}
 
@@ -68,12 +76,4 @@ public class RegistAction extends ActionSupport {
 		this.email = email;
 	}
 
-	@JSON
-	public boolean getAccountValid() {
-		return accountValid;
-	}
-
-	public String getAccountMsg() {
-		return accountMsg;
-	}
 }
