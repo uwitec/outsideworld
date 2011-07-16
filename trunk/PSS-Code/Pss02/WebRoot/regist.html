@@ -37,16 +37,17 @@
 					<tr>
 						<td align="right"><label for="password">租户密码 </label>
 						</td>
-						<td><input type="password" dojoType="custom.TextInput"
-							required="true" name="password" regExp="^[0-9|a-z|A-Z]{8,16}$"
-							invalidMessage="租户密码必须是8至16位字母或数字" /></td>
+						<td><input type="password" id="pwd"
+							dojoType="custom.TextInput" required="true" name="password"
+							regExp="^[0-9|a-z|A-Z]{8,16}$" invalidMessage="租户密码必须是8至16位字母或数字" />
+						</td>
 					</tr>
 					<tr>
 						<td align="right"><label for="password_again">确认密码 </label>
 						</td>
-						<td><input type="password" dojoType="custom.TextInput"
-							required="true" name="password_again"
-							regExp="^[0-9|a-z|A-Z]{8,16}$" /></td>
+						<td><input type="password" id="pwdAgn"
+							dojoType="custom.TextInput" required="true" name="password_again"
+							onBlur="checkPwd();" /></td>
 					</tr>
 					<tr>
 						<td align="right"><label for="email">邮件地址 </label>
@@ -66,5 +67,18 @@
 			<div class="grid_3">&nbsp;</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+	function checkPwd(){
+		var pwd = dojo.byId("pwd").value;
+		var pwdAgn = dojo.byId("pwdAgn").value;
+
+		if(pwd!=pwdAgn){
+			dijit.byId("pwdAgn").showMessage("两次输入的密码不一致");
+		}else{
+			dijit.byId("pwdAgn").hideMessage();
+		}
+		
+	}
+	</script>
 </body>
 </html>
