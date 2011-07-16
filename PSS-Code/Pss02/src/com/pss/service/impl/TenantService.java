@@ -4,7 +4,9 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.pss.domain.model.entity.sys.Role;
 import com.pss.domain.model.entity.sys.Tenant;
+import com.pss.domain.model.entity.sys.User;
 import com.pss.domain.repository.system.TenantRepository;
 import com.pss.domain.repository.system.UserRepository;
 import com.pss.exception.BusinessHandleException;
@@ -29,6 +31,14 @@ public class TenantService implements ITenantService {
 			return vEmail;
 		}
 		tenantRepository.add(tenant);
+		User user = new User();
+		user.setUserName(tenant.getTenantName());
+		user.setUserPassword(tenant.getTenantPassword());
+		Role role = new Role();
+		role.setRoleId("0");
+		user.setRole(role);
+		user.setTenant(tenant.getTenantId());
+		userRepository.add(user);
 		return "";
 	}
 
