@@ -17,6 +17,8 @@ package com.pss.domain.model.entity.sys;
 import java.util.Date;
 
 import com.pss.domain.model.entity.IEntity;
+import com.pss.domain.repository.system.TenantRepository;
+import com.pss.exception.BusinessHandleException;
 
 /**
  * <p>类说明</p> 
@@ -38,6 +40,28 @@ public class Tenant implements IEntity {
     private Date creatTime;
     private String status;
     private String note;
+    
+    /**
+     * 业务方法，根据名称查找用户名是否已经存在
+     * @param tenantRepository
+     * @return
+     * @throws BusinessHandleException
+     */
+    public boolean isNameExist(TenantRepository tenantRepository) throws BusinessHandleException {    	
+    	if(tenantRepository.queryByName(tenantName)>0){
+    		return true;
+    	}
+    	return false;
+    }
+    
+    public boolean  isEmailExsit(TenantRepository tenantRepository) throws BusinessHandleException {
+    	if(tenantRepository.queryByName(tenantName)>0){
+    		return true;
+    	}
+    	return false;
+    }
+    
+    
 	public String getTenantId() {
 		return tenantId;
 	}
