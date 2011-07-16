@@ -27,4 +27,6 @@ import com.pss.exception.BusinessHandleException;
  */
 public interface ITenantService {
 	public String regist(Tenant tenant) throws BusinessHandleException;
+	public String vAcount(String account) throws BusinessHandleException;
+	public String vEmail(String email) throws BusinessHandleException; 
 }
