@@ -36,7 +36,6 @@ if (!dojo._hasResource["custom.TextInput"]) {
 								correct = "true";
 							} else {
 								correct = "false";
-								this.focus();
 							}
 						},
 						serverValidate : function(name, value) {
@@ -54,21 +53,28 @@ if (!dojo._hasResource["custom.TextInput"]) {
 						},
 						hanldeResponse : function(response, ioArgs) {
 							if (response[this.self.name + "Valid"] != true) {
-								this.self.focus();
-								this.self
-										.displayMessage(response[this.self.name
-												+ "Msg"]);
-								dojo
-										.addClass(this.self.domNode,
-												"dijitTextBoxError dijitValidationTextBoxError dijitError");
-								this.self.correct = "false";
+								this.self.showMessage(response[this.self.name
+										+ "Msg"]);
 							} else {
-								this.self.displayMessage("");
-								dojo
-										.removeClass(this.self.domNode,
-												"dijitTextBoxError dijitValidationTextBoxError dijitError");
-								this.self.correct = "true";
+								this.self.hideMessage("");
 							}
+						},
+						showMessage : function(msg) {
+							dojo
+									.addClass(this.domNode,
+											"dijitTextBoxError dijitValidationTextBoxError dijitError");
+							this.correct = "false";
+							dijit
+									.showTooltip(msg, this.domNode,
+											this.tooltipPosition, !this
+													.isLeftToRight());
+						},
+						hideMessage : function() {
+							this.displayMessage("");
+							dojo
+									.removeClass(this.domNode,
+											"dijitTextBoxError dijitValidationTextBoxError dijitError");
+							this.correct = "true";
 						}
 					});
 }
