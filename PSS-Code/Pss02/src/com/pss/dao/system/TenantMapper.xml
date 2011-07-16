@@ -5,12 +5,27 @@
 		<id property="tenantId" column="tenant_id" />
 		<result property="tenantName" column="tenant_name" />
 		<result property="tenantPassword" column="tenant_password" />
+		<result property="tenantCountry" column="tenant_country" />
+		<result property="tenantCity" column="tenant_city" />
+		<result property="tenantProvince" column="tenant_province" />
+		<result property="tenantEmail" column="tenant_email" />
+		<result property="userNum" column="user_num" />
+		<result property="creatTime" column="creat_time" />
+		<result property="status" column="status" />
+		<result property="note" column="note" />
 	</resultMap>
 
 	<insert id="addTenant" parameterType="com.pss.domain.model.entity.sys.Tenant">
 		insert into
 		tenant(tenant_id,
-		tenant_name,tenant_password) values(#{tenantId},
-		#{tenantName},#{tenantPassword})
+		tenant_name,tenant_password,tenant_email) values(#{tenantId},
+		#{tenantName},#{tenantPassword},#{tenantEmail})
 	</insert>
+	
+	<select id="queryByName" parameterType="java.lang.String" resultType="java.lang.Integer">
+	    select count(tenant_id) from tenant where tenant_name = #{tenantName}
+	</select>
+	<select id="queryByEmail" parameterType="java.lang.String" resultType="java.lang.Integer">
+	    select count(tenant_id) from tenant where tenant_email = #{email}
+	</select>
 </mapper>
