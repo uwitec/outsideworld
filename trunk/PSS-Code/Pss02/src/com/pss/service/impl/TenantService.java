@@ -11,7 +11,7 @@ import com.pss.domain.repository.system.UserRepository;
 import com.pss.exception.BusinessHandleException;
 import com.pss.service.ITenantService;
 
-public class TenantService implements ITenantService {
+public class TenantService extends AbstractService implements ITenantService {
 	private TenantRepository tenantRepository;
 	private UserRepository userRepository;
 
@@ -28,6 +28,8 @@ public class TenantService implements ITenantService {
 		}
 		tenantRepository.add(tenant);
 		User user = new User();
+		String id = nextStr("user", 64);
+		user.setUserId(id);
 		user.setUserName(tenant.getTenantName());
 		user.setUserPassword(tenant.getTenantPassword());
 		Role role = new Role();

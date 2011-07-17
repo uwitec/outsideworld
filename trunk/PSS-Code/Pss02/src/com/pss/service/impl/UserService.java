@@ -10,7 +10,7 @@ import com.pss.exception.BusinessHandleException;
 import com.pss.service.IUserService;
 import com.pss.service.LoginResult;
 
-public class UserService implements IUserService {
+public class UserService extends AbstractService implements IUserService {
 	private UserRepository userRepository;
 	private TenantRepository tenantRepository;
 
