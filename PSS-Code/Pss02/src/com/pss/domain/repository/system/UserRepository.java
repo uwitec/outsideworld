@@ -14,9 +14,6 @@
 
 package com.pss.domain.repository.system;
 
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.pss.dao.system.UserMapper;
 import com.pss.domain.model.entity.sys.User;
 import com.pss.exception.BusinessHandleException;
@@ -36,9 +33,7 @@ import com.pss.exception.BusinessHandleException;
  * @version 1.0
  * @since Jun 27, 2011
  */
-@Repository
-@Transactional
-public class UserRepository extends BaseRepository {
+public class UserRepository {
 	private UserMapper userMapper;
 
 	public void add(User user) throws BusinessHandleException {
