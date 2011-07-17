@@ -56,6 +56,10 @@ public class TenantRepository {
 		return tenantMapper.queryByName(tenantName);
 	}
 	
+	public String findIdByName(String tenantName) throws BusinessHandleException {
+		return null;
+	}
+	
 	public Integer queryByEmail(String email) throws BusinessHandleException {
 		return tenantMapper.queryByEmail(email);
 	}

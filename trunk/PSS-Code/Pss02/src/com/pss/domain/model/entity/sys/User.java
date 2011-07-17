@@ -17,6 +17,8 @@ package com.pss.domain.model.entity.sys;
 import java.util.Date;
 
 import com.pss.domain.model.entity.IEntity;
+import com.pss.domain.repository.system.UserRepository;
+import com.pss.exception.BusinessHandleException;
 
 /**
  * <p>类说明</p> 
@@ -34,6 +36,23 @@ public class User implements IEntity {
     private Date lastLoginTime;
     private String status;
     private Role role;
+    /**
+     * 更改登录状态
+     * @param userRepository
+     */
+    public void updateStatus(UserRepository userRepository){
+    	
+    }
+    /**
+     * 更新上一次登录时间
+     * @param userRepository
+     */
+    public void updateLastLoginTime(UserRepository userRepository) throws BusinessHandleException{
+    	Date now = new Date(System.currentTimeMillis());
+    	setLastLoginTime(now);
+    	userRepository.updateLastLoginTime(this);
+    }
+    
 	public String getUserId() {
 		return userId;
 	}

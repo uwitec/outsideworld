@@ -12,4 +12,6 @@ import com.pss.domain.model.entity.sys.User;
  */
 public interface UserMapper {
     public void insert(User user);
+    public User query(User user);
+    public void updateLastLoginTime(User user);
 }

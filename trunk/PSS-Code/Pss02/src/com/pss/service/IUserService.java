@@ -14,7 +14,7 @@
 
 package com.pss.service;
 
-import com.pss.domain.model.entity.sys.Tenant;
+import com.pss.domain.model.entity.sys.User;
 import com.pss.exception.BusinessHandleException;
 
 /**
@@ -26,6 +26,6 @@ import com.pss.exception.BusinessHandleException;
  * @since   Jun 27, 2011
  */
 public interface IUserService {
-    public LoginResult login(String userName,String password) throws BusinessHandleException;
+    public LoginResult login(User user,String tenantName) throws BusinessHandleException;
     
 }

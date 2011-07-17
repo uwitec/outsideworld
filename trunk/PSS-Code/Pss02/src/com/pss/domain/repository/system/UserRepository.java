@@ -44,8 +44,8 @@ public class UserRepository {
 		userMapper.insert(user);
 	}
 
-	public User query(String userName) throws BusinessHandleException {
-		return null;
+	public User query(User user) throws BusinessHandleException {
+		return userMapper.query(user);
 	}
 
 	public void update(User user) throws BusinessHandleException {
@@ -54,6 +54,10 @@ public class UserRepository {
 
 	public void delete(String userId) throws BusinessHandleException {
 
+	}
+	
+	public void updateLastLoginTime(User user) throws BusinessHandleException {
+		userMapper.updateLastLoginTime(user);
 	}
 
 	public UserMapper getUserMapper() {

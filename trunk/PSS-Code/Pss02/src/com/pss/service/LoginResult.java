@@ -14,6 +14,8 @@
 
 package com.pss.service;
 
+import com.pss.domain.model.entity.sys.User;
+
 /**
  * <p>类说明</p> 
  * <p>Copyright: 版权所有 (c) 2010 - 2030</p>
@@ -23,5 +25,20 @@ package com.pss.service;
  * @since   Jun 27, 2011
  */
 public class LoginResult {
-
+    private User user;
+    private String message;
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
+    
+    
 }
