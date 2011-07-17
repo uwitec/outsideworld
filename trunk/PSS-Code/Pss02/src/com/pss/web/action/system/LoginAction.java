@@ -14,7 +14,8 @@
 
 package com.pss.web.action.system;
 
-import com.opensymphony.xwork2.ActionSupport;
+import com.pss.service.IUserService;
+import com.pss.web.action.AbstractAction;
 
 /**
  * <p>类说明</p> 
@@ -24,8 +25,23 @@ import com.opensymphony.xwork2.ActionSupport;
  * @version 1.0
  * @since   Jun 19, 2011
  */
-public class LoginAction extends ActionSupport {
+public class LoginAction extends AbstractAction {
+	private IUserService userService;
     public String index(){
     	return SUCCESS;
     }
+    
+    public String login() {
+    	return SUCCESS;
+    }
+
+	public IUserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(IUserService userService) {
+		this.userService = userService;
+	}
+    
+    
 }
