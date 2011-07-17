@@ -5,4 +5,16 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
 	default-autowire="byName">
+	<bean id="userService" class="com.pss.service.impl.UserService">
+	</bean>
+	<bean id="tenantService" class="com.pss.service.impl.TenantService">
+	</bean>
+	<bean id="idGeneratorService" class="com.pss.service.impl.IdGeneratorService">
+	</bean>
+	<bean id="tenantRepository" class="com.pss.domain.repository.system.TenantRepository">
+	</bean>
+	<bean id="userRepository" class="com.pss.domain.repository.system.UserRepository">
+	</bean>
+	<bean id="idRepository" class="com.pss.domain.repository.system.IdRepository">
+	</bean>
 </beans>
