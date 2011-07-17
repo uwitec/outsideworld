@@ -55,4 +55,14 @@ public class TenantRepository {
 	public Integer queryByEmail(String email) throws BusinessHandleException {
 		return tenantMapper.queryByEmail(email);
 	}
+
+	public TenantMapper getTenantMapper() {
+		return tenantMapper;
+	}
+
+	public void setTenantMapper(TenantMapper tenantMapper) {
+		this.tenantMapper = tenantMapper;
+	}
+	
+	
 }

@@ -59,4 +59,14 @@ public class IdRepository {
 		}
 	}
 
+	public SequenceMapper getSequenceMapper() {
+		return sequenceMapper;
+	}
+
+	public void setSequenceMapper(SequenceMapper sequenceMapper) {
+		this.sequenceMapper = sequenceMapper;
+	}
+	
+	
+
 }
