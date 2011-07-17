@@ -26,10 +26,10 @@ public class TenantService extends AbstractService implements ITenantService {
 		if(!StringUtils.isBlank(vEmail)){
 			return vEmail;
 		}
+		tenant.setTenantId(nextStr("tenant",64));
 		tenantRepository.add(tenant);
 		User user = new User();
-		String id = nextStr("user", 64);
-		user.setUserId(id);
+		user.setUserId(nextStr("user", 64));
 		user.setUserName(tenant.getTenantName());
 		user.setUserPassword(tenant.getTenantPassword());
 		Role role = new Role();
