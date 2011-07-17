@@ -1,11 +1,19 @@
 package com.pss.web.action;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.interceptor.ServletRequestAware;
+import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.json.annotations.JSON;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-public class AbstractAction extends ActionSupport {
+public class AbstractAction extends ActionSupport implements SessionAware,ServletRequestAware{
     private String fieldError = "";
+    private Map<String,Object> session;
+    private HttpServletRequest request;
 
     @JSON
 	public String getFieldError() {
@@ -15,5 +23,17 @@ public class AbstractAction extends ActionSupport {
 	public void setFieldError(String fieldError) {
 		this.fieldError = fieldError;
 	}
+
+	@Override
+	public void setSession(Map<String, Object> arg) {
+		session = arg;
+	}
+
+	@Override
+	public void setServletRequest(HttpServletRequest arg) {
+		request = arg;
+	}
+	
+	
     
 }
