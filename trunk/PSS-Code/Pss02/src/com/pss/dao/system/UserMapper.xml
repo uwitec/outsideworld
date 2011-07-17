@@ -9,10 +9,10 @@
 		<result property="userPassword" column="user_password" />
 		<result property="lastLoginTime" column="last_login_time" />
 		<result property="status" column="status" />
-		<result property="role" column="role_id" />
+		<result property="role.roleId" column="role_id" />
 	</resultMap>
 	<insert id="insert" parameterType="com.pss.domain.model.entity.sys.User">
-	    insert into user(user_id,tenant,user_name,user_password,last_login_time,status,role_id) values(#{userId},#{tenant},#{userName},#{userPassword},#{lastLoginTime},#{status},#{role});
+	    insert into user(user_id,tenant,user_name,user_password,last_login_time,status,role_id) values(#{userId},#{tenant},#{userName},#{userPassword},#{lastLoginTime},#{status},#{role.roleId});
 	</insert>
 	<select id="query" parameterType="com.pss.domain.model.entity.sys.User" resultMap = "UserMapper">
 	    select * from user where user_name = #{userName} and tenant = #{tenant}

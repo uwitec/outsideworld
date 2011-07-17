@@ -58,7 +58,6 @@ public class RegistAction extends AbstractAction {
 	 */
 	public String regist() {
 		Tenant tenant = new Tenant();
-		tenant.setTenantId(new Date().toString());
 		tenant.setTenantName(account);
 		tenant.setTenantPassword(password);
 		tenant.setTenantEmail(email);
