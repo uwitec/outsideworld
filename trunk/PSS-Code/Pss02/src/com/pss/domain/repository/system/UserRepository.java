@@ -38,8 +38,9 @@ import com.pss.exception.BusinessHandleException;
  */
 @Repository
 @Transactional
-public class UserRepository {
+public class UserRepository extends BaseRepository {
 	private UserMapper userMapper;
+
 	public void add(User user) throws BusinessHandleException {
 		userMapper.insert(user);
 	}
@@ -55,7 +56,7 @@ public class UserRepository {
 	public void delete(String userId) throws BusinessHandleException {
 
 	}
-	
+
 	public void updateLastLoginTime(User user) throws BusinessHandleException {
 		userMapper.updateLastLoginTime(user);
 	}
@@ -67,5 +68,5 @@ public class UserRepository {
 	public void setUserMapper(UserMapper userMapper) {
 		this.userMapper = userMapper;
 	}
-	
+
 }

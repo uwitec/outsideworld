@@ -39,7 +39,7 @@ import com.pss.exception.BusinessHandleException;
  */
 @Repository
 @Transactional
-public class TenantRepository {
+public class TenantRepository extends BaseRepository{
 
 	@Autowired
 	private TenantMapper tenantMapper;
