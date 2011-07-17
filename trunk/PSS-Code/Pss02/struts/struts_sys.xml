@@ -19,6 +19,7 @@
 			<interceptor-ref name="params" />
 			<interceptor-ref name="json" />
 			<result type="json" />
+			<param name="ignoreHierarchy">false</param>
 		</action>
 	</package>
 	
