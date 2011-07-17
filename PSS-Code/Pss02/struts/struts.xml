@@ -14,7 +14,7 @@
 		<!-- 全局结果的定义，主要包括登录和错误页面的跳转等等 -->
 		<global-results>
 			<!-- <result name="login">/ftl/User_login.htm</result> -->
-			<result name="error">/ftl/error/error.htm</result>
+			<result name="error">/ftl/error/error.html</result>
 		</global-results>
 	</package>
     <include file="struts_sys.xml"></include>	

@@ -1,1 +1,6 @@
 出错啦！
+<#if (actionErrors.size()>0)>
+  <#list actionErrors as error>
+     ${error}
+  </#list>
+</#if>
