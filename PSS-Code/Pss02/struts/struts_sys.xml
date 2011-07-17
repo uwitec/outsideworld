@@ -12,4 +12,29 @@
 			</result>
 		</action>
 	</package>
+		
+	<package name="json" namespace="/json" extends="json-default">
+		<action name="*Of*" class="com.pss.web.action.system.{2}Action"
+			method="{1}">
+			<interceptor-ref name="params" />
+			<interceptor-ref name="json" />
+			<result type="json" />
+		</action>
+	</package>
+	
+	<package name="default" namespace="/" extends="abs">
+		<action name="login_index" class="com.pss.web.action.system.LoginAction"
+			method="index">
+			<result type="freemarker">/ftl/common/main.html</result>
+		</action>
+	</package>
+
+	<package name="ajax" namespace="/ajax" extends="json-default">
+		<action name="getValidationCode" class="com.pss.web.action.system.ValidationCodeAction">
+			<result type="stream">
+				<param name="contentType">image/jpeg</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+	</package>
 </struts>

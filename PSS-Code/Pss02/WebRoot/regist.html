@@ -24,12 +24,12 @@
 
 		<div class="grid_6">
 
-			<form id="regist" jsId="regist" action="/Pss/sys/regist_Regist">
+			<form id="regist" jsId="regist" action="sys/regist_Regist">
 				<table style="border: 1px solid #9f9f9f;" cellspacing="10">
 					<tr>
 						<td width="80" align="right"><label for="name">租户名称</label></td>
 						<td><input dojoType="custom.TextInput" name="account"
-							required="true" remote="/Pss/json/validateAccountOfRegist.action"
+							required="true" remote="json/validateAccountOfRegist.action"
 							regExp="^[a-zA-Z][a-zA-Z0-9_]{5,15}$"
 							invalidMessage="租户名称只能包含字母或数字"></input>
 						</td>
