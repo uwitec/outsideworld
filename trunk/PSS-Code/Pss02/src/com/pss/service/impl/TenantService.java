@@ -1,8 +1,7 @@
 package com.pss.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.pss.domain.model.entity.sys.Role;
 import com.pss.domain.model.entity.sys.Tenant;
@@ -12,14 +11,11 @@ import com.pss.domain.repository.system.UserRepository;
 import com.pss.exception.BusinessHandleException;
 import com.pss.service.ITenantService;
 
-@Service
 public class TenantService implements ITenantService {
-
-	@Autowired
 	private TenantRepository tenantRepository;
-	@Autowired
 	private UserRepository userRepository;
 
+	@Transactional
 	@Override
 	public String regist(Tenant tenant) throws BusinessHandleException {
 		String vAcount = vAcount(tenant.getTenantName());

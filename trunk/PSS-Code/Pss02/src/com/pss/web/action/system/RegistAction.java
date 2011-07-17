@@ -3,7 +3,6 @@ package com.pss.web.action.system;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.pss.domain.model.entity.sys.Tenant;
 import com.pss.exception.BusinessHandleException;
@@ -14,7 +13,6 @@ public class RegistAction extends AbstractAction {
 
 	private static final long serialVersionUID = 1L;
 
-	@Autowired
 	private ITenantService tenantService;
 
 	private String account;

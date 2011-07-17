@@ -14,10 +14,6 @@
 
 package com.pss.domain.repository.system;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.pss.dao.system.TenantMapper;
 import com.pss.domain.model.entity.sys.Tenant;
 import com.pss.exception.BusinessHandleException;
@@ -37,11 +33,7 @@ import com.pss.exception.BusinessHandleException;
  * @version 1.0
  * @since Jun 27, 2011
  */
-@Repository
-@Transactional
-public class TenantRepository extends BaseRepository{
-
-	@Autowired
+public class TenantRepository {
 	private TenantMapper tenantMapper;
 
 	public void add(Tenant tenant) throws BusinessHandleException {

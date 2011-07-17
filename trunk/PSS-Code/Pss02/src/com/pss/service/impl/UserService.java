@@ -1,6 +1,7 @@
 package com.pss.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.pss.domain.model.entity.sys.User;
 import com.pss.domain.repository.system.TenantRepository;
@@ -13,6 +14,7 @@ public class UserService implements IUserService {
 	private UserRepository userRepository;
 	private TenantRepository tenantRepository;
 
+	@Transactional
 	@Override
 	public LoginResult login(User user, String tenantName)
 			throws BusinessHandleException {

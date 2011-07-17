@@ -9,12 +9,14 @@ import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.json.annotations.JSON;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.pss.service.IIdGeneratorService;
 
 public class AbstractAction extends ActionSupport implements SessionAware,
 		ServletRequestAware {
 	private String fieldError = "";
 	private Map<String, Object> session;
 	private HttpServletRequest request;
+	private IIdGeneratorService idGeneratorService;
 
 	@JSON
 	public String getFieldError() {
@@ -42,4 +44,13 @@ public class AbstractAction extends ActionSupport implements SessionAware,
 	public Object getDataFromSession(String key) {
 		return session.get(key);
 	}
+
+	public IIdGeneratorService getIdGeneratorService() {
+		return idGeneratorService;
+	}
+
+	public void setIdGeneratorService(IIdGeneratorService idGeneratorService) {
+		this.idGeneratorService = idGeneratorService;
+	}
+	
 }
