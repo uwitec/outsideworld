@@ -10,12 +10,13 @@ import org.apache.struts2.json.annotations.JSON;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-public class AbstractAction extends ActionSupport implements SessionAware,ServletRequestAware{
-    private String fieldError = "";
-    private Map<String,Object> session;
-    private HttpServletRequest request;
+public class AbstractAction extends ActionSupport implements SessionAware,
+		ServletRequestAware {
+	private String fieldError = "";
+	private Map<String, Object> session;
+	private HttpServletRequest request;
 
-    @JSON
+	@JSON
 	public String getFieldError() {
 		return fieldError;
 	}
@@ -33,7 +34,12 @@ public class AbstractAction extends ActionSupport implements SessionAware,Servle
 	public void setServletRequest(HttpServletRequest arg) {
 		request = arg;
 	}
-	
-	
-    
+
+	public void putDataToSession(String key, Object value) {
+		session.put(key, value);
+	}
+
+	public Object getDataFromSession(String key) {
+		return session.get(key);
+	}
 }
