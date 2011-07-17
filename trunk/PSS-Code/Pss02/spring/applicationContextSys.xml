@@ -9,8 +9,6 @@ http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
 	</bean>
 	<bean id="tenantService" class="com.pss.service.impl.TenantService">
 	</bean>
-	<bean id="idGeneratorService" class="com.pss.service.impl.IdGeneratorService">
-	</bean>
 	<bean id="tenantRepository" class="com.pss.domain.repository.system.TenantRepository">
 	</bean>
 	<bean id="userRepository" class="com.pss.domain.repository.system.UserRepository">
