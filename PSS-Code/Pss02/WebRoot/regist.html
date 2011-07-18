@@ -3,16 +3,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>注册</title>
-<script src="js/dojo/dojo.js" djConfig="parseOnLoad: true"></script>
+<script src="/Pss/js/dojo/dojo.js" djConfig="parseOnLoad: true"></script>
 <script type="text/javascript">
 		    dojo.require("dijit.form.Form");
             dojo.require("dijit.form.Button");
             dojo.require("custom.TextInput");
         </script>
 <link rel="stylesheet" type="text/css"
-	href="js/dijit/themes/claro/claro.css" />
-<link rel="stylesheet" href="css/960.css" />
-<link rel="stylesheet" href="css/text.css" />
+	href="/Pss/js/dijit/themes/claro/claro.css" />
+<link rel="stylesheet" href="/Pss/css/960.css" />
+<link rel="stylesheet" href="/Pss/css/text.css" />
 </head>
 <body class="claro">
 	<div class="container_12">
@@ -23,42 +23,44 @@
 		<div class="grid_3">&nbsp;</div>
 
 		<div class="grid_6">
-
-			<form id="regist" jsId="regist" action="sys/regist_Regist">
+			<div id="registError"></div>
+			<form id="regist" jsId="regist" action="json/registOfRegist.action"
+				method="post">
 				<table style="border: 1px solid #9f9f9f;" cellspacing="10">
 					<tr>
-						<td width="80" align="right"><label for="name">租户名称</label></td>
+						<td width="80" align="right"><label for="name">租户名称</label>
+						</td>
 						<td><input dojoType="custom.TextInput" name="account"
 							required="true" remote="json/validateAccountOfRegist.action"
 							regExp="^[a-zA-Z][a-zA-Z0-9_]{5,15}$"
-							invalidMessage="租户名称只能包含字母或数字"></input>
-						</td>
+							invalidMessage="租户名称只能包含字母或数字"></input></td>
 					</tr>
 					<tr>
-						<td align="right"><label for="password">租户密码 </label>
-						</td>
+						<td align="right"><label for="password">租户密码 </label></td>
 						<td><input type="password" id="pwd"
 							dojoType="custom.TextInput" required="true" name="password"
 							regExp="^[0-9|a-z|A-Z]{8,16}$" invalidMessage="租户密码必须是8至16位字母或数字" />
 						</td>
 					</tr>
 					<tr>
-						<td align="right"><label for="password_again">确认密码 </label>
-						</td>
+						<td align="right"><label for="password_again">确认密码 </label></td>
 						<td><input type="password" id="pwdAgn"
 							dojoType="custom.TextInput" required="true" name="password_again"
-							onBlur="checkPwd();" /></td>
+							onBlur="checkPwd();" />
+						</td>
 					</tr>
 					<tr>
-						<td align="right"><label for="email">邮件地址 </label>
-						</td>
+						<td align="right"><label for="email">邮件地址 </label></td>
 						<td><input dojoType="custom.TextInput" required="true"
 							name="email" regExp="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"
-							invalidMessage="邮件地址不合法" remote="json/validateEmailOfRegist.action"/></td>
+							invalidMessage="邮件地址不合法"
+							remote="json/validateEmailOfRegist.action" />
+						</td>
 					</tr>
 					<tr>
-						<td colspan="2" align="center"><input type="submit"
-							value="注册" /></td>
+						<td colspan="2" align="center"><input type="button"
+							onclick="Common.submitForm('regist',registSuccess())" value="注册" />
+						</td>
 					</tr>
 				</table>
 
@@ -67,7 +69,11 @@
 			<div class="grid_3">&nbsp;</div>
 		</div>
 	</div>
+	<script type="text/javascript" src="/Pss/js/common.js"></script>
 	<script type="text/javascript">
+	function registSuccess(){
+		Common.goTo("sys/manageUser_User");
+	}
 	function checkPwd(){
 		var pwd = dojo.byId("pwd").value;
 		var pwdAgn = dojo.byId("pwdAgn").value;
@@ -77,7 +83,6 @@
 		}else{
 			dijit.byId("pwdAgn").hideMessage();
 		}
-		
 	}
 	</script>
 </body>
