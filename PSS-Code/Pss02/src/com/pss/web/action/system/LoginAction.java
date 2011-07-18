@@ -16,6 +16,8 @@ package com.pss.web.action.system;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.pss.common.FieldUtil;
+import com.pss.common.annotation.FieldValidation;
 import com.pss.domain.model.entity.sys.User;
 import com.pss.exception.BusinessHandleException;
 import com.pss.service.IUserService;
@@ -34,13 +36,19 @@ import com.pss.web.action.AbstractAction;
 public class LoginAction extends AbstractAction {
 	private IUserService userService;
 	private User user;
+	@FieldValidation(isBlank=false,regx="^[a-zA-Z][a-zA-Z0-9_]{5,15}$")
 	private String tenantName;
+	@FieldValidation(isBlank=false)
+	private String validationCode;
     public String index(){
     	return SUCCESS;
     }
     
     public String login() {
     	try {
+    		if(!validateLogin()){
+    			return INPUT;
+    		}   		
 			LoginResult result = userService.login(user, tenantName);
 			if(!StringUtils.isBlank(result.getMessage())){
 				addActionError(getText(result.getMessage()));
@@ -69,6 +77,46 @@ public class LoginAction extends AbstractAction {
 	public void setUser(User user) {
 		this.user = user;
 	}
-    
 	
+	
+
+	public String getTenantName() {
+		return tenantName;
+	}
+
+	public void setTenantName(String tenantName) {
+		this.tenantName = tenantName;
+	}
+	
+	
+
+	public String getValidationCode() {
+		return validationCode;
+	}
+
+	public void setValidationCode(String validationCode) {
+		this.validationCode = validationCode;
+	}
+
+	public boolean validateLogin() {
+		if(!FieldUtil.validate(this,"validationCode")||!StringUtils.equalsIgnoreCase(validationCode,(String)getDataFromSession(WebKeys.VALIDATION_CODE))){
+			addFieldError("fieldError.validationCode", getText("fieldError.validationCode"));
+		}
+		if(!FieldUtil.validate(this,"tenantName")){
+			addFieldError("fieldError.tenant", getText("fieldError.tenant"));
+		}
+		if(!FieldUtil.validate(user,"userName")){
+			addFieldError("fieldError.user.userName", getText("fieldError.user.userName"));
+		}
+		if(!FieldUtil.validate(user,"userPassword")){
+			addFieldError("fieldError.user.userPassword", getText("fieldError.user.userPassword"));
+		}
+		if(hasFieldErrors()){
+			return false;
+		}
+		else{
+			return true;
+		}
+	}
+    	
 }

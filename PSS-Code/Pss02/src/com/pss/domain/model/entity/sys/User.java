@@ -16,6 +16,7 @@ package com.pss.domain.model.entity.sys;
 
 import java.util.Date;
 
+import com.pss.common.annotation.FieldValidation;
 import com.pss.domain.model.entity.IEntity;
 import com.pss.domain.repository.system.UserRepository;
 import com.pss.exception.BusinessHandleException;
@@ -31,7 +32,9 @@ import com.pss.exception.BusinessHandleException;
 public class User implements IEntity {
     private String userId;
     private String tenant;
+    @FieldValidation(isBlank=false,regx="^[a-zA-Z][a-zA-Z0-9_]{5,15}$")
     private String userName;
+    @FieldValidation(isBlank=false,regx="^[0-9|a-z|A-Z]{8,16}$")
     private String userPassword;
     private Date lastLoginTime;
     private String status;
