@@ -1,8 +1,7 @@
 package com.pss.web.action.system;
 
-import java.util.Date;
-
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.pss.domain.model.entity.sys.Tenant;
 import com.pss.exception.BusinessHandleException;
@@ -13,6 +12,7 @@ public class RegistAction extends AbstractAction {
 
 	private static final long serialVersionUID = 1L;
 
+	@Autowired
 	private ITenantService tenantService;
 
 	private String account;
@@ -22,38 +22,41 @@ public class RegistAction extends AbstractAction {
 
 	/**
 	 * 对用户名的校验
+	 * 
 	 * @return
 	 */
 	public String validateAccount() {
 		try {
 			String result = tenantService.vAcount(account);
-			if(!StringUtils.isBlank(result)){
+			if (!StringUtils.isBlank(result)) {
 				setFieldError(getText(result));
 			}
 		} catch (BusinessHandleException e) {
 			return ERROR;
-		}		
+		}
 		return SUCCESS;
 	}
-	
+
 	/**
 	 * 对email的校验
+	 * 
 	 * @return
 	 */
 	public String validateEmail() {
 		try {
 			String result = tenantService.vEmail(email);
-			if(!StringUtils.isBlank(result)){
+			if (!StringUtils.isBlank(result)) {
 				setFieldError(getText(result));
 			}
 		} catch (BusinessHandleException e) {
 			return ERROR;
-		}		
+		}
 		return SUCCESS;
 	}
 
 	/**
 	 * 注册
+	 * 
 	 * @return
 	 */
 	public String regist() {
@@ -63,7 +66,7 @@ public class RegistAction extends AbstractAction {
 		tenant.setTenantEmail(email);
 		try {
 			String result = tenantService.regist(tenant);
-			if(!StringUtils.isBlank(result)){
+			if (!StringUtils.isBlank(result)) {
 				addActionError(getText(result));
 				return ERROR;
 			}
@@ -90,7 +93,6 @@ public class RegistAction extends AbstractAction {
 		this.email = email;
 	}
 
-	
 	public String getAccount() {
 		return account;
 	}
@@ -106,13 +108,4 @@ public class RegistAction extends AbstractAction {
 	public String getEmail() {
 		return email;
 	}
-
-	public ITenantService getTenantService() {
-		return tenantService;
-	}
-
-	public void setTenantService(ITenantService tenantService) {
-		this.tenantService = tenantService;
-	}
-		
 }

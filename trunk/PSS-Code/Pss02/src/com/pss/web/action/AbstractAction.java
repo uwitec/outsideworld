@@ -9,7 +9,6 @@ import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.json.annotations.JSON;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.pss.service.IIdGeneratorService;
 
 public class AbstractAction extends ActionSupport implements SessionAware,
 		ServletRequestAware {
