@@ -1,5 +1,5 @@
 var Common = {
-	submitForm : function(formId, success) {
+	validateForm : function(formId) {
 		var isOK = true;
 		dijit.registry.filter(function(widget) {
 			return widget.declaredClass == "custom.TextInput" ? true : false;
@@ -10,25 +10,36 @@ var Common = {
 				return;
 			}
 		});
-		if (isOK) {
+		return isOK;
+	},
+	submitFormAsync : function(formId, success) {
+		if (this.validateForm(formId)) {
 			var xhrArgs = {
 				form : dojo.byId(formId),
 				handleAs : "json",
 				load : function(data) {
 					var formErrors = dojo.byId(formId + "Error");
-					dojo.empty(formErrors);
-					if (data.errorMessages.length != 0) {
+					if (formErrors != null && data.errorMessages.length != 0) {// errors
+						dojo.empty(formErrors);
 						for ( var i = 0; i < data.errorMessages.length; i++) {
 							dojo.create("li", {
 								"innerHTML" : data.errorMessages[i]
 							}, formErrors);
 						}
-					} else {
-						success();
+					} else {// no errors
+						if (formErrors != null) {
+							dojo.empty(formErrors);
+						}
+						success(data);
 					}
 				}
 			};
 			dojo.xhrPost(xhrArgs);
+		}
+	},
+	submitForm : function(formId) {
+		if (this.validateForm(formId)) {
+			dojo.byId(formId).submit();
 		}
 	},
 	goTo : function(url) {
