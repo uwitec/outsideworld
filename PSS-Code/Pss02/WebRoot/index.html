@@ -4,20 +4,22 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>登陆</title>
 <script src="js/dojo/dojo.js" djConfig="parseOnLoad: true"></script>
+<script type="text/javascript" src="/Pss/js/common.js"></script>
 <script type="text/javascript">
-		    dojo.require("dijit.form.Form");
-            dojo.require("dijit.form.Button");
-            dojo.require("dijit.form.ValidationTextBox");
-            function registVC(){
-                 dojo.attr(dojo.byId("validationImg"),"src","/Pss/ajax/getValidationCode.action?d="+new Date().toString());
-            }
-            dojo.addOnLoad(function() {
-              //初始化验证码
-              registVC();
-              //注册刷新验证码的机制
-              dojo.connect(dojo.byId("refrash"),"onclick",null,registVC);
-              });
-        </script>
+    dojo.require("custom.TextInput");
+       function registVC(){
+           dojo.attr(dojo.byId("validationImg"),"src","/Pss/ajax/getValidationCode.action?d="+new Date().toString());
+       }
+    dojo.addOnLoad(function() {
+       //初始化验证码
+       registVC();
+       //注册刷新验证码的机制
+       dojo.connect(dojo.byId("refrash"),"onclick",null,registVC);
+    });
+	function registSuccess(){
+		Common.goTo("sys/manageUser_User");
+	}
+</script>
 <link rel="stylesheet" type="text/css"
 	href="js/dijit/themes/claro/claro.css" />
 <link rel="stylesheet" href="css/960.css" />
@@ -34,22 +36,21 @@
 
 		<div class="grid_5">
 			<!-- 登陆的div -->
-			<div dojoType="dijit.form.Form" id="login" jsId="login"
-				encType="multipart/form-data" action="" method="">
+			<div id="loginError"></div>
+			<form id="login" action="" method="post">
 				<table width="350" style="border: 1px solid #9f9f9f;"
 					cellspacing="10">
 					<tr>
 						<td width="50"><label for="name">账&nbsp;&nbsp;&nbsp;号</label>
 						</td>
-						<td width="150"><input type="text" id="name" name="name"
-							required="true" dojoType="dijit.form.ValidationTextBox"
-							style="width: 150px;" /></td>
+						<td width="150"><input id="name" name="name" required="true" dojoType="custom.TextInput" regExp="^[a-zA-Z][a-zA-Z0-9_]{5,15}$"
+							invalidMessage="用户户名称只能包含6-16位字母或数字" style="width: 150px;" /></td>
 						<td width="150"></td>
 					</tr>
 					<tr>
 						<td><label for="password">密&nbsp;&nbsp;&nbsp;码</label></td>
 						<td><input type="password" id="password" name="password"
-							required="true" dojoType="dijit.form.ValidationTextBox"
+							required="true" dojoType="custom.TextInput" regExp="^[0-9|a-z|A-Z]{8,16}$" invalidMessage="用户密码必须是8至16位字母或数字"
 							style="width: 150px;" /></td>
 						<td></td>
 					</tr>
@@ -57,7 +58,7 @@
 						<td>验证码</td>
 						<td><input type="text" id="validationCode"
 							name="validationCode" required="true"
-							dojoType="dijit.form.ValidationTextBox" style="width: 80px;" />
+							dojoType="custom.TextInput" style="width: 80px;" />
 							<img id="validationImg" src="" alt="" width="60" height="25"
 							style="vertical-align: middle;" />
 						</td>
@@ -66,12 +67,11 @@
 					</tr>
 				</table>
 				<center>
-					<button dojoType="dijit.form.Button" type="submit" onClick=""
-						value="Submit">登录</button>
+					<input type="button" onClick="Common.submitForm('login',registSuccess())" value="登陆"/>
 					<a href="regist.html">注册</a>
 				</center>
-			</div>
+			</form>
 		</div>
-	</div>
+
 </body>
 </html>
