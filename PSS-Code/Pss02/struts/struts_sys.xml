@@ -4,7 +4,7 @@
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
 	<package name="sys" namespace="/sys" extends="abs">
-	    <action name="regist_Regist" class="com.pss.web.action.system.RegistAction"
+		<action name="regist_Regist" class="com.pss.web.action.system.RegistAction"
 			method="regist">
 			<result type="freemarker">/ftl/common/main.html</result>
 		</action>
@@ -16,18 +16,17 @@
 			</result>
 		</action>
 	</package>
-		
+
 	<package name="json" namespace="/json" extends="json-default">
 		<action name="*Of*" class="com.pss.web.action.system.{2}Action"
 			method="{1}">
 			<interceptor-ref name="params" />
 			<interceptor-ref name="json" />
-			<result type="json" />
-			<param name="ignoreHierarchy">false</param>
+			<result type="json">
+				<param name="ignoreHierarchy">false</param>
+			</result>
 		</action>
 	</package>
-	
-	
 
 	<package name="ajax" namespace="/ajax" extends="json-default">
 		<action name="getValidationCode" class="com.pss.web.action.system.ValidationCodeAction">
