@@ -9,6 +9,11 @@
 			<result type="freemarker">/ftl/common/main.html</result>
 			<result name="input">/regist.html</result>
 		</action>
+		<action name="login_Login" class="com.pss.web.action.system.LoginAction"
+			method="login">
+			<result type="freemarker">/ftl/common/main.html</result>
+			<result name="input">/index.html</result>
+		</action>
 		<action name="*_*" class="com.pss.web.action.system.{2}Action"
 			method="{1}">
 			<result type="freemarker">/ftl/sys/{2}/{1}_{2}.html</result>
