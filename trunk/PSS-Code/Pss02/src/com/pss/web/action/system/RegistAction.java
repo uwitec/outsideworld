@@ -68,12 +68,12 @@ public class RegistAction extends AbstractAction {
 			String result = tenantService.regist(tenant);
 			if (!StringUtils.isBlank(result)) {
 				addActionError(getText(result));
-				return ERROR;
+				return INPUT;
 			}
 			return SUCCESS;
 		} catch (BusinessHandleException e) {
 			addActionError(getText("exception"));
-			return ERROR;
+			return INPUT;
 		}
 	}
 

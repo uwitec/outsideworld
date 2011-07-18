@@ -7,6 +7,7 @@
 		<action name="regist_Regist" class="com.pss.web.action.system.RegistAction"
 			method="regist">
 			<result type="freemarker">/ftl/common/main.html</result>
+			<result name="input">/regist.html</result>
 		</action>
 		<action name="*_*" class="com.pss.web.action.system.{2}Action"
 			method="{1}">
