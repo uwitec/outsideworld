@@ -52,9 +52,8 @@ if (!dojo._hasResource["custom.TextInput"]) {
 							});
 						},
 						hanldeResponse : function(response, ioArgs) {
-							if (response[this.self.name + "Valid"] != true) {
-								this.self.showMessage(response[this.self.name
-										+ "Msg"]);
+							if (response.fieldError != "") {
+								this.self.showMessage(response.fieldError);
 							} else {
 								this.self.hideMessage("");
 							}
