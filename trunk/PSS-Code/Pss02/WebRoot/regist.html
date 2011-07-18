@@ -5,8 +5,6 @@
 <title>注册</title>
 <script src="/Pss/js/dojo/dojo.js" djConfig="parseOnLoad: true"></script>
 <script type="text/javascript">
-		    dojo.require("dijit.form.Form");
-            dojo.require("dijit.form.Button");
             dojo.require("custom.TextInput");
         </script>
 <link rel="stylesheet" type="text/css"
@@ -24,7 +22,7 @@
 
 		<div class="grid_6">
 			<div id="registError"></div>
-			<form id="regist" jsId="regist" action="json/registOfRegist.action"
+			<form id="regist" action="json/registOfRegist.action"
 				method="post">
 				<table style="border: 1px solid #9f9f9f;" cellspacing="10">
 					<tr>
@@ -33,7 +31,7 @@
 						<td><input dojoType="custom.TextInput" name="account"
 							required="true" remote="json/validateAccountOfRegist.action"
 							regExp="^[a-zA-Z][a-zA-Z0-9_]{5,15}$"
-							invalidMessage="租户名称只能包含字母或数字"></input></td>
+							invalidMessage="租户名称只能包含6-16位字母或数字"></input></td>
 					</tr>
 					<tr>
 						<td align="right"><label for="password">租户密码 </label></td>
