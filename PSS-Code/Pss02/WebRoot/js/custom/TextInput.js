@@ -2,7 +2,6 @@ if (!dojo._hasResource["custom.TextInput"]) {
 	dojo._hasResource["custom.TextInput"] = true;
 	dojo.provide("custom.TextInput");
 	dojo.require("dijit.form.ValidationTextBox");
-	dojo.require("dijit._Templated");
 
 	dojo
 			.declare(
@@ -34,11 +33,16 @@ if (!dojo._hasResource["custom.TextInput"]) {
 							} else if (this.validate()
 									&& (this.remote == "" || this.remote == null)) {
 								correct = "true";
+								this.removeWarnning();
 							} else {
 								correct = "false";
+								this.warnning();
 							}
 						},
 						serverValidate : function(name, value) {
+							if (this.correct != "unknow") {
+								return;
+							}
 							// form data
 							var content = new Object();
 							content[name] = value;
@@ -59,9 +63,7 @@ if (!dojo._hasResource["custom.TextInput"]) {
 							}
 						},
 						showMessage : function(msg) {
-							dojo
-									.addClass(this.domNode,
-											"dijitTextBoxError dijitValidationTextBoxError dijitError");
+							this.warnning();
 							this.correct = "false";
 							dijit
 									.showTooltip(msg, this.domNode,
@@ -70,6 +72,15 @@ if (!dojo._hasResource["custom.TextInput"]) {
 						},
 						hideMessage : function() {
 							this.displayMessage("");
+							this.removeWarnning();
+							this.correct = "true";
+						},
+						warnning : function() {
+							dojo
+									.addClass(this.domNode,
+											"dijitTextBoxError dijitValidationTextBoxError dijitError");
+						},
+						removeWarnning : function() {
 							dojo
 									.removeClass(this.domNode,
 											"dijitTextBoxError dijitValidationTextBoxError dijitError");
