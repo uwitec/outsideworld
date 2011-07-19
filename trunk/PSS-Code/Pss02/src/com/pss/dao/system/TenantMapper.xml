@@ -18,14 +18,24 @@
 	<insert id="addTenant" parameterType="com.pss.domain.model.entity.sys.Tenant">
 		insert into
 		tenant(tenant_id,
-		tenant_name,tenant_password,tenant_email) values(#{tenantId},
+		tenant_name,tenant_password,tenant_email)
+		values(#{tenantId},
 		#{tenantName},#{tenantPassword},#{tenantEmail})
 	</insert>
-	
-	<select id="queryByName" parameterType="java.lang.String" resultType="java.lang.Integer">
-	    select count(tenant_id) from tenant where tenant_name = #{tenantName}
+
+	<select id="queryByName" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		select count(tenant_id) from tenant where tenant_name =
+		#{tenantName}
 	</select>
-	<select id="queryByEmail" parameterType="java.lang.String" resultType="java.lang.Integer">
-	    select count(tenant_id) from tenant where tenant_email = #{email}
+	<select id="findIdByName" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		select tenant_id from tenant where tenant_name =
+		#{tenantName}
+	</select>
+	<select id="queryByEmail" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		select count(tenant_id) from tenant where tenant_email =
+		#{email}
 	</select>
 </mapper>

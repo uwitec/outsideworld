@@ -24,6 +24,10 @@ import com.pss.domain.model.entity.sys.Tenant;
 @Transactional
 public interface TenantMapper {
 	void addTenant(Tenant tenant);
+
 	Integer queryByName(String tenantName);
+
+	String findIdByName(String tenantName);
+
 	Integer queryByEmail(String email);
 }

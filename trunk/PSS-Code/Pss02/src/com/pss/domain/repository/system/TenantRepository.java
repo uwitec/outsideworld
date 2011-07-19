@@ -43,15 +43,17 @@ public class TenantRepository {
 	public Tenant query(String tenantId) throws BusinessHandleException {
 		return null;
 	}
-	
-	public Integer queryByName(String tenantName) throws BusinessHandleException {
+
+	public Integer queryByName(String tenantName)
+			throws BusinessHandleException {
 		return tenantMapper.queryByName(tenantName);
 	}
-	
-	public String findIdByName(String tenantName) throws BusinessHandleException {
-		return null;
+
+	public String findIdByName(String tenantName)
+			throws BusinessHandleException {
+		return tenantMapper.findIdByName(tenantName);
 	}
-	
+
 	public Integer queryByEmail(String email) throws BusinessHandleException {
 		return tenantMapper.queryByEmail(email);
 	}
@@ -63,6 +65,5 @@ public class TenantRepository {
 	public void setTenantMapper(TenantMapper tenantMapper) {
 		this.tenantMapper = tenantMapper;
 	}
-	
-	
+
 }
