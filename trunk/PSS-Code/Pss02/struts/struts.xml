@@ -12,15 +12,6 @@
 				default="true" />
 		</result-types>
 
-		<interceptors>
-			<interceptor-stack name="pssStack">
-				<interceptor-ref name="defaultStack" />
-				<interceptor-ref name="token" />
-			</interceptor-stack>
-		</interceptors>
-
-		<default-interceptor-ref name="pssStack" />
-
 		<global-results>
 			<result name="error">/ftl/error/error.html</result>
 			<result name="invalid.token">/ftl/error/error.html</result>
