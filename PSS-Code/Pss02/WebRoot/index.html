@@ -34,17 +34,16 @@
 		<div class="grid_5">
 			<!-- 登陆的div -->
 			<div id="loginError"></div>
-			<form id="login" action="sys/login_Login.action" method="post">
+			<form id="login" action="/Pss/sys/login_Login.action" method="post">
 				<table width="350" style="border: 1px solid #9f9f9f;"
 					cellspacing="10">
 					<tr>
 						<td width="50"><label for="name">租&nbsp;&nbsp;&nbsp;户</label>
 						</td>
-						<td width="150"><input id="tenant" name="tenant"
+						<td width="150"><input id="tenant" name="tenantName"
 							required="true" dojoType="custom.TextInput"
 							regExp="^[a-zA-Z][a-zA-Z0-9_]{5,15}$"
-							invalidMessage="租户名称只能包含6-16位字母或数字" style="width: 150px;" />
-						</td>
+							invalidMessage="租户名称只能包含6-16位字母或数字" style="width: 150px;" /></td>
 						<td width="150"></td>
 					</tr>
 					<tr>
@@ -53,18 +52,15 @@
 						<td width="150"><input id="name" name="user.userName"
 							required="true" dojoType="custom.TextInput"
 							regExp="^[a-zA-Z][a-zA-Z0-9_]{5,15}$"
-							invalidMessage="用户名称只能包含6-16位字母或数字" style="width: 150px;" />
-						</td>
+							invalidMessage="用户名称只能包含6-16位字母或数字" style="width: 150px;" /></td>
 						<td width="150"></td>
 					</tr>
 					<tr>
-						<td><label for="password">密&nbsp;&nbsp;&nbsp;码</label>
-						</td>
+						<td><label for="password">密&nbsp;&nbsp;&nbsp;码</label></td>
 						<td><input type="password" id="password"
 							name="user.userPassword" required="true"
 							dojoType="custom.TextInput" regExp="^[0-9|a-z|A-Z]{8,16}$"
-							invalidMessage="用户密码必须是8至16位字母或数字" style="width: 150px;" />
-						</td>
+							invalidMessage="用户密码必须是8至16位字母或数字" style="width: 150px;" /></td>
 						<td></td>
 					</tr>
 					<tr>
@@ -72,7 +68,8 @@
 						<td><input type="text" id="validationCode"
 							name="validationCode" required="true" dojoType="custom.TextInput"
 							style="width: 80px;" /> <img id="validationImg" src="" alt=""
-							width="60" height="25" style="vertical-align: middle;" /></td>
+							width="60" height="25" style="vertical-align: middle;" />
+						</td>
 						<td><a id="refrash" href="#" style="line-height: 18px;">看不清</a>
 						</td>
 					</tr>
