@@ -15,6 +15,7 @@
 		<global-results>
 			<result name="error">/ftl/error/error.html</result>
 			<result name="invalid.token">/ftl/error/error.html</result>
+			<result name="login">index.html</result>
 		</global-results>
 	</package>
 
