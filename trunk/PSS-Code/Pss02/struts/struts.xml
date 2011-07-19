@@ -11,10 +11,19 @@
 				class="org.apache.struts2.views.freemarker.FreemarkerResult"
 				default="true" />
 		</result-types>
-		<!-- 全局结果的定义，主要包括登录和错误页面的跳转等等 -->
+
+		<interceptors>
+			<interceptor-stack name="pssStack">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="token" />
+			</interceptor-stack>
+		</interceptors>
+
+		<default-interceptor-ref name="pssStack" />
+
 		<global-results>
-			<!-- <result name="login">/ftl/User_login.htm</result> -->
 			<result name="error">/ftl/error/error.html</result>
+			<result name="invalid.token">/ftl/error/error.html</result>
 		</global-results>
 	</package>
 
@@ -26,5 +35,6 @@
 			</result-type>
 		</result-types>
 	</package>
+
 	<include file="struts_sys.xml"></include>
 </struts>
