@@ -25,14 +25,6 @@
 				<param name="ignoreHierarchy">false</param>
 			</result-type>
 		</result-types>
-		<interceptors>
-			<interceptor-stack name="mystack">
-				<interceptor-ref name="servletConfig" />
-				<interceptor-ref name="params" />
-				<interceptor-ref name="json" />
-			</interceptor-stack>
-		</interceptors>
-		<default-interceptor-ref name="mystack"></default-interceptor-ref>
 	</package>
 	<include file="struts_sys.xml"></include>
 </struts>
