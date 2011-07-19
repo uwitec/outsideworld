@@ -3,22 +3,26 @@
     "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
-	<package name="sys" namespace="/sys" extends="abs">
-		<action name="regist_Regist" class="com.pss.web.action.system.RegistAction"
-			method="regist">
-			<result type="freemarker">/ftl/common/main.html</result>
-			<result name="input">/regist.html</result>
+	<package name="login_regist" namespace="/" extends="struts-default">
+		<action name="" class="com.pss.web.action.system.LoginAction">
+			<result type="freemarker">/ftl/login.html</result>
 		</action>
-		<action name="login_Login" class="com.pss.web.action.system.LoginAction"
+		<action name="regist" class="com.pss.web.action.system.RegistAction">
+			<result type="freemarker">/ftl/regist.html</result>
+		</action>
+		<action name="login" class="com.pss.web.action.system.LoginAction"
 			method="login">
 			<result type="freemarker">/ftl/common/main.html</result>
-			<result name="input">/index.html</result>
+			<result type="freemarker" name="input">/ftl/login.html</result>
 		</action>
+	</package>
+
+	<package name="sys" namespace="/sys" extends="abs">
 		<action name="*_*" class="com.pss.web.action.system.{2}Action"
 			method="{1}">
-			<result type="freemarker">/ftl/sys/{2}/{1}_{2}.html</result>
+			<result type="freemarker">/ftl/sys/{2}/{1}.html</result>
 			<result name="input" type="freemarker">
-				/ftl/sys/{2}/{1}_{2}.html
+				/ftl/sys/{2}/{1}.html
 			</result>
 		</action>
 	</package>
@@ -26,8 +30,7 @@
 	<package name="json" namespace="/json" extends="baseJson">
 		<action name="*Of*" class="com.pss.web.action.system.{2}Action"
 			method="{1}">
-			<result>
-			</result>
+			<result />
 		</action>
 	</package>
 
