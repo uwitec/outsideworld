@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>登陆</title>
-<script src="/Pssjs/dojo/dojo.js" djConfig="parseOnLoad: true"></script>
+<script src="/Pss/js/dojo/dojo.js" djConfig="parseOnLoad: true"></script>
 <script type="text/javascript" src="/Pss/js/common.js"></script>
 <script type="text/javascript">
     dojo.require("custom.TextInput");
@@ -43,8 +43,7 @@
 						<td width="150"><input id="tenant" name="tenant"
 							required="true" dojoType="custom.TextInput"
 							regExp="^[a-zA-Z][a-zA-Z0-9_]{5,15}$"
-							invalidMessage="租户名称只能包含6-16位字母或数字" style="width: 150px;" />
-						</td>
+							invalidMessage="租户名称只能包含6-16位字母或数字" style="width: 150px;" /></td>
 						<td width="150"></td>
 					</tr>
 					<tr>
@@ -52,18 +51,15 @@
 						</td>
 						<td width="150"><input id="name" name="name" required="true"
 							dojoType="custom.TextInput" regExp="^[a-zA-Z][a-zA-Z0-9_]{5,15}$"
-							invalidMessage="用户名称只能包含6-16位字母或数字" style="width: 150px;" />
-						</td>
+							invalidMessage="用户名称只能包含6-16位字母或数字" style="width: 150px;" /></td>
 						<td width="150"></td>
 					</tr>
 					<tr>
-						<td><label for="password">密&nbsp;&nbsp;&nbsp;码</label>
-						</td>
+						<td><label for="password">密&nbsp;&nbsp;&nbsp;码</label></td>
 						<td><input type="password" id="password" name="password"
 							required="true" dojoType="custom.TextInput"
 							regExp="^[0-9|a-z|A-Z]{8,16}$" invalidMessage="用户密码必须是8至16位字母或数字"
-							style="width: 150px;" />
-						</td>
+							style="width: 150px;" /></td>
 						<td></td>
 					</tr>
 					<tr>
@@ -71,7 +67,8 @@
 						<td><input type="text" id="validationCode"
 							name="validationCode" required="true" dojoType="custom.TextInput"
 							style="width: 80px;" /> <img id="validationImg" src="" alt=""
-							width="60" height="25" style="vertical-align: middle;" /></td>
+							width="60" height="25" style="vertical-align: middle;" />
+						</td>
 						<td><a id="refrash" href="#" style="line-height: 18px;">看不清</a>
 						</td>
 					</tr>
