@@ -23,13 +23,10 @@
 		</action>
 	</package>
 
-	<package name="json" namespace="/json" extends="json-default">
+	<package name="json" namespace="/json" extends="baseJson">
 		<action name="*Of*" class="com.pss.web.action.system.{2}Action"
 			method="{1}">
-			<interceptor-ref name="params" />
-			<interceptor-ref name="json" />
-			<result type="json">
-				<param name="ignoreHierarchy">false</param>
+			<result>
 			</result>
 		</action>
 	</package>

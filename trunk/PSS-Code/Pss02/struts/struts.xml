@@ -17,5 +17,22 @@
 			<result name="error">/ftl/error/error.html</result>
 		</global-results>
 	</package>
-    <include file="struts_sys.xml"></include>	
+
+	<package name="baseJson" extends="json-default" abstract="true">
+		<result-types>
+			<result-type name="json" class="org.apache.struts2.json.JSONResult"
+				default="true">
+				<param name="ignoreHierarchy">false</param>
+			</result-type>
+		</result-types>
+		<interceptors>
+			<interceptor-stack name="mystack">
+				<interceptor-ref name="servletConfig" />
+				<interceptor-ref name="params" />
+				<interceptor-ref name="json" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="mystack"></default-interceptor-ref>
+	</package>
+	<include file="struts_sys.xml"></include>
 </struts>
