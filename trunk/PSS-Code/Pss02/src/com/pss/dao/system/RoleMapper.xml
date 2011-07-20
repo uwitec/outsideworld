@@ -8,7 +8,10 @@
 		<result property="module" column="module" />
 		<result property="title" column="title" />
 	</resultMap>
-	<select id="obtainFunction" parameterType="java.lang.String" resultMap = "UserMapper">
-	    select * from function t,role_privalige t1 where t.function_id = t1.function_id and t1.role_id = #{roleId}
+	<select id="obtainFunction" parameterType="java.lang.String"
+		resultMap="FunctionMapper">
+		select * from function t,role_privalige t1 where
+		t.function_id =
+		t1.function_id and t1.role_id = #{roleId}
 	</select>
 </mapper>
