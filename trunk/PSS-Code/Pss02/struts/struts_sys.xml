@@ -4,16 +4,21 @@
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
 	<package name="login_regist" namespace="/" extends="struts-default">
-		<action name="" class="com.pss.web.action.system.LoginAction">
-			<result type="freemarker">/ftl/login.html</result>
-		</action>
-		<action name="regist" class="com.pss.web.action.system.RegistAction">
-			<result type="freemarker">/ftl/regist.html</result>
+		<action name="regist" class="com.pss.web.action.system.RegistAction"
+			method="regist">
+			<result type="redirect">/</result>
+			<result name="input">/regist.html</result>
 		</action>
 		<action name="login" class="com.pss.web.action.system.LoginAction"
 			method="login">
-			<result type="freemarker">/ftl/common/main.html</result>
-			<result type="freemarker" name="input">/ftl/login.html</result>
+			<result type="redirect">/</result>
+			<result name="input">/login.html</result>
+		</action>
+	</package>
+
+	<package name="pss" namespace="/" extends="abs">
+		<action name="" class="com.pss.web.action.HomeAction">
+			<result>/ftl/common/main.html</result>
 		</action>
 	</package>
 
