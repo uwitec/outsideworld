@@ -9,10 +9,14 @@ http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
 	</bean>
 	<bean id="tenantService" class="com.pss.service.impl.TenantService">
 	</bean>
+	<bean id="functionService" class="com.pss.service.impl.FunctionService">
+	</bean>
 	<bean id="tenantRepository" class="com.pss.domain.repository.system.TenantRepository">
 	</bean>
 	<bean id="userRepository" class="com.pss.domain.repository.system.UserRepository">
 	</bean>
 	<bean id="idRepository" class="com.pss.domain.repository.system.IdRepository">
+	</bean>
+	<bean id="roleRepository" class="com.pss.domain.repository.system.RoleRepository">
 	</bean>
 </beans>

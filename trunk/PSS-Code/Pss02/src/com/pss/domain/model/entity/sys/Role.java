@@ -14,6 +14,8 @@
 
 package com.pss.domain.model.entity.sys;
 
+import java.util.List;
+
 import com.pss.domain.model.entity.IEntity;
 
 /**
@@ -28,7 +30,7 @@ public class Role implements IEntity {
     private String roleId;
     private String roleName;
     private String roleDesc;
-    private RolePrivalige rolePrivalige;
+    private List<RolePrivalige> rolePrivaliges;
 	public String getRoleId() {
 		return roleId;
 	}
@@ -47,12 +49,13 @@ public class Role implements IEntity {
 	public void setRoleDesc(String roleDesc) {
 		this.roleDesc = roleDesc;
 	}
-	public RolePrivalige getRolePrivalige() {
-		return rolePrivalige;
+	public List<RolePrivalige> getRolePrivaliges() {
+		return rolePrivaliges;
 	}
-	public void setRolePrivalige(RolePrivalige rolePrivalige) {
-		this.rolePrivalige = rolePrivalige;
+	public void setRolePrivaliges(List<RolePrivalige> rolePrivaliges) {
+		this.rolePrivaliges = rolePrivaliges;
 	}
+	
     
     
 }

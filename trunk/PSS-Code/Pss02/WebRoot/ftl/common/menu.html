@@ -1,8 +1,28 @@
-<div dojoType="dijit.layout.AccordionPane" title="用户管理">    
+<#if (userFunction.size()>0)>
+<div dojoType="dijit.layout.AccordionPane" title="用户管理"> 
+    <#list userFunction as function>
+        <input type=button url="${function.getUrl()}" value="${function.getTitle()}"/><br>
+    </#list>   
 </div>
+</#if>
+<#if (purchaseFunction.size()>0)>
 <div dojoType="dijit.layout.AccordionPane"  title="采购管理">	
+    <#list purchaseFunction as function>
+        <input type=button url="${function.getUrl()}" value="${function.getTitle()}"/><br>
+    </#list>
 </div>
+</#if>
+<#if (inventoryFunction.size()>0)>
 <div dojoType="dijit.layout.AccordionPane"  title="库存管理">	
+    <#list inventoryFunction as function>
+        <input type=button url="${function.getUrl()}" value="${function.getTitle()}"/><br>
+    </#list>
 </div>
+</#if>
+<#if (saleFunction.size()>0)>
 <div dojoType="dijit.layout.AccordionPane"  title="销售管理">	
+    <#list saleFunction as function>
+        <input type=button url="${function.getUrl()}" value="${function.getTitle()}"/><br>
+    </#list>
 </div>
+</#if>

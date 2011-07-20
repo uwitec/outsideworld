@@ -14,12 +14,17 @@
 
 package com.pss.web.action.system;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 
 import com.pss.common.FieldUtil;
 import com.pss.common.annotation.FieldValidation;
+import com.pss.domain.model.entity.sys.Function;
 import com.pss.domain.model.entity.sys.User;
 import com.pss.exception.BusinessHandleException;
+import com.pss.service.IFunctionService;
 import com.pss.service.IUserService;
 import com.pss.service.LoginResult;
 import com.pss.web.WebKeys;
@@ -42,11 +47,18 @@ import com.pss.web.action.AbstractAction;
  */
 public class LoginAction extends AbstractAction {
 	private IUserService userService;
+	private IFunctionService functionService;
 	private User user;
 	@FieldValidation(isBlank = false, regx = "^[a-zA-Z][a-zA-Z0-9_]{5,15}$")
 	private String tenantName;
 	@FieldValidation(isBlank = false)
 	private String validationCode;
+	
+	//所获得的系统的菜单
+	private List<Function> userFunction = new ArrayList<Function>();
+	private List<Function> purchaseFunction = new ArrayList<Function>(); 
+	private List<Function> inventoryFunction = new ArrayList<Function>();
+	private List<Function> saleFunction = new ArrayList<Function>();
 
 	public String index() {
 		return SUCCESS;
@@ -60,6 +72,7 @@ public class LoginAction extends AbstractAction {
 				return LOGIN;
 			}
 			putDataToSession(WebKeys.USER, result.getUser());
+			initFunction(result.getUser());
 		} catch (BusinessHandleException e) {
 			return ERROR;
 		}
@@ -98,6 +111,49 @@ public class LoginAction extends AbstractAction {
 	public void setValidationCode(String validationCode) {
 		this.validationCode = validationCode;
 	}
+	
+
+	public List<Function> getUserFunction() {
+		return userFunction;
+	}
+
+	public void setUserFunction(List<Function> userFunction) {
+		this.userFunction = userFunction;
+	}
+
+	public List<Function> getPurchaseFunction() {
+		return purchaseFunction;
+	}
+
+	public void setPurchaseFunction(List<Function> purchaseFunction) {
+		this.purchaseFunction = purchaseFunction;
+	}
+
+	public List<Function> getInventoryFunction() {
+		return inventoryFunction;
+	}
+
+	public void setInventoryFunction(List<Function> inventoryFunction) {
+		this.inventoryFunction = inventoryFunction;
+	}
+
+	public List<Function> getSaleFunction() {
+		return saleFunction;
+	}
+
+	public void setSaleFunction(List<Function> saleFunction) {
+		this.saleFunction = saleFunction;
+	}
+	
+	
+
+	public IFunctionService getFunctionService() {
+		return functionService;
+	}
+
+	public void setFunctionService(IFunctionService functionService) {
+		this.functionService = functionService;
+	}
 
 	public boolean validateLogin() {
 		if (!FieldUtil.validate(this, "validationCode")
@@ -123,5 +179,26 @@ public class LoginAction extends AbstractAction {
 			return true;
 		}
 	}
+	
+	private void initFunction(User user) {
+		String roleId = user.getRole().getRoleId();
+		List<Function> functions = functionService.obtainFunction(roleId);
+		if(functions != null){
+			for(Function function:functions){
+				if(StringUtils.equals(function.getModule(), "User")){
+					userFunction.add(function);
+				}
+				if(StringUtils.equals(function.getModule(), "Purchase")){
+					purchaseFunction.add(function);
+				}
+				if(StringUtils.equals(function.getModule(), "Inventory")){
+					inventoryFunction.add(function);
+				}
+				if(StringUtils.equals(function.getModule(), "Sale")){
+					saleFunction.add(function);
+				}
+			}
+		}
+	} 
 
 }
