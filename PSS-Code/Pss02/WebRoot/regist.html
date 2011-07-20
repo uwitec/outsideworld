@@ -1,4 +1,3 @@
-<#assign s=JspTaglibs["/WEB-INF/struts-tags.tld"]/>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -24,42 +23,41 @@
 		<div class="grid_6">
 			<div id="registError"></div>
 			<form id="regist" action="/Pss/sys/regist_Regist" method="post">
-				<@s.token/>
 				<table style="border: 1px solid #9f9f9f;" cellspacing="10">
 					<tr>
-						<td width="80" align="right"><label for="name">租户名称</label></td>
+						<td width="80" align="right"><label for="name">租户名称</label>
+						</td>
 						<td><input dojoType="custom.TextInput" name="account"
 							required="true" remote="json/validateAccountOfRegist.action"
 							regExp="^[a-zA-Z][a-zA-Z0-9_]{5,15}$"
-							invalidMessage="租户名称只能包含6-16位字母或数字"></input>
-						</td>
+							invalidMessage="租户名称只能包含6-16位字母或数字"></input></td>
 					</tr>
 					<tr>
-						<td align="right"><label for="password">租户密码 </label>
-						</td>
+						<td align="right"><label for="password">租户密码 </label></td>
 						<td><input type="password" id="pwd"
 							dojoType="custom.TextInput" required="true" name="password"
 							regExp="^[0-9|a-z|A-Z]{8,16}$" invalidMessage="租户密码必须是8至16位字母或数字" />
 						</td>
 					</tr>
 					<tr>
-						<td align="right"><label for="password_again">确认密码 </label>
-						</td>
+						<td align="right"><label for="password_again">确认密码 </label></td>
 						<td><input type="password" id="pwdAgn"
 							dojoType="custom.TextInput" required="true" name="password_again"
-							onBlur="checkPwd();" /></td>
+							onBlur="checkPwd();" />
+						</td>
 					</tr>
 					<tr>
-						<td align="right"><label for="email">邮件地址 </label>
-						</td>
+						<td align="right"><label for="email">邮件地址 </label></td>
 						<td><input dojoType="custom.TextInput" required="true"
 							name="email" regExp="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"
 							invalidMessage="邮件地址不合法"
-							remote="json/validateEmailOfRegist.action" /></td>
+							remote="json/validateEmailOfRegist.action" />
+						</td>
 					</tr>
 					<tr>
 						<td colspan="2" align="center"><input type="button"
-							onclick="Common.submitForm('regist')" value="注册" /></td>
+							onclick="Common.submitForm('regist')" value="注册" />
+						</td>
 					</tr>
 				</table>
 			</form>
