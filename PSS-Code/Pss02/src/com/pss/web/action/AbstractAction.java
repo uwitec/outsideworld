@@ -12,6 +12,8 @@ import com.opensymphony.xwork2.ActionSupport;
 
 public class AbstractAction extends ActionSupport implements SessionAware,
 		ServletRequestAware {
+	private static final long serialVersionUID = 1L;
+
 	private String fieldError = "";
 	private Map<String, Object> session;
 	private HttpServletRequest request;
@@ -39,7 +41,13 @@ public class AbstractAction extends ActionSupport implements SessionAware,
 		session.put(key, value);
 	}
 
-	public Object getDataFromSession(String key) {
-		return session.get(key);
+	@SuppressWarnings("unchecked")
+	public <T> T getDataFromSession(String key) {
+		Object obj = session.get(key);
+		if (obj != null) {
+			return (T) obj;
+		} else {
+			return null;
+		}
 	}
 }
