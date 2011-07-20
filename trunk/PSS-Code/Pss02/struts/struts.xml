@@ -12,10 +12,19 @@
 				default="true" />
 		</result-types>
 
+		<interceptors>
+			<interceptor name="authCheck" class="com.pss.web.AuthorityInterceptor" />
+			<interceptor-stack name="pssStack">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="authCheck" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="pssStack" />
+
 		<global-results>
+			<result name="login" type="redirect">/login.html</result>
 			<result name="error">/ftl/error/error.html</result>
 			<result name="invalid.token">/ftl/error/error.html</result>
-			<result name="login">index.html</result>
 		</global-results>
 	</package>
 
