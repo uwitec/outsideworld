@@ -32,7 +32,7 @@ public class FunctionService implements IFunctionService{
     private RoleRepository roleRepository;
 	@Override
 	public List<Function> obtainFunction(String roleId) {
-		return null;
+		return roleRepository.obtainFunction(roleId);
 	}
 	public RoleRepository getRoleRepository() {
 		return roleRepository;
