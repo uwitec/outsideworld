@@ -7,3 +7,8 @@ insert into function(function_id,url,module,title) values('0','sys/query_User','
 insert into function(function_id,url,module,title) values('1','sys/delete_User','User','用户删除');
 insert into function(function_id,url,module,title) values('2','sys/update_User','User','用户更新');
 insert into function(function_id,url,module,title) values('3','sys/add_User','User','用户增加');
+
+insert into role_privalige(role_id,function_id) values(0,0);
+insert into role_privalige(role_id,function_id) values(0,1);
+insert into role_privalige(role_id,function_id) values(0,2);
+insert into role_privalige(role_id,function_id) values(0,3);
