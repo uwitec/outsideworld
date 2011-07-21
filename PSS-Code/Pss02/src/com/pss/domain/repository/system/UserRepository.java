@@ -14,6 +14,8 @@
 
 package com.pss.domain.repository.system;
 
+import java.util.List;
+
 import com.pss.dao.system.UserMapper;
 import com.pss.domain.model.entity.sys.User;
 import com.pss.exception.BusinessHandleException;
@@ -50,6 +52,10 @@ public class UserRepository {
 
 	public void delete(String userId) throws BusinessHandleException {
 
+	}
+
+	public List<User> getUsersByTenantId(String tenantId) {
+		return userMapper.getUsersByTenantId(tenantId);
 	}
 
 	public void updateLastLoginTime(User user) throws BusinessHandleException {

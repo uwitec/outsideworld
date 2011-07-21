@@ -14,6 +14,8 @@
 
 package com.pss.service;
 
+import java.util.List;
+
 import com.pss.domain.model.entity.sys.User;
 import com.pss.exception.BusinessHandleException;
 
@@ -27,5 +29,6 @@ import com.pss.exception.BusinessHandleException;
  */
 public interface IUserService {
     public LoginResult login(User user,String tenantName) throws BusinessHandleException;
-    
+ 
+    public List<User> getUsersByTenantId(String tenantId) throws BusinessHandleException;
 }

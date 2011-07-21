@@ -9,6 +9,8 @@ import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.json.annotations.JSON;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.pss.domain.model.entity.sys.User;
+import com.pss.web.WebKeys;
 
 public class AbstractAction extends ActionSupport implements SessionAware,
 		ServletRequestAware {
@@ -48,6 +50,15 @@ public class AbstractAction extends ActionSupport implements SessionAware,
 			return (T) obj;
 		} else {
 			return null;
+		}
+	}
+
+	protected String getTenantId() {
+		User user = getDataFromSession(WebKeys.USER);
+		if (user == null) {
+			return "";
+		} else {
+			return user.getTenant();
 		}
 	}
 }
