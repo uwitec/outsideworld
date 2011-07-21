@@ -17,9 +17,6 @@ var Common = {
 			var xhrArgs = {
 				form : dojo.byId(formId),
 				handleAs : "json",
-				headers : {
-					"Content-Type" : "text/json"
-				},
 				load : function(data) {
 					var formErrors = dojo.byId(formId + "Error");
 					if (formErrors != null && data.errorMessages.length != 0) {// errors
