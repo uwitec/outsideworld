@@ -98,6 +98,4 @@ public class User implements IEntity {
 	public void setRole(Role role) {
 		this.role = role;
 	}
-    
-    
 }

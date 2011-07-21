@@ -1,5 +1,7 @@
 package com.pss.service.impl;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,6 +52,12 @@ public class UserService extends AbstractService implements IUserService {
 
 	public void setTenantRepository(TenantRepository tenantRepository) {
 		this.tenantRepository = tenantRepository;
+	}
+
+	@Override
+	public List<User> getUsersByTenantId(String tenantId)
+			throws BusinessHandleException {
+		return userRepository.getUsersByTenantId(tenantId);
 	}
 
 }
