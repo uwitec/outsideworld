@@ -12,14 +12,10 @@
 				<td><input dojoType="custom.TextInput" name="user.userPassword">
 				</td>
 			</tr>
-			<tr>
-				<td colspan="2">
-					<button dojoType="dijit.form.Button"
-						onClick="Common.submitFormAsync('addUserForm', handleResponse)">保存</button>
-				</td>
-			</tr>
 		</table>
 	</form>
+	<button dojoType="dijit.form.Button"
+		onClick="Common.submitFormAsync('addUserForm', handleResponse)">保存</button>
 </center>
 <script>
 function handleResponse(data){
