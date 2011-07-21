@@ -1,0 +1,28 @@
+<center>
+	<form id="addUserForm" dojoType="dijit.form.Form" method="post"
+		action="${request.getContextPath()}/json/addUserOfUser">
+		<table>
+			<tr>
+				<td>用户账号</td>
+				<td><input dojoType="custom.TextInput" name="user.userName">
+				</td>
+			</tr>
+			<tr>
+				<td>用户密码</td>
+				<td><input dojoType="custom.TextInput" name="user.userPassword">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<button dojoType="dijit.form.Button"
+						onClick="Common.submitFormAsync('addUserForm', handleResponse)">保存</button>
+				</td>
+			</tr>
+		</table>
+	</form>
+</center>
+<script>
+function handleResponse(data){
+	alert(data);	
+}
+</script>

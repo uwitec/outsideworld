@@ -17,6 +17,9 @@ var Common = {
 			var xhrArgs = {
 				form : dojo.byId(formId),
 				handleAs : "json",
+				headers : {
+					"Content-Type" : "text/json"
+				},
 				load : function(data) {
 					var formErrors = dojo.byId(formId + "Error");
 					if (formErrors != null && data.errorMessages.length != 0) {// errors
@@ -44,5 +47,8 @@ var Common = {
 	},
 	goTo : function(url) {
 		window.location.href = url;
+	},
+	setMainPane : function(url) {
+		dijit.byId("mainPane").set("href", url);
 	}
 };

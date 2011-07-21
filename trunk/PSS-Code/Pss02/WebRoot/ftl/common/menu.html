@@ -1,7 +1,7 @@
 <#if (userFunction.size()>0)>
 <div dojoType="dijit.layout.AccordionPane" title="用户管理"> 
     <#list userFunction as function>
-        <input type=button url="${function.getUrl()}" value="${function.getTitle()}"/><br>
+        <button dojoType="dijit.form.Button" onClick="Common.setMainPane('${function.getUrl()}');">${function.getTitle()}</button><br>
     </#list>   
 </div>
 </#if>
