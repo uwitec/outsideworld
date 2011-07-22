@@ -1,7 +1,8 @@
-<button dojoType="dijit.form.Button" onClick="Common.showDialog('新建用户','/Pss/sys/add_User')">新建</button>
+<button dojoType="dijit.form.Button"
+	onClick="Common.showDialog('新建用户','/Pss/sys/add_User')">新建</button>
 <script type="text/javascript">
 var jsonStore = new dojo.data.ItemFileReadStore({  
-    url: '${request.getContextPath()}/json/allUsersOfUserQuery',
+    url: '${request.getContextPath()}/json/queryOfUser',
     urlPreventCache : true
 }); 
 </script>
