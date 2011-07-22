@@ -1,5 +1,6 @@
 package com.pss.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -37,6 +38,38 @@ public class UserService extends AbstractService implements IUserService {
 		}
 		return result;
 	}
+	
+	
+
+	@Override
+	public List<User> queryUsers(User user) throws BusinessHandleException {
+		return userRepository.queryList(user);
+	}
+
+    
+	@Transactional
+	@Override
+	public void delete(List<String> ids) throws BusinessHandleException {
+		userRepository.delete(ids);
+	}
+
+	@Transactional
+	@Override
+	public String save(User user,boolean isNew) throws BusinessHandleException {
+		//标志是否需要做用户名是唯一的校验，默认使用
+		if(!isNew){
+			User oldUser = userRepository.query(user);
+			if(oldUser == null){
+				return "data.deleted";
+			}
+			List<String> ids = new ArrayList<String>();
+			ids.add(user.getUserId());
+			userRepository.delete(ids);
+		}
+		userRepository.add(user);		
+		return "";
+	}
+
 
 	public UserRepository getUserRepository() {
 		return userRepository;

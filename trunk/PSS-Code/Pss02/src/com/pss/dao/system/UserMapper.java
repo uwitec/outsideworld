@@ -27,4 +27,8 @@ public interface UserMapper {
 	public void updateLastLoginTime(User user);
 
 	public List<User> getUsersByTenantId(String tenantId);
+	
+	public List<User> queryList(User user);
+	
+	public void delete(String id);
 }

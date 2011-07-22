@@ -19,6 +19,7 @@ public class AbstractAction extends ActionSupport implements SessionAware,
 	private String fieldError = "";
 	private Map<String, Object> session;
 	private HttpServletRequest request;
+	private String isNew;
 
 	@JSON
 	public String getFieldError() {
@@ -38,10 +39,21 @@ public class AbstractAction extends ActionSupport implements SessionAware,
 	public void setServletRequest(HttpServletRequest arg) {
 		request = arg;
 	}
+	
+	
+
+	public String getIsNew() {
+		return isNew;
+	}
+
+	public void setIsNew(String isNew) {
+		this.isNew = isNew;
+	}
 
 	public void putDataToSession(String key, Object value) {
 		session.put(key, value);
 	}
+
 
 	@SuppressWarnings("unchecked")
 	public <T> T getDataFromSession(String key) {
