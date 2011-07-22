@@ -24,6 +24,10 @@ public class UserAction extends AbstractAction {
 	// 需要删除的用户id列表
 	private List<String> deleteIds;
 
+	public String home() {
+		return SUCCESS;
+	}
+
 	/**
 	 * 初始化查询界面，显示空列表和查询条件
 	 * 
@@ -115,8 +119,7 @@ public class UserAction extends AbstractAction {
 		}
 		if (StringUtils.equals(result, "")) {
 			return SUCCESS;
-		}
-		else{
+		} else {
 			addActionError(getText(result));
 			return INPUT;
 		}
