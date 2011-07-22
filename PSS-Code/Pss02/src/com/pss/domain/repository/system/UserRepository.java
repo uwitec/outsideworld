@@ -45,13 +45,19 @@ public class UserRepository {
 	public User query(User user) throws BusinessHandleException {
 		return userMapper.query(user);
 	}
+	
+	public List<User> queryList(User user) throws BusinessHandleException {
+		return userMapper.queryList(user);
+	}
 
 	public void update(User user) throws BusinessHandleException {
 
 	}
 
-	public void delete(String userId) throws BusinessHandleException {
-
+	public void delete(List<String> ids) throws BusinessHandleException {
+        for(String id:ids){
+        	userMapper.delete(id);
+        }
 	}
 
 	public List<User> getUsersByTenantId(String tenantId) {

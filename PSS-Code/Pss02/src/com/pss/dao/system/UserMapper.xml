@@ -17,7 +17,19 @@
 	<select id="query" parameterType="com.pss.domain.model.entity.sys.User" resultMap = "UserMapper">
 	    select * from user where user_name = #{userName} and tenant = #{tenant}
 	</select>
+	<select id="queryList" parameterType="com.pss.domain.model.entity.sys.User" resultMap = "UserMapper">
+	    select * from user where tenant = #{user.tenant}
+	    <if test="user.name!=null">
+	       and user_name like '%${user.name}%'
+	    </if>
+	    <if test="user.role!=null and user.role.roleId!=null">
+	       and role_id = #{role.roleId}
+	    </if>
+	</select>
 	<update id="updateLastLoginTime" parameterType="com.pss.domain.model.entity.sys.User">
 	    update user set last_login_time = #{lastLoginTime} where user_id = #{userId}
 	</update>
+	<delete id="delete"  parameterType="java.lang.String">
+	    delete from user where user_id=#{id}
+	</delete>
 </mapper>
