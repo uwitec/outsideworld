@@ -1,6 +1,6 @@
 <center>
 	<form id="addUserForm" dojoType="dijit.form.Form" method="post"
-		action="${request.getContextPath()}/json/addUserOfUser">
+		action="${request.getContextPath()}/sys/User/addUser">
 		<table>
 			<tr>
 				<td>用户账号</td>
@@ -15,10 +15,13 @@
 		</table>
 	</form>
 	<button dojoType="dijit.form.Button"
-		onClick="Common.submitFormAsync('addUserForm', handleResponse)">保存</button>
+		onClick="Common.submitFormAsync('addUserForm', addUserResponse)">保存</button>
 </center>
 <script>
-function handleResponse(data){
-	alert(data);	
+alert('d');
+function addUserResponse(data){
+	if(data!=null && data.correct){
+		alert("添加成功");
+	}	
 }
 </script>
