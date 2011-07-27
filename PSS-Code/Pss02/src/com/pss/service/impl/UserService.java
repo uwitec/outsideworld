@@ -38,15 +38,17 @@ public class UserService extends AbstractService implements IUserService {
 		}
 		return result;
 	}
-	
-	
+
+	@Override
+	public List<User> allUsers(String tenant) {
+		return userRepository.getUsersByTenantId(tenant);
+	}
 
 	@Override
 	public List<User> queryUsers(User user) throws BusinessHandleException {
 		return userRepository.queryList(user);
 	}
 
-    
 	@Transactional
 	@Override
 	public void delete(List<String> ids) throws BusinessHandleException {
@@ -55,21 +57,20 @@ public class UserService extends AbstractService implements IUserService {
 
 	@Transactional
 	@Override
-	public String save(User user,boolean isNew) throws BusinessHandleException {
-		//标志是否需要做用户名是唯一的校验，默认使用
-		if(!isNew){
+	public String save(User user, boolean isNew) throws BusinessHandleException {
+		// 标志是否需要做用户名是唯一的校验，默认使用
+		if (!isNew) {
 			User oldUser = userRepository.query(user);
-			if(oldUser == null){
+			if (oldUser == null) {
 				return "data.deleted";
 			}
 			List<String> ids = new ArrayList<String>();
 			ids.add(user.getUserId());
 			userRepository.delete(ids);
 		}
-		userRepository.add(user);		
+		userRepository.add(user);
 		return "";
 	}
-
 
 	public UserRepository getUserRepository() {
 		return userRepository;
@@ -86,11 +87,4 @@ public class UserService extends AbstractService implements IUserService {
 	public void setTenantRepository(TenantRepository tenantRepository) {
 		this.tenantRepository = tenantRepository;
 	}
-
-	@Override
-	public List<User> getUsersByTenantId(String tenantId)
-			throws BusinessHandleException {
-		return userRepository.getUsersByTenantId(tenantId);
-	}
-
 }

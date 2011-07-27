@@ -34,6 +34,11 @@ public class UserAction extends AbstractAction {
 	 * @return
 	 */
 	public String initQuery() {
+		try {
+			userList = userService.allUsers(getTenantId());
+		} catch (BusinessHandleException e) {
+			e.printStackTrace();
+		}
 		return SUCCESS;
 	}
 
@@ -125,7 +130,7 @@ public class UserAction extends AbstractAction {
 		}
 	}
 
-	@JSON
+	@JSON(name = "items")
 	public List<User> getUserList() {
 		return userList;
 	}

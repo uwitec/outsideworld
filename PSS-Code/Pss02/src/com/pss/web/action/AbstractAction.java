@@ -16,12 +16,13 @@ public class AbstractAction extends ActionSupport implements SessionAware,
 		ServletRequestAware {
 	private static final long serialVersionUID = 1L;
 
+	private boolean correct = false;
 	private String fieldError = "";
 	private Map<String, Object> session;
 	private HttpServletRequest request;
 	private String isNew;
 
-	@JSON
+	@JSON()
 	public String getFieldError() {
 		return fieldError;
 	}
@@ -39,8 +40,6 @@ public class AbstractAction extends ActionSupport implements SessionAware,
 	public void setServletRequest(HttpServletRequest arg) {
 		request = arg;
 	}
-	
-	
 
 	public String getIsNew() {
 		return isNew;
@@ -53,7 +52,6 @@ public class AbstractAction extends ActionSupport implements SessionAware,
 	public void putDataToSession(String key, Object value) {
 		session.put(key, value);
 	}
-
 
 	@SuppressWarnings("unchecked")
 	public <T> T getDataFromSession(String key) {
@@ -72,5 +70,14 @@ public class AbstractAction extends ActionSupport implements SessionAware,
 		} else {
 			return user.getTenant();
 		}
+	}
+
+	@JSON(serialize = true)
+	public boolean getCorrect() {
+		return correct;
+	}
+
+	protected void setCorrect(boolean correct) {
+		this.correct = correct;
 	}
 }
