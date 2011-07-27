@@ -1,4 +1,4 @@
-package com.pss.web.action.system;
+package com.pss.web.action;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.pss.domain.model.entity.sys.Tenant;
 import com.pss.exception.BusinessHandleException;
 import com.pss.service.ITenantService;
-import com.pss.web.action.AbstractAction;
 
 public class RegistAction extends AbstractAction {
 
@@ -67,14 +66,15 @@ public class RegistAction extends AbstractAction {
 		try {
 			String result = tenantService.regist(tenant);
 			if (!StringUtils.isBlank(result)) {
-				addActionError(getText(result));
-				return INPUT;
+				addActionMessage(getText(result));
+				setCorrect(false);
 			}
-			return SUCCESS;
 		} catch (BusinessHandleException e) {
 			addActionError(getText("exception"));
-			return INPUT;
+			setCorrect(false);
 		}
+		setCorrect(true);
+		return SUCCESS;
 	}
 
 	public void setAccount(String account) {
