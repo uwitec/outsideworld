@@ -19,20 +19,18 @@ var Common = {
 				form : dojo.byId(formId),
 				handleAs : "json",
 				load : function(data) {
-					var formErrors = dojo.byId(formId + "Error");
-					if (formErrors != null && data.errorMessages.length != 0) {// errors
+					var formErrors = dojo.byId(formId + "Errors");
+					if (formErrors != null) {
 						dojo.empty(formErrors);
-						for ( var i = 0; i < data.errorMessages.length; i++) {
-							dojo.create("li", {
-								"innerHTML" : data.errorMessages[i]
-							}, formErrors);
+						if (data.errors != null) {
+							for ( var field in data.errors) {
+								dojo.create("li", {
+									"innerHTML" : data.errors[field]
+								}, formErrors);
+							}
 						}
-					} else {// no errors
-						if (formErrors != null) {
-							dojo.empty(formErrors);
-						}
-						success(data);
 					}
+					success(data);
 				}
 			};
 			dojo.xhrPost(xhrArgs);
@@ -66,5 +64,15 @@ var Common = {
 			this.dialog.set("href", url);
 		}
 		this.dialog.show();
+	},
+	showErrors : function(data) {
+		if (data == null || data == undefined) {
+			return;
+		}
+		if (data.errorMessages != null && data.errorMessages.length > 0) {
+			for ( var i = 0; i < data.errorMessages.length; i++) {
+
+			}
+		}
 	}
 };
