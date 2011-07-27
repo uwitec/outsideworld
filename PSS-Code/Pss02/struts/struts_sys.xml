@@ -3,48 +3,17 @@
     "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
-	<package name="login_regist" namespace="/" extends="struts-default">
-		<action name="regist" class="com.pss.web.action.system.RegistAction"
-			method="regist">
-			<result type="redirect">/</result>
-			<result name="input">/regist.html</result>
-		</action>
-		<action name="login" class="com.pss.web.action.system.LoginAction"
-			method="login">
-			<result type="redirect">/</result>
-			<result name="input">/login.html</result>
-		</action>
-	</package>
-
-	<package name="pss" namespace="/" extends="abs">
-		<action name="" class="com.pss.web.action.HomeAction">
-			<result>/ftl/common/main.html</result>
-		</action>
-	</package>
-
 	<package name="sys" namespace="/sys" extends="abs">
-		<action name="*_*" class="com.pss.web.action.system.{2}Action"
-			method="{1}">
-			<result type="freemarker">/ftl/sys/{2}/{1}.html</result>
-			<result name="input" type="freemarker">
-				/ftl/sys/{2}/{1}.html
-			</result>
+		<action name="*_*" class="com.pss.web.action.system.{1}Action"
+			method="{2}">
+			<result>/ftl/sys/{1}/{2}.html</result>
 		</action>
 	</package>
 
-	<package name="json" namespace="/json" extends="baseJson">
-		<action name="*Of*" class="com.pss.web.action.system.{2}Action"
-			method="{1}">
+	<package name="json" namespace="/sys" extends="baseJson">
+		<action name="*/*" class="com.pss.web.action.system.{1}Action"
+			method="{2}">
 			<result />
-		</action>
-	</package>
-
-	<package name="ajax" namespace="/ajax" extends="json-default">
-		<action name="getValidationCode" class="com.pss.web.action.system.ValidationCodeAction">
-			<result type="stream">
-				<param name="contentType">image/jpeg</param>
-				<param name="inputName">inputStream</param>
-			</result>
 		</action>
 	</package>
 </struts>
