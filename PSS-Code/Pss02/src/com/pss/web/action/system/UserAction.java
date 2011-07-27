@@ -93,7 +93,12 @@ public class UserAction extends AbstractAction {
 	 * 添加用户
 	 */
 	public String addUser() {
-		System.out.println(user);
+		try {
+			userService.save(user, true);
+			setCorrect(true);
+		} catch (BusinessHandleException e) {
+			setCorrect(false);
+		}
 		return SUCCESS;
 	}
 
