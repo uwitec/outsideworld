@@ -1,5 +1,6 @@
 var Common = {
 	dialog : null,
+	dialogPane : null,
 	validateForm : function(formId) {
 		var isOK = true;
 		dijit.registry.filter(function(widget) {
@@ -48,21 +49,14 @@ var Common = {
 		dijit.byId("mainPane").set("href", url);
 	},
 	showDialog : function(title, url) {
-		var pane = dojo.byId("Dpane");
-		if (!pane) {
-			pane = document.createElement("div");
-			pane.setAttribute("id", "Dpane");
-			document.body.appendChild(pane);
-		}
 		if (!this.dialog) {
-			this.dialog = new dijit.Dialog({
-				title : title,
-				href : url
-			}, pane);
-		} else {
-			this.dialog.set("title", title);
-			this.dialog.set("href", url);
+			this.dialog = dijit.byId("dialog");
 		}
+		if (!this.dialogPane) {
+			this.dialogPane = dijit.byId("dialogPane");
+		}
+		this.dialog.set("title", title);
+		this.dialogPane.set("href", url);
 		this.dialog.show();
 	},
 	showErrors : function(data) {
