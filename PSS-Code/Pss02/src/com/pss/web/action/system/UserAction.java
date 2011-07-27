@@ -6,6 +6,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.json.annotations.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.pss.domain.model.entity.sys.Role;
 import com.pss.domain.model.entity.sys.User;
 import com.pss.exception.BusinessHandleException;
 import com.pss.service.IUserService;
@@ -94,6 +95,10 @@ public class UserAction extends AbstractAction {
 	 */
 	public String addUser() {
 		try {
+			user.setTenant(getTenantId());
+			Role role = new Role();
+			role.setRoleId("1");
+			user.setRole(role);
 			userService.save(user, true);
 			setCorrect(true);
 		} catch (BusinessHandleException e) {

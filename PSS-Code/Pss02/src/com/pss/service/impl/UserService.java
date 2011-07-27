@@ -68,6 +68,7 @@ public class UserService extends AbstractService implements IUserService {
 			ids.add(user.getUserId());
 			userRepository.delete(ids);
 		}
+		user.setUserId(nextStr("user", 64));
 		userRepository.add(user);
 		return "";
 	}
