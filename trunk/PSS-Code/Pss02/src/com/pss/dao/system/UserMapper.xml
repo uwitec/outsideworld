@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pss.dao.system.UserMapper">
-	<resultMap type="com.pss.domain.model.entity.sys.User"
-		id="UserMapper">
+	<resultMap type="com.pss.domain.model.entity.sys.User" id="UserMapper">
 		<id property="userId" column="user_id" />
 		<result property="tenant" column="tenant" />
 		<result property="userName" column="user_name" />
@@ -12,24 +11,32 @@
 		<result property="role.roleId" column="role_id" />
 	</resultMap>
 	<insert id="insert" parameterType="com.pss.domain.model.entity.sys.User">
-	    insert into user(user_id,tenant,user_name,user_password,last_login_time,status,role_id) values(#{userId},#{tenant},#{userName},#{userPassword},#{lastLoginTime},#{status},#{role.roleId});
+		insert into
+		user(user_id,tenant,user_name,user_password,last_login_time,status,role_id)
+		values(#{userId},#{tenant},#{userName},#{userPassword},#{lastLoginTime},#{status},#{role.roleId});
 	</insert>
-	<select id="query" parameterType="com.pss.domain.model.entity.sys.User" resultMap = "UserMapper">
-	    select * from user where user_name = #{userName} and tenant = #{tenant}
+	<select id="query" parameterType="com.pss.domain.model.entity.sys.User"
+		resultMap="UserMapper">
+		select * from user where user_name = #{userName} and tenant = #{tenant}
 	</select>
-	<select id="queryList" parameterType="com.pss.domain.model.entity.sys.User" resultMap = "UserMapper">
-	    select * from user where tenant = #{user.tenant}
-	    <if test="user.name!=null">
-	       and user_name like '%${user.name}%'
+	<select id="queryList" parameterType="com.pss.domain.model.entity.sys.User"
+		resultMap="UserMapper">
+		select * from user where tenant = #{user.tenant}
+		<if test="user.name!=null">
+			and user_name like '%${user.name}%'
 	    </if>
-	    <if test="user.role!=null and user.role.roleId!=null">
-	       and role_id = #{role.roleId}
+		<if test="user.role!=null and user.role.roleId!=null">
+			and role_id = #{role.roleId}
 	    </if>
+	</select>
+	<select id="getUsersByTenantId" parameterType="java.lang.String"
+		resultMap="UserMapper">
+		select * from user where tenant = #{tenant}
 	</select>
 	<update id="updateLastLoginTime" parameterType="com.pss.domain.model.entity.sys.User">
-	    update user set last_login_time = #{lastLoginTime} where user_id = #{userId}
+		update user set last_login_time = #{lastLoginTime} where user_id = #{userId}
 	</update>
-	<delete id="delete"  parameterType="java.lang.String">
-	    delete from user where user_id=#{id}
+	<delete id="delete" parameterType="java.lang.String">
+		delete from user where user_id=#{id}
 	</delete>
 </mapper>
