@@ -18,10 +18,10 @@
 		onClick="Common.submitFormAsync('addUserForm', addUserResponse)">保存</button>
 </center>
 <script>
-alert('d');
 function addUserResponse(data){
 	if(data!=null && data.correct){
-		alert("添加成功");
+		Common.hideDialog();
+		Common.refreshDataGrid("jsonGrid");
 	}	
 }
 </script>

@@ -3,10 +3,12 @@
 <script type="text/javascript">
 var jsonStore = new dojo.data.ItemFileReadStore({  
     url: '${request.getContextPath()}/sys/User/initQuery',
-    urlPreventCache : true
+    urlPreventCache : true,
+    clearOnClose : true
 }); 
 </script>
-<table jsid="grid" store="jsonStore" dojoType="dojox.grid.DataGrid">
+<div id="ttt"></div>
+<table id="jsonGrid" store="jsonStore" dojoType="dojox.grid.DataGrid">
 	<thead>
 		<tr>
 			<th field="userName" width="auto">账号</th>
