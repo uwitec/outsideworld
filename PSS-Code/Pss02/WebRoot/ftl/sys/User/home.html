@@ -8,7 +8,8 @@ var jsonStore = new dojo.data.ItemFileReadStore({
 }); 
 </script>
 <div id="ttt"></div>
-<table id="jsonGrid" store="jsonStore" dojoType="dojox.grid.DataGrid">
+<table id="jsonGrid" store="jsonStore" dojoType="dojox.grid.DataGrid"
+	rowSelector="20px">
 	<thead>
 		<tr>
 			<th field="userName" width="auto">账号</th>
