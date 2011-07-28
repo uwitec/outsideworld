@@ -11,8 +11,7 @@ var jsonStore = new dojo.data.ItemFileReadStore({
 		onClick="Common.showDialog('新建用户','/Pss/sys/User_add')">新建</button>
 	<button dojoType="dijit.form.Button"
 		onClick="Common.showDialog('新建用户','/Pss/sys/User_add')">修改</button>
-	<button dojoType="dijit.form.Button"
-		onClick="Common.showDialog('新建用户','/Pss/sys/User_add')">删除</button>
+	<button dojoType="dijit.form.Button" onClick="remove()">删除</button>
 </div>
 <br />
 <table id="jsonGrid" store="jsonStore" dojoType="dojox.grid.DataGrid"
@@ -24,3 +23,9 @@ var jsonStore = new dojo.data.ItemFileReadStore({
 		</tr>
 	</thead>
 </table>
+<script type="text/javascript">
+function remove(){
+	var ids = Common.getSelectedRows("jsonGrid", "userId");
+	alert(ids);
+}
+</script>
