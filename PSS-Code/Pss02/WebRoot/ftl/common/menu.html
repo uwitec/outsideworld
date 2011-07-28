@@ -1,7 +1,13 @@
+<style>
+.fixedWidthBtn .dijitButtonNode 
+{ 
+   width: 172px; 
+} 
+</style>
 <#if (userFunction.size()>0)>
 <div dojoType="dijit.layout.AccordionPane" title="系统管理"> 
     <#list userFunction as function>
-        <button dojoType="dijit.form.Button" onClick="Common.setMainPane('${function.getUrl()}');">${function.getTitle()}</button><br>
+        <button dojoType="dijit.form.Button" baseClass="fixedWidthBtn" onClick="Common.setMainPane('${function.getUrl()}');">${function.getTitle()}</button><br><br>
     </#list>   
 </div>
 </#if>
