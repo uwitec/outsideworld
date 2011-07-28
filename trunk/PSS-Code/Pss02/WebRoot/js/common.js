@@ -59,6 +59,14 @@ var Common = {
 		this.dialogPane.set("href", url);
 		this.dialog.show();
 	},
+	hideDialog : function() {
+		if (this.dialog) {
+			this.dialog.hide();
+		}
+		if (this.dialogPane) {
+			this.dialogPane.set("content", "");
+		}
+	},
 	showErrors : function(data) {
 		if (data == null || data == undefined) {
 			return;
@@ -68,5 +76,15 @@ var Common = {
 
 			}
 		}
+	},
+	refreshDataGrid : function(dataGridId) {
+		var grid = dijit.byId("jsonGrid");
+		var url = grid.store.url;
+		var newStore = new dojo.data.ItemFileReadStore({
+			url : url,
+			urlPreventCache : true,
+			clearOnClose : true
+		});
+		grid.setStore(newStore);
 	}
 };
