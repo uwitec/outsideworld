@@ -86,5 +86,28 @@ var Common = {
 			clearOnClose : true
 		});
 		grid.setStore(newStore);
+	},
+	getSelectedRows : function(dataGridId, field) {
+		var grid = dijit.byId(dataGridId);
+		var items = grid.selection.getSelected();
+		if (items.length) {
+			var ids = new Array(items.length);
+			var i = 0;
+			dojo.forEach(items, function(selectedItem) {
+				if (selectedItem !== null) {
+					dojo.forEach(grid.store.getAttributes(selectedItem),
+							function(attribute) {
+								if (attribute == field) {
+									var value = grid.store.getValues(
+											selectedItem, "userId");
+									ids[i++] = value;
+								}
+							});
+				}
+			});
+			return ids;
+		} else {
+			return new Array(0);
+		}
 	}
 };
