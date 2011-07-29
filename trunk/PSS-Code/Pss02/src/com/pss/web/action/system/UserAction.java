@@ -96,9 +96,6 @@ public class UserAction extends AbstractAction {
 	public String addUser() {
 		try {
 			user.setTenant(getTenantId());
-			Role role = new Role();
-			role.setRoleId("1");
-			user.setRole(role);
 			userService.save(user, true);
 			setCorrect(true);
 		} catch (BusinessHandleException e) {
@@ -107,12 +104,13 @@ public class UserAction extends AbstractAction {
 		return SUCCESS;
 	}
 
+
 	/**
 	 * 保存用户
 	 * 
 	 * @return
 	 */
-	public String save() {
+	public String updateUser() {
 		String result = "";
 		// 表示新增流程
 		if (StringUtils.equals("true", getIsNew())) {
