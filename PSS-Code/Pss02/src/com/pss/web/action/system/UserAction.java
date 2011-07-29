@@ -125,7 +125,7 @@ public class UserAction extends AbstractAction {
 		// 表示修改流程
 		else {
 			try {
-				result = userService.save(user, true);
+				result = userService.save(user, false);
 			} catch (BusinessHandleException e) {
 				return ERROR;
 			}
