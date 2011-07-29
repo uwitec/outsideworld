@@ -104,7 +104,6 @@ public class UserAction extends AbstractAction {
 		return SUCCESS;
 	}
 
-
 	/**
 	 * 保存用户
 	 * 
@@ -112,30 +111,16 @@ public class UserAction extends AbstractAction {
 	 */
 	public String updateUser() {
 		String result = "";
-		// 表示新增流程
-		if (StringUtils.equals("true", getIsNew())) {
-			user.setTenant(getTenantId());
-			user.setStatus("0");
-			try {
-				result = userService.save(user, true);
-			} catch (BusinessHandleException e) {
-				return SUCCESS;
-			}
-		}
-		// 表示修改流程
-		else {
-			try {
-				result = userService.save(user, false);
-			} catch (BusinessHandleException e) {
-				return ERROR;
-			}
-		}
-		if (StringUtils.equals(result, "")) {
+		try {
+			result = userService.save(user, false);
+		} catch (BusinessHandleException e) {
+			addActionError(e.getMessage());
 			return SUCCESS;
-		} else {
-			addActionError(getText(result));
-			return INPUT;
 		}
+		if (!StringUtils.equals(result, "")) {
+			addActionError(result);
+		}
+		return SUCCESS;
 	}
 
 	@JSON(name = "items")
