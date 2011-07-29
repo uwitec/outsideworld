@@ -1,18 +1,8 @@
 <center>
-	<form id="addUserForm" dojoType="dijit.form.Form" method="post"
+    <div id="addUserFormErrors"></div>
+	<form id="addUserForm" method="post"
 		action="${request.getContextPath()}/sys/User/addUser">
-		<table>
-			<tr>
-				<td>用户账号</td>
-				<td><input dojoType="custom.TextInput" name="user.userName">
-				</td>
-			</tr>
-			<tr>
-				<td>用户密码</td>
-				<td><input dojoType="custom.TextInput" name="user.userPassword">
-				</td>
-			</tr>
-		</table>
+		<#include "detail.html"/>
 	</form>
 	<button dojoType="dijit.form.Button"
 		onClick="Common.submitFormAsync('addUserForm', addUserResponse)">保存</button>
@@ -20,8 +10,7 @@
 <script>
 function addUserResponse(data){
 	if(data!=null && data.correct){
-		Common.hideDialog();
-		Common.refreshDataGrid("jsonGrid");
+		Common.clearForm();
 	}	
 }
 </script>

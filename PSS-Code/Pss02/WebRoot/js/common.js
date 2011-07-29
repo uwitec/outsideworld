@@ -1,6 +1,7 @@
 var Common = {
 	dialog : null,
 	dialogPane : null,
+	/*用于对form表单提交前进行校验，如果有错误，则不提交，并且在出错的input上显示错误信息*/
 	validateForm : function(formId) {
 		var isOK = true;
 		dijit.registry.filter(function(widget) {
@@ -14,6 +15,7 @@ var Common = {
 		});
 		return isOK;
 	},
+	/*异步提交表单*/
 	submitFormAsync : function(formId, success) {
 		if (this.validateForm(formId)) {
 			var xhrArgs = {
@@ -37,11 +39,21 @@ var Common = {
 			dojo.xhrPost(xhrArgs);
 		}
 	},
+	/*同步提交表单*/
 	submitForm : function(formId) {
 		if (this.validateForm(formId)) {
 			dojo.byId(formId).submit();
 		}
 	},
+	/*清空表单*/
+	clearForm:function(formId) {
+		var form = dojo.byId(formId);
+		dojo.query("input:text",form).forEach(function(node, index, array){node.value="";});
+		dojo.query("input:password",form).forEach(function(node, index, array){node.value="";});
+		dojo.query("select",form).forEach(function(node, index, array){node.selectedIndex=0});
+		dojo.query("input:checkbox",form).forEach(function(node, index, array){node.checked=false;});
+	},
+	/*重定向URL*/
 	goTo : function(url) {
 		window.location.href = url;
 	},
@@ -109,5 +121,9 @@ var Common = {
 		} else {
 			return new Array(0);
 		}
+	},
+	/*定义一个什么都不做的空方法*/
+	nullFunction:function(){
+		
 	}
 };

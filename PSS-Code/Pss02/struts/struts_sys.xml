@@ -4,9 +4,9 @@
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
 	<package name="sys" namespace="/sys" extends="abs">
-		<action name="*_*" class="com.pss.web.action.system.{1}Action"
-			method="{2}">
-			<result>/ftl/sys/{1}/{2}.html</result>
+		<action name="*_*" class="com.pss.web.action.system.{2}Action"
+			method="{1}">
+			<result>/ftl/sys/{2}/{1}.html</result>
 		</action>
 	</package>
 
