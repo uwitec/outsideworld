@@ -19,6 +19,7 @@ var jsonStore = new dojo.data.ItemFileReadStore({
 	<thead>
 		<tr>
 			<th field="userName" width="auto">账号</th>
+			<th field="role" formatter="roleValue" width="auto">角色</th>
 			<th field="lastLoginTime" width="auto">最后登录时间</th>
 		</tr>
 	</thead>
@@ -26,6 +27,16 @@ var jsonStore = new dojo.data.ItemFileReadStore({
 <script type="text/javascript">
 function remove(){
 	var ids = Common.getSelectedRows("jsonGrid", "userId");
-	alert(ids);
+	Common.confirm("确认要删除当前选择的用户吗?",doRemove,ids);
+}
+function doRemove(data){
+	alert(data);
+}
+function roleValue(value, rowIndex){
+	if(value.roleId==0){
+		return "店主";
+	}else{
+		return "店员";
+	}
 }
 </script>
