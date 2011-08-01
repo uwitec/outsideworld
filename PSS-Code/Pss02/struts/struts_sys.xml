@@ -12,7 +12,7 @@
 	</package>
 
 	<!-- JSON mapping -->
-	<package name="sys_json" namespace="/sys" extends="baseJson">
+	<package name="sys_json" namespace="/sys" extends="pssJson">
 		<action name="*/*" class="com.pss.web.action.system.{1}Action"
 			method="{2}">
 			<result />

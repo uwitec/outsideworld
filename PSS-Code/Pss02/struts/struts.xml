@@ -5,6 +5,9 @@
 <struts>
 	<!-- struts configuration -->
 	<constant name="struts.enable.SlashesInActionNames" value="true" />
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.configuration.xml.reload" value="true" />
+	<constant name="struts.i18n.reload" value="false" />
 
 	<!-- 抽象包，定义全局结果 -->
 	<package name="abs" extends="struts-default" abstract="true">
@@ -15,6 +18,7 @@
 				default="true" />
 		</result-types>
 
+		<!-- authority check -->
 		<interceptors>
 			<interceptor name="authCheck" class="com.pss.web.AuthorityInterceptor" />
 			<interceptor-stack name="pssStack">
@@ -27,11 +31,11 @@
 		<global-results>
 			<result name="login" type="redirect">/login.html</result>
 			<result name="error">/ftl/error/error.html</result>
-			<result name="invalid.token">/ftl/error/error.html</result>
 		</global-results>
 	</package>
 
 	<package name="baseJson" extends="json-default" abstract="true">
+		<!-- JSON Result -->
 		<result-types>
 			<result-type name="json" class="org.apache.struts2.json.JSONResult"
 				default="true">
@@ -39,9 +43,22 @@
 				<param name="excludeProperties">isNew,locale,fieldErrors,texts,actionErrors,actionMessages,errorMessages</param>
 			</result-type>
 		</result-types>
+
 		<global-results>
 			<result name="input" type="json" />
 		</global-results>
+	</package>
+
+	<package name="pssJson" extends="baseJson" abstract="true">
+		<!-- authority check -->
+		<interceptors>
+			<interceptor name="authCheck" class="com.pss.web.AuthorityInterceptor" />
+			<interceptor-stack name="pssStack">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="authCheck" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="pssStack" />
 	</package>
 
 	<package name="login_regist" namespace="/" extends="baseJson">
