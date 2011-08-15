@@ -6,7 +6,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.json.annotations.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.pss.domain.model.entity.sys.Role;
 import com.pss.domain.model.entity.sys.User;
 import com.pss.exception.BusinessHandleException;
 import com.pss.service.IUserService;
@@ -35,11 +34,6 @@ public class UserAction extends AbstractAction {
 	 * @return
 	 */
 	public String initQuery() {
-		try {
-			userList = userService.allUsers(getTenantId());
-		} catch (BusinessHandleException e) {
-			e.printStackTrace();
-		}
 		return SUCCESS;
 	}
 
@@ -94,13 +88,7 @@ public class UserAction extends AbstractAction {
 	 * 添加用户
 	 */
 	public String addUser() {
-		try {
-			user.setTenant(getTenantId());
-			userService.save(user, true);
-			setCorrect(true);
-		} catch (BusinessHandleException e) {
-			setCorrect(false);
-		}
+		System.out.println(user);
 		return SUCCESS;
 	}
 
@@ -109,21 +97,35 @@ public class UserAction extends AbstractAction {
 	 * 
 	 * @return
 	 */
-	public String updateUser() {
+	public String save() {
 		String result = "";
-		try {
-			result = userService.save(user, false);
-		} catch (BusinessHandleException e) {
-			addActionError(e.getMessage());
+		// 表示新增流程
+		if (StringUtils.equals("true", getIsNew())) {
+			user.setTenant(getTenantId());
+			user.setStatus("0");
+			try {
+				result = userService.save(user, true);
+			} catch (BusinessHandleException e) {
+				return SUCCESS;
+			}
+		}
+		// 表示修改流程
+		else {
+			try {
+				result = userService.save(user, true);
+			} catch (BusinessHandleException e) {
+				return ERROR;
+			}
+		}
+		if (StringUtils.equals(result, "")) {
 			return SUCCESS;
+		} else {
+			addActionError(getText(result));
+			return INPUT;
 		}
-		if (!StringUtils.equals(result, "")) {
-			addActionError(result);
-		}
-		return SUCCESS;
 	}
 
-	@JSON(name = "items")
+	@JSON
 	public List<User> getUserList() {
 		return userList;
 	}
