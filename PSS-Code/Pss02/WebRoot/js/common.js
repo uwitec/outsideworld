@@ -48,6 +48,19 @@ var Common = {
 			dojo.byId(formId).submit();
 		}
 	},
+	// Post data
+	post : function(url, data, success) {
+		var xhrArgs = {
+			url : url,
+			handleAs : "json",
+			content : data,
+			load : function(response) {
+				if (success)
+					success(response);
+			}
+		};
+		dojo.xhrPost(xhrArgs);
+	},
 	/* 清空表单 */
 	clearForm : function(formId) {
 		var form = dojo.byId(formId);
