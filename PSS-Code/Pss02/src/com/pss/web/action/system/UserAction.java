@@ -10,6 +10,7 @@ import com.pss.domain.model.entity.sys.User;
 import com.pss.exception.BusinessHandleException;
 import com.pss.service.IUserService;
 import com.pss.web.action.AbstractAction;
+import com.pss.web.util.WebUtil;
 
 public class UserAction extends AbstractAction {
 
@@ -22,7 +23,7 @@ public class UserAction extends AbstractAction {
 
 	private User user;
 	// 需要删除的用户id列表
-	private List<String> deleteIds;
+	private String deleteIds;
 
 	public String home() {
 		return SUCCESS;
@@ -34,6 +35,11 @@ public class UserAction extends AbstractAction {
 	 * @return
 	 */
 	public String initQuery() {
+		try {
+			userList = userService.allUsers(getTenantId());
+		} catch (BusinessHandleException e) {
+			e.printStackTrace();
+		}
 		return SUCCESS;
 	}
 
@@ -61,10 +67,12 @@ public class UserAction extends AbstractAction {
 	 */
 	public String delete() {
 		try {
-			userService.delete(deleteIds);
+			userService.delete(WebUtil.split(deleteIds, ","));
 		} catch (BusinessHandleException e) {
+			setCorrect(false);
 			return ERROR;
 		}
+		setCorrect(true);
 		return SUCCESS;
 	}
 
@@ -88,7 +96,13 @@ public class UserAction extends AbstractAction {
 	 * 添加用户
 	 */
 	public String addUser() {
-		System.out.println(user);
+		try {
+			user.setTenant(getTenantId());
+			userService.save(user, true);
+			setCorrect(true);
+		} catch (BusinessHandleException e) {
+			setCorrect(false);
+		}
 		return SUCCESS;
 	}
 
@@ -97,35 +111,21 @@ public class UserAction extends AbstractAction {
 	 * 
 	 * @return
 	 */
-	public String save() {
+	public String updateUser() {
 		String result = "";
-		// 表示新增流程
-		if (StringUtils.equals("true", getIsNew())) {
-			user.setTenant(getTenantId());
-			user.setStatus("0");
-			try {
-				result = userService.save(user, true);
-			} catch (BusinessHandleException e) {
-				return SUCCESS;
-			}
-		}
-		// 表示修改流程
-		else {
-			try {
-				result = userService.save(user, true);
-			} catch (BusinessHandleException e) {
-				return ERROR;
-			}
-		}
-		if (StringUtils.equals(result, "")) {
+		try {
+			result = userService.save(user, false);
+		} catch (BusinessHandleException e) {
+			addActionError(e.getMessage());
 			return SUCCESS;
-		} else {
-			addActionError(getText(result));
-			return INPUT;
 		}
+		if (!StringUtils.equals(result, "")) {
+			addActionError(result);
+		}
+		return SUCCESS;
 	}
 
-	@JSON
+	@JSON(name = "items")
 	public List<User> getUserList() {
 		return userList;
 	}
@@ -138,4 +138,7 @@ public class UserAction extends AbstractAction {
 		return user;
 	}
 
+	public void setDeleteIds(String deleteIds) {
+		this.deleteIds = deleteIds;
+	}
 }
