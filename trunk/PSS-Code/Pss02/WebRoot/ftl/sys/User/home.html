@@ -27,10 +27,16 @@ var jsonStore = new dojo.data.ItemFileReadStore({
 <script type="text/javascript">
 function remove(){
 	var ids = Common.getSelectedRows("jsonGrid", "userId");
-	Common.confirm("确认要删除当前选择的用户吗?",doRemove,ids);
+	Common.confirm("确认要删除当前选择的用户吗?",doRemove,ids.toString());
 }
 function doRemove(data){
-	alert(data);
+	var params = {deleteIds:data};
+	Common.post('${request.getContextPath()}/sys/User/delete',params,afterRemove);
+}
+function afterRemove(data){
+	if(data.correct){
+		Common.refreshDataGrid("jsonGrid");
+	}	
 }
 function roleValue(value, rowIndex){
 	if(value.roleId==0){
