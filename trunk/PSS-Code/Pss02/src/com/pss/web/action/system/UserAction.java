@@ -126,11 +126,13 @@ public class UserAction extends AbstractAction {
 		try {
 			result = userService.save(user, false);
 		} catch (BusinessHandleException e) {
+			setCorrect(false);
 			addActionError(e.getMessage());
 			return SUCCESS;
 		}
 		if (!StringUtils.equals(result, "")) {
 			addActionError(result);
+			setCorrect(false);
 		}
 		return SUCCESS;
 	}
