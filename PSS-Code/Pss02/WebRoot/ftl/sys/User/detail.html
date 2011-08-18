@@ -7,7 +7,7 @@
 			<input dojoType="custom.TextInput" id="user.userName"
 				name="user.userName" required="true"
 				regExp="^[a-zA-Z][a-zA-Z0-9_]{5,15}$"
-				invalidMessage="用户名称只能包含6-16位字母或数字">
+				invalidMessage="用户名称只能包含6-16位字母或数字" value="${user.userName!}">
 		</td>
 	</tr>
 	<tr>
@@ -17,7 +17,7 @@
 		<td>
 			<input dojoType="custom.TextInput" id="user.userPassword"
 				name="user.userPassword" name="user.userPassword" required="true"
-				regExp="^[0-9|a-z|A-Z]{8,16}$" invalidMessage="用户密码必须是8至16位字母或数字">
+				regExp="^[0-9|a-z|A-Z]{8,16}$" invalidMessage="用户密码必须是8至16位字母或数字" value="${user.userPassword!}">
 		</td>
 	</tr>
 	<tr>
@@ -25,7 +25,7 @@
 			用户角色
 		</td>
 		<td>
-			<select name="user.role.roleId">
+			<select name="user.role.roleId" value="${user.role.roleId!}">
 				<option value="0">
 					店长
 				</option>
