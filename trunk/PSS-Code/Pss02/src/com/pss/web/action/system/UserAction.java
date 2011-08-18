@@ -134,6 +134,9 @@ public class UserAction extends AbstractAction {
 			addActionError(result);
 			setCorrect(false);
 		}
+		else{
+			setCorrect(true);
+		}
 		return SUCCESS;
 	}
 
