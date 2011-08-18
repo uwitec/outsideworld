@@ -89,6 +89,16 @@ public class UserAction extends AbstractAction {
 	 * @return
 	 */
 	public String update() {
+		try {
+			List<User> result = userService.queryUsers(user);
+			if (result != null && result.size() > 0) {
+				user = result.get(0);
+				return SUCCESS;
+			}
+			addActionError("用户已经被删除");
+		} catch (BusinessHandleException e) {
+			return ERROR;
+		}
 		return SUCCESS;
 	}
 
