@@ -186,5 +186,9 @@ var Common = {
 	/* 定义一个什么都不做的空方法 */
 	nullFunction : function() {
 
+	},
+	/*在一个div下面添加一条错误信息*/
+	addError : function(){
+		
 	}
 };
