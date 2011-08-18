@@ -21,12 +21,15 @@
 	</select>
 	<select id="queryList" parameterType="com.pss.domain.model.entity.sys.User"
 		resultMap="UserMapper">
-		select * from user where tenant = #{user.tenant}
-		<if test="user.name!=null">
-			and user_name like '%${user.name}%'
+		select * from user where tenant = #{tenant}
+		<if test="userId!=null">
+		    and user_id = #{userId}
+		</if>
+		<if test="userName!=null">
+			and user_name like '%${userName}%'
 	    </if>
-		<if test="user.role!=null and user.role.roleId!=null">
-			and role_id = #{role.roleId}
+		<if test="role!=null and role.roleId!=null">
+			and role_id = #{roleId}
 	    </if>
 	</select>
 	<select id="getUsersByTenantId" parameterType="java.lang.String"
