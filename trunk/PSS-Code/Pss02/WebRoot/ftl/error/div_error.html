@@ -1,0 +1,12 @@
+<script type="text/javascript">
+<#if (errors.size()>0)>    
+    <#list errors?keys as key>
+        CommonFunction.addActionError("${key}","${errors[key]}")
+    </#list>    
+</#if>
+<#if (actionErrors.size()>0)>
+<#list actionErrors as item>
+        CommonFunction.addActionError("${item}","${item}")
+</#list>  
+</#if>
+</script>
