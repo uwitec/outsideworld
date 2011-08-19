@@ -65,10 +65,12 @@ public class UserService extends AbstractService implements IUserService {
 				return "data.deleted";
 			}
 			List<String> ids = new ArrayList<String>();
-			ids.add(user.getUserId());
+			ids.add(oldUser.getUserId());
 			userRepository.delete(ids);
+			user.setUserId(oldUser.getUserId());
+		} else {
+			user.setUserId(nextStr("user", 64));
 		}
-		user.setUserId(nextStr("user", 64));
 		userRepository.add(user);
 		return "";
 	}

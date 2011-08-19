@@ -1,8 +1,14 @@
+<#if user??>
+    <#assign tenant=user.tenant>
+    <#assign userName=user.userName>
+    <#assign userPassword=user.userPassword>
+    <#assign a=user.role.roleId>
+</#if>
 <table>
     <tr>
 		<td>
 			<input  id="user.tenant"
-				name="user.tenant" required="true" value="${user.tenant!}" style="display: none">
+				name="user.tenant" required="true" value="${tenant!}" style="display: none">
 		</td>
 	</tr>
 	<tr>
@@ -13,7 +19,7 @@
 			<input dojoType="custom.TextInput" id="user.userName"
 				name="user.userName" required="true"
 				regExp="^[a-zA-Z][a-zA-Z0-9_]{5,15}$"
-				invalidMessage="用户名称只能包含6-16位字母或数字" value="${user.userName!}">
+				invalidMessage="用户名称只能包含6-16位字母或数字" value="${userName!}">
 		</td>
 	</tr>
 	<tr>
@@ -22,8 +28,8 @@
 		</td>
 		<td>
 			<input dojoType="custom.TextInput" id="user.userPassword"
-				name="user.userPassword" name="user.userPassword" required="true"
-				regExp="^[0-9|a-z|A-Z]{8,16}$" invalidMessage="用户密码必须是8至16位字母或数字" value="${user.userPassword!}">
+				name="user.userPassword" required="true"
+				regExp="^[0-9|a-z|A-Z]{8,16}$" invalidMessage="用户密码必须是8至16位字母或数字" value="${userPassword!}">
 		</td>
 	</tr>
 	<tr>
@@ -31,7 +37,7 @@
 			用户角色
 		</td>
 		<td>
-			<select name="user.role.roleId" value="${user.role.roleId!}">
+			<select name="user.role.roleId" value="${a!}">
 				<option value="0">
 					店长
 				</option>
