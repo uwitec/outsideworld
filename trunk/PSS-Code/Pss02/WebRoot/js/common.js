@@ -143,7 +143,7 @@ var Common = {
 							function(attribute) {
 								if (attribute == field) {
 									var value = grid.store.getValues(
-											selectedItem, "userId");
+											selectedItem, field);
 									ids[i++] = value;
 								}
 							});
@@ -187,8 +187,8 @@ var Common = {
 	nullFunction : function() {
 
 	},
-	/*在一个div下面添加一条错误信息*/
-	addError : function(){
-		
+	/* 在一个div下面添加一条错误信息 */
+	addError : function() {
+
 	}
 };
