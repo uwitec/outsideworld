@@ -56,6 +56,13 @@ public class User implements IEntity {
     	userRepository.updateLastLoginTime(this);
     }
     
+    public boolean isRepeateName(UserRepository userRepository) throws BusinessHandleException{
+    	if(userRepository.query(this)!=null){
+    		return true;
+    	}
+    	return false;
+    }
+    
 	public String getUserId() {
 		return userId;
 	}
