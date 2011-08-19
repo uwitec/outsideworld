@@ -41,7 +41,7 @@ function afterRemove(data){
 function update(){
   var id = Common.getSelectedRows("jsonGrid", "userId");
   var tenant = Common.getSelectedRows("jsonGrid", "tenant");
-  Common.showDialog('新建用户','/Pss/sys/User_update?user.userId='+id+'&user.tenant='+tenant)
+  Common.showDialog('修改用户','/Pss/sys/User_update?user.userId='+id+'&user.tenant='+tenant)
 }
 function roleValue(value, rowIndex){
 	if(value.roleId==0){
