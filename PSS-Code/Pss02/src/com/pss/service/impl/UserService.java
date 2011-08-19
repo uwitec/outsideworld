@@ -69,6 +69,9 @@ public class UserService extends AbstractService implements IUserService {
 			userRepository.delete(ids);
 			user.setUserId(oldUser.getUserId());
 		} else {
+			if(user.isRepeateName(userRepository)){
+				return "user.userName.repeated";
+			}
 			user.setUserId(nextStr("user", 64));
 		}
 		userRepository.add(user);
