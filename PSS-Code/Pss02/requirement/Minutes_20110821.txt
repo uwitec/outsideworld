@@ -1,0 +1,7 @@
+1. 修改Pagination.js
+2. Update User后台错误
+3. 前台错误显示
+4. session超时，显示登陆对话框
+5. 每个action成功以后，设置correct为true
+6. action中的属性，不要全部实现setter/getter
+7. 
