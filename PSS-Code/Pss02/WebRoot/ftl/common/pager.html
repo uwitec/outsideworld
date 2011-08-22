@@ -1,0 +1,25 @@
+<div id="pager">
+	<span><a id="firstPage" href="#">首页</a> </span>
+	<span><a id="prePage" href="#">上一页</a> </span> <#if pageInfo??>
+	<#assign page=pageInfo.page> <#else> <#assign page=1> </#if>
+	<span>第<input id="page" name="pageInfo.page" type=text
+			style="width: 10px" value="${page!}">页</span>
+	<span>每页 <select id="pageSize" name="pageInfo.pageSize">
+			<option value="1">
+				1
+			</option>
+			<option value="10">
+				10
+			</option>
+			<option value="20">
+				20
+			</option>
+			<option value="50">
+				50
+			</option>
+		</select>行 </span>
+	<span><a id="nextPage" href="#">下一页</a> </span>
+	<span><a id="lastPage" href="#">末页</a> </span>
+	<span>共<span id="total" name="pageInfo.total"><#if
+			pageInfo??>${pageInfo.total!}<#else>0</#if></span>页</span>
+</div>
