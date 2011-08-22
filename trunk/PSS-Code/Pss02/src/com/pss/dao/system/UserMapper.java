@@ -23,6 +23,8 @@ public interface UserMapper {
 	public void insert(User user);
 
 	public User query(User user);
+	
+	public User queryById(String userId);
 
 	public void updateLastLoginTime(User user);
 

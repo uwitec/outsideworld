@@ -46,6 +46,10 @@ public class UserRepository {
 		return userMapper.query(user);
 	}
 	
+	public User queryById(String userId) throws BusinessHandleException {
+		return userMapper.queryById(userId);
+	}
+	
 	public List<User> queryList(User user) throws BusinessHandleException {
 		return userMapper.queryList(user);
 	}

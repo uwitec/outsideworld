@@ -19,6 +19,9 @@
 		resultMap="UserMapper">
 		select * from user where user_name = #{userName} and tenant = #{tenant}
 	</select>
+	<select id="queryById" parameterType="java.lang.String" resultMap="UserMapper">
+	    select * from user where user_id=#{userId}
+	</select>
 	<select id="queryList" parameterType="com.pss.domain.model.entity.sys.User"
 		resultMap="UserMapper">
 		select * from user where tenant = #{tenant}

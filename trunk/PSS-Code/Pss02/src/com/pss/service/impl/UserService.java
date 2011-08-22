@@ -60,7 +60,7 @@ public class UserService extends AbstractService implements IUserService {
 	public String save(User user, boolean isNew) throws BusinessHandleException {
 		// 标志是否需要做用户名是唯一的校验，默认使用
 		if (!isNew) {
-			User oldUser = userRepository.query(user);
+			User oldUser = userRepository.queryById(user.getUserId());
 			if (oldUser == null) {
 				return "data.deleted";
 			}
