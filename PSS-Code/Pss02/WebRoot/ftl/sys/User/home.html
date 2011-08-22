@@ -7,8 +7,6 @@ var jsonStore = new dojo.data.ItemFileReadStore({
 </script>
 
 <div dojoType="dijit.Toolbar">
-    <button dojoType="dijit.form.Button"
-		onClick="">查询</button>
 	<button dojoType="dijit.form.Button"
 		onClick="Common.showDialog('新建用户','/Pss/sys/User_add')">新建</button>
 	<button dojoType="dijit.form.Button"
@@ -16,6 +14,33 @@ var jsonStore = new dojo.data.ItemFileReadStore({
 	<button dojoType="dijit.form.Button" onClick="remove()">删除</button>
 </div>
 <br />
+<form id="searchForm">
+<table align="center">
+<tr>
+    <th>用户名：</th>
+    <td><input id="user.userName" name="user.userName"/></td>
+    <th>角色：</th>
+    <td><select name="user.role.roleId">
+				<option value="0">
+					店长
+				</option>
+				<option value="1">
+					采购员
+				</option>
+				<option value="2">
+					仓库管理员
+				</option>
+				<option value="3">
+					销售员
+				</option>
+			</select>
+	</td>
+	<td>
+	<button dojoType="dijit.form.Button"
+		onClick="Common.submitFormAsync('searchForm',search)">查询</button>
+	</td>
+</tr>
+</table>
 <table id="jsonGrid" store="jsonStore" dojoType="dojox.grid.DataGrid"
 	rowSelector="20px" height="80%">
 	<thead>
@@ -26,7 +51,11 @@ var jsonStore = new dojo.data.ItemFileReadStore({
 		</tr>
 	</thead>
 </table>
+</form>
 <script type="text/javascript">
+function search(){
+    var query="";
+}
 function remove(){
 	var ids = Common.getSelectedRows("jsonGrid", "userId");
 	Common.confirm("确认要删除当前选择的用户吗?",doRemove,ids.toString());
