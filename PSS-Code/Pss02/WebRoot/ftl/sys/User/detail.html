@@ -1,4 +1,5 @@
 <#if user??>
+     <#assign userId=user.userId>
     <#assign tenant=user.tenant>
     <#assign userName=user.userName>
     <#assign userPassword=user.userPassword>
@@ -6,6 +7,10 @@
 </#if>
 <table>
     <tr>
+        <td>
+			<input  id="user.userId"
+				name="user.userId" required="true" value="${userId!}" style="display: none">
+		</td>
 		<td>
 			<input  id="user.tenant"
 				name="user.tenant" required="true" value="${tenant!}" style="display: none">
