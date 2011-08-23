@@ -2,8 +2,8 @@
 	<span><a id="firstPage" href="#" onclick="goto(1)">首页</a> </span> <span><a
 		id="prePage" href="#" onclick="prePage()">上一页</a> </span> <span>第<label
 		id="page">1</label>页</span> <span>每页 <select id="pageSize"
-		name="pageSize">
-			<option value="1">1</option>
+		name="pageSize" onchange="setPageSize()">
+			<option value="5">5</option>
 			<option value="10">10</option>
 			<option value="20">20</option>
 			<option value="50">50</option>
@@ -12,7 +12,8 @@
 		id="totalPage">1</label>页</span>
 	<script type="text/javascript">
 	function goto(page){
-		var params = {page:page};
+		var pageSize = parseInt(document.getElementById("pageSize").value);
+		var params = {page:page,pageSize:pageSize};
 		Common.refreshDataGrid("jsonGrid",null,params);
 	}
 
@@ -38,6 +39,10 @@
 	function lastPage(){
 		var totalPage = parseInt(document.getElementById("totalPage").innerHTML);
 		goto(totalPage);
+	}
+
+	function setPageSize(){
+		goto(1);
 	}
 	</script>
 </div>
