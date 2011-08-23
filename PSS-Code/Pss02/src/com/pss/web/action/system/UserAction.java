@@ -3,23 +3,20 @@ package com.pss.web.action.system;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.struts2.json.annotations.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.pss.domain.model.entity.sys.User;
 import com.pss.exception.BusinessHandleException;
 import com.pss.service.IUserService;
-import com.pss.web.action.AbstractAction;
+import com.pss.web.action.PaginationAction;
 import com.pss.web.util.WebUtil;
 
-public class UserAction extends AbstractAction {
+public class UserAction extends PaginationAction<User> {
 
 	private static final long serialVersionUID = 1L;
 
 	@Autowired
 	private IUserService userService;
-
-	private List<User> userList;
 
 	private User user;
 	// 需要删除的用户id列表
@@ -36,7 +33,11 @@ public class UserAction extends AbstractAction {
 	 */
 	public String initQuery() {
 		try {
-			userList = userService.allUsers(getTenantId());
+			User user = new User();
+			user.setTenant(getTenantId());
+			totalCount = userService.queryCount(user);
+
+			items = userService.allUsers(getTenantId(), getOffset(), pageSize);
 		} catch (BusinessHandleException e) {
 			e.printStackTrace();
 		}
@@ -53,7 +54,7 @@ public class UserAction extends AbstractAction {
 			return INPUT;
 		}
 		try {
-			userList = userService.queryUsers(user);
+			items = userService.queryUsers(user);
 		} catch (BusinessHandleException e) {
 			return ERROR;
 		}
@@ -133,16 +134,10 @@ public class UserAction extends AbstractAction {
 		if (!StringUtils.equals(result, "")) {
 			addActionError(result);
 			setCorrect(false);
-		}
-		else{
+		} else {
 			setCorrect(true);
 		}
 		return SUCCESS;
-	}
-
-	@JSON(name = "items")
-	public List<User> getUserList() {
-		return userList;
 	}
 
 	public void setUser(User user) {
