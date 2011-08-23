@@ -1,49 +1,32 @@
-<script type="text/javascript">
-var jsonStore = new dojo.data.ItemFileReadStore({  
-    url: '${request.getContextPath()}/sys/User/initQuery',
-    urlPreventCache : true,
-    clearOnClose : true
-}); 
-</script>
-
 <div dojoType="dijit.Toolbar">
 	<button dojoType="dijit.form.Button"
 		onClick="Common.showDialog('新建用户','/Pss/sys/User_add')">新建</button>
-	<button dojoType="dijit.form.Button"
-		onClick="update()">修改</button>
+	<button dojoType="dijit.form.Button" onClick="update()">修改</button>
 	<button dojoType="dijit.form.Button" onClick="remove()">删除</button>
 </div>
 <br />
 <form id="searchForm">
-<table align="center">
-<tr>
-    <th>用户名：</th>
-    <td><input id="user.userName" name="user.userName"/></td>
-    <th>角色：</th>
-    <td><select name="user.role.roleId">
-				<option value="0">
-					店长
-				</option>
-				<option value="1">
-					采购员
-				</option>
-				<option value="2">
-					仓库管理员
-				</option>
-				<option value="3">
-					销售员
-				</option>
+	<table align="center">
+		<tr>
+			<th>用户名：</th>
+			<td><input id="user.userName" name="user.userName" /></td>
+			<th>角色：</th>
+			<td><select name="user.role.roleId">
+					<option value="0">店长</option>
+					<option value="1">采购员</option>
+					<option value="2">仓库管理员</option>
+					<option value="3">销售员</option>
 			</select>
-	</td>
-	<td>
-	<button dojoType="dijit.form.Button"
-		onClick="Common.submitFormAsync('searchForm',search)">查询</button>
-	</td>
-</tr>
-</table>
+			</td>
+			<td>
+				<button dojoType="dijit.form.Button"
+					onClick="Common.submitFormAsync('searchForm',search)">查询</button>
+			</td>
+		</tr>
+	</table>
 </form>
-<table id="jsonGrid" store="jsonStore" dojoType="dojox.grid.DataGrid"
-	rowSelector="20px" height="80%">
+<table id="jsonGrid" onComplete="alert('rr')"
+	dojoType="dojox.grid.DataGrid" rowSelector="20px" height="80%">
 	<thead>
 		<tr>
 			<th field="userName" width="auto">账号</th>
@@ -54,6 +37,9 @@ var jsonStore = new dojo.data.ItemFileReadStore({
 </table>
 <#include "../../common/pager.html"/>
 <script type="text/javascript">
+function init(){
+	Common.refreshDataGrid("jsonGrid","${request.getContextPath()}/sys/User/initQuery");	
+}
 function search(){
     var query="";
 }
