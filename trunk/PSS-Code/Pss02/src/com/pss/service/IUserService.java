@@ -38,7 +38,8 @@ public interface IUserService {
 	public LoginResult login(User user, String tenantName)
 			throws BusinessHandleException;
 
-	public List<User> allUsers(String tenant) throws BusinessHandleException;
+	public List<User> allUsers(String tenant, int offset, int pageSize)
+			throws BusinessHandleException;
 
 	/**
 	 * 查询user
@@ -48,6 +49,8 @@ public interface IUserService {
 	 * @throws BusinessHandleException
 	 */
 	public List<User> queryUsers(User user) throws BusinessHandleException;
+
+	public int queryCount(User user) throws BusinessHandleException;
 
 	/**
 	 * 
