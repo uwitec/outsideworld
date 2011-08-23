@@ -14,7 +14,7 @@ public abstract class PaginationAction<T> extends AbstractAction {
 	private static final long serialVersionUID = 1L;
 
 	protected int page = 1;
-	protected int pageSize = 3;
+	protected int pageSize = 5;
 	protected int totalCount;
 	protected List<T> items;
 
