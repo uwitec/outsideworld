@@ -1,6 +1,7 @@
 package com.pss.dao.system;
 
 import java.util.List;
+import java.util.Map;
 
 import com.pss.domain.model.entity.sys.User;
 
@@ -23,14 +24,16 @@ public interface UserMapper {
 	public void insert(User user);
 
 	public User query(User user);
-	
+
+	public int queryCount(User user);
+
 	public User queryById(String userId);
 
 	public void updateLastLoginTime(User user);
 
-	public List<User> getUsersByTenantId(String tenantId);
-	
+	public List<User> getUsersByTenantId(Map<String, Object> params);
+
 	public List<User> queryList(User user);
-	
+
 	public void delete(String id);
 }
