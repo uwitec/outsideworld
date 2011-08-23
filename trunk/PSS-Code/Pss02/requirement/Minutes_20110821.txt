@@ -1,4 +1,4 @@
-1. 修改Pagination.js
+1. 修改Pagination.js(完成，添加pager.html)
 2. Update User后台错误
 3. 前台错误显示
 4. session超时，显示登陆对话框
