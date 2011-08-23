@@ -120,20 +120,41 @@ var Common = {
 		}
 	},
 	/* 刷新表格数据 */
-	refreshDataGrid : function(dataGridId) {
-		var grid = dijit.byId("jsonGrid");
-		var url = grid.store.url;
-		var newStore = new dojo.data.ItemFileReadStore({
+	refreshDataGrid : function(tableId, url, data) {
+		var grid = dijit.byId(tableId);
+		if (!grid) {
+			return;
+		}
+		if (!url) {
+			url = grid.params;
+		}
+		var xhrArgs = {
+			common : this,
+			grid : grid,
 			url : url,
-			urlPreventCache : true,
-			clearOnClose : true
-		});
-		grid.setStore(newStore);
+			handleAs : "json",
+			content : data,
+			load : function(response) {
+				var newStore = new dojo.data.ItemFileReadStore({
+					data : response,
+					urlPreventCache : true,
+					clearOnClose : true
+				});
+				this.grid.params = url;
+				this.grid.setStore(newStore);
+				this.common.refreshPager(response);
+			}
+		};
+		dojo.xhrPost(xhrArgs);
+	},
+	/* 刷新分页信息 */
+	refreshPager : function(data) {
+		document.getElementById("page").innerHTML = data.page;
+		document.getElementById("totalPage").innerHTML = data.totalPage;
 	},
 	/* 取得表格当前所选择的行对应的字段 */
 	getSelectedRows : function(dataGridId, field) {
-		var grid = dijit.byId(dataGridId);
-		var items = grid.selection.getSelected();
+		var items = dijit.byId(dataGridId).selection.getSelected();
 		if (items.length) {
 			var ids = new Array(items.length);
 			var i = 0;
