@@ -40,8 +40,8 @@ public class UserService extends AbstractService implements IUserService {
 	}
 
 	@Override
-	public List<User> allUsers(String tenant) {
-		return userRepository.getUsersByTenantId(tenant);
+	public List<User> allUsers(String tenant, int offset, int pageSize) {
+		return userRepository.getUsersByTenantId(tenant, offset, pageSize);
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class UserService extends AbstractService implements IUserService {
 			userRepository.delete(ids);
 			user.setUserId(oldUser.getUserId());
 		} else {
-			if(user.isRepeateName(userRepository)){
+			if (user.isRepeateName(userRepository)) {
 				return "user.userName.repeated";
 			}
 			user.setUserId(nextStr("user", 64));
@@ -92,5 +92,10 @@ public class UserService extends AbstractService implements IUserService {
 
 	public void setTenantRepository(TenantRepository tenantRepository) {
 		this.tenantRepository = tenantRepository;
+	}
+
+	@Override
+	public int queryCount(User user) throws BusinessHandleException {
+		return userRepository.queryCount(user);
 	}
 }
