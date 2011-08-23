@@ -14,7 +14,9 @@
 
 package com.pss.domain.repository.system;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.pss.dao.system.UserMapper;
 import com.pss.domain.model.entity.sys.User;
@@ -45,11 +47,11 @@ public class UserRepository {
 	public User query(User user) throws BusinessHandleException {
 		return userMapper.query(user);
 	}
-	
+
 	public User queryById(String userId) throws BusinessHandleException {
 		return userMapper.queryById(userId);
 	}
-	
+
 	public List<User> queryList(User user) throws BusinessHandleException {
 		return userMapper.queryList(user);
 	}
@@ -59,17 +61,30 @@ public class UserRepository {
 	}
 
 	public void delete(List<String> ids) throws BusinessHandleException {
-        for(String id:ids){
-        	userMapper.delete(id);
-        }
+		for (String id : ids) {
+			userMapper.delete(id);
+		}
 	}
 
-	public List<User> getUsersByTenantId(String tenantId) {
-		return userMapper.getUsersByTenantId(tenantId);
+	public int queryCount(User user) {
+		return userMapper.queryCount(user);
+	}
+
+	public List<User> getUsersByTenantId(String tenant, int offset, int pageSize) {
+		Map<String, Object> params = new HashMap<String, Object>(3);
+		params.put("tenant", tenant);
+		params.put("offset", offset);
+		params.put("pageSize", pageSize);
+
+		return userMapper.getUsersByTenantId(params);
 	}
 
 	public void updateLastLoginTime(User user) throws BusinessHandleException {
-		userMapper.updateLastLoginTime(user);
+		try {
+			userMapper.updateLastLoginTime(user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public UserMapper getUserMapper() {
