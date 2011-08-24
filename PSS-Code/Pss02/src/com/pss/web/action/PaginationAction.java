@@ -1,6 +1,9 @@
 package com.pss.web.action;
 
+import java.lang.reflect.ParameterizedType;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 分页Action
@@ -17,7 +20,31 @@ public abstract class PaginationAction<T> extends AbstractAction {
 	protected int pageSize = 5;
 	protected int totalCount;
 	protected List<T> items;
+
+	protected T entity;
 	protected String selectedIds;
+
+	private Map<String, Object> query = new HashMap<String, Object>();
+
+	protected Map<String, Object> getQuery() {
+		query.put("tenant", getTenantId());
+		query.put("offset", getOffset());
+		query.put("limit", getPageSize());
+		return query;
+	}
+
+	@SuppressWarnings("unchecked")
+	public PaginationAction() {
+		Class<T> entityClass = (Class<T>) ((ParameterizedType) getClass()
+				.getGenericSuperclass()).getActualTypeArguments()[0];
+		try {
+			entity = entityClass.newInstance();
+		} catch (InstantiationException e) {
+			// Ignore
+		} catch (IllegalAccessException e) {
+			// Ignore
+		}
+	}
 
 	/**
 	 * 起始记录数（数据库）
@@ -111,6 +138,24 @@ public abstract class PaginationAction<T> extends AbstractAction {
 		} else {
 			return items.size();
 		}
+	}
+
+	/**
+	 * 设置当前实体
+	 * 
+	 * @param entity
+	 */
+	public void setEntity(T entity) {
+		this.entity = entity;
+	}
+
+	/**
+	 * 返回当前实体
+	 * 
+	 * @return
+	 */
+	public T getEntity() {
+		return entity;
 	}
 
 	/**
