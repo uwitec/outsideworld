@@ -2,6 +2,7 @@ package com.pss.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,13 +41,25 @@ public class UserService extends AbstractService implements IUserService {
 	}
 
 	@Override
-	public List<User> allUsers(String tenant, int offset, int pageSize) {
-		return userRepository.getUsersByTenantId(tenant, offset, pageSize);
+	public User find(String id) throws BusinessHandleException {
+		return userRepository.queryById(id);
 	}
 
 	@Override
-	public List<User> queryUsers(User user) throws BusinessHandleException {
-		return userRepository.queryList(user);
+	public List<User> queryByParams(Map<String, Object> params)
+			throws BusinessHandleException {
+		return userRepository.queryList(params);
+	}
+
+	@Override
+	public int countByParams(Map<String, Object> params)
+			throws BusinessHandleException {
+		try {
+			return userRepository.queryCount(params);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
 	}
 
 	@Transactional
@@ -91,10 +104,5 @@ public class UserService extends AbstractService implements IUserService {
 
 	public void setTenantRepository(TenantRepository tenantRepository) {
 		this.tenantRepository = tenantRepository;
-	}
-
-	@Override
-	public int queryCount(User user) throws BusinessHandleException {
-		return userRepository.queryCount(user);
 	}
 }
