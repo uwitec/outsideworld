@@ -34,23 +34,9 @@ import com.pss.exception.BusinessHandleException;
  * @version 1.0
  * @since Jun 27, 2011
  */
-public interface IUserService {
+public interface IUserService extends IBusinessService<User> {
 	public LoginResult login(User user, String tenantName)
 			throws BusinessHandleException;
-
-	public List<User> allUsers(String tenant, int offset, int pageSize)
-			throws BusinessHandleException;
-
-	/**
-	 * 查询user
-	 * 
-	 * @param user
-	 * @return
-	 * @throws BusinessHandleException
-	 */
-	public List<User> queryUsers(User user) throws BusinessHandleException;
-
-	public int queryCount(User user) throws BusinessHandleException;
 
 	/**
 	 * 
