@@ -25,15 +25,13 @@ public interface UserMapper {
 
 	public User query(User user);
 
-	public int queryCount(User user);
+	public int queryCount(Map<String, Object> params);
 
 	public User queryById(String userId);
 
 	public void updateLastLoginTime(User user);
 
-	public List<User> getUsersByTenantId(Map<String, Object> params);
-
-	public List<User> queryList(User user);
+	public List<User> queryList(Map<String, Object> params);
 
 	public void delete(String id);
 }

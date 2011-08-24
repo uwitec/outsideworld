@@ -24,8 +24,7 @@
 		resultMap="UserMapper">
 		select * from user where user_id=#{userId}
 	</select>
-	<select id="queryList" parameterType="com.pss.domain.model.entity.sys.User"
-		resultMap="UserMapper">
+	<select id="queryList" parameterType="java.util.Map" resultMap="UserMapper">
 		select * from user where tenant = #{tenant}
 		<if test="userId!=null">
 			and user_id = #{userId}
@@ -33,9 +32,11 @@
 		<if test="userName!=null">
 			and user_name like '%${userName}%'
 	    </if>
-		<if test="role!=null and role.roleId!=null">
-			and role_id = #{role.roleId}
+		<if test="roleId!=null">
+			and role_id = #{roleId}
 	    </if>
+		limit
+		#{offset},#{limit}
 	</select>
 	<select id="getUsersByTenantId" parameterType="java.util.Map"
 		resultMap="UserMapper">
@@ -43,7 +44,7 @@
 		limit
 		#{offset},#{pageSize}
 	</select>
-	<select id="queryCount" parameterType="com.pss.domain.model.entity.sys.User"
+	<select id="queryCount" parameterType="java.util.Map"
 		resultType="java.lang.Integer">
 		select count(*) from user where tenant = #{tenant}
 		<if test="userId!=null">
@@ -52,7 +53,7 @@
 		<if test="userName!=null">
 			and user_name like '%${userName}%'
 	    </if>
-		<if test="role!=null and role.roleId!=null">
+		<if test="roleId!=null">
 			and role_id = #{roleId}
 	    </if>
 	</select>
