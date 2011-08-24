@@ -58,7 +58,9 @@ public class UserService extends AbstractService implements IUserService {
 	@Transactional
 	@Override
 	public String save(User user, boolean isNew) throws BusinessHandleException {
-		// 标志是否需要做用户名是唯一的校验，默认使用
+		if (user.isRepeateName(userRepository)) {
+			return "user.userName.repeated";
+		}
 		if (!isNew) {
 			User oldUser = userRepository.queryById(user.getUserId());
 			if (oldUser == null) {
@@ -69,9 +71,6 @@ public class UserService extends AbstractService implements IUserService {
 			userRepository.delete(ids);
 			user.setUserId(oldUser.getUserId());
 		} else {
-			if (user.isRepeateName(userRepository)) {
-				return "user.userName.repeated";
-			}
 			user.setUserId(nextStr("user", 64));
 		}
 		userRepository.add(user);

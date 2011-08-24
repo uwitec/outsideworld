@@ -16,6 +16,8 @@ package com.pss.domain.model.entity.sys;
 
 import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.pss.common.annotation.FieldValidation;
 import com.pss.domain.model.entity.IEntity;
 import com.pss.domain.repository.system.UserRepository;
@@ -57,7 +59,8 @@ public class User implements IEntity {
     }
     
     public boolean isRepeateName(UserRepository userRepository) throws BusinessHandleException{
-    	if(userRepository.query(this)!=null){
+        User user = userRepository.query(this);
+    	if(user!=null&&(StringUtils.isBlank(userId)||!StringUtils.equals(userId,user.getUserId()))){
     		return true;
     	}
     	return false;
