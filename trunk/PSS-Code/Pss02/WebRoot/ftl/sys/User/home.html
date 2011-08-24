@@ -9,18 +9,17 @@
 	<table align="center">
 		<tr>
 			<th>用户名：</th>
-			<td><input id="user.userName" name="user.userName" /></td>
+			<td><input id="user.userName" name="user.userName" />
+			</td>
 			<th>角色：</th>
 			<td><select name="user.role.roleId">
 					<option value="0">店长</option>
 					<option value="1">采购员</option>
 					<option value="2">仓库管理员</option>
 					<option value="3">销售员</option>
-			</select>
-			</td>
+			</select></td>
 			<td>
-				<button dojoType="dijit.form.Button"
-					onClick="Common.submitFormAsync('searchForm',search)">查询</button>
+				<button dojoType="dijit.form.Button" onClick="search()">查询</button>
 			</td>
 		</tr>
 	</table>
@@ -41,7 +40,8 @@ function init(){
 	Common.refreshDataGrid("jsonGrid","${request.getContextPath()}/sys/User/initQuery");	
 }
 function search(){
-    var query="";
+	var params = dojo.formToObject("searchForm");
+	Common.refreshDataGrid("jsonGrid","${request.getContextPath()}/sys/User/query",params);
 }
 function remove(){
 	var ids = Common.getSelectedRows("jsonGrid", "userId");
