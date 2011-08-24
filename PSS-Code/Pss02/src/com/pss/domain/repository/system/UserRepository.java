@@ -14,7 +14,6 @@
 
 package com.pss.domain.repository.system;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -52,8 +51,9 @@ public class UserRepository {
 		return userMapper.queryById(userId);
 	}
 
-	public List<User> queryList(User user) throws BusinessHandleException {
-		return userMapper.queryList(user);
+	public List<User> queryList(Map<String, Object> params)
+			throws BusinessHandleException {
+		return userMapper.queryList(params);
 	}
 
 	public void update(User user) throws BusinessHandleException {
@@ -66,17 +66,8 @@ public class UserRepository {
 		}
 	}
 
-	public int queryCount(User user) {
-		return userMapper.queryCount(user);
-	}
-
-	public List<User> getUsersByTenantId(String tenant, int offset, int pageSize) {
-		Map<String, Object> params = new HashMap<String, Object>(3);
-		params.put("tenant", tenant);
-		params.put("offset", offset);
-		params.put("pageSize", pageSize);
-
-		return userMapper.getUsersByTenantId(params);
+	public int queryCount(Map<String, Object> params) {
+		return userMapper.queryCount(params);
 	}
 
 	public void updateLastLoginTime(User user) throws BusinessHandleException {
