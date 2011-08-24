@@ -11,6 +11,11 @@ import com.pss.service.IUserService;
 import com.pss.web.action.PaginationAction;
 import com.pss.web.util.WebUtil;
 
+/**
+ * 
+ * @author Aries Zhao
+ * 
+ */
 public class UserAction extends PaginationAction<User> {
 
 	private static final long serialVersionUID = 1L;
@@ -19,10 +24,34 @@ public class UserAction extends PaginationAction<User> {
 	private IUserService userService;
 
 	private User user;
-	// 需要删除的用户id列表
-	private String deleteIds;
 
+	@Override
 	public String home() {
+		return SUCCESS;
+	}
+
+	@Override
+	public String add() {
+		return SUCCESS;
+	}
+
+	@Override
+	public String update() {
+		try {
+			List<User> result = userService.queryUsers(user);
+			if (result != null && result.size() > 0) {
+				user = result.get(0);
+				return SUCCESS;
+			}
+			addActionError("用户已经被删除");
+		} catch (BusinessHandleException e) {
+			return ERROR;
+		}
+		return SUCCESS;
+	}
+
+	@Override
+	public String delete() {
 		return SUCCESS;
 	}
 
@@ -44,10 +73,8 @@ public class UserAction extends PaginationAction<User> {
 		return SUCCESS;
 	}
 
-	/*
-	 * 用户查询(查询条件主要为用户名和角色名称，其中角色是可以下拉选择的，用户名称可以支持模糊匹配)
-	 */
-	public String query() {
+	@Override
+	public String queryEntity() {
 		// 获得当前登陆用户的tanentId
 		String tanentId = getTenantId();
 		if (StringUtils.isBlank(tanentId)) {
@@ -62,52 +89,8 @@ public class UserAction extends PaginationAction<User> {
 		return SUCCESS;
 	}
 
-	/**
-	 * 用户删除
-	 * 
-	 * @return
-	 */
-	public String delete() {
-		try {
-			userService.delete(WebUtil.split(deleteIds, ","));
-		} catch (BusinessHandleException e) {
-			setCorrect(false);
-			return ERROR;
-		}
-		setCorrect(true);
-		return SUCCESS;
-	}
-
-	/*
-	 * 新建用户
-	 */
-	public String add() {
-		return SUCCESS;
-	}
-
-	/**
-	 * 修改用户
-	 * 
-	 * @return
-	 */
-	public String update() {
-		try {
-			List<User> result = userService.queryUsers(user);
-			if (result != null && result.size() > 0) {
-				user = result.get(0);
-				return SUCCESS;
-			}
-			addActionError("用户已经被删除");
-		} catch (BusinessHandleException e) {
-			return ERROR;
-		}
-		return SUCCESS;
-	}
-
-	/*
-	 * 添加用户
-	 */
-	public String addUser() {
+	@Override
+	public String addEntity() {
 		try {
 			user.setTenant(getTenantId());
 			userService.save(user, true);
@@ -118,12 +101,20 @@ public class UserAction extends PaginationAction<User> {
 		return SUCCESS;
 	}
 
-	/**
-	 * 保存用户
-	 * 
-	 * @return
-	 */
-	public String updateUser() {
+	@Override
+	public String deleteEntity() {
+		try {
+			userService.delete(WebUtil.split(selectedIds, ","));
+		} catch (BusinessHandleException e) {
+			setCorrect(false);
+			return ERROR;
+		}
+		setCorrect(true);
+		return SUCCESS;
+	}
+
+	@Override
+	public String updateEntity() {
 		String result = "";
 		try {
 			result = userService.save(user, false);
@@ -147,9 +138,5 @@ public class UserAction extends PaginationAction<User> {
 
 	public User getUser() {
 		return user;
-	}
-
-	public void setDeleteIds(String deleteIds) {
-		this.deleteIds = deleteIds;
 	}
 }

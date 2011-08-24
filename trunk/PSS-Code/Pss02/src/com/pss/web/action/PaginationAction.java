@@ -17,17 +17,51 @@ public abstract class PaginationAction<T> extends AbstractAction {
 	protected int pageSize = 5;
 	protected int totalCount;
 	protected List<T> items;
+	protected String selectedIds;
 
-	public List<T> getItems() {
-		return items;
+	/**
+	 * 起始记录数（数据库）
+	 * 
+	 * @return
+	 */
+	protected int getOffset() {
+		return page * pageSize - pageSize;
 	}
 
+	/**
+	 * 设置页码
+	 * 
+	 * @param page
+	 */
 	public void setPage(int page) {
 		this.page = page;
 	}
 
+	/**
+	 * 设置每页行数
+	 * 
+	 * @param pageSize
+	 */
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
+	}
+
+	/**
+	 * 设置当前选择的ID
+	 * 
+	 * @param selectedIds
+	 */
+	public void setSelectedIds(String selectedIds) {
+		this.selectedIds = selectedIds;
+	}
+
+	/**
+	 * 当前页的记录
+	 * 
+	 * @return
+	 */
+	public List<T> getItems() {
+		return items;
 	}
 
 	/**
@@ -40,15 +74,6 @@ public abstract class PaginationAction<T> extends AbstractAction {
 	}
 
 	/**
-	 * 总行数
-	 * 
-	 * @return
-	 */
-	public int getTotalCount() {
-		return totalCount;
-	}
-
-	/**
 	 * 总页数
 	 * 
 	 * @return
@@ -58,29 +83,12 @@ public abstract class PaginationAction<T> extends AbstractAction {
 	}
 
 	/**
-	 * 后一页页码
+	 * 总行数
 	 * 
 	 * @return
 	 */
-	public int getNextPage() {
-		if (page < getTotalPage()) {
-			return page + 1;
-		} else {
-			return getTotalPage();
-		}
-	}
-
-	/**
-	 * 前一页页码
-	 * 
-	 * @return
-	 */
-	public int getPrePage() {
-		if (page > 1) {
-			return page - 1;
-		} else {
-			return 1;
-		}
+	public int getTotalCount() {
+		return totalCount;
 	}
 
 	/**
@@ -106,29 +114,58 @@ public abstract class PaginationAction<T> extends AbstractAction {
 	}
 
 	/**
-	 * 起始行数
+	 * 初始页面
 	 * 
 	 * @return
 	 */
-	public int getFirst() {
-		return page * pageSize - pageSize + 1;
-	}
+	abstract public String home();
 
 	/**
-	 * 末尾行数
+	 * 新建页面
 	 * 
 	 * @return
 	 */
-	public int getLast() {
-		return page * pageSize;
-	}
+	abstract public String add();
 
 	/**
-	 * 起始记录数（数据库）
+	 * 更新页面
 	 * 
 	 * @return
 	 */
-	protected int getOffset() {
-		return page * pageSize - pageSize;
-	}
+	abstract public String update();
+
+	/**
+	 * 删除页面
+	 * 
+	 * @return
+	 */
+	abstract public String delete();
+
+	/**
+	 * 新建实体
+	 * 
+	 * @return
+	 */
+	abstract public String addEntity();
+
+	/**
+	 * 更新实体
+	 * 
+	 * @return
+	 */
+	abstract public String updateEntity();
+
+	/**
+	 * 删除实体
+	 * 
+	 * @return
+	 */
+	abstract public String deleteEntity();
+
+	/**
+	 * 查询实体列表
+	 * 
+	 * @return
+	 */
+	abstract public String queryEntity();
 }
