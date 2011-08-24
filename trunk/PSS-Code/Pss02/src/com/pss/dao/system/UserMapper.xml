@@ -34,7 +34,7 @@
 			and user_name like '%${userName}%'
 	    </if>
 		<if test="role!=null and role.roleId!=null">
-			and role_id = #{roleId}
+			and role_id = #{role.roleId}
 	    </if>
 	</select>
 	<select id="getUsersByTenantId" parameterType="java.util.Map"
