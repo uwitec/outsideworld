@@ -9,9 +9,9 @@
 	<table align="center">
 		<tr>
 			<th>用户名：</th>
-			<td><input id="user.userName" name="user.userName" /></td>
+			<td><input id="entity.userName" name="entity.userName" /></td>
 			<th>角色：</th>
-			<td><select name="user.role.roleId">
+			<td><select name="entity.role.roleId">
 					<option value="0">店长</option>
 					<option value="1">采购员</option>
 					<option value="2">仓库管理员</option>
@@ -24,8 +24,8 @@
 		</tr>
 	</table>
 </form>
-<table id="jsonGrid" onComplete="alert('rr')"
-	dojoType="dojox.grid.DataGrid" rowSelector="20px" height="80%">
+<table id="jsonGrid" dojoType="dojox.grid.DataGrid" rowSelector="20px"
+	height="80%">
 	<thead>
 		<tr>
 			<th field="userName" width="auto">账号</th>
@@ -37,11 +37,11 @@
 <#include "../../common/pager.html"/>
 <script type="text/javascript">
 function init(){
-	Common.refreshDataGrid("jsonGrid","${request.getContextPath()}/sys/User/initQuery");	
+	Common.refreshDataGrid("jsonGrid","${request.getContextPath()}/sys/User/queryEntity");	
 }
 function search(){
 	var params = dojo.formToObject("searchForm");
-	Common.refreshDataGrid("jsonGrid","${request.getContextPath()}/sys/User/query",params);
+	Common.refreshDataGrid("jsonGrid","${request.getContextPath()}/sys/User/queryEntity",params);
 }
 function remove(){
 	var ids = Common.getSelectedRows("jsonGrid", "userId");
@@ -59,7 +59,7 @@ function afterRemove(data){
 function update(){
   var id = Common.getSelectedRows("jsonGrid", "userId");
   var tenant = Common.getSelectedRows("jsonGrid", "tenant");
-  Common.showDialog('修改用户','/Pss/sys/User_update?user.userId='+id+'&user.tenant='+tenant)
+  Common.showDialog('修改用户','/Pss/sys/User_update?entity.userId='+id+'&entity.tenant='+tenant)
 }
 function roleValue(value, rowIndex){
 	if(value.roleId==0){

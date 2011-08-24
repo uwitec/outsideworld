@@ -1,61 +1,40 @@
-<#if user??>
-     <#assign userId=user.userId>
-    <#assign tenant=user.tenant>
-    <#assign userName=user.userName>
-    <#assign userPassword=user.userPassword>
-    <#assign a=user.role.roleId>
+<#if entity??> <#assign userId=entity.userId> <#assign
+tenant=entity.tenant> <#assign userName=entity.userName> <#assign
+userPassword=entity.userPassword> <#assign roleId=entity.role.roleId>
 </#if>
 <table>
-    <tr>
-        <td>
-			<input  id="user.userId"
-				name="user.userId" required="true" value="${userId!}" style="display: none">
+	<tr>
+		<td><input id="entity.userId" name="entity.userId"
+			required="true" value="${userId!}" style="display: none">
 		</td>
-		<td>
-			<input  id="user.tenant"
-				name="user.tenant" required="true" value="${tenant!}" style="display: none">
+		<td><input id="entity.tenant" name="entity.tenant"
+			required="true" value="${tenant!}" style="display: none">
 		</td>
 	</tr>
 	<tr>
-		<td>
-			用户账号
-		</td>
-		<td>
-			<input dojoType="custom.TextInput" id="user.userName"
-				name="user.userName" required="true"
-				regExp="^[a-zA-Z][a-zA-Z0-9_]{5,15}$"
-				invalidMessage="用户名称只能包含6-16位字母或数字" value="${userName!}">
+		<td>用户账号</td>
+		<td><input dojoType="custom.TextInput" id="entity.userName"
+			name="entity.userName" required="true"
+			regExp="^[a-zA-Z][a-zA-Z0-9_]{5,15}$"
+			invalidMessage="用户名称只能包含6-16位字母或数字" value="${userName!}">
 		</td>
 	</tr>
 	<tr>
-		<td>
-			用户密码
-		</td>
-		<td>
-			<input dojoType="custom.TextInput" id="user.userPassword"
-				name="user.userPassword" required="true"
-				regExp="^[0-9|a-z|A-Z]{8,16}$" invalidMessage="用户密码必须是8至16位字母或数字" value="${userPassword!}">
+		<td>用户密码</td>
+		<td><input dojoType="custom.TextInput" id="entity.userPassword"
+			name="entity.userPassword" required="true"
+			regExp="^[0-9|a-z|A-Z]{8,16}$" invalidMessage="用户密码必须是8至16位字母或数字"
+			value="${userPassword!}">
 		</td>
 	</tr>
 	<tr>
-		<td>
-			用户角色
-		</td>
-		<td>
-			<select name="user.role.roleId" value="${a!}">
-				<option value="0">
-					店长
-				</option>
-				<option value="1">
-					采购员
-				</option>
-				<option value="2">
-					仓库管理员
-				</option>
-				<option value="3">
-					销售员
-				</option>
-			</select>
+		<td>用户角色</td>
+		<td><select name="entity.role.roleId" value="${roleId!}">
+				<option value="0">店长</option>
+				<option value="1">采购员</option>
+				<option value="2">仓库管理员</option>
+				<option value="3">销售员</option>
+		</select>
 		</td>
 	</tr>
 </table>
