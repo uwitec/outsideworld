@@ -154,7 +154,8 @@ var Common = {
 	},
 	/* 取得表格当前所选择的行对应的字段 */
 	getSelectedRows : function(dataGridId, field) {
-		var items = dijit.byId(dataGridId).selection.getSelected();
+		var grid = dijit.byId(dataGridId);
+		var items = grid.selection.getSelected();
 		if (items.length) {
 			var ids = new Array(items.length);
 			var i = 0;
