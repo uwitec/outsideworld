@@ -1,7 +1,5 @@
 package com.pss.web.action.system;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -23,8 +21,6 @@ public class UserAction extends PaginationAction<User> {
 	@Autowired
 	private IUserService userService;
 
-	private User user;
-
 	@Override
 	public String home() {
 		return SUCCESS;
@@ -38,38 +34,15 @@ public class UserAction extends PaginationAction<User> {
 	@Override
 	public String update() {
 		try {
-			List<User> result = userService.queryUsers(user);
-			if (result != null && result.size() > 0) {
-				user = result.get(0);
-				return SUCCESS;
-			}
-			addActionError("用户已经被删除");
+			entity = userService.find(entity.getUserId());
 		} catch (BusinessHandleException e) {
-			return ERROR;
+			addActionError("用户已经被删除");
 		}
 		return SUCCESS;
 	}
 
 	@Override
 	public String delete() {
-		return SUCCESS;
-	}
-
-	/**
-	 * 初始化查询界面，显示空列表和查询条件
-	 * 
-	 * @return
-	 */
-	public String initQuery() {
-		try {
-			User user = new User();
-			user.setTenant(getTenantId());
-			totalCount = userService.queryCount(user);
-
-			items = userService.allUsers(getTenantId(), getOffset(), pageSize);
-		} catch (BusinessHandleException e) {
-			e.printStackTrace();
-		}
 		return SUCCESS;
 	}
 
@@ -81,9 +54,16 @@ public class UserAction extends PaginationAction<User> {
 			return INPUT;
 		}
 		try {
-			user.setTenant(getTenantId());
-			items = userService.queryUsers(user);
+			getQuery().put("userName", entity.getUserName());
+			if (entity.getRole() != null)
+				getQuery().put("roleId", entity.getRole().getRoleId());
+
+			totalCount = userService.countByParams(getQuery());
+			entity.setTenant(getTenantId());
+
+			items = userService.queryByParams(getQuery());
 		} catch (BusinessHandleException e) {
+			e.printStackTrace();
 			return ERROR;
 		}
 		return SUCCESS;
@@ -92,8 +72,8 @@ public class UserAction extends PaginationAction<User> {
 	@Override
 	public String addEntity() {
 		try {
-			user.setTenant(getTenantId());
-			userService.save(user, true);
+			entity.setTenant(getTenantId());
+			userService.save(entity, true);
 			setCorrect(true);
 		} catch (BusinessHandleException e) {
 			setCorrect(false);
@@ -117,7 +97,7 @@ public class UserAction extends PaginationAction<User> {
 	public String updateEntity() {
 		String result = "";
 		try {
-			result = userService.save(user, false);
+			result = userService.save(entity, false);
 		} catch (BusinessHandleException e) {
 			setCorrect(false);
 			addActionError(e.getMessage());
@@ -130,13 +110,5 @@ public class UserAction extends PaginationAction<User> {
 			setCorrect(true);
 		}
 		return SUCCESS;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public User getUser() {
-		return user;
 	}
 }
