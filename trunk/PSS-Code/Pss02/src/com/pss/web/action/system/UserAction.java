@@ -54,6 +54,7 @@ public class UserAction extends PaginationAction<User> {
 			return INPUT;
 		}
 		try {
+			user.setTenant(getTenantId());
 			items = userService.queryUsers(user);
 		} catch (BusinessHandleException e) {
 			return ERROR;
