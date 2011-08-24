@@ -1,7 +1,7 @@
 <center>
 	<div id="addUserFormErrors"></div>
 	<form id="addUserForm" method="post"
-		action="${request.getContextPath()}/sys/User/addUser">
+		action="${request.getContextPath()}/sys/User/addEntity">
 		<#include "detail.html"/></form>
 	<button dojoType="dijit.form.Button"
 		onClick="Common.submitFormAsync('addUserForm', addUserResponse)">保存</button>

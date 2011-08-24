@@ -1,7 +1,7 @@
 <center>
 	<div id="updateUserFormErrors"></div>
 	<form id="updateUserForm" method="post"
-		action="${request.getContextPath()}/sys/User/updateUser">
+		action="${request.getContextPath()}/sys/User/updateEntity">
 		<#include "detail.html"/></form>
 	<button dojoType="dijit.form.Button"
 		onClick="Common.submitFormAsync('updateUserForm', handleResult)">保存</button>

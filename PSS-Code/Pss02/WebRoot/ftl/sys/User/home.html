@@ -9,15 +9,15 @@
 	<table align="center">
 		<tr>
 			<th>用户名：</th>
-			<td><input id="user.userName" name="user.userName" />
-			</td>
+			<td><input id="user.userName" name="user.userName" /></td>
 			<th>角色：</th>
 			<td><select name="user.role.roleId">
 					<option value="0">店长</option>
 					<option value="1">采购员</option>
 					<option value="2">仓库管理员</option>
 					<option value="3">销售员</option>
-			</select></td>
+			</select>
+			</td>
 			<td>
 				<button dojoType="dijit.form.Button" onClick="search()">查询</button>
 			</td>
@@ -48,8 +48,8 @@ function remove(){
 	Common.confirm("确认要删除当前选择的用户吗?",doRemove,ids.toString());
 }
 function doRemove(data){
-	var params = {deleteIds:data};
-	Common.post('${request.getContextPath()}/sys/User/delete',params,afterRemove);
+	var params = {selectedIds:data};
+	Common.post('${request.getContextPath()}/sys/User/deleteEntity',params,afterRemove);
 }
 function afterRemove(data){
 	if(data.correct){
