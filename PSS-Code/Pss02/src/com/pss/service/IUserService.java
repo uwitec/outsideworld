@@ -37,19 +37,4 @@ import com.pss.exception.BusinessHandleException;
 public interface IUserService extends IBusinessService<User> {
 	public LoginResult login(User user, String tenantName)
 			throws BusinessHandleException;
-
-	/**
-	 * 
-	 * @param id
-	 * @throws BusinessHandleException
-	 */
-	public void delete(List<String> id) throws BusinessHandleException;
-
-	/**
-	 * 
-	 * @param user
-	 * @param isNew
-	 * @throws BusinessHandleException
-	 */
-	public String save(User user, boolean isNew) throws BusinessHandleException;
 }

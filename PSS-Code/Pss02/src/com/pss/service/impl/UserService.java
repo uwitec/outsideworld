@@ -1,21 +1,26 @@
 package com.pss.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.pss.domain.model.entity.sys.User;
 import com.pss.domain.repository.system.TenantRepository;
 import com.pss.domain.repository.system.UserRepository;
 import com.pss.exception.BusinessHandleException;
+import com.pss.exception.EntityInvalidateException;
 import com.pss.service.IUserService;
 import com.pss.service.LoginResult;
 
 public class UserService extends AbstractService implements IUserService {
+
+	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
 	private TenantRepository tenantRepository;
 
 	@Transactional
@@ -70,39 +75,34 @@ public class UserService extends AbstractService implements IUserService {
 
 	@Transactional
 	@Override
-	public String save(User user, boolean isNew) throws BusinessHandleException {
+	public void save(User user) throws BusinessHandleException,
+			EntityInvalidateException {
 		if (user.isRepeateName(userRepository)) {
-			return "user.userName.repeated";
+			throw new EntityInvalidateException("user.userName.repeated");
 		}
-		if (!isNew) {
-			User oldUser = userRepository.queryById(user.getUserId());
-			if (oldUser == null) {
-				return "data.deleted";
-			}
-			List<String> ids = new ArrayList<String>();
-			ids.add(oldUser.getUserId());
-			userRepository.delete(ids);
-			user.setUserId(oldUser.getUserId());
+		if (user.getUserId() != null) {
+			userRepository.update(user);
 		} else {
 			user.setUserId(nextStr("user", 64));
+			userRepository.add(user);
 		}
-		userRepository.add(user);
-		return "";
 	}
 
-	public UserRepository getUserRepository() {
-		return userRepository;
+	@Override
+	public void update(User entity) throws BusinessHandleException {
+		// TODO Auto-generated method stub
+
 	}
 
-	public void setUserRepository(UserRepository userRepository) {
-		this.userRepository = userRepository;
+	@Override
+	public User queryByEntity(User entity) throws BusinessHandleException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	public TenantRepository getTenantRepository() {
-		return tenantRepository;
-	}
-
-	public void setTenantRepository(TenantRepository tenantRepository) {
-		this.tenantRepository = tenantRepository;
+	@Override
+	public int countByEntity(User entity) throws BusinessHandleException {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
