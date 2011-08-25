@@ -1,4 +1,4 @@
-package com.pss.domain.model.entity;
+package com.pss.domain.repository;
 
 import java.util.List;
 import java.util.Map;
@@ -7,7 +7,7 @@ import com.pss.exception.BusinessHandleException;
 import com.pss.exception.EntityAlreadyExistedException;
 import com.pss.exception.EntityNotExistedException;
 
-public interface IRepository<T> {
+public interface BaseRepository<T> {
 
 	public void add(T entity) throws BusinessHandleException,
 			EntityAlreadyExistedException;

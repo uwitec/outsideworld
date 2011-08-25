@@ -6,13 +6,13 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.pss.dao.system.UserMapper;
-import com.pss.domain.model.entity.IRepository;
 import com.pss.domain.model.entity.sys.User;
+import com.pss.domain.repository.BaseRepository;
 import com.pss.exception.BusinessHandleException;
 import com.pss.exception.EntityAlreadyExistedException;
 import com.pss.exception.EntityNotExistedException;
 
-public class UserRepository implements IRepository<User> {
+public class UserRepository implements BaseRepository<User> {
 
 	@Autowired
 	private UserMapper userMapper;
