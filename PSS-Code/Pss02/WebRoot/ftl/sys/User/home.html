@@ -16,8 +16,8 @@
 		<button dojoType="dijit.form.Button" onClick="search()">查询</button>
 	</form>
 </div>
-<br />
-<table id="jsonGrid" dojoType="dojox.grid.DataGrid" height="80%">
+<#include "../../common/pager.html"/>
+<table id="jsonGrid" dojoType="dojox.grid.DataGrid">
 	<thead>
 		<tr>
 			<th field="userName" width="auto">账号</th>
@@ -26,7 +26,6 @@
 		</tr>
 	</thead>
 </table>
-<#include "../../common/pager.html"/>
 <script type="text/javascript">
 function init(){
 	Common.refreshDataGrid("jsonGrid","${request.getContextPath()}/sys/User/queryEntity");	

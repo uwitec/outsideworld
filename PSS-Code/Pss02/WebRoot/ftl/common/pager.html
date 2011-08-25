@@ -1,15 +1,24 @@
-<div id="pager">
-	<span><a id="firstPage" href="#" onclick="goto(1)">首页</a> </span> <span><a
-		id="prePage" href="#" onclick="prePage()">上一页</a> </span> <span>第<label
-		id="page">1</label>页</span> <span>每页 <select id="pageSize"
-		name="pageSize" onchange="setPageSize()">
-			<option value="5">5</option>
-			<option value="10">10</option>
-			<option value="20">20</option>
-			<option value="50">50</option>
-	</select>行 </span> <span><a id="nextPage" href="#" onclick="nextPage()">下一页</a>
-	</span> <span><a id="lastPage" href="#" onclick="lastPage()">末页</a> </span> <span>共<label
-		id="totalPage">1</label>页</span>
+<div id="pager" dojoType="dijit.Toolbar">
+	<center>
+		<button dojoType="dijit.form.Button" id="firstPage" onclick="goto(1)">首页</button>
+		<button dojoType="dijit.form.Button" id="prePage" onclick="prePage()">上一页</button>
+
+		<span>第<label id="page">1</label>页</span> <span>每页 <select
+			id="pageSize" name="pageSize" onchange="setPageSize()">
+				<option value="5">5</option>
+				<option value="10">10</option>
+				<option value="20">20</option>
+				<option value="50">50</option>
+		</select>行 </span>
+
+		<button dojoType="dijit.form.Button" id="nextPage"
+			onclick="nextPage()">下一页</button>
+		<button dojoType="dijit.form.Button" id="lastPage"
+			onclick="lastPage()">末页</button>
+
+		<span>共<label id="totalPage">1</label>页</span>
+	</center>
+
 	<script type="text/javascript">
 	function goto(page){
 		var pageSize = parseInt(document.getElementById("pageSize").value);
