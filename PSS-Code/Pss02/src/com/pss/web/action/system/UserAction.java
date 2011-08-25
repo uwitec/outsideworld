@@ -5,7 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.pss.domain.model.entity.sys.User;
 import com.pss.exception.BusinessHandleException;
-import com.pss.exception.EntityInvalidateException;
+import com.pss.exception.EntityAlreadyExistedException;
+import com.pss.exception.EntityNotExistedException;
 import com.pss.service.IUserService;
 import com.pss.web.action.PaginationAction;
 import com.pss.web.util.WebUtil;
@@ -59,10 +60,10 @@ public class UserAction extends PaginationAction<User> {
 			if (entity.getRole() != null)
 				getQuery().put("roleId", entity.getRole().getRoleId());
 
-			totalCount = userService.countByParams(getQuery());
+			totalCount = userService.count(getQuery());
 			entity.setTenant(getTenantId());
 
-			items = userService.queryByParams(getQuery());
+			items = userService.query(getQuery());
 		} catch (BusinessHandleException e) {
 			e.printStackTrace();
 			return ERROR;
@@ -74,11 +75,11 @@ public class UserAction extends PaginationAction<User> {
 	public String addEntity() {
 		try {
 			entity.setTenant(getTenantId());
-			userService.save(entity);
+			userService.add(entity);
 			setCorrect(true);
 		} catch (BusinessHandleException e) {
 			setCorrect(false);
-		} catch (EntityInvalidateException e) {
+		} catch (EntityAlreadyExistedException e) {
 			setCorrect(false);
 		}
 		return SUCCESS;
@@ -99,16 +100,14 @@ public class UserAction extends PaginationAction<User> {
 	@Override
 	public String updateEntity() {
 		try {
-			userService.save(entity);
+			userService.update(entity);
 			setCorrect(true);
 		} catch (BusinessHandleException e) {
 			setCorrect(false);
 			addActionError(e.getMessage());
-			return SUCCESS;
-		} catch (EntityInvalidateException e) {
+		} catch (EntityNotExistedException e) {
 			setCorrect(false);
 			addActionError(e.getMessage());
-			return SUCCESS;
 		}
 		return SUCCESS;
 	}

@@ -1,4 +1,4 @@
-package com.pss.service;
+package com.pss.domain.model.entity;
 
 import java.util.List;
 import java.util.Map;
@@ -7,15 +7,13 @@ import com.pss.exception.BusinessHandleException;
 import com.pss.exception.EntityAlreadyExistedException;
 import com.pss.exception.EntityNotExistedException;
 
-public interface IBusinessService<T> {
+public interface IRepository<T> {
 
 	public void add(T entity) throws BusinessHandleException,
 			EntityAlreadyExistedException;
 
 	public void delete(String id) throws BusinessHandleException,
 			EntityNotExistedException;
-
-	public void delete(List<String> ids) throws BusinessHandleException;
 
 	public void update(T entity) throws BusinessHandleException,
 			EntityNotExistedException;

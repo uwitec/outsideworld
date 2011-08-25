@@ -11,7 +11,8 @@ import com.pss.domain.model.entity.sys.User;
 import com.pss.domain.repository.system.TenantRepository;
 import com.pss.domain.repository.system.UserRepository;
 import com.pss.exception.BusinessHandleException;
-import com.pss.exception.EntityInvalidateException;
+import com.pss.exception.EntityAlreadyExistedException;
+import com.pss.exception.EntityNotExistedException;
 import com.pss.service.IUserService;
 import com.pss.service.LoginResult;
 
@@ -33,7 +34,7 @@ public class UserService extends AbstractService implements IUserService {
 			result.setMessage("tenantNotExist");
 		} else {
 			user.setTenant(tenantId);
-			User findUser = userRepository.query(user);
+			User findUser = userRepository.find(user);
 			if (findUser == null) {
 				result.setMessage("userNotExist");
 			} else {
@@ -45,64 +46,74 @@ public class UserService extends AbstractService implements IUserService {
 		return result;
 	}
 
+	@Transactional
 	@Override
-	public User find(String id) throws BusinessHandleException {
-		return userRepository.queryById(id);
-	}
-
-	@Override
-	public List<User> queryByParams(Map<String, Object> params)
-			throws BusinessHandleException {
-		return userRepository.queryList(params);
-	}
-
-	@Override
-	public int countByParams(Map<String, Object> params)
-			throws BusinessHandleException {
-		try {
-			return userRepository.queryCount(params);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return 0;
+	public void add(User user) throws BusinessHandleException,
+			EntityAlreadyExistedException {
+		if (user.isRepeateName(userRepository)) {
+			throw new EntityAlreadyExistedException("user.userName.repeated");
 		}
+		user.setUserId(nextStr("user", 64));
+		userRepository.add(user);
+	}
+
+	@Transactional
+	@Override
+	public void delete(String id) throws BusinessHandleException,
+			EntityNotExistedException {
+		userRepository.delete(id);
 	}
 
 	@Transactional
 	@Override
 	public void delete(List<String> ids) throws BusinessHandleException {
-		userRepository.delete(ids);
+		for (String id : ids) {
+			try {
+				userRepository.delete(id);
+			} catch (EntityNotExistedException e) {
+				throw new BusinessHandleException();
+			}
+		}
 	}
 
 	@Transactional
 	@Override
-	public void save(User user) throws BusinessHandleException,
-			EntityInvalidateException {
-		if (user.isRepeateName(userRepository)) {
-			throw new EntityInvalidateException("user.userName.repeated");
-		}
-		if (user.getUserId() != null) {
-			userRepository.update(user);
-		} else {
-			user.setUserId(nextStr("user", 64));
-			userRepository.add(user);
-		}
-	}
-
-	@Override
 	public void update(User entity) throws BusinessHandleException {
-		// TODO Auto-generated method stub
-
+		try {
+			userRepository.update(entity);
+		} catch (EntityNotExistedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public User queryByEntity(User entity) throws BusinessHandleException {
-		// TODO Auto-generated method stub
-		return null;
+	public User find(String id) throws BusinessHandleException {
+		return userRepository.find(id);
 	}
 
 	@Override
-	public int countByEntity(User entity) throws BusinessHandleException {
-		// TODO Auto-generated method stub
-		return 0;
+	public User find(User entity) throws BusinessHandleException {
+		return userRepository.find(entity);
+	}
+
+	@Override
+	public List<User> query(Map<String, Object> params)
+			throws BusinessHandleException {
+		return userRepository.query(params);
+	}
+
+	@Override
+	public int count(Map<String, Object> params) throws BusinessHandleException {
+		return userRepository.count(params);
+	}
+
+	@Override
+	public List<User> query(User entity) throws BusinessHandleException {
+		return userRepository.query(entity);
+	}
+
+	@Override
+	public int count(User entity) throws BusinessHandleException {
+		return userRepository.count(entity);
 	}
 }

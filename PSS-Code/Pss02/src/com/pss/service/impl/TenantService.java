@@ -9,6 +9,7 @@ import com.pss.domain.model.entity.sys.User;
 import com.pss.domain.repository.system.TenantRepository;
 import com.pss.domain.repository.system.UserRepository;
 import com.pss.exception.BusinessHandleException;
+import com.pss.exception.EntityAlreadyExistedException;
 import com.pss.service.ITenantService;
 
 public class TenantService extends AbstractService implements ITenantService {
@@ -19,14 +20,14 @@ public class TenantService extends AbstractService implements ITenantService {
 	@Override
 	public String regist(Tenant tenant) throws BusinessHandleException {
 		String vAcount = vAcount(tenant.getTenantName());
-		if(!StringUtils.isBlank(vAcount)){
+		if (!StringUtils.isBlank(vAcount)) {
 			return vAcount;
 		}
 		String vEmail = vEmail(tenant.getTenantEmail());
-		if(!StringUtils.isBlank(vEmail)){
+		if (!StringUtils.isBlank(vEmail)) {
 			return vEmail;
 		}
-		tenant.setTenantId(nextStr("tenant",64));
+		tenant.setTenantId(nextStr("tenant", 64));
 		tenantRepository.add(tenant);
 		User user = new User();
 		user.setUserId(nextStr("user", 64));
@@ -36,7 +37,11 @@ public class TenantService extends AbstractService implements ITenantService {
 		role.setRoleId("0");
 		user.setRole(role);
 		user.setTenant(tenant.getTenantId());
-		userRepository.add(user);
+		try {
+			userRepository.add(user);
+		} catch (EntityAlreadyExistedException e) {
+			e.printStackTrace();
+		}
 		return "";
 	}
 
@@ -83,6 +88,5 @@ public class TenantService extends AbstractService implements ITenantService {
 	public void setUserRepository(UserRepository userRepository) {
 		this.userRepository = userRepository;
 	}
-	
-	
+
 }
