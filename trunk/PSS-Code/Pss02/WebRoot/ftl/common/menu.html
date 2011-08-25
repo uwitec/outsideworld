@@ -1,34 +1,42 @@
 <style>
 .fixedWidthBtn .dijitButtonNode 
 { 
-   width: 172px; 
+   width: 170px; 
 } 
 </style>
 <#if (userFunction.size()>0)>
 <div dojoType="dijit.layout.AccordionPane" title="系统管理"> 
     <#list userFunction as function>
-        <button dojoType="dijit.form.Button" baseClass="fixedWidthBtn" onClick="Common.setMainPane('${function.getUrl()}');">${function.getTitle()}</button><br><br>
+    	<div dojoType="dijit.Toolbar">
+        <button dojoType="dijit.form.Button" baseClass="fixedWidthBtn" onClick="Common.setMainPane('${function.getUrl()}');">${function.getTitle()}</button>
+   		</div>
     </#list>   
 </div>
 </#if>
 <#if (purchaseFunction.size()>0)>
-<div dojoType="dijit.layout.AccordionPane"  title="采购管理">	
+<div dojoType="dijit.layout.AccordionPane" title="采购管理">	
     <#list purchaseFunction as function>
-        <input type=button url="${function.getUrl()}" value="${function.getTitle()}"/><br>
+    	<div dojoType="dijit.Toolbar">
+        <input type=button url="${function.getUrl()}" baseClass="fixedWidthBtn" value="${function.getTitle()}"/>
+        </div>
     </#list>
 </div>
 </#if>
 <#if (inventoryFunction.size()>0)>
-<div dojoType="dijit.layout.AccordionPane"  title="库存管理">	
+<div dojoType="dijit.layout.AccordionPane" title="库存管理">	
     <#list inventoryFunction as function>
-        <input type=button url="${function.getUrl()}" value="${function.getTitle()}"/><br>
+    	<div dojoType="dijit.Toolbar">
+        <input type=button url="${function.getUrl()}" baseClass="fixedWidthBtn" value="${function.getTitle()}"/>
+        </div>
     </#list>
 </div>
 </#if>
 <#if (saleFunction.size()>0)>
-<div dojoType="dijit.layout.AccordionPane"  title="销售管理">	
+<div dojoType="dijit.layout.AccordionPane" title="销售管理">	
     <#list saleFunction as function>
-        <input type=button url="${function.getUrl()}" value="${function.getTitle()}"/><br>
+    	<div dojoType="dijit.Toolbar">
+        <input type=button url="${function.getUrl()}" baseClass="fixedWidthBtn" value="${function.getTitle()}"/>
+        </div>
     </#list>
 </div>
 </#if>
