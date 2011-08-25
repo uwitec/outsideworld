@@ -1,29 +1,22 @@
 <div dojoType="dijit.Toolbar">
 	<button dojoType="dijit.form.Button"
 		onClick="Common.showDialog('新建用户','/Pss/sys/User_add')">新建</button>
+	<span dojoType="dijit.ToolbarSeparator"></span>
 	<button dojoType="dijit.form.Button" onClick="update()">修改</button>
+	<span dojoType="dijit.ToolbarSeparator"></span>
 	<button dojoType="dijit.form.Button" onClick="remove()">删除</button>
+	<form id="searchForm" style="display: inline; float: right;">
+		用户名： <input id="entity.userName" name="entity.userName" /> 角色 <select
+			name="entity.role.roleId">
+			<option value="0">店长</option>
+			<option value="1">采购员</option>
+			<option value="2">仓库管理员</option>
+			<option value="3">销售员</option>
+		</select>
+		<button dojoType="dijit.form.Button" onClick="search()">查询</button>
+	</form>
 </div>
 <br />
-<form id="searchForm">
-	<table align="center">
-		<tr>
-			<th>用户名：</th>
-			<td><input id="entity.userName" name="entity.userName" /></td>
-			<th>角色：</th>
-			<td><select name="entity.role.roleId">
-					<option value="0">店长</option>
-					<option value="1">采购员</option>
-					<option value="2">仓库管理员</option>
-					<option value="3">销售员</option>
-			</select>
-			</td>
-			<td>
-				<button dojoType="dijit.form.Button" onClick="search()">查询</button>
-			</td>
-		</tr>
-	</table>
-</form>
 <table id="jsonGrid" dojoType="dojox.grid.DataGrid" height="80%">
 	<thead>
 		<tr>
