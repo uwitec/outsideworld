@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.pss.domain.model.entity.sys.User;
 import com.pss.exception.BusinessHandleException;
+import com.pss.exception.EntityInvalidateException;
 import com.pss.service.IUserService;
 import com.pss.web.action.PaginationAction;
 import com.pss.web.util.WebUtil;
@@ -73,9 +74,11 @@ public class UserAction extends PaginationAction<User> {
 	public String addEntity() {
 		try {
 			entity.setTenant(getTenantId());
-			userService.save(entity, true);
+			userService.save(entity);
 			setCorrect(true);
 		} catch (BusinessHandleException e) {
+			setCorrect(false);
+		} catch (EntityInvalidateException e) {
 			setCorrect(false);
 		}
 		return SUCCESS;
@@ -95,19 +98,17 @@ public class UserAction extends PaginationAction<User> {
 
 	@Override
 	public String updateEntity() {
-		String result = "";
 		try {
-			result = userService.save(entity, false);
+			userService.save(entity);
+			setCorrect(true);
 		} catch (BusinessHandleException e) {
 			setCorrect(false);
 			addActionError(e.getMessage());
 			return SUCCESS;
-		}
-		if (!StringUtils.equals(result, "")) {
-			addActionError(result);
+		} catch (EntityInvalidateException e) {
 			setCorrect(false);
-		} else {
-			setCorrect(true);
+			addActionError(e.getMessage());
+			return SUCCESS;
 		}
 		return SUCCESS;
 	}

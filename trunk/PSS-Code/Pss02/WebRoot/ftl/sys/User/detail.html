@@ -1,31 +1,27 @@
-<#if entity??> <#assign userId=entity.userId> <#assign
-tenant=entity.tenant> <#assign userName=entity.userName> <#assign
-userPassword=entity.userPassword> <#assign roleId=entity.role.roleId>
-</#if>
+<#if entity?? && entity.userId??> <#assign userId=entity.userId>
+<#assign tenant=entity.tenant> <#assign userName=entity.userName>
+<#assign userPassword=entity.userPassword> <#assign
+roleId=entity.role.roleId> </#if>
 <table>
 	<tr>
 		<td><input id="entity.userId" name="entity.userId"
-			required="true" value="${userId!}" style="display: none">
-		</td>
+			required="true" value="${userId!}" style="display: none"></td>
 		<td><input id="entity.tenant" name="entity.tenant"
-			required="true" value="${tenant!}" style="display: none">
-		</td>
+			required="true" value="${tenant!}" style="display: none"></td>
 	</tr>
 	<tr>
 		<td>用户账号</td>
 		<td><input dojoType="custom.TextInput" id="entity.userName"
 			name="entity.userName" required="true"
 			regExp="^[a-zA-Z][a-zA-Z0-9_]{5,15}$"
-			invalidMessage="用户名称只能包含6-16位字母或数字" value="${userName!}">
-		</td>
+			invalidMessage="用户名称只能包含6-16位字母或数字" value="${userName!}"></td>
 	</tr>
 	<tr>
 		<td>用户密码</td>
 		<td><input dojoType="custom.TextInput" id="entity.userPassword"
 			name="entity.userPassword" required="true"
 			regExp="^[0-9|a-z|A-Z]{8,16}$" invalidMessage="用户密码必须是8至16位字母或数字"
-			value="${userPassword!}">
-		</td>
+			value="${userPassword!}"></td>
 	</tr>
 	<tr>
 		<td>用户角色</td>
@@ -34,7 +30,6 @@ userPassword=entity.userPassword> <#assign roleId=entity.role.roleId>
 				<option value="1">采购员</option>
 				<option value="2">仓库管理员</option>
 				<option value="3">销售员</option>
-		</select>
-		</td>
+		</select></td>
 	</tr>
 </table>

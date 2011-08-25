@@ -20,26 +20,26 @@
  */
 package com.pss.exception;
 
-public class BusinessHandleException extends Exception {
+public class EntityInvalidateException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	public BusinessHandleException() {
+	public EntityInvalidateException() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public BusinessHandleException(String message, Throwable cause) {
+	public EntityInvalidateException(String message, Throwable cause) {
 		super(message, cause);
 		// TODO Auto-generated constructor stub
 	}
 
-	public BusinessHandleException(String message) {
+	public EntityInvalidateException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
 
-	public BusinessHandleException(Throwable cause) {
+	public EntityInvalidateException(Throwable cause) {
 		super(cause);
 		// TODO Auto-generated constructor stub
 	}
