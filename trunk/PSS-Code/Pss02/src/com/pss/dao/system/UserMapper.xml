@@ -10,21 +10,43 @@
 		<result property="status" column="status" />
 		<result property="role.roleId" column="role_id" />
 	</resultMap>
-	<insert id="insert" parameterType="com.pss.domain.model.entity.sys.User">
+
+	<insert id="add" parameterType="com.pss.domain.model.entity.sys.User">
 		insert into
 		user(user_id,tenant,user_name,user_password,last_login_time,status,role_id)
 		values(#{userId},#{tenant},#{userName},#{userPassword},#{lastLoginTime},#{status},#{role.roleId});
 	</insert>
-	<select id="query" parameterType="com.pss.domain.model.entity.sys.User"
+
+	<delete id="delete" parameterType="java.lang.String">
+		delete from user where
+		user_id=#{id}
+	</delete>
+
+	<update id="update" parameterType="com.pss.domain.model.entity.sys.User">
+		update user set user_name =
+		#{userName},user_password = #{userPassword},role_id = #{role.roleId}
+		where tenant = #{tenant} and user_id = #{userId}
+	</update>
+
+	<select id="findById" parameterType="java.lang.String"
+		resultMap="UserMapper">
+		select * from user where user_id=#{userId}
+	</select>
+
+	<select id="findByEntity" parameterType="com.pss.domain.model.entity.sys.User"
 		resultMap="UserMapper">
 		select * from user where user_name = #{userName} and tenant
 		= #{tenant}
 	</select>
-	<select id="queryById" parameterType="java.lang.String"
+
+	<select id="queryByEntity" parameterType="com.pss.domain.model.entity.sys.User"
 		resultMap="UserMapper">
-		select * from user where user_id=#{userId}
+		select * from user where user_name = #{userName} and tenant
+		= #{tenant}
 	</select>
-	<select id="queryList" parameterType="java.util.Map" resultMap="UserMapper">
+
+	<select id="queryByParams" parameterType="java.util.Map"
+		resultMap="UserMapper">
 		select * from user where tenant = #{tenant}
 		<if test="userId!=null">
 			and user_id = #{userId}
@@ -38,13 +60,8 @@
 		limit
 		#{offset},#{limit}
 	</select>
-	<select id="getUsersByTenantId" parameterType="java.util.Map"
-		resultMap="UserMapper">
-		select * from user where tenant = #{tenant}
-		limit
-		#{offset},#{pageSize}
-	</select>
-	<select id="queryCount" parameterType="java.util.Map"
+
+	<select id="countByEntity" parameterType="com.pss.domain.model.entity.sys.User"
 		resultType="java.lang.Integer">
 		select count(*) from user where tenant = #{tenant}
 		<if test="userId!=null">
@@ -57,12 +74,23 @@
 			and role_id = #{roleId}
 	    </if>
 	</select>
+
+	<select id="countByParams" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		select count(*) from user where tenant = #{tenant}
+		<if test="userId!=null">
+			and user_id = #{userId}
+		</if>
+		<if test="userName!=null">
+			and user_name like '%${userName}%'
+	    </if>
+		<if test="roleId!=null">
+			and role_id = #{roleId}
+	    </if>
+	</select>
+
 	<update id="updateLastLoginTime" parameterType="com.pss.domain.model.entity.sys.User">
 		update user set
 		last_login_time = #{lastLoginTime} where user_id = #{userId}
 	</update>
-	<delete id="delete" parameterType="java.lang.String">
-		delete from user where
-		user_id=#{id}
-	</delete>
 </mapper>

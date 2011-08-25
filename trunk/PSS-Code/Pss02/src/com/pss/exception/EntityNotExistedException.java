@@ -20,26 +20,26 @@
  */
 package com.pss.exception;
 
-public class EntityInvalidateException extends Exception {
+public class EntityNotExistedException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	public EntityInvalidateException() {
+	public EntityNotExistedException() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public EntityInvalidateException(String message, Throwable cause) {
+	public EntityNotExistedException(String message, Throwable cause) {
 		super(message, cause);
 		// TODO Auto-generated constructor stub
 	}
 
-	public EntityInvalidateException(String message) {
+	public EntityNotExistedException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
 
-	public EntityInvalidateException(Throwable cause) {
+	public EntityNotExistedException(Throwable cause) {
 		super(cause);
 		// TODO Auto-generated constructor stub
 	}
