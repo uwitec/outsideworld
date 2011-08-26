@@ -28,7 +28,7 @@
 </table>
 <script type="text/javascript">
 function init(){
-	Common.refreshDataGrid("jsonGrid","${request.getContextPath()}/sys/User/queryEntity");	
+	Common.refreshDataGrid("jsonGrid","${request.getContextPath()}/sys/User/queryEntity?entity.role.roleId=0");	
 }
 function search(){
 	var params = dojo.formToObject("searchForm");
