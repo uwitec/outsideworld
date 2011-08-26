@@ -19,7 +19,7 @@ import java.util.Date;
 import org.apache.commons.lang.StringUtils;
 
 import com.pss.common.annotation.FieldValidation;
-import com.pss.domain.model.entity.IEntity;
+import com.pss.domain.model.entity.Entity;
 import com.pss.domain.repository.system.UserRepository;
 import com.pss.exception.BusinessHandleException;
 
@@ -38,9 +38,7 @@ import com.pss.exception.BusinessHandleException;
  * @version 1.0
  * @since Jun 21, 2011
  */
-public class User implements IEntity {
-	private String userId;
-	private String tenant;
+public class User extends Entity {
 	@FieldValidation(isBlank = false, regx = "^[a-zA-Z][a-zA-Z0-9_]{5,15}$")
 	private String userName;
 	@FieldValidation(isBlank = false, regx = "^[0-9|a-z|A-Z]{8,16}$")
@@ -74,28 +72,13 @@ public class User implements IEntity {
 			throws BusinessHandleException {
 		User user = userRepository.find(this);
 		if (user != null
-				&& (StringUtils.isBlank(userId) || !StringUtils.equals(userId,
-						user.getUserId()))) {
+				&& (StringUtils.isBlank(getId()) || !StringUtils.equals(getId(),
+						user.getId()))) {
 			return true;
 		}
 		return false;
 	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-
-	public String getTenant() {
-		return tenant;
-	}
-
-	public void setTenant(String tenant) {
-		this.tenant = tenant;
-	}
+	
 
 	public String getUserName() {
 		return userName;

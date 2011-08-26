@@ -15,8 +15,6 @@
 package com.pss.domain.model.entity.sys;
 
 import java.util.Date;
-
-import com.pss.domain.model.entity.IEntity;
 import com.pss.domain.repository.system.TenantRepository;
 import com.pss.exception.BusinessHandleException;
 
@@ -28,7 +26,7 @@ import com.pss.exception.BusinessHandleException;
  * @version 1.0
  * @since   Jun 27, 2011
  */
-public class Tenant implements IEntity {
+public class Tenant {
     private String tenantId;
     private String tenantName;
     private String tenantPassword;
