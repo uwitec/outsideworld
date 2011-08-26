@@ -1,9 +1,11 @@
 package com.pss.web.action;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+
+import com.pss.exception.BusinessHandleException;
 
 /**
  * 分页Action
@@ -12,17 +14,13 @@ import java.util.Map;
  * 
  * @param <T>
  */
-public abstract class PaginationAction<T> extends AbstractAction {
+public abstract class PaginationAction<T> extends EntityAction{
 
 	private static final long serialVersionUID = 1L;
 
 	protected int page = 1;
 	protected int pageSize = 5;
 	protected int totalCount;
-	protected List<T> items;
-
-	protected T entity;
-	protected String selectedIds;
 
 	private Map<String, Object> query = new HashMap<String, Object>();
 
@@ -33,17 +31,9 @@ public abstract class PaginationAction<T> extends AbstractAction {
 		return query;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public PaginationAction() {
-		Class<T> entityClass = (Class<T>) ((ParameterizedType) getClass()
-				.getGenericSuperclass()).getActualTypeArguments()[0];
-		try {
-			entity = entityClass.newInstance();
-		} catch (InstantiationException e) {
-			// Ignore
-		} catch (IllegalAccessException e) {
-			// Ignore
-		}
+		
 	}
 
 	/**
@@ -73,24 +63,7 @@ public abstract class PaginationAction<T> extends AbstractAction {
 		this.pageSize = pageSize;
 	}
 
-	/**
-	 * 设置当前选择的ID
-	 * 
-	 * @param selectedIds
-	 */
-	public void setSelectedIds(String selectedIds) {
-		this.selectedIds = selectedIds;
-	}
-
-	/**
-	 * 当前页的记录
-	 * 
-	 * @return
-	 */
-	public List<T> getItems() {
-		return items;
-	}
-
+	
 	/**
 	 * 当前页码
 	 * 
@@ -127,90 +100,22 @@ public abstract class PaginationAction<T> extends AbstractAction {
 		return pageSize;
 	}
 
-	/**
-	 * 当前页总行数
-	 * 
-	 * @return
-	 */
-	public int getItemSize() {
-		if (items == null) {
-			return 0;
-		} else {
-			return items.size();
+	public String queryEntity() {
+		// 获得当前登陆用户的tanentId
+		String tanentId = getTenantId();
+		if (StringUtils.isBlank(tanentId)) {
+			return INPUT;
 		}
+		try {
+			getQuery().put("entity", entity);
+			totalCount = getService().count(getQuery());
+			entity.setTenant(getTenantId());
+			items = getService().query(getQuery());
+		} catch (BusinessHandleException e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+		return SUCCESS;
 	}
-
-	/**
-	 * 设置当前实体
-	 * 
-	 * @param entity
-	 */
-	public void setEntity(T entity) {
-		this.entity = entity;
-	}
-
-	/**
-	 * 返回当前实体
-	 * 
-	 * @return
-	 */
-	public T getEntity() {
-		return entity;
-	}
-
-	/**
-	 * 初始页面
-	 * 
-	 * @return
-	 */
-	abstract public String home();
-
-	/**
-	 * 新建页面
-	 * 
-	 * @return
-	 */
-	abstract public String add();
-
-	/**
-	 * 更新页面
-	 * 
-	 * @return
-	 */
-	abstract public String update();
-
-	/**
-	 * 删除页面
-	 * 
-	 * @return
-	 */
-	abstract public String delete();
-
-	/**
-	 * 新建实体
-	 * 
-	 * @return
-	 */
-	abstract public String addEntity();
-
-	/**
-	 * 更新实体
-	 * 
-	 * @return
-	 */
-	abstract public String updateEntity();
-
-	/**
-	 * 删除实体
-	 * 
-	 * @return
-	 */
-	abstract public String deleteEntity();
-
-	/**
-	 * 查询实体列表
-	 * 
-	 * @return
-	 */
-	abstract public String queryEntity();
+	
 }

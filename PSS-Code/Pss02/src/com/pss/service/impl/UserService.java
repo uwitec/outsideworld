@@ -53,7 +53,7 @@ public class UserService extends AbstractService implements IUserService {
 		if (user.isRepeateName(userRepository)) {
 			throw new EntityAlreadyExistedException("user.userName.repeated");
 		}
-		user.setUserId(nextStr("user", 64));
+		user.setId(nextStr("user", 64));
 		userRepository.add(user);
 	}
 
