@@ -76,7 +76,7 @@ public abstract class EntityAction<T extends Entity> extends AbstractAction {
 	 * 
 	 * @return
 	 */
-	
+	@JSON()
 	public T getEntity() {
 		return entity;
 	}
