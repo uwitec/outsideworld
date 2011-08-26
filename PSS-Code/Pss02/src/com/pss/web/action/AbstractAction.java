@@ -24,6 +24,7 @@ public abstract class AbstractAction extends ActionSupport implements
 	private static final long serialVersionUID = 1L;
 	// 1、对session和servletRequestAware的操作
 	private Map<String, Object> session;
+	@SuppressWarnings("unused")
 	private HttpServletRequest request;
 	// 2、设置请求是否成功的标志
 	private boolean correct = false;
@@ -46,10 +47,6 @@ public abstract class AbstractAction extends ActionSupport implements
 	@Override
 	public void setServletRequest(HttpServletRequest arg) {
 		request = arg;
-	}
-
-	public HttpServletRequest getServletRequest() {
-		return request;
 	}
 
 	public void putDataToSession(String key, Object value) {
