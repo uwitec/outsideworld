@@ -5,16 +5,19 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.pss.domain.model.entity.Entity;
 import com.pss.exception.BusinessHandleException;
 
 /**
  * 分页Action
  * 
  * @author Aries Zhao
+ * @param <T>
  * 
  * @param <T>
  */
-public abstract class PaginationAction<T> extends EntityAction{
+public abstract class PaginationAction<T extends Entity> extends
+		EntityAction<T> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -31,9 +34,8 @@ public abstract class PaginationAction<T> extends EntityAction{
 		return query;
 	}
 
-	
 	public PaginationAction() {
-		
+
 	}
 
 	/**
@@ -63,7 +65,6 @@ public abstract class PaginationAction<T> extends EntityAction{
 		this.pageSize = pageSize;
 	}
 
-	
 	/**
 	 * 当前页码
 	 * 
@@ -120,5 +121,5 @@ public abstract class PaginationAction<T> extends EntityAction{
 		setCorrect(true);
 		return SUCCESS;
 	}
-	
+
 }
