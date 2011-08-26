@@ -36,7 +36,11 @@ function search(){
 }
 function remove(){
 	var ids = Common.getSelectedRows("jsonGrid", "userId");
-	Common.confirm("确认要删除当前选择的用户吗?",doRemove,ids.toString());
+	if(!ids || ids.length<1){
+		Common.showMessage("至少需要选择一个用户才能删除");
+	}else{
+		Common.confirm("确认要删除当前选择的用户吗?",doRemove,ids.toString());
+	}
 }
 function doRemove(data){
 	var params = {selectedIds:data};
@@ -53,8 +57,14 @@ function update(){
       alert("请您选择一条记录?");
       return;
   }
-  var tenant = Common.getSelectedRows("jsonGrid", "tenant");
-  Common.showDialog('修改用户','/Pss/sys/User_update?entity.id='+id+'&entity.tenant='+tenant)
+  if(!id || id.length<1){
+	  Common.showMessage("请选择一个需要修改的用户");
+  }else if(id.length && id.length>1){
+	  Common.showMessage("只能选择一个用户进行修改");
+  }else{
+	  var tenant = Common.getSelectedRows("jsonGrid", "tenant");
+	  Common.showDialog('修改用户','/Pss/sys/User_update?entity.id='+id+'&entity.tenant='+tenant);
+  }
 }
 function roleValue(value, rowIndex){
 	if(value.roleId==0){
