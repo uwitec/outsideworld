@@ -191,6 +191,20 @@ var Common = {
 
 		this.confirmDialog.show();
 	},
+	/* 弹出提示信息 */
+	showMessage : function(message, title) {
+		if (!message) {
+			return;
+		}
+		var dialog = this.confirmDialog = dijit.byId("message");
+		if (title) {
+			dialog.set("title", title);
+		} else {
+			dialog.set("title", "提示信息");
+		}
+		dojo.byId("messageTxt").innerHTML = message;
+		dialog.show();
+	},
 	/* 确认YES */
 	confirmYes : function() {
 		this.confirmDialog.hide();
