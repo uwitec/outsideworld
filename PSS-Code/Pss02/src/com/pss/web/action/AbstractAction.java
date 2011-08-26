@@ -1,7 +1,5 @@
 package com.pss.web.action;
 
-import java.lang.reflect.ParameterizedType;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,35 +9,25 @@ import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.json.annotations.JSON;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.pss.domain.model.entity.Entity;
 import com.pss.domain.model.entity.sys.User;
-import com.pss.exception.BusinessHandleException;
-import com.pss.exception.EntityAlreadyExistedException;
-import com.pss.exception.EntityNotExistedException;
-import com.pss.service.IBusinessService;
 import com.pss.web.WebKeys;
-import com.pss.web.util.WebUtil;
+
 /**
- * 抽象Action，它负责完成以下几项工作
- * 1、对session和servletRequestAware的操作
- * 2、设置请求是否成功的标志
- * 3、判断请求是否是新增
- * 4、增删改查的抽象方法
- * 5、保存实体对象
+ * 抽象Action，它负责完成以下几项工作 1、对session和servletRequestAware的操作 2、设置请求是否成功的标志
+ * 3、判断请求是否是新增 4、增删改查的抽象方法 5、保存实体对象
+ * 
  * @author wangzhendong
- *
+ * 
  */
-public abstract class AbstractAction extends ActionSupport implements SessionAware,
-		ServletRequestAware {
+public abstract class AbstractAction extends ActionSupport implements
+		SessionAware, ServletRequestAware {
 	private static final long serialVersionUID = 1L;
-	//1、对session和servletRequestAware的操作
+	// 1、对session和servletRequestAware的操作
 	private Map<String, Object> session;
 	private HttpServletRequest request;
-	//2、设置请求是否成功的标志
+	// 2、设置请求是否成功的标志
 	private boolean correct = false;
 	private String fieldError = "";
-	
-	
 
 	@JSON()
 	public String getFieldError() {
@@ -60,7 +48,9 @@ public abstract class AbstractAction extends ActionSupport implements SessionAwa
 		request = arg;
 	}
 
-	
+	public HttpServletRequest getServletRequest() {
+		return request;
+	}
 
 	public void putDataToSession(String key, Object value) {
 		session.put(key, value);
@@ -93,6 +83,4 @@ public abstract class AbstractAction extends ActionSupport implements SessionAwa
 	protected void setCorrect(boolean correct) {
 		this.correct = correct;
 	}
-	
-	
 }

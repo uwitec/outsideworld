@@ -27,25 +27,32 @@ import com.pss.service.IBusinessService;
 import com.pss.web.util.WebUtil;
 
 /**
- * <p>类说明</p> 
- * <p>Copyright: 版权所有 (c) 2010 - 2030</p>
- * <p>Company: Travelsky</p>
- * @author  Travelsky
+ * <p>
+ * 类说明
+ * </p>
+ * <p>
+ * Copyright: 版权所有 (c) 2010 - 2030
+ * </p>
+ * <p>
+ * Company: Travelsky
+ * </p>
+ * 
+ * @author Travelsky
  * @version 1.0
- * @since   Aug 26, 2011
+ * @since Aug 26, 2011
  */
 public abstract class EntityAction<T extends Entity> extends AbstractAction {
 
-	//3、判断请求是否是新增
-	private String isNew;
-	//4、增删改查的抽象方法(查询的返回结果)
+	private static final long serialVersionUID = 1L;
+
+	// 4、增删改查的抽象方法(查询的返回结果)
 	protected List<T> items;
-    //5、保存实体对象
+	// 5、保存实体对象
 	protected T entity;
-	//6、选中的Id
+	// 6、选中的Id
 	protected String selectedIds;
-	
-	//构造方法，在构造方法中，初始化Entity的对象
+
+	// 构造方法，在构造方法中，初始化Entity的对象
 	@SuppressWarnings("unchecked")
 	public EntityAction() {
 		Class<T> entityClass = (Class<T>) ((ParameterizedType) getClass()
@@ -59,7 +66,7 @@ public abstract class EntityAction<T extends Entity> extends AbstractAction {
 		}
 	}
 
-	//获得service的对象
+	// 获得service的对象
 	public abstract IBusinessService<T> service();
 
 	/**
@@ -80,13 +87,13 @@ public abstract class EntityAction<T extends Entity> extends AbstractAction {
 	public T getEntity() {
 		return entity;
 	}
-	
+
 	/**
 	 * 初始页面
 	 * 
 	 * @return
 	 */
-	public String home(){
+	public String home() {
 		return SUCCESS;
 	}
 
@@ -95,7 +102,7 @@ public abstract class EntityAction<T extends Entity> extends AbstractAction {
 	 * 
 	 * @return
 	 */
-	public String add(){
+	public String add() {
 		return SUCCESS;
 	}
 
@@ -104,7 +111,7 @@ public abstract class EntityAction<T extends Entity> extends AbstractAction {
 	 * 
 	 * @return
 	 */
-	public String update(){
+	public String update() {
 		try {
 			entity = service().find(entity.getId());
 		} catch (BusinessHandleException e) {
@@ -118,7 +125,7 @@ public abstract class EntityAction<T extends Entity> extends AbstractAction {
 	 * 
 	 * @return
 	 */
-	public String delete(){
+	public String delete() {
 		return SUCCESS;
 	}
 
@@ -142,9 +149,10 @@ public abstract class EntityAction<T extends Entity> extends AbstractAction {
 
 	/**
 	 * 更新实体
+	 * 
 	 * @return
 	 */
-	public String updateEntity(){
+	public String updateEntity() {
 		try {
 			service().update(entity);
 			setCorrect(true);
@@ -160,9 +168,10 @@ public abstract class EntityAction<T extends Entity> extends AbstractAction {
 
 	/**
 	 * 删除实体
+	 * 
 	 * @return
 	 */
-	public String deleteEntity(){
+	public String deleteEntity() {
 		try {
 			service().delete(WebUtil.split(selectedIds, ","));
 		} catch (BusinessHandleException e) {
@@ -178,7 +187,8 @@ public abstract class EntityAction<T extends Entity> extends AbstractAction {
 	 * 
 	 * @return
 	 */
-	abstract public String queryEntity();	
+	abstract public String queryEntity();
+
 	/**
 	 * 设置当前选择的ID
 	 * 
@@ -187,6 +197,7 @@ public abstract class EntityAction<T extends Entity> extends AbstractAction {
 	public void setSelectedIds(String selectedIds) {
 		this.selectedIds = selectedIds;
 	}
+
 	/**
 	 * 当前页的记录
 	 * 
@@ -195,7 +206,8 @@ public abstract class EntityAction<T extends Entity> extends AbstractAction {
 	@JSON()
 	public List<T> getItems() {
 		return items;
-	}	
+	}
+
 	/**
 	 * 当前页总行数
 	 * 
@@ -207,13 +219,5 @@ public abstract class EntityAction<T extends Entity> extends AbstractAction {
 		} else {
 			return items.size();
 		}
-	}
-	
-	public String getIsNew() {
-		return isNew;
-	}
-
-	public void setIsNew(String isNew) {
-		this.isNew = isNew;
 	}
 }
