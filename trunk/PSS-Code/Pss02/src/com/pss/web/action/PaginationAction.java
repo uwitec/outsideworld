@@ -107,14 +107,17 @@ public abstract class PaginationAction<T> extends EntityAction{
 			return INPUT;
 		}
 		try {
-			getQuery().put("entity", entity);
-			totalCount = getService().count(getQuery());
 			entity.setTenant(getTenantId());
-			items = getService().query(getQuery());
+			getQuery().put("entity", entity);
+			totalCount = service().count(getQuery());
+			entity.setTenant(getTenantId());
+			items = service().query(getQuery());
 		} catch (BusinessHandleException e) {
 			e.printStackTrace();
+			setCorrect(false);
 			return ERROR;
 		}
+		setCorrect(true);
 		return SUCCESS;
 	}
 	
