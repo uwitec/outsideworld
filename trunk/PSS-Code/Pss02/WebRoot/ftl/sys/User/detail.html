@@ -1,11 +1,11 @@
-<#if entity?? && entity.userId??> <#assign userId=entity.userId>
+<#if entity?? && entity.id??> <#assign id=entity.id>
 <#assign tenant=entity.tenant> <#assign userName=entity.userName>
 <#assign userPassword=entity.userPassword> <#assign
 roleId=entity.role.roleId> </#if>
 <table>
 	<tr>
-		<td><input id="entity.userId" name="entity.userId"
-			required="true" value="${userId!}" style="display: none"></td>
+		<td><input id="entity.id" name="entity.id"
+			required="true" value="${id!}" style="display: none"></td>
 		<td><input id="entity.tenant" name="entity.tenant"
 			required="true" value="${tenant!}" style="display: none"></td>
 	</tr>
