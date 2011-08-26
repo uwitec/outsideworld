@@ -77,15 +77,15 @@
 
 	<select id="countByParams" parameterType="java.util.Map"
 		resultType="java.lang.Integer">
-		select count(*) from user where tenant = #{tenant}
-		<if test="entity.id!=null">
+		select count(*) from user where tenant = #{entity.tenant}
+		<if test="entity.id!=null and entity.id!=''">
 			and user_id = #{entity.id}
 		</if>
-		<if test="entity.userName!=null">
+		<if test="entity.userName!=null and entity.userName!=''">
 			and user_name like '%${entity.userName}%'
 	    </if>
-		<if test="entity.role.roleId!=null">
-			and role_id = #{entity..role.roleId}
+		<if test="entity.role.roleId!=null and entity.role.roleId!=''">
+			and role_id = #{entity.role.roleId}
 	    </if>
 	</select>
 
