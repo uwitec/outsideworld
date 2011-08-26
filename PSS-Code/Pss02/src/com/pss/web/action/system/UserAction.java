@@ -19,7 +19,7 @@ public class UserAction extends PaginationAction<User> {
 	private IUserService userService;
 
 	@Override
-	public IBusinessService<User> getService() {
+	public IBusinessService<User> service() {
 		return userService;
 	}
 	
