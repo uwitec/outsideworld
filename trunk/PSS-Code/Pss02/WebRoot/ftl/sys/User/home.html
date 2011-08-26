@@ -53,10 +53,6 @@ function afterRemove(data){
 }
 function update(){
   var id = Common.getSelectedRows("jsonGrid", "id"); 
-  if(id==null||id==''){
-      alert("请您选择一条记录?");
-      return;
-  }
   if(!id || id.length<1){
 	  Common.showMessage("请选择一个需要修改的用户");
   }else if(id.length && id.length>1){
