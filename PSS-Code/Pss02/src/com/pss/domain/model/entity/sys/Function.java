@@ -14,8 +14,6 @@
 
 package com.pss.domain.model.entity.sys;
 
-import com.pss.domain.model.entity.IEntity;
-
 /**
  * <p>类说明</p> 
  * <p>Copyright: 版权所有 (c) 2010 - 2030</p>
@@ -24,7 +22,7 @@ import com.pss.domain.model.entity.IEntity;
  * @version 1.0
  * @since   Jul 20, 2011
  */
-public class Function implements IEntity {
+public class Function {
     private String functionId;
     private String url;
     private String module;

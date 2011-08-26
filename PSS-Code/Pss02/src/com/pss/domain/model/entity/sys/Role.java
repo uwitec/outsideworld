@@ -16,7 +16,7 @@ package com.pss.domain.model.entity.sys;
 
 import java.util.List;
 
-import com.pss.domain.model.entity.IEntity;
+import com.pss.domain.model.entity.Entity;
 
 /**
  * <p>类说明</p> 
@@ -26,7 +26,7 @@ import com.pss.domain.model.entity.IEntity;
  * @version 1.0
  * @since   Jun 21, 2011
  */
-public class Role implements IEntity {
+public class Role {
     private String roleId;
     private String roleName;
     private String roleDesc;
