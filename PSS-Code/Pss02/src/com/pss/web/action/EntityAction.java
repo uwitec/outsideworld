@@ -17,6 +17,8 @@ package com.pss.web.action;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
+import org.apache.struts2.json.annotations.JSON;
+
 import com.pss.domain.model.entity.Entity;
 import com.pss.exception.BusinessHandleException;
 import com.pss.exception.EntityAlreadyExistedException;
@@ -58,7 +60,7 @@ public abstract class EntityAction<T extends Entity> extends AbstractAction {
 	}
 
 	//获得service的对象
-	public abstract IBusinessService<T> getService();
+	public abstract IBusinessService<T> service();
 
 	/**
 	 * 设置当前实体
@@ -74,6 +76,7 @@ public abstract class EntityAction<T extends Entity> extends AbstractAction {
 	 * 
 	 * @return
 	 */
+	
 	public T getEntity() {
 		return entity;
 	}
@@ -103,7 +106,7 @@ public abstract class EntityAction<T extends Entity> extends AbstractAction {
 	 */
 	public String update(){
 		try {
-			entity = getService().find(entity.getId());
+			entity = service().find(entity.getId());
 		} catch (BusinessHandleException e) {
 			addActionError("数据已经被删除");
 		}
@@ -127,7 +130,7 @@ public abstract class EntityAction<T extends Entity> extends AbstractAction {
 	public String addEntity() {
 		try {
 			entity.setTenant(getTenantId());
-			getService().add(entity);
+			service().add(entity);
 			setCorrect(true);
 		} catch (BusinessHandleException e) {
 			setCorrect(false);
@@ -143,7 +146,7 @@ public abstract class EntityAction<T extends Entity> extends AbstractAction {
 	 */
 	public String updateEntity(){
 		try {
-			getService().update(entity);
+			service().update(entity);
 			setCorrect(true);
 		} catch (BusinessHandleException e) {
 			setCorrect(false);
@@ -161,7 +164,7 @@ public abstract class EntityAction<T extends Entity> extends AbstractAction {
 	 */
 	public String deleteEntity(){
 		try {
-			getService().delete(WebUtil.split(selectedIds, ","));
+			service().delete(WebUtil.split(selectedIds, ","));
 		} catch (BusinessHandleException e) {
 			setCorrect(false);
 			return ERROR;
@@ -189,6 +192,7 @@ public abstract class EntityAction<T extends Entity> extends AbstractAction {
 	 * 
 	 * @return
 	 */
+	@JSON()
 	public List<T> getItems() {
 		return items;
 	}	
