@@ -48,7 +48,11 @@ function afterRemove(data){
 	}	
 }
 function update(){
-  var id = Common.getSelectedRows("jsonGrid", "id");
+  var id = Common.getSelectedRows("jsonGrid", "id"); 
+  if(id==null||id==''){
+      alert("请您选择一条记录?");
+      return;
+  }
   var tenant = Common.getSelectedRows("jsonGrid", "tenant");
   Common.showDialog('修改用户','/Pss/sys/User_update?entity.id='+id+'&entity.tenant='+tenant)
 }
