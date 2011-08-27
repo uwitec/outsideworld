@@ -251,5 +251,60 @@ var Common = {
 	/* 在一个div下面添加一条错误信息 */
 	addError : function() {
 
+	},
+	refreshTable : function(table) {
+		var pageSize = parseInt(document.getElementById("pageSize").value);
+		var params = {
+			pageSize : pageSize
+		};
+		Common.refreshDataGrid(table, null, params);
+	},
+	search : function() {
+		var url = dojo.attr("jsonGrid", "action");
+		var params = dojo.formToObject("searchForm");
+		Common.refreshDataGrid("jsonGrid", url, params);
+	},
+	preRemove : function(url) {
+		var ids = this.getSelectedRows("jsonGrid", "id");
+		if (!ids || ids.length < 1) {
+			this.showMessage("至少需要选择一条数据");
+		} else {
+			this.confirm("确认要删除当前选择的数据吗?", this.doRemove, {
+				ids : ids.toString(),
+				url : url
+			});
+		}
+	},
+	doRemove : function(data) {
+		var params = {
+			selectedIds : data.ids
+		};
+		this.post(data.url, params, function(response) {
+			if (response.correct) {
+				Common.refreshTable("jsonGrid");
+			}
+		});
+	},
+	update : function(title, url) {
+		var id = this.getSelectedRows("jsonGrid", "id");
+		if (!id || id.length < 1) {
+			this.showMessage("请选择一个需要修改的数据");
+		} else if (id.length && id.length > 1) {
+			this.showMessage("只能选择一条数据进行修改");
+		} else {
+			var tenant = Common.getSelectedRows("jsonGrid", "tenant");
+			var id = Common.getSelectedRows("jsonGrid", "id");
+			this.showDialog(title, url + '?entity.id=' + id + '&entity.tenant='
+					+ tenant);
+		}
+	},
+	closeDiaogAndRefresh : function(data) {
+		if (data != null && data.correct) {
+			Common.clearForm();
+			Common.hideDialog();
+			Common.refreshDataGrid("jsonGrid");
+		} else {
+			Common.showErrors(data);
+		}
 	}
 };

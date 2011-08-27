@@ -1,18 +1,8 @@
 <center>
-	<div id="updateUserFormErrors"></div>
-	<form id="updateUserForm" method="post"
-		action="${request.getContextPath()}/sys/User/updateEntity">
-		<#include "detail.html"/></form>
-	<button dojoType="dijit.form.Button"
-		onClick="Common.submitFormAsync('updateUserForm', handleResult)">保存</button>
-	<script type="text/javascript">
-	function handleResult(data){
-		if(data.correct){
-			Common.refreshDataGrid("jsonGrid");
-			Common.hideDialog();
-		}else{
-			Common.showErrors(data);
-		}
-	}
-	</script>
+<div id="updateUserFormErrors"></div>
+<form id="updateUserForm" method="post"
+	action="${request.getContextPath()}/sys/User/updateEntity">
+<#include "detail.html"/></form>
+<button dojoType="dijit.form.Button"
+	onClick="Common.submitFormAsync('updateUserForm', Common.closeDiaogAndRefresh)">保存</button>
 </center>

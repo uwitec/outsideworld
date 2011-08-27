@@ -1,21 +1,25 @@
 <div dojoType="dijit.Toolbar">
-	<button dojoType="dijit.form.Button"
-		onClick="Common.showDialog('新建用户','/Pss/sys/User_add')">新建</button>
-	<span dojoType="dijit.ToolbarSeparator"></span>
-	<button dojoType="dijit.form.Button" onClick="update()">修改</button>
-	<span dojoType="dijit.ToolbarSeparator"></span>
-	<button dojoType="dijit.form.Button" onClick="remove()">删除</button>
-	<form id="searchForm" style="display: inline; float: right;">
-		用户名： <input id="entity.userName" name="entity.userName" /> 角色 <select
-			name="entity.role.roleId">
-			<option value="">全部</option>
-			<option value="0">店长</option>
-			<option value="1">采购员</option>
-			<option value="2">仓库管理员</option>
-			<option value="3">销售员</option>
-		</select>
-		<button dojoType="dijit.form.Button" onClick="search()">查询</button>
-	</form>
+<button dojoType="dijit.form.Button"
+	onClick="Common.showDialog('新建用户','/Pss/sys/User_add')">新建</button>
+<span dojoType="dijit.ToolbarSeparator"></span>
+<button dojoType="dijit.form.Button"
+	onClick="Common.update('修改用户','/Pss/sys/User_update')">修改</button>
+<span dojoType="dijit.ToolbarSeparator"></span>
+<button dojoType="dijit.form.Button"
+	onClick="Common.preRemove('${request.getContextPath()}/sys/User/deleteEntity')">删除</button>
+<form id="searchForm"
+	action="${request.getContextPath()}/sys/User/queryEntity">用户名： <input
+	id="entity.userName" name="entity.userName" /> 角色 <select
+	name="entity.role.roleId">
+	<option value="">全部</option>
+	<option value="0">店长</option>
+	<option value="1">采购员</option>
+	<option value="2">仓库管理员</option>
+	<option value="3">销售员</option>
+</select>
+<button id="searchBtn" dojoType="dijit.form.Button"
+	onClick="Common.search()">查询</button>
+</form>
 </div>
 <#include "../../common/pager.html"/>
 <table id="jsonGrid" dojoType="dojox.grid.DataGrid">
@@ -28,46 +32,19 @@
 	</thead>
 </table>
 <script type="text/javascript">
-function init(){
-	Common.refreshDataGrid("jsonGrid","${request.getContextPath()}/sys/User/queryEntity");	
-}
-function search(){
-	var params = dojo.formToObject("searchForm");
-	Common.refreshDataGrid("jsonGrid","${request.getContextPath()}/sys/User/queryEntity",params);
-}
-function remove(){
-	var ids = Common.getSelectedRows("jsonGrid", "userId");
-	if(!ids || ids.length<1){
-		Common.showMessage("至少需要选择一个用户才能删除");
-	}else{
-		Common.confirm("确认要删除当前选择的用户吗?",doRemove,ids.toString());
+	function init() {
+		Common.refreshDataGrid("jsonGrid",
+				"${request.getContextPath()}/sys/User/queryEntity");
 	}
-}
-function doRemove(data){
-	var params = {selectedIds:data};
-	Common.post('${request.getContextPath()}/sys/User/deleteEntity',params,afterRemove);
-}
-function afterRemove(data){
-	if(data.correct){
-		Common.refreshDataGrid("jsonGrid");
-	}	
-}
-function update(){
-  var id = Common.getSelectedRows("jsonGrid", "id"); 
-  if(!id || id.length<1){
-	  Common.showMessage("请选择一个需要修改的用户");
-  }else if(id.length && id.length>1){
-	  Common.showMessage("只能选择一个用户进行修改");
-  }else{
-	  var tenant = Common.getSelectedRows("jsonGrid", "tenant");
-	  Common.showDialog('修改用户','/Pss/sys/User_update?entity.id='+id+'&entity.tenant='+tenant);
-  }
-}
-function roleValue(value, rowIndex){
-	if(value.roleId==0){
-		return "店主";
-	}else{
-		return "店员";
+	function roleValue(value, rowIndex) {
+		if (value.roleId == 0) {
+			return "店主";
+		} else if (value.roleId == 1) {
+			return "采购员";
+		} else if (value.roleId == 2) {
+			return "库存管理员";
+		} else if (value.roleId == 3) {
+			return "销售";
+		}
 	}
-}
 </script>
