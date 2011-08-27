@@ -142,6 +142,7 @@ public abstract class EntityAction<T extends Entity> extends AbstractAction {
 		} catch (BusinessHandleException e) {
 			setCorrect(false);
 		} catch (EntityAlreadyExistedException e) {
+			addActionError("user.existed");
 			setCorrect(false);
 		}
 		return SUCCESS;
