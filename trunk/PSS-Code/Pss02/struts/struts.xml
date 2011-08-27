@@ -59,6 +59,11 @@
 			</interceptor-stack>
 		</interceptors>
 		<default-interceptor-ref name="pssStack" />
+		<global-results>
+			<result name="input" type="json" />
+			<result name="login" type="redirect">/login.json</result>
+			<result name="error" type="json" />
+		</global-results>
 	</package>
 
 	<package name="login_regist" namespace="/" extends="baseJson">

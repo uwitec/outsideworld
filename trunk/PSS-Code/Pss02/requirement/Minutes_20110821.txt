@@ -1,7 +1,7 @@
 1. 修改Pagination.js(完成，添加pager.html)
 2. Update User后台错误(完成)
-3. 前台错误显示
-4. session超时，显示登陆对话框
+3. 前台错误显示(完成 )
+4. session超时，显示登陆对话框(完成，未测试)
 
 注意：
 1.每个action成功以后，设置correct为true

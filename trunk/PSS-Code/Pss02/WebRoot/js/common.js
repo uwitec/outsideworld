@@ -22,9 +22,13 @@ var Common = {
 	submitFormAsync : function(formId, success) {
 		if (this.validateForm(formId)) {
 			var xhrArgs = {
+				common : this,
 				form : dojo.byId(formId),
 				handleAs : "json",
 				load : function(data) {
+					if (!this.common.checkLogin(data)) {
+						return;
+					}
 					var formErrors = dojo.byId(formId + "Errors");
 					if (formErrors != null) {
 						dojo.empty(formErrors);
@@ -32,6 +36,13 @@ var Common = {
 							for ( var field in data.errors) {
 								dojo.create("li", {
 									"innerHTML" : data.errors[field]
+								}, formErrors);
+							}
+						}
+						if (data.errorMessages != null) {
+							for ( var msg in data.errorMessages) {
+								dojo.create("li", {
+									"innerHTML" : data.errorMessages[msg]
 								}, formErrors);
 							}
 						}
@@ -51,15 +62,29 @@ var Common = {
 	// Post data
 	post : function(url, data, success) {
 		var xhrArgs = {
+			common : this,
 			url : url,
 			handleAs : "json",
 			content : data,
 			load : function(response) {
+				if (!this.common.checkLogin(response)) {
+					return;
+				}
 				if (success)
 					success(response);
 			}
 		};
 		dojo.xhrPost(xhrArgs);
+	},
+	/* 将非登陆AJAX请求的返回结果定向至首页 */
+	checkLogin : function(data) {
+		if (data != null && data.login != null && data.login == false) {
+			this.goTo("/Pss/");
+			return false;
+		} else {
+			return true;
+		}
+
 	},
 	/* 清空表单 */
 	clearForm : function(formId) {
