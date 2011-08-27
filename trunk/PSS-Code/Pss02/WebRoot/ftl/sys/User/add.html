@@ -1,17 +1,8 @@
 <center>
-	<div id="addUserFormErrors"></div>
-	<form id="addUserForm" method="post"
-		action="${request.getContextPath()}/sys/User/addEntity">
-		<#include "detail.html"/></form>
-	<button dojoType="dijit.form.Button"
-		onClick="Common.submitFormAsync('addUserForm', addUserResponse)">保存</button>
+<div id="addUserFormErrors"></div>
+<form id="addUserForm" method="post"
+	action="${request.getContextPath()}/sys/User/addEntity">
+<#include "detail.html"/></form>
+<button dojoType="dijit.form.Button"
+	onClick="Common.submitFormAsync('addUserForm', Common.closeDiaogAndRefresh)">保存</button>
 </center>
-<script>
-function addUserResponse(data){
-	if(data!=null && data.correct){
-		Common.clearForm();
-		Common.hideDialog();
-		Common.refreshDataGrid("jsonGrid");
-	}	
-}
-</script>
