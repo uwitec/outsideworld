@@ -6,7 +6,7 @@
 	onClick="Common.update('修改用户','/Pss/sys/User_update')">修改</button>
 <span dojoType="dijit.ToolbarSeparator"></span>
 <button dojoType="dijit.form.Button"
-	onClick="Common.preRemove('${request.getContextPath()}/sys/User/deleteEntity')">删除</button>
+	onClick="Common.remove('${request.getContextPath()}/sys/User/deleteEntity')">删除</button>
 <form id="searchForm"
 	action="${request.getContextPath()}/sys/User/queryEntity">用户名： <input
 	id="entity.userName" name="entity.userName" /> 角色 <select
