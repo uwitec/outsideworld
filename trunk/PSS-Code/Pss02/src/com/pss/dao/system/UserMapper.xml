@@ -54,7 +54,7 @@
 		<if test="entity.userName!=null">
 			and user_name like '%${entity.userName}%'
 	    </if>
-		<if test="entity.role.roleId!=null">
+		<if test="entity.role!=null and entity.role.roleId!=''">
 			and role_id = #{entity.role.roleId}
 	    </if>
 		limit
@@ -84,7 +84,7 @@
 		<if test="entity.userName!=null and entity.userName!=''">
 			and user_name like '%${entity.userName}%'
 	    </if>
-		<if test="entity.role.roleId!=null and entity.role.roleId!=''">
+		<if test="entity.role!=null and entity.role.roleId!=''">
 			and role_id = #{entity.role.roleId}
 	    </if>
 	</select>
