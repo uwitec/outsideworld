@@ -40,7 +40,7 @@
 			<result-type name="json" class="org.apache.struts2.json.JSONResult"
 				default="true">
 				<param name="ignoreHierarchy">false</param>
-				<param name="excludeProperties">locale,fieldErrors,texts,actionErrors,actionMessages,errorMessages</param>
+				<param name="excludeProperties">locale,fieldErrors,texts,actionErrors,actionMessages</param>
 			</result-type>
 		</result-types>
 
