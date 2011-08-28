@@ -19,7 +19,7 @@ public class HomeAction extends AbstractAction {
 	private IFunctionService functionService;
 
 	// 所获得的系统的菜单
-	private List<Function> userFunction = new ArrayList<Function>();
+	private List<Function> systemFunction = new ArrayList<Function>();
 	private List<Function> purchaseFunction = new ArrayList<Function>();
 	private List<Function> inventoryFunction = new ArrayList<Function>();
 	private List<Function> saleFunction = new ArrayList<Function>();
@@ -36,8 +36,8 @@ public class HomeAction extends AbstractAction {
 		List<Function> functions = functionService.obtainFunction(roleId);
 		if (functions != null) {
 			for (Function function : functions) {
-				if (StringUtils.equals(function.getModule(), "User")) {
-					userFunction.add(function);
+				if (StringUtils.equals(function.getModule(), "System")) {
+					systemFunction.add(function);
 				}
 				if (StringUtils.equals(function.getModule(), "Purchase")) {
 					purchaseFunction.add(function);
@@ -61,7 +61,7 @@ public class HomeAction extends AbstractAction {
 	}
 
 	public List<Function> getUserFunction() {
-		return userFunction;
+		return systemFunction;
 	}
 
 	public List<Function> getPurchaseFunction() {
