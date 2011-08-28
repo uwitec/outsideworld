@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC   
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<!-- Page mapping -->
+	<package name="purchase_page" namespace="/purchase" extends="abs">
+		<action name="*_*" class="com.pss.web.action.purchase.{1}Action"
+			method="{2}">
+			<result>/ftl/purchase/{1}/{2}.html</result>
+		</action>
+	</package>
+
+	<!-- JSON mapping -->
+	<package name="purchase_json" namespace="/purchase" extends="pssJson">
+		<action name="*/*" class="com.pss.web.action.purchase.{1}Action"
+			method="{2}">
+			<result />
+		</action>
+	</package>
+</struts>
