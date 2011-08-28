@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pss.dao.purchase.SupplierMapper">
+	<resultMap type="com.pss.domain.model.entity.purchase.Supplier" id="SupplierMapper">
+		<id property="id" column="id" />
+		<result property="tenant" column="tenant" />
+		<result property="supplierName" column="name" />
+		<result property="supplierAddress" column="address" />
+		<result property="supplierZipCode" column="zip_code" />
+		<result property="supplierContact" column="contact" />
+		<result property="supplierTel" column="tel" />
+		<result property="supplierNote" column="note" />
+	</resultMap>
+
+	<insert id="add" parameterType="com.pss.domain.model.entity.purchase.Supplier">
+		insert into
+		supplier(id,tenant,name,address,zip_code,contact,tel,note)
+		values(#{id},#{tenant},#{supplierName},#{supplierAddress},#{supplierZipCode},#{supplierContact},#{supplierTel},#{supplierNote});
+	</insert>
+
+	<delete id="delete" parameterType="java.lang.String">
+		delete from supplier where
+		id=#{id}
+	</delete>
+
+	<update id="update" parameterType="com.pss.domain.model.entity.purchase.Supplier">
+		update supplier set name =
+		#{supplierName},address = #{supplierAddress},zip_code = #{supplierZipCode}, contact=#{supplierContact},
+		tel=#{supplierTel},note=#{supplierNote}
+		where tenant = #{tenant} and user_id = #{id}
+	</update>
+
+	<select id="findById" parameterType="java.lang.String"
+		resultMap="SupplierMapper">
+		select * from supplier where id=#{id}
+	</select>
+
+	<select id="findByEntity" parameterType="com.pss.domain.model.entity.purchase.Supplier"
+		resultMap="SupplierMapper">
+		select * from supplier where name = #{supplierName} and tenant
+		= #{tenant}
+	</select>
+
+	<select id="queryByEntity" parameterType="com.pss.domain.model.entity.purchase.Supplier"
+		resultMap="SupplierMapper">
+		select * from supplier where name = #{supplierName} and tenant
+		= #{tenant}
+	</select>
+</mapper>
