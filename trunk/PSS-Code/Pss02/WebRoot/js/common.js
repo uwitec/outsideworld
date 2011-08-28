@@ -259,11 +259,13 @@ var Common = {
 		};
 		Common.refreshDataGrid(table, null, params);
 	},
+	/* 查询数据 */
 	search : function() {
 		var url = dojo.attr("jsonGrid", "action");
 		var params = dojo.formToObject("searchForm");
 		Common.refreshDataGrid("jsonGrid", url, params);
 	},
+	/* 更新数据 */
 	update : function(title, url) {
 		var id = this.getSelectedRows("jsonGrid", "id");
 		if (!id || id.length < 1) {
@@ -277,6 +279,7 @@ var Common = {
 					+ tenant);
 		}
 	},
+	/* 删除数据 */
 	remove : function(url) {
 		var ids = this.getSelectedRows("jsonGrid", "id");
 		if (!ids || ids.length < 1) {
