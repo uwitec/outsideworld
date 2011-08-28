@@ -9,6 +9,4 @@ http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
 	</bean>
 	<bean id="supplierRepository" class="com.pss.domain.repository.purchase.SupplierRepository">
 	</bean>
-	<bean id="idRepository" class="com.pss.domain.repository.system.IdRepository">
-	</bean>
 </beans>
