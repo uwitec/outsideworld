@@ -17,7 +17,7 @@
 <div dojoType="dijit.layout.AccordionPane" title="采购管理">	
     <#list purchaseFunction as function>
     	<div dojoType="dijit.Toolbar">
-        <input type=button url="${function.getUrl()}" baseClass="fixedWidthBtn" value="${function.getTitle()}"/>
+		<button dojoType="dijit.form.Button" baseClass="fixedWidthBtn" onClick="Common.setMainPane('${function.getUrl()}');">${function.getTitle()}</button>        
         </div>
     </#list>
 </div>
