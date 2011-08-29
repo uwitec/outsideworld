@@ -57,45 +57,38 @@ public class SupplierService extends AbstractService implements ISupplierService
 	@Override
 	public void update(Supplier supplier) throws BusinessHandleException,
 			EntityNotExistedException {
-		// TODO Auto-generated method stub
-		
+		supplierRepository.update(supplier);
 	}
 
 	@Override
 	public Supplier find(String id) throws BusinessHandleException {
-		// TODO Auto-generated method stub
-		return null;
+		return supplierRepository.find(id);
 	}
 
 	@Override
 	public Supplier find(Supplier supplier) throws BusinessHandleException {
-		// TODO Auto-generated method stub
-		return null;
+		return supplierRepository.find(supplier);
 	}
 
 	@Override
 	public List<Supplier> query(Supplier supplier) throws BusinessHandleException {
-		// TODO Auto-generated method stub
-		return null;
+		return supplierRepository.query(supplier);
 	}
 
 	@Override
 	public List<Supplier> query(Map<String, Object> params)
 			throws BusinessHandleException {
-		// TODO Auto-generated method stub
-		return null;
+		return supplierRepository.query(params);
 	}
 
 	@Override
 	public int count(Supplier supplier) throws BusinessHandleException {
-		// TODO Auto-generated method stub
-		return 0;
+		return supplierRepository.count(supplier);
 	}
 
 	@Override
 	public int count(Map<String, Object> params) throws BusinessHandleException {
-		// TODO Auto-generated method stub
-		return 0;
+		return supplierRepository.count(params);
 	}
 
 }
