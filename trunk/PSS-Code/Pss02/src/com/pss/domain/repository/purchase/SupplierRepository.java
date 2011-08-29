@@ -60,20 +60,17 @@ public class SupplierRepository implements BaseRepository<Supplier> {
 	@Override
 	public List<Supplier> query(Map<String, Object> params)
 			throws BusinessHandleException {
-		// TODO Auto-generated method stub
-		return null;
+		return supplierMapper.queryByParams(params);
 	}
 
 	@Override
 	public int count(Supplier supplier) throws BusinessHandleException {
-		// TODO Auto-generated method stub
-		return 0;
+		return supplierMapper.countByEntity(supplier);
 	}
 
 	@Override
 	public int count(Map<String, Object> params) throws BusinessHandleException {
-		// TODO Auto-generated method stub
-		return 0;
+		return supplierMapper.countByParams(params);
 	}
 
 	
