@@ -12,7 +12,7 @@ import com.pss.exception.BusinessHandleException;
 import com.pss.exception.EntityAlreadyExistedException;
 import com.pss.service.ITenantService;
 
-public class TenantService extends AbstractService implements ITenantService {
+public class TenantService extends IdService implements ITenantService {
 	private TenantRepository tenantRepository;
 	private UserRepository userRepository;
 
