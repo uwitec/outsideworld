@@ -1,28 +1,29 @@
 <div dojoType="dijit.Toolbar">
-<button dojoType="dijit.form.Button"
-	onClick="Common.showDialog('新建用户','/Pss/sys/User_add')">新建</button>
-<span dojoType="dijit.ToolbarSeparator"></span>
-<button dojoType="dijit.form.Button"
-	onClick="Common.update('修改用户','/Pss/sys/User_update')">修改</button>
-<span dojoType="dijit.ToolbarSeparator"></span>
-<button dojoType="dijit.form.Button"
-	onClick="Common.remove('${request.getContextPath()}/sys/User/deleteEntity')">删除</button>
-<form id="searchForm"
-	action="${request.getContextPath()}/sys/User/queryEntity">用户名： <input
-	id="entity.userName" name="entity.userName" /> 角色 <select
-	name="entity.role.roleId">
-	<option value="">全部</option>
-	<option value="0">店长</option>
-	<option value="1">采购员</option>
-	<option value="2">仓库管理员</option>
-	<option value="3">销售员</option>
-</select>
-<button id="searchBtn" dojoType="dijit.form.Button"
-	onClick="Common.search()">查询</button>
-</form>
+	<button dojoType="dijit.form.Button"
+		onClick="Common.showDialog('新建用户','/Pss/sys/User_add')">新建</button>
+	<span dojoType="dijit.ToolbarSeparator"></span>
+	<button dojoType="dijit.form.Button"
+		onClick="Common.update('修改用户','/Pss/sys/User_update')">修改</button>
+	<span dojoType="dijit.ToolbarSeparator"></span>
+	<button dojoType="dijit.form.Button"
+		onClick="Common.remove('${request.getContextPath()}/sys/User/deleteEntity')">删除</button>
+	<form id="searchForm"
+		action="${request.getContextPath()}/sys/User/queryEntity">
+		用户名： <input id="entity.userName" name="entity.userName" /> 角色 <select
+			name="entity.role.roleId">
+			<option value="">全部</option>
+			<option value="0">店长</option>
+			<option value="1">采购员</option>
+			<option value="2">仓库管理员</option>
+			<option value="3">销售员</option>
+		</select>
+		<button id="searchBtn" dojoType="dijit.form.Button"
+			onClick="Common.search()">查询</button>
+	</form>
 </div>
 <#include "../../common/pager.html"/>
-<table id="jsonGrid" dojoType="dojox.grid.DataGrid">
+<table id="jsonGrid" dojoType="dojox.grid.DataGrid"
+	params="${request.getContextPath()}/sys/User/queryEntity">
 	<thead>
 		<tr>
 			<th field="userName" width="auto">账号</th>
@@ -32,10 +33,6 @@
 	</thead>
 </table>
 <script type="text/javascript">
-	function init() {
-		Common.refreshDataGrid("jsonGrid",
-				"${request.getContextPath()}/sys/User/queryEntity");
-	}
 	function roleValue(value, rowIndex) {
 		if (value.roleId == 0) {
 			return "店主";
