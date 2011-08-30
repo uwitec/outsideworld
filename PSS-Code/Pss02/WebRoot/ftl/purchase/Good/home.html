@@ -1,0 +1,41 @@
+<#assign basePath="${request.getContextPath()}/purchase">
+<div dojoType="dijit.Toolbar">
+	<button dojoType="dijit.form.Button"
+		onClick="Common.showDialog('新建商品','${basePath}/Good_add')">新建</button>
+	<span dojoType="dijit.ToolbarSeparator"></span>
+	<button dojoType="dijit.form.Button"
+		onClick="Common.update('修改商品','${basePath}/Good_update')">修改</button>
+	<span dojoType="dijit.ToolbarSeparator"></span>
+	<button dojoType="dijit.form.Button"
+		onClick="Common.remove('${basePath}/Good/deleteEntity')">删除</button>
+	<form id="searchForm" action="${basePath}/Good/queryEntity">
+		商品名称： <input id="entity.name" name="entity.name" />
+		商品分类： <input id="entity.category" name="entity.category" />
+		<button id="searchBtn" dojoType="dijit.form.Button"
+			onClick="Common.search()">查询</button>
+	</form>
+</div>
+<#include "../../common/pager.html"/>
+<table id="jsonGrid" dojoType="dojox.grid.DataGrid">
+	<thead>
+		<tr>
+			<th field="name" width="auto">商品名称</th>
+			<th field="category" width="auto">商品分类</th>
+			<th field="specification" width="auto">商品规格</th>
+			<th field="unit" width="auto">单位</th>
+			<th field="purchasePrice" width="auto">参考进价</th>
+			<th field="salePrice" width="auto">参考售价</th>
+			<th field="lastUpdateUser" width="auto">操作员</th>
+			<th field="lastUpdateDate" width="auto">操作日期</th>
+		</tr>
+	</thead>
+</table>
+<script type="text/javascript">
+	function categoryType(value, rowIndex) {
+		if(value==null || value==""){
+			return "系统分类";
+		}else{
+			return "自定义分类";
+		}
+	}
+</script>

@@ -1,0 +1,9 @@
+<#assign basePath="${request.getContextPath()}/purchase">
+<center>
+	<div id="addGoodFormErrors"></div>
+	<form id="addGoodForm" method="post"
+		action="${basePath}/Good/addEntity"><#include
+		"detail.html"/></form>
+	<button dojoType="dijit.form.Button"
+		onClick="Common.submitFormAsync('addGoodForm', Common.closeDiaogAndRefresh)">保存</button>
+</center>
