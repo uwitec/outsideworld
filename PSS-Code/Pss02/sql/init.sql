@@ -12,3 +12,7 @@ insert into role_privalige(role_id,function_id) values(0,1);
 insert into role_privalige(role_id,function_id) values(1,1);
 insert into role_privalige(role_id,function_id) values(0,2);
 insert into role_privalige(role_id,function_id) values(1,2);
+
+/*系统默认货品分类*/
+insert into category(id,name) values('1','副食');
+insert into category(id,name) values('2','男装 ');
