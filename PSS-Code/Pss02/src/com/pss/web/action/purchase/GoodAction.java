@@ -14,8 +14,11 @@
 
 package com.pss.web.action.purchase;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.pss.domain.model.entity.purchase.Good;
 import com.pss.service.IBusinessService;
+import com.pss.service.impl.GoodService;
 import com.pss.web.action.PaginationAction;
 
 /**
@@ -27,11 +30,11 @@ import com.pss.web.action.PaginationAction;
  * @since   Aug 29, 2011
  */
 public class GoodAction extends PaginationAction<Good> {
-
+    @Autowired
+	private GoodService goodService;
 	@Override
 	public IBusinessService<Good> service() {
-		// TODO Auto-generated method stub
-		return null;
+		return goodService;
 	}
 
 }

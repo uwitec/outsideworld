@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pss.dao.purchase.GoodMapper">
+<resultMap type="com.pss.domain.model.entity.purchase.Good" id="GoodMapper">
+		<id property="id" column="id" />
+		<result property="tenant" column="tenant" />
+		<result property="name" column="name" />
+		<result property="category" column="category" />
+		<result property="unit" column="unit" />
+		<result property="purchasePrice" column="purchase_price" />
+		<result property="salePrice" column="sale_price" />
+		<result property="inventory" column="inventory" />
+		<result property="barcode" column="barcode" />
+		<result property="status" column="status" />
+		<result property="lastUpdateUser" column="lastUpdateUser" />
+		<result property="lastUpdateDate" column="lastUpdateDate" />
+	</resultMap>
+	<insert id="add" parameterType="com.pss.domain.model.entity.purchase.Good">
+		insert into
+		goods(id,tenant,name,category,unit,purchase_price,sale_price,inventory,barcode,status,lastUpdateUser,lastUpdateDate)
+		values(#{id},#{tenant},#{name},#{category},#{unit},#{purchasePrice},#{salePrice},#{inventory},#{barcode},#{status},#{lastUpdateUser},#{lastUpdateDate});
+	</insert>
+
+	<delete id="delete" parameterType="java.lang.String">
+		delete from goods where
+		id=#{id}
+	</delete>
+
+	<update id="update" parameterType="com.pss.domain.model.entity.purchase.Good">
+		update goods set name =
+		#{name},category = #{category},unit = #{unit}, purchase_price=#{purchasePrice},
+		sale_price=#{salePrice},inventory=#{inventory},barcode=#{barcode},status=#{status},lastUpdateUser=#{lastUpdateUser},lastUpdateDate=sysdate
+		where tenant = #{tenant} and user_id = #{id}
+	</update>
+
+	<select id="findById" parameterType="java.lang.String"
+		resultMap="GoodMapper">
+		select * from goods where id=#{id}
+	</select>
+
+	<select id="findByEntity" parameterType="com.pss.domain.model.entity.purchase.Good"
+		resultMap="GoodMapper">
+		select * from goods where name = #{name} and tenant
+		= #{tenant}
+	</select>
+
+	<select id="queryByEntity" parameterType="com.pss.domain.model.entity.purchase.Good"
+		resultMap="GoodMapper">
+		select * from goods where name = #{name} and tenant
+		= #{tenant}
+	</select>
+	
+	<select id="queryByParams" parameterType="java.util.Map"
+		resultMap="GoodMapper">
+		select * from goods where tenant = #{entity.tenant}
+		<if test="entity.id!=null and entity.id!=''">
+			and id = #{id}
+		</if>
+		<if test="entity.name!=null and entity.id!=''">
+			and name like '%${entity.name}%'
+	    </if>
+	    <if test="entity.category!=null and entity.category!=''">
+			and like '%${entity.category}%'
+	    </if>
+		limit
+		#{offset},#{limit}
+	</select>
+
+	<select id="countByEntity" parameterType="com.pss.domain.model.entity.purchase.Good"
+		resultType="java.lang.Integer">
+		select count(*) from suppliers where tenant = #{tenant}
+		<if test="id!=null">
+			and id = #{id}
+		</if>
+		<if test="name!=null">
+			and name like '%${name}%'
+	    </if>
+	</select>
+
+	<select id="countByParams" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		select count(*) from goods where tenant = #{entity.tenant}
+		<if test="entity.id!=null and entity.id!=''">
+			and id = #{id}
+		</if>
+		<if test="entity.name!=null and entity.id!=''">
+			and name like '%${entity.name}%'
+	    </if>
+	    <if test="entity.category!=null and entity.category!=''">
+			and like '%${entity.category}%'
+	    </if>
+	</select>
+</mapper>
