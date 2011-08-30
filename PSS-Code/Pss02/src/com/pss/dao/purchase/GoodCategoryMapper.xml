@@ -6,13 +6,12 @@
 		<id property="id" column="id" />
 		<result property="tenant" column="tenant" />
 		<result property="categoryName" column="name" />
-		<result property="categoryDesc" column="desc" />
 	</resultMap>
 
 	<insert id="add" parameterType="com.pss.domain.model.entity.purchase.GoodCategory">
 		insert into
-		category(id,tenant,name,desc)
-		values(#{id},#{tenant},#{categoryName},#{categoryDesc});
+		category(id,tenant,name)
+		values(#{id},#{tenant},#{categoryName});
 	</insert>
 
 	<delete id="delete" parameterType="java.lang.String">
@@ -22,7 +21,7 @@
 
 	<update id="update" parameterType="com.pss.domain.model.entity.purchase.GoodCategory">
 		update category set name =
-		#{categoryName},desc = #{categoryDesc}
+		#{categoryName}
 		where id = #{id}
 	</update>
 
@@ -33,21 +32,23 @@
 
 	<select id="findByEntity" parameterType="com.pss.domain.model.entity.purchase.GoodCategory"
 		resultMap="GoodCategoryMapper">
-		select * from category where tenant = #{tenant} and name =
+		select * from category where (tenant = #{tenant} or tenant
+		is NULL) and name =
 		#{categoryName} limit 1
 	</select>
 
 	<select id="queryByEntity" parameterType="com.pss.domain.model.entity.purchase.GoodCategory"
 		resultMap="GoodCategoryMapper">
-		select * from category where tenant = #{tenant} and name =
+		select * from category where (tenant = #{tenant} or tenant
+		is NULL) and name =
 		#{categoryName}
 	</select>
 
 	<select id="queryByParams" parameterType="java.util.Map"
 		resultMap="GoodCategoryMapper">
-		select * from category where tenant = #{tenant}
-		<if test="entity.categoryName!=null">
-			and name = #{entity.categoryName}
+		select * from category where (tenant = #{tenant} or tenant is NULL)
+		<if test="entity.categoryName!=null and entity.categoryName!=''">
+			and name like '%${entity.categoryName}%'
 		</if>
 		limit
 		#{offset},#{limit}
@@ -55,16 +56,18 @@
 
 	<select id="countByEntity" parameterType="com.pss.domain.model.entity.purchase.GoodCategory"
 		resultType="java.lang.Integer">
-		select count(*) from category where tenant = #{tenant}
-		<if test="categoryName!=null">
-			and name like '%${categoryName}%'
+		select count(*) from category where (tenant = #{tenant} or tenant is
+		NULL)
+		<if test="entity.categoryName!=null and entity.categoryName!=''">
+			and name like '%${entity.categoryName}%'
 		</if>
 	</select>
 
 	<select id="countByParams" parameterType="java.util.Map"
 		resultType="java.lang.Integer">
-		select count(*) from category where tenant = #{tenant}
-		<if test="entity.categoryName!=null">
+		select count(*) from category where (tenant = #{tenant} or tenant is
+		NULL)
+		<if test="entity.categoryName!=null and entity.categoryName!=''">
 			and name like '%${entity.categoryName}%'
 		</if>
 	</select>
