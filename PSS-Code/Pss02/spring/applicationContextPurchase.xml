@@ -9,4 +9,12 @@ http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
 	</bean>
 	<bean id="supplierRepository" class="com.pss.domain.repository.purchase.SupplierRepository">
 	</bean>
+	<bean id="goodService" class="com.pss.service.impl.GoodService">
+	</bean>
+	<bean id="goodRepository" class="com.pss.domain.repository.purchase.GoodRepository">
+	</bean>
+	<bean id="goodCategoryService" class="com.pss.service.impl.GoodCategoryService">
+	</bean>
+	<bean id="goodCategoryRepository" class="com.pss.domain.repository.purchase.GoodCategoryRepository">
+	</bean>
 </beans>
