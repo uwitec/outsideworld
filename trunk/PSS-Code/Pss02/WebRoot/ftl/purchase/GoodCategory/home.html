@@ -19,7 +19,16 @@
 	<thead>
 		<tr>
 			<th field="categoryName" width="auto">货品分类名称</th>
-			<th field="categoryDesc" width="auto">货品分类说明</th>
+			<th field="tenant" width="auto" formatter="categoryType">货品分类说明</th>
 		</tr>
 	</thead>
 </table>
+<script type="text/javascript">
+	function categoryType(value, rowIndex) {
+		if(value==null || value==""){
+			return "系统分类";
+		}else{
+			return "自定义分类";
+		}
+	}
+</script>
