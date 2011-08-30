@@ -1,0 +1,15 @@
+<#if entity?? && entity.id??> <#assign id=entity.id> <#assign
+tenant=entity.tenant> <#assign categoryName=entity.categoryName>
+<#assign categoryDesc=entity.categoryDesc></#if>
+<table>
+	<input type="hidden" id="entity.id" name="entity.id" value="${id!}">
+	<input type="hidden" id="entity.tenant" name="entity.tenant"
+		value="${tenant!}">
+	<tr>
+		<td>货品分类名称</td>
+		<td><input dojoType="custom.TextInput" name="entity.categoryName"
+			required="true" regExp=".{2,20}" invalidMessage="货品分类名称不合法"
+			value="${categoryName!}">
+		</td>
+	</tr>
+</table>
