@@ -27,7 +27,7 @@
 		update suppliers set name =
 		#{supplierName},address = #{supplierAddress},zip_code = #{supplierZipCode}, contact=#{supplierContact},
 		tel=#{supplierTel},note=#{supplierNote}
-		where tenant = #{tenant} and user_id = #{id}
+		where tenant = #{tenant} and id = #{id}
 	</update>
 
 	<select id="findById" parameterType="java.lang.String"
