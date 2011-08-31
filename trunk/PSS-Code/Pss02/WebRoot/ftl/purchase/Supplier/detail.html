@@ -1,0 +1,43 @@
+<#if entity?? && entity.id??> 
+<#assign id=entity.id>
+<#assign tenant=entity.tenant> 
+<#assign supplierName=entity.supplierName>
+</#if>
+<table>
+	<tr>
+		<td><input id="entity.id" name="entity.id"
+			required="true" value="${id!}" style="display: none"></td>
+		<td><input id="entity.tenant" name="entity.tenant"
+			required="true" value="${tenant!}" style="display: none"></td>
+	</tr>
+	<tr>
+		<td>名称</td>
+		<td><input dojoType="dijit.form.TextBox" id="entity.supplierName"
+			name="entity.supplierName" required="true" value="${supplierName!}"></td>
+	</tr>
+	<tr>
+		<td>地址</td>
+		<td><input dojoType="dijit.form.TextBox" id="entity.supplierAddress"
+			name="entity.supplierAddress" required="false" value="${supplierAddress!}"></td>
+	</tr>
+		<tr>
+		<td>邮政编码</td>
+		<td><input dojoType="dijit.form.TextBox" id="entity.supplierZipCode"
+			name="entity.supplierZipCode" required="false" value="${supplierZipCode!}"></td>
+	</tr>
+		<tr>
+		<td>联系人</td>
+		<td><input dojoType="dijit.form.TextBox" id="entity.supplierContact"
+			name="entity.supplierContact" required="false" value="${supplierContact!}"></td>
+	</tr>
+	<tr>
+		<td>联系电话</td>
+		<td><input dojoType="dijit.form.TextBox" id="entity.supplierTel"
+			name="entity.supplierTel" required="false" value="${supplierTel!}"></td>
+	</tr>
+	<tr>
+		<td>备注</td>
+		<td><input dojoType="dijit.form.TextBox" id="entity.supplierNote"
+			name="entity.supplierNote" required="false" value="${supplierNote!}"></td>
+	</tr>
+</table>
