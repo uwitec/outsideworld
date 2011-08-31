@@ -1,0 +1,8 @@
+<center>
+<div id="addSupplierFormErrors"></div>
+<form id="addSupplierForm" method="post"
+	action="${request.getContextPath()}/purchase/Supplier/addEntity">
+<#include "detail.html"/></form>
+<button dojoType="dijit.form.Button"
+	onClick="Common.submitFormAsync('addSupplierForm', Common.closeDiaogAndRefresh)">保存</button>
+</center>
