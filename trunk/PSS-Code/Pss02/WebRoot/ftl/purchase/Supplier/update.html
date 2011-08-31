@@ -1,0 +1,8 @@
+<center>
+<div id="updateSupplierFormErrors"></div>
+<form id="updateSupplierForm" method="post"
+	action="${request.getContextPath()}/purchase/Supplier/updateEntity">
+<#include "detail.html"/></form>
+<button dojoType="dijit.form.Button"
+	onClick="Common.submitFormAsync('updateSupplierForm', Common.closeDiaogAndRefresh)">保存</button>
+</center>
