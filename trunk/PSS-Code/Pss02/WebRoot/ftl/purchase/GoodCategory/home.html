@@ -1,15 +1,15 @@
 <#assign basePath="${request.getContextPath()}/purchase">
 <div dojoType="dijit.Toolbar">
 	<button dojoType="dijit.form.Button"
-		onClick="Common.showDialog('新建分类','${basePath}/GoodCategory_add')">新建</button>
+		onClick="Common.showDialog('新建货品分类','${basePath}/GoodCategory_add')">新建</button>
 	<span dojoType="dijit.ToolbarSeparator"></span>
-	<button dojoType="dijit.form.Button"
-		onClick="Common.update('修改分类','${basePath}/GoodCategory_update')">修改</button>
+	<button dojoType="dijit.form.Button" onClick="updateCategory()">修改</button>
 	<span dojoType="dijit.ToolbarSeparator"></span>
-	<button dojoType="dijit.form.Button"
-		onClick="Common.remove('${basePath}/GoodCategory/deleteEntity')">删除</button>
+	<button dojoType="dijit.form.Button" onClick="removeCategory()">删除</button>
 	<form id="searchForm" action="${basePath}/GoodCategory/queryEntity">
 		货品分类名称： <input id="entity.userName" name="entity.categoryName" />
+		隐藏系统分类:<input type="checkbox" name="hideSysCate" value="true"
+			checked="checked">
 		<button id="searchBtn" dojoType="dijit.form.Button"
 			onClick="Common.search()">查询</button>
 	</form>
@@ -24,6 +24,26 @@
 	</thead>
 </table>
 <script type="text/javascript">
+	function validate(){
+		var tenants = Common.getSelectedRows("jsonGrid", "tenant");
+		for(var i=0;i<tenants.length;i++){
+			if(tenants[i]==null || tenants[i]==''){
+				Common.showMessage("不能对系统分类进行操作");
+				return false;
+			}	
+		}
+		return true;
+	}
+	function updateCategory(){
+		if(validate()){
+			Common.update('修改货品分类','${basePath}/GoodCategory_update');
+		}
+	}
+	function removeCategory(){
+		if(validate()){
+			Common.remove('${basePath}/GoodCategory/deleteEntity');
+		}
+	}
 	function categoryType(value, rowIndex) {
 		if(value==null || value==""){
 			return "系统分类";
