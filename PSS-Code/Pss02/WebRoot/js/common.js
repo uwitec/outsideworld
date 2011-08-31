@@ -89,6 +89,9 @@ var Common = {
 	/* 清空表单 */
 	clearForm : function(formId) {
 		var form = dojo.byId(formId);
+		if (form == null) {
+			return;
+		}
 		dojo.query("input:text", form).forEach(function(node, index, array) {
 			node.value = "";
 		});
@@ -283,7 +286,7 @@ var Common = {
 					selectedIds : data.ids
 				}, function(response) {
 					if (response.correct) {
-						Common.refreshTable("jsonGrid");
+						Common.search();
 					}
 				});
 			}, {
@@ -294,36 +297,16 @@ var Common = {
 	},
 	/* 刷新表格数据 */
 	refreshTable : function(table) {
-		var page = parseInt(document.getElementById("page").innerHTML);
-		var pageSize = parseInt(document.getElementById("pageSize").value);
-		var params = {
-			page : page,
-			pageSize : pageSize
-		};
-		Common.refreshDataGrid(table, null, params);
-		Common.hideDialog();
+		Common.initQuery();
 	},
 	/* 关闭对话框，刷新默认表格 */
 	closeDiaogAndRefresh : function(data) {
 		if (data != null && data.correct) {
 			Common.clearForm();
 			Common.hideDialog();
-			Common.refreshTable("jsonGrid");
+			Common.search();
 		} else {
 			Common.showErrors(data);
-		}
-	},
-	/* 初始化查询 */
-	initQuery : function() {
-		var searchBtn = document.getElementById("searchBtn");
-		if (searchBtn == null) {
-			return;
-		} else if (document.all) {
-			searchBtn.click();
-		} else {
-			var evt = document.createEvent("MouseEvents");
-			evt.initEvent("click", true, true);
-			searchBtn.dispatchEvent(evt);
 		}
 	}
 };
