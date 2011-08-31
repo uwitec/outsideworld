@@ -16,7 +16,7 @@
 
 	<delete id="delete" parameterType="java.lang.String">
 		delete from category where
-		id=#{id}
+		id=#{id} and tenant is not NULL
 	</delete>
 
 	<update id="update" parameterType="com.pss.domain.model.entity.purchase.GoodCategory">
@@ -46,7 +46,13 @@
 
 	<select id="queryByParams" parameterType="java.util.Map"
 		resultMap="GoodCategoryMapper">
-		select * from category where (tenant = #{tenant} or tenant is NULL)
+		select * from category where
+		<if test="hideSysCate == true">
+			tenant = #{tenant}
+		</if>
+		<if test="hideSysCate == false">
+			(tenant = #{tenant} or tenant is NULL)
+		</if>
 		<if test="entity.categoryName!=null and entity.categoryName!=''">
 			and name like '%${entity.categoryName}%'
 		</if>
@@ -65,11 +71,28 @@
 
 	<select id="countByParams" parameterType="java.util.Map"
 		resultType="java.lang.Integer">
-		select count(*) from category where (tenant = #{tenant} or tenant is
-		NULL)
+		select count(*) from category where
+		<if test="hideSysCate == true">
+			tenant = #{tenant}
+		</if>
+		<if test="hideSysCate == false">
+			(tenant = #{tenant} or tenant is NULL)
+		</if>
 		<if test="entity.categoryName!=null and entity.categoryName!=''">
 			and name like '%${entity.categoryName}%'
 		</if>
+	</select>
+
+	<select id="findSystemCategory" parameterType="java.lang.String"
+		resultMap="GoodCategoryMapper">
+		select * from category where tenant is NULL and
+		name=#{categoryName} limit 1
+	</select>
+
+	<select id="findTenantCategory" parameterType="com.pss.domain.model.entity.purchase.GoodCategory"
+		resultMap="GoodCategoryMapper">
+		select * from category where tenant=#{tenant} and
+		name=#{categoryName} limit 1
 	</select>
 
 </mapper>
