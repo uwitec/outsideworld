@@ -1,6 +1,6 @@
-<#if entity?? && entity.id??> <#assign id=entity.id> <#assign
-tenant=entity.tenant> <#assign categoryName=entity.categoryName>
-<#assign categoryDesc=entity.categoryDesc></#if>
+<#assign basePath="${request.getContextPath()}/purchase"> <#if entity??
+&& entity.id??> <#assign id=entity.id> <#assign tenant=entity.tenant>
+<#assign categoryName=entity.categoryName> </#if>
 <table>
 	<input type="hidden" id="entity.id" name="entity.id" value="${id!}">
 	<input type="hidden" id="entity.tenant" name="entity.tenant"
@@ -8,6 +8,7 @@ tenant=entity.tenant> <#assign categoryName=entity.categoryName>
 	<tr>
 		<td>货品分类名称</td>
 		<td><input dojoType="custom.TextInput" name="entity.categoryName"
+			remote="${basePath}/GoodCategory/validateCategoryName"
 			required="true" regExp=".{2,20}" invalidMessage="货品分类名称不合法"
 			value="${categoryName!}">
 		</td>

@@ -21,8 +21,10 @@
 
 	<script type="text/javascript">
 	function goto(page){
+		var params = dojo.formToObject("searchForm");
 		var pageSize = parseInt(document.getElementById("pageSize").value);
-		var params = {page:page,pageSize:pageSize};
+		params["page"] = page;
+		params["pageSize"] = pageSize;
 		Common.refreshDataGrid("jsonGrid",null,params);
 	}
 
