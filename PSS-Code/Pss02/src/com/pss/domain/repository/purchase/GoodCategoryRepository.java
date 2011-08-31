@@ -23,4 +23,18 @@ public class GoodCategoryRepository extends BaseRepository<GoodCategory> {
 	protected BaseMapper<GoodCategory> getMapper() {
 		return goodCategoryMapper;
 	}
+
+	public boolean isSystemCategory(String categoryName) {
+		if (goodCategoryMapper.findSystemCategory(categoryName) == null)
+			return false;
+		else
+			return true;
+	}
+
+	public boolean isTenantCategory(GoodCategory goodCategory) {
+		if (goodCategoryMapper.findTenantCategory(goodCategory) == null)
+			return false;
+		else
+			return true;
+	}
 }

@@ -20,4 +20,13 @@ public class GoodCategoryService extends AbstractService<GoodCategory>
 		return goodCategoryRepository;
 	}
 
+	@Override
+	public boolean isSystemCategory(String categoryName) {
+		return goodCategoryRepository.isSystemCategory(categoryName);
+	}
+
+	@Override
+	public boolean isTenantCategory(GoodCategory goodCategory) {
+		return goodCategoryRepository.isTenantCategory(goodCategory);
+	}
 }

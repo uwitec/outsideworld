@@ -9,4 +9,7 @@ import com.pss.domain.model.entity.purchase.GoodCategory;
  */
 public interface IGoodCategoryService extends IBusinessService<GoodCategory> {
 
+	public boolean isSystemCategory(String categoryName);
+
+	public boolean isTenantCategory(GoodCategory goodCategory);
 }
