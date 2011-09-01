@@ -14,10 +14,18 @@
 
 package com.pss.web.action.purchase;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.struts2.json.annotations.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.pss.domain.model.entity.purchase.Good;
+import com.pss.domain.model.entity.purchase.GoodCategory;
+import com.pss.exception.BusinessHandleException;
 import com.pss.service.IBusinessService;
+import com.pss.service.IGoodCategoryService;
 import com.pss.service.IGoodService;
 import com.pss.web.action.PaginationAction;
 
@@ -30,13 +38,39 @@ import com.pss.web.action.PaginationAction;
  * @since   Aug 29, 2011
  */
 public class GoodAction extends PaginationAction<Good> {
-
 	private static final long serialVersionUID = 1L;
+	private List<GoodCategory> categories;
 	@Autowired
 	private IGoodService goodService;
+	@Autowired
+	private IGoodCategoryService categoryService;
 	@Override
 	public IBusinessService<Good> service() {
 		return goodService;
 	}
+	
+	public String category(){
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("categoryName",getEntity().getCategory());
+		params.put("tenant", getTenantId());
+		try {
+			setCategories(categoryService.query(params));
+		} catch (BusinessHandleException e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+		return SUCCESS;
+	}
+
+	@JSON()
+	public List<GoodCategory> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<GoodCategory> categories) {
+		this.categories = categories;
+	}
+	
+	
 
 }
