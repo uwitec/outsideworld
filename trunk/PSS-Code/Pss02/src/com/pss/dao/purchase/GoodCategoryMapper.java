@@ -19,6 +19,6 @@ public interface GoodCategoryMapper extends BaseMapper<GoodCategory> {
 	public GoodCategory findTenantCategory(GoodCategory goodCategory)
 			throws BusinessHandleException;
 
-	public List<GoodCategory> queryByPrefix(String categoryName)
+	public List<GoodCategory> queryByPrefix(GoodCategory goodCategory)
 			throws BusinessHandleException;
 }
