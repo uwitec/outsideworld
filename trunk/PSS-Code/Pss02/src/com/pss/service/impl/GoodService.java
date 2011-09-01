@@ -51,7 +51,10 @@ public class GoodService extends AbstractService<Good> implements IGoodService{
 	@Override
 	public void add(Good entity) throws BusinessHandleException,
 			EntityAlreadyExistedException {
-    	validateAdd(entity);		
+    	resetCategory(entity);
+		if(entity.findByLogic(goodRepository)){
+			throw new BusinessHandleException("category.logic.repeate");
+		}	
 		super.add(entity);
 	}
     
@@ -59,30 +62,30 @@ public class GoodService extends AbstractService<Good> implements IGoodService{
 	@Override
 	public void update(Good entity) throws BusinessHandleException,
 			EntityNotExistedException {
-    	validate(entity);
+    	resetCategory(entity);
+    	if(entity.findByLogic(goodRepository)){
+			throw new BusinessHandleException("category.logic.repeate");
+		}
+    	if(goodRepository.find(entity.getId())==null){
+    		throw new BusinessHandleException("date.deleted");
+    	}
 		super.update(entity);
 	}
     
-    
-    private void validateAdd(Good entity)throws BusinessHandleException,EntityAlreadyExistedException{
+    /**
+     * 重新将分类名设置成分类id
+     * @param entity
+     * @throws BusinessHandleException
+     */
+    private void resetCategory(Good entity)throws BusinessHandleException{
     	//将分类名称转化为分类id
 		String name = entity.getCategory();
 		if(StringUtils.isBlank(name)){
-			throw new EntityAlreadyExistedException("category.name.isNull");
+			throw new BusinessHandleException("category.name.isNull");
 		}
 		GoodCategory goodCategory = new GoodCategory();
 		goodCategory.setCategoryName(name);
 		goodCategory.setTenant(entity.getTenant());
 		entity.setCategory(goodCategory.findIdByName(goodCategoryRepository));
-		if(entity.findByLogic(goodRepository)){
-			throw new EntityAlreadyExistedException("category.logic.repeate");
-		}
-		
     }
-    
-    private void validateUpdate(Good entity)throws BusinessHandleException,EntityNotExistedException{
-    	
-    }
-    
-    private void reset
 }
