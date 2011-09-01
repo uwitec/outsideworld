@@ -1,4 +1,4 @@
-CREATE TABLE `purchase_detail` (
+CREATE TABLE `pre_purchase_detail` (
   `id` varchar(64) NOT NULL,
   `pur_id` varchar(64) DEFAULT NULL,
   `supplier` varchar(100) DEFAULT NULL,
