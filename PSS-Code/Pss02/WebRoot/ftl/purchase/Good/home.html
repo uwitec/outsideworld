@@ -1,4 +1,6 @@
 <#assign basePath="${request.getContextPath()}/purchase">
+<span dojoType="dojo.data.ItemFileReadStore" jsId="categoryStore" url="${basePath}/GoodCategory/category"+>
+</span>
 <div dojoType="dijit.Toolbar">
 	<button dojoType="dijit.form.Button"
 		onClick="Common.showDialog('新建商品','${basePath}/Good_add')">新建</button>

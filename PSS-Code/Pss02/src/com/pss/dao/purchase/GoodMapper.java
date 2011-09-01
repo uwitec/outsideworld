@@ -14,6 +14,8 @@
 
 package com.pss.dao.purchase;
 
+import java.util.List;
+
 import com.pss.dao.BaseMapper;
 import com.pss.domain.model.entity.purchase.Good;
 
@@ -26,5 +28,5 @@ import com.pss.domain.model.entity.purchase.Good;
  * @since   Aug 29, 2011
  */
 public interface GoodMapper extends BaseMapper<Good> {
-
+    public List<Good> findByLogic(Good good);
 }

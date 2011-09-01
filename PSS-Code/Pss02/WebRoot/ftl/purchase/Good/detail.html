@@ -35,14 +35,14 @@ tenant=entity.tenant> <#assign category=entity.category>
 	<tr>
 		<td>参考进价：</td>
 		<td><input dojoType="custom.TextInput" name="entity.purchasePrice"
-			required="true" regExp="((0|[1-9]\d{0-9})\.\d{1-2})|(0|[1-9]\d{0-9})" invalidMessage="参考进价必须为数字，且最多保留两位小数"
+			required="true" regExp="^(0|[1-9][0-9]*)(\.[0-9][0-9]?)?" invalidMessage="参考进价必须为数字，且最多保留两位小数"
 			value="${purchasePrice!}">
 		</td>
 	</tr>
 	<tr>
 		<td>参考售价：</td>
 		<td><input dojoType="custom.TextInput" name="entity.salePrice"
-			required="true" regExp="((0|[1-9]\d{0-9})\.\d{1-2})|(0|[1-9]\d{0-9})" invalidMessage="参考售价必须为数字，且最多保留两位小数"
+			required="true" regExp="^(0|[1-9][0-9]*)(\.[0-9][0-9]?)?" invalidMessage="参考售价必须为数字，且最多保留两位小数"
 			value="${salePrice!}">
 		</td>
 	</tr>

@@ -16,8 +16,12 @@ package com.pss.domain.model.entity.purchase;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 
 import com.pss.domain.model.entity.Entity;
+import com.pss.domain.repository.purchase.GoodRepository;
 
 /**
  * <p>类说明</p> 
@@ -104,5 +108,22 @@ public class Good extends Entity {
 	}
 	public void setLastUpdateDate(Date lastUpdateDate) {
 		this.lastUpdateDate = lastUpdateDate;
-	}    
+	} 
+	
+	public boolean logicEquals(Good other){
+		return StringUtils.equals(name,other.getName())&&StringUtils.equals(category,other.getCategory())&&StringUtils.equals(specification,other.getSpecification());
+	}
+	
+	public boolean findByLogic(GoodRepository goodRepository){
+		List<Good> result = goodRepository.findByLogic(this);
+		if(result!=null&&result.size()>0){
+			for(Good g:result){
+				if(!StringUtils.isBlank(getId())&&!StringUtils.equals(getId(), g.getId())){
+					return true;
+				}
+			}
+			
+		}
+		return false;
+	}
 }

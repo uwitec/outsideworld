@@ -78,4 +78,18 @@ public class GoodCategoryAction extends
 	public void setHideSysCate(String hideSysCate) {
 		this.hideSysCate = new Boolean(hideSysCate);
 	}
+	
+	public String category(){
+		GoodCategory goodCategory = new GoodCategory();
+		try {
+			goodCategory.setTenant(getTenantId());
+			items = goodCategoryService.queryByPrefix(goodCategory);
+		} catch (BusinessHandleException e) {
+			e.printStackTrace();
+			setCorrect(false);
+			return ERROR;
+		}
+		setCorrect(true);
+		return SUCCESS;
+	}
 }
