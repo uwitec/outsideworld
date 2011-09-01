@@ -18,9 +18,7 @@ tenant=entity.tenant> <#assign category=entity.category>
 	</tr>
 	<tr>
 		<td>商品分类：</td>
-		<td><input dojoType="custom.TextInput" name="entity.category"
-			required="true" regExp=".{1,50}" invalidMessage="商品分类必须为1-50位字符"
-			value="${category!}">
+		<td><#include "category.html"/>
 		</td>
 	</tr>
 	<tr>

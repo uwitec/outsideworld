@@ -9,10 +9,9 @@
 	<button dojoType="dijit.form.Button"
 		onClick="Common.remove('${basePath}/Good/deleteEntity')">删除</button>
 	<form id="searchForm" action="${basePath}/Good/queryEntity">
-		商品名称： <input id="entity.name" name="entity.name" />
-		商品分类： <input id="entity.category" name="entity.category" />
-		<button id="searchBtn" dojoType="dijit.form.Button"
-			onClick="Common.search()">查询</button>
+		商品名称： <input id="entity.name" name="entity.name"/>
+		商品分类： <#include "category.html"/>
+		<button id="searchBtn" dojoType="dijit.form.Button" onClick="Common.search()">查询</button>
 	</form>
 </div>
 <#include "../../common/pager.html"/>
@@ -30,12 +29,3 @@
 		</tr>
 	</thead>
 </table>
-<script type="text/javascript">
-	function categoryType(value, rowIndex) {
-		if(value==null || value==""){
-			return "系统分类";
-		}else{
-			return "自定义分类";
-		}
-	}
-</script>
