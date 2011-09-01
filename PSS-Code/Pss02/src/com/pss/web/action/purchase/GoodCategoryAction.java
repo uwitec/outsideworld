@@ -58,14 +58,18 @@ public class GoodCategoryAction extends
 	}
 
 	public String validateCategoryName() {
-		if (goodCategoryService.isSystemCategory(entity.getCategoryName())) {
-			setFieldError("货品分类名称已经在系统分类中存在");
-			return ERROR;
-		}
+		try {
+			if (goodCategoryService.isSystemCategory(entity.getCategoryName())) {
+				setFieldError("货品分类名称已经在系统分类中存在");
+				return ERROR;
+			}
 
-		entity.setTenant(getTenantId());
-		if (goodCategoryService.isTenantCategory(entity)) {
-			setFieldError("货品分类名称已经在自定义分类中存在");
+			entity.setTenant(getTenantId());
+			if (goodCategoryService.isTenantCategory(entity)) {
+				setFieldError("货品分类名称已经在自定义分类中存在");
+				return ERROR;
+			}
+		} catch (BusinessHandleException e) {
 			return ERROR;
 		}
 		return SUCCESS;
