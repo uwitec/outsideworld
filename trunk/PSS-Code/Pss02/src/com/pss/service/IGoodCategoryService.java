@@ -1,6 +1,7 @@
 package com.pss.service;
 
 import com.pss.domain.model.entity.purchase.GoodCategory;
+import com.pss.exception.BusinessHandleException;
 
 /**
  * 
@@ -9,7 +10,9 @@ import com.pss.domain.model.entity.purchase.GoodCategory;
  */
 public interface IGoodCategoryService extends IBusinessService<GoodCategory> {
 
-	public boolean isSystemCategory(String categoryName);
+	public boolean isSystemCategory(String categoryName)
+			throws BusinessHandleException;
 
-	public boolean isTenantCategory(GoodCategory goodCategory);
+	public boolean isTenantCategory(GoodCategory goodCategory)
+			throws BusinessHandleException;
 }
