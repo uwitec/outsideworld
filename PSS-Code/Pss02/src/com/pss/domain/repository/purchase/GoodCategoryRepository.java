@@ -46,8 +46,8 @@ public class GoodCategoryRepository extends BaseRepository<GoodCategory> {
 	}
 
 	/* 前缀查询 */
-	public List<GoodCategory> queryByPrefix(String name)
+	public List<GoodCategory> queryByPrefix(GoodCategory goodCategory)
 			throws BusinessHandleException {
-		return goodCategoryMapper.queryByPrefix(name);
+		return goodCategoryMapper.queryByPrefix(goodCategory);
 	}
 }
