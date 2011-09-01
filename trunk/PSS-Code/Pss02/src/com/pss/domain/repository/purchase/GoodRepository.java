@@ -14,6 +14,8 @@
 
 package com.pss.domain.repository.purchase;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.pss.dao.BaseMapper;
@@ -38,4 +40,7 @@ public class GoodRepository extends BaseRepository<Good> {
 		return goodMapper;
 	}
 
+	public List<Good> findByLogic(Good good){
+		return goodMapper.findByLogic(good);
+	}
 }

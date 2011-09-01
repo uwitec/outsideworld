@@ -1,5 +1,7 @@
 package com.pss.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,4 +34,15 @@ public class GoodCategoryService extends AbstractService<GoodCategory>
 			throws BusinessHandleException {
 		return goodCategoryRepository.isTenantCategory(goodCategory);
 	}
+
+	@Override
+	public List<GoodCategory> queryByPrefix(GoodCategory goodCategory)
+			throws BusinessHandleException {
+		// TODO Auto-generated method stub
+		return goodCategoryRepository.queryByPrefix(goodCategory);
+	}
+
+	
+	
+	
 }
