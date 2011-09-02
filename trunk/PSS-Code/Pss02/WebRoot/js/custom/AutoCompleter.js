@@ -15,7 +15,10 @@ if (!dojo._hasResource["custom.AutoCompleter"]) {
 						this.attr("store").url = temp.substring(0, temp
 										.indexOf("?"))
 					}
-					var query = this.textbox.value;
+					var query = this.textbox.value.trim();
+					if(query==''){
+						return;
+					}
 					var newStore = new dojo.data.ItemFileReadStore({
 								url : this.attr("store").url + "?value="
 										+ query,
