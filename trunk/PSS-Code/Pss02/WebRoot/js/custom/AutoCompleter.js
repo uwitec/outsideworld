@@ -8,6 +8,7 @@ if (!dojo._hasResource["custom.AutoCompleter"]) {
 				postCreate : function() {
 					this.inherited(arguments);
 					dojo.connect(this.textbox, "onkeyup", this, "onKeyup");
+					dojo.connect(this.textbox, "onblur", this, "onBlur");
 				},
 				onKeyup : function(event) {
 					var temp = this.attr("store").url;
@@ -25,8 +26,12 @@ if (!dojo._hasResource["custom.AutoCompleter"]) {
 								urlPreventCache : true,
 								clearOnClose : true
 							});
-					this.attr("store", newStore);
+					this.attr("store", newStore);					
 
+				},
+				onBlur:function(event) {					
+					var obj = dojo.query('[acco]').at(0);
+					obj.attr("value",this.textbox.value.trim());
 				}
 			});
 }
