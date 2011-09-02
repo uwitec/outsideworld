@@ -15,6 +15,8 @@ public class GoodCategoryAction extends
 	private static final long serialVersionUID = 1L;
 
 	private boolean hideSysCate = false;
+	
+	private String value;
 
 	@Autowired
 	private IGoodCategoryService goodCategoryService;
@@ -83,6 +85,7 @@ public class GoodCategoryAction extends
 		GoodCategory goodCategory = new GoodCategory();
 		try {
 			goodCategory.setTenant(getTenantId());
+			goodCategory.setCategoryName(value);
 			items = goodCategoryService.queryByPrefix(goodCategory);
 		} catch (BusinessHandleException e) {
 			e.printStackTrace();
@@ -92,4 +95,14 @@ public class GoodCategoryAction extends
 		setCorrect(true);
 		return SUCCESS;
 	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+	
+	
 }

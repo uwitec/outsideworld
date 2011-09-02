@@ -97,7 +97,11 @@
 
 	<select id="queryByPrefix" parameterType="com.pss.domain.model.entity.purchase.GoodCategory"
 		resultMap="GoodCategoryMapper">
-		select * from category where tenant = #{tenant}
+		select * from category where tenant = #{tenant} 
+		<if test="categoryName != null and categoryName!=''">
+		and name like '%${categoryName}%'
+		</if>
+		
 	</select>
 
 </mapper>
