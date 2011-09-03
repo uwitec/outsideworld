@@ -14,6 +14,8 @@
 
 package com.pss.domain.model.entity;
 
+import java.util.Date;
+
 /**
  * <p>
  * 类说明
@@ -32,6 +34,9 @@ package com.pss.domain.model.entity;
 public abstract class Entity {
 	private String id;
 	private String tenant;
+    private String lastUpdateUser;
+    private Date lastUpdateDate;
+    
 
 	public String getId() {
 		return id;
@@ -47,5 +52,18 @@ public abstract class Entity {
 
 	public void setTenant(String tenant) {
 		this.tenant = tenant;
+	}
+	
+	public String getLastUpdateUser() {
+		return lastUpdateUser;
+	}
+	public void setLastUpdateUser(String lastUpdateUser) {
+		this.lastUpdateUser = lastUpdateUser;
+	}
+	public Date getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+	public void setLastUpdateDate(Date lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
 	}
 }

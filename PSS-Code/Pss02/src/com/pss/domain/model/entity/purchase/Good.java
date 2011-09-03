@@ -15,7 +15,6 @@
 package com.pss.domain.model.entity.purchase;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -41,8 +40,7 @@ public class Good extends Entity {
     private Integer inventory;
     private String barcode;
     private String status;
-    private String lastUpdateUser;
-    private Date lastUpdateDate;
+
 	public String getName() {
 		return name;
 	}
@@ -97,18 +95,7 @@ public class Good extends Entity {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public String getLastUpdateUser() {
-		return lastUpdateUser;
-	}
-	public void setLastUpdateUser(String lastUpdateUser) {
-		this.lastUpdateUser = lastUpdateUser;
-	}
-	public Date getLastUpdateDate() {
-		return lastUpdateDate;
-	}
-	public void setLastUpdateDate(Date lastUpdateDate) {
-		this.lastUpdateDate = lastUpdateDate;
-	} 
+ 
 	
 	public boolean logicEquals(Good other){
 		return StringUtils.equals(name,other.getName())&&StringUtils.equals(category,other.getCategory())&&StringUtils.equals(specification,other.getSpecification());

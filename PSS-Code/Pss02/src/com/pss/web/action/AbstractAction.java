@@ -71,6 +71,15 @@ public abstract class AbstractAction extends ActionSupport implements
 			return user.getTenant();
 		}
 	}
+	
+	protected String getUserId() {
+		User user = getDataFromSession(WebKeys.USER);
+		if (user == null) {
+			return "";
+		} else {
+			return user.getId();
+		}
+	}
 
 	@JSON(serialize = true)
 	public boolean getCorrect() {
