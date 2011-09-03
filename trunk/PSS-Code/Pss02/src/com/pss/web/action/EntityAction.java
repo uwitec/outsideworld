@@ -137,6 +137,7 @@ public abstract class EntityAction<T extends Entity> extends AbstractAction {
 	public String addEntity() {
 		try {
 			entity.setTenant(getTenantId());
+			entity.setLastUpdateUser(getUserId());
 			service().add(entity);
 			setCorrect(true);
 		} catch (BusinessHandleException e) {
@@ -155,6 +156,7 @@ public abstract class EntityAction<T extends Entity> extends AbstractAction {
 	 */
 	public String updateEntity() {
 		try {
+			entity.setLastUpdateUser(getUserId());
 			service().update(entity);
 			setCorrect(true);
 		} catch (BusinessHandleException e) {
