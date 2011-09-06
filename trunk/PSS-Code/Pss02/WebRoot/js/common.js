@@ -4,6 +4,14 @@ var Common = {
 	confirmDialog : null,
 	confirmOK : null,
 	confirmData : null,
+	/* 定义一个什么都不做的空方法 */
+	nullFunction : function() {
+
+	},
+	/* 在一个div下面添加一条错误信息 */
+	addError : function() {
+
+	},
 	/* 用于对form表单提交前进行校验，如果有错误，则不提交，并且在出错的input上显示错误信息 */
 	validateForm : function(formId) {
 		var isOK = true;
@@ -18,36 +26,18 @@ var Common = {
 		});
 		return isOK;
 	},
-	/* 异步提交表单 */
+	/* 异步提交表单，提交之前验证，有错误则不提交 */
 	submitFormAsync : function(formId, success) {
-		if (this.validateForm(formId)) {
+		if (Common.validateForm(formId)) {
 			var xhrArgs = {
-				common : this,
 				form : dojo.byId(formId),
 				handleAs : "json",
 				load : function(data) {
-					if (!this.common.checkLogin(data)) {
+					if (!Common.checkLogin(data)) {
 						return;
+					} else if (!Common.hasErrors(data, formId)) {
+						success(data);
 					}
-					var formErrors = dojo.byId(formId + "Errors");
-					if (formErrors != null) {
-						dojo.empty(formErrors);
-						if (data.errors != null) {
-							for ( var field in data.errors) {
-								dojo.create("li", {
-									"innerHTML" : data.errors[field]
-								}, formErrors);
-							}
-						}
-						if (data.errorMessages != null) {
-							for ( var msg in data.errorMessages) {
-								dojo.create("li", {
-									"innerHTML" : data.errorMessages[msg]
-								}, formErrors);
-							}
-						}
-					}
-					success(data);
 				}
 			};
 			dojo.xhrPost(xhrArgs);
@@ -55,23 +45,22 @@ var Common = {
 	},
 	/* 同步提交表单 */
 	submitForm : function(formId) {
-		if (this.validateForm(formId)) {
+		if (Common.validateForm(formId)) {
 			dojo.byId(formId).submit();
 		}
 	},
-	// Post data
+	// Post data and handle as JSON
 	post : function(url, data, success) {
 		var xhrArgs = {
-			common : this,
 			url : url,
 			handleAs : "json",
 			content : data,
 			load : function(response) {
-				if (!this.common.checkLogin(response)) {
+				if (!Common.checkLogin(response)) {
 					return;
+				} else if (!Common.hasErrors(data, formId)) {
+					success(data);
 				}
-				if (success)
-					success(response);
 			}
 		};
 		dojo.xhrPost(xhrArgs);
@@ -136,18 +125,41 @@ var Common = {
 			this.dialogPane.set("content", "");
 		}
 	},
-	/* 在页面上显示错误信息 */
-	showErrors : function(data) {
+	/* 判断是否有错误，并且在页面上显示错误信息 */
+	hasErrors : function(data, formId) {
 		if (data == null || data == undefined) {
-			return;
+			return true;
+		}
+
+		var formErrors = dojo.byId(formId + "Errors");
+		if (formErrors == null) {
+			formErrors = dojo.byId("errors");
+		}
+		dojo.empty(formErrors);
+
+		if (data.errors != null && data.errors.length > 0) {
+			if (formErrors != null) {
+				for ( var field in data.errors) {
+					dojo.create("li", {
+						"innerHTML" : data.errors[field]
+					}, formErrors);
+				}
+			}
+			return true;
 		}
 		if (data.errorMessages != null && data.errorMessages.length > 0) {
-			for ( var i = 0; i < data.errorMessages.length; i++) {
-
+			if (formErrors != null) {
+				for ( var msg in data.errorMessages) {
+					dojo.create("li", {
+						"innerHTML" : data.errorMessages[msg]
+					}, formErrors);
+				}
 			}
+			return true;
 		}
+		return false;
 	},
-	/* 刷新表格数据 */
+	/* 刷新表格数据和分页数据 */
 	refreshDataGrid : function(tableId, url, data) {
 		var grid = dijit.byId(tableId);
 		if (!grid) {
@@ -157,7 +169,6 @@ var Common = {
 			url = grid.params;
 		}
 		var xhrArgs = {
-			common : this,
 			grid : grid,
 			url : url,
 			handleAs : "json",
@@ -170,7 +181,7 @@ var Common = {
 				});
 				this.grid.params = url;
 				this.grid.setStore(newStore);
-				this.common.refreshPager(response);
+				Common.refreshPager(response);
 			}
 		};
 		dojo.xhrPost(xhrArgs);
@@ -247,14 +258,6 @@ var Common = {
 		this.confirmOK = null;
 		this.confirmData = null;
 	},
-	/* 定义一个什么都不做的空方法 */
-	nullFunction : function() {
-
-	},
-	/* 在一个div下面添加一条错误信息 */
-	addError : function() {
-
-	},
 	/* 查询数据 */
 	search : function() {
 		var url = dojo.attr("searchForm", "action");
@@ -295,18 +298,12 @@ var Common = {
 			});
 		}
 	},
-	/* 刷新表格数据 */
-	refreshTable : function(table) {
-		Common.initQuery();
-	},
 	/* 关闭对话框，刷新默认表格 */
 	closeDiaogAndRefresh : function(data) {
-		if (data != null && data.correct) {
+		if (!Common.hasErrors(data)) {
 			Common.clearForm();
 			Common.hideDialog();
 			Common.search();
-		} else {
-			Common.showErrors(data);
 		}
 	}
 };
