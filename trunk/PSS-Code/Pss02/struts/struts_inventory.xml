@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC   
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<!-- Page mapping -->
+	<package name="inventory_page" namespace="/inventory" extends="abs">
+		<action name="*_*" class="com.pss.web.action.inventory.{1}Action"
+			method="{2}">
+			<result>/ftl/inventory/{1}/{2}.html</result>
+		</action>
+	</package>
+
+	<!-- JSON mapping -->
+	<package name="inventory_json" namespace="/inventory" extends="pssJson">
+		<action name="*/*" class="com.pss.web.action.inventory.{1}Action"
+			method="{2}">
+			<result />
+		</action>
+	</package>
+</struts>
