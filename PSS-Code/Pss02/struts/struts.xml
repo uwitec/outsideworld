@@ -85,4 +85,5 @@
 	<!-- Sub Module -->
 	<include file="struts_sys.xml"></include>
 	<include file="struts_purchase.xml"></include>
+	<include file="struts_inventory.xml"></include>
 </struts>
