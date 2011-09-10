@@ -1,1 +1,21 @@
-Storage
+<#assign basePath="${request.getContextPath()}/inventory">
+<div dojoType="dijit.Toolbar">
+	<button dojoType="dijit.form.Button"
+		onClick="Common.showDialog('新建入库单','${basePath}/Storage_add')">新建</button>
+	<span dojoType="dijit.ToolbarSeparator"></span>
+	<button dojoType="dijit.form.Button" onClick="">修改</button>
+	<span dojoType="dijit.ToolbarSeparator"></span>
+	<button dojoType="dijit.form.Button" onClick="">删除</button>
+	<form id="searchForm" action="${basePath}/Storage/queryEntity">
+		<button id="searchBtn" dojoType="dijit.form.Button"
+			onClick="Common.search()">查询</button>
+	</form>
+</div>
+<#include "../../common/pager.html"/>
+<table id="jsonGrid" dojoType="dojox.grid.DataGrid">
+	<thead>
+		<tr>
+			<th field="id" width="auto">编号</th>
+		</tr>
+	</thead>
+</table>
