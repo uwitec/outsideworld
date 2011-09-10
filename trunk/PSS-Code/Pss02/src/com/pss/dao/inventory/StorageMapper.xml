@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pss.dao.inventory.StorageMapper">
+
+	<typeAlias alias="Storage"
+		type="com.pss.domain.model.entity.inventory.Storage" />
+
+	<resultMap type="Storage" id="StorageMapper">
+		<id property="id" column="id" />
+		<result property="tenant" column="tenant" />
+		<result property="updateUser" column="last_update_user" />
+		<result property="updateDate" column="last_update_date" />
+		<result property="status" column="status" />
+		<result property="note" column="note" />
+	</resultMap>
+
+	<insert id="add" parameterType="Storage">
+		insert into
+		storage(id,tenant,last_update_user,last_update_date,status,note)
+		values(#{id},#{tenant},#{updateUser},#{updateDate},#{status},#{note});
+	</insert>
+
+	<delete id="delete" parameterType="java.lang.String">
+		delete from storage where
+		id=#{id}
+	</delete>
+
+	<update id="update" parameterType="Storage">
+		update storage set
+		last_update_user =
+		#{updateUser}, last_update_date = #{updateDate},
+		status = #{status}, note = #{note}
+		where id = #{id}
+	</update>
+
+	<select id="findById" parameterType="java.lang.String"
+		resultMap="StorageMapper">
+		select * from storage where id=#{id}
+	</select>
+
+	<select id="findByEntity" parameterType="Storage" resultMap="StorageMapper">
+		select * from storage where tenant = #{tenant}
+		<if test="id != null && id!=''">
+			and id = #{id}
+		</if>
+		<if test="last_update_user != null">
+			and last_update_user = #{updateUser}
+		</if>
+		<if test="last_update_date != null">
+			and last_update_date = #{updateDate}
+		</if>
+		<if test="status != null">
+			and status = #{status}
+		</if>
+		limit 1
+	</select>
+
+	<select id="queryByEntity" parameterType="Storage" resultMap="StorageMapper">
+		select * from storage where tenant = #{tenant}
+		<if test="id != null && id!=''">
+			and id = #{id}
+		</if>
+		<if test="last_update_user != null">
+			and last_update_user = #{updateUser}
+		</if>
+		<if test="last_update_date != null">
+			and last_update_date = #{updateDate}
+		</if>
+		<if test="status != null">
+			and status = #{status}
+		</if>
+	</select>
+
+	<select id="queryByParams" parameterType="java.util.Map"
+		resultMap="StorageMapper">
+		select * from storage where tenant = #{tenant}
+		limit
+		#{offset},#{limit}
+	</select>
+
+	<select id="countByEntity" parameterType="Storage" resultType="java.lang.Integer">
+		select count(*) from storage where tenant = #{tenant}
+	</select>
+
+	<select id="countByParams" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		select count(*) from storage where tenant = #{tenant}
+	</select>
+
+</mapper>
