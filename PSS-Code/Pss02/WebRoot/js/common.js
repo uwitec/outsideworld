@@ -137,27 +137,28 @@ var Common = {
 		}
 		dojo.empty(formErrors);
 
-		if (data.errors != null && data.errors.length > 0) {
+		var flag = false;
+		if (data.errors != null) {
 			if (formErrors != null) {
 				for ( var field in data.errors) {
+					flag = true;
 					dojo.create("li", {
 						"innerHTML" : data.errors[field]
 					}, formErrors);
 				}
 			}
-			return true;
 		}
-		if (data.errorMessages != null && data.errorMessages.length > 0) {
+		if (data.errorMessages != null) {
 			if (formErrors != null) {
 				for ( var msg in data.errorMessages) {
+					flag = true;
 					dojo.create("li", {
 						"innerHTML" : data.errorMessages[msg]
 					}, formErrors);
 				}
 			}
-			return true;
 		}
-		return false;
+		return flag;
 	},
 	/* 刷新表格数据和分页数据 */
 	refreshDataGrid : function(tableId, url, data) {
