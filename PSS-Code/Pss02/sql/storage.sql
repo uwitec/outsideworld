@@ -1,4 +1,4 @@
-CREATE TABLE `store` (
+CREATE TABLE `storage` (
   `id` varchar(64) NOT NULL,
   `tenant` varchar(64) DEFAULT NULL,
   `last_update_user` varchar(64) DEFAULT NULL,
