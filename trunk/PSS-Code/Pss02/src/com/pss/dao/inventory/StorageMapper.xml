@@ -40,7 +40,7 @@
 
 	<select id="findByEntity" parameterType="Storage" resultMap="StorageMapper">
 		select * from storage where tenant = #{tenant}
-		<if test="id != null && id!=''">
+		<if test="id != null and id!=''">
 			and id = #{id}
 		</if>
 		<if test="last_update_user != null">
@@ -57,7 +57,7 @@
 
 	<select id="queryByEntity" parameterType="Storage" resultMap="StorageMapper">
 		select * from storage where tenant = #{tenant}
-		<if test="id != null && id!=''">
+		<if test="id != null and id!=''">
 			and id = #{id}
 		</if>
 		<if test="last_update_user != null">
