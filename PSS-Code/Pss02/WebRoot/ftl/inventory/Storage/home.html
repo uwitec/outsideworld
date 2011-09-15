@@ -3,7 +3,7 @@
 	<button dojoType="dijit.form.Button"
 		onClick="Common.showDialog('新建入库单','${basePath}/Storage_add')">新建</button>
 	<span dojoType="dijit.ToolbarSeparator"></span>
-	<button dojoType="dijit.form.Button" onClick="">修改</button>
+	<button dojoType="dijit.form.Button" onClick="Common.update('修改进货单','${basePath}/Storage_update')">修改</button>
 	<span dojoType="dijit.ToolbarSeparator"></span>
 	<button dojoType="dijit.form.Button" onClick="">删除</button>
 	<form id="searchForm" action="${basePath}/Storage/queryEntity">
@@ -16,6 +16,7 @@
 	<thead>
 		<tr>
 			<th field="id" width="auto">编号</th>
+			<th field="note" width="auto">说明</th>
 		</tr>
 	</thead>
 </table>

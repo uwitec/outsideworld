@@ -135,7 +135,9 @@ var Common = {
 		if (formErrors == null) {
 			formErrors = dojo.byId("errors");
 		}
-		dojo.empty(formErrors);
+		if (formErrors) {
+			dojo.empty(formErrors);
+		}
 
 		var flag = false;
 		if (data.errors != null) {
