@@ -22,8 +22,6 @@ public class PrePurchaseDetail extends Entity {
 	private int prePurchaseInventory;
 	private int prePurchaseDepreciation;
 	private String prePurchaseNote;
-	private String prePurchaseLastUpdateUser;
-	private String prePurchaseLastUpdateDate;
 	
 	public String getPrePurchaseID() {
 		return prePurchaseID;
@@ -90,17 +88,5 @@ public class PrePurchaseDetail extends Entity {
 	}
 	public void setPrePurchaseNote(String prePurchaseNote) {
 		this.prePurchaseNote = prePurchaseNote;
-	}
-	public String getPrePurchaseLastUpdateUser() {
-		return prePurchaseLastUpdateUser;
-	}
-	public void setPrePurchaseLastUpdateUser(String prePurchaseLastUpdateUser) {
-		this.prePurchaseLastUpdateUser = prePurchaseLastUpdateUser;
-	}
-	public String getPrePurchaseLastUpdateDate() {
-		return prePurchaseLastUpdateDate;
-	}
-	public void setPrePurchaseLastUpdateDate(String prePurchaseLastUpdateDate) {
-		this.prePurchaseLastUpdateDate = prePurchaseLastUpdateDate;
 	}
 }
