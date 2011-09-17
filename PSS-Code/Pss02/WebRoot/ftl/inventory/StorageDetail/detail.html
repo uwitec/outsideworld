@@ -1,0 +1,36 @@
+<#assign basePath="${request.getContextPath()}/purchase"> <#if entity??
+&& entity.id??> <#assign id=entity.id> <#assign tenant=entity.tenant>
+<#assign storeId=entity.storeId> <#assign goodName=entity.goodName>
+<#assign goodId=entity.goodId> <#assign goodNumber=entity.goodNumber>
+<#assign goodSpec=entity.goodSpec> <#assign note=entity.note> </#if>
+<table>
+	<input type="hidden" id="entity.id" name="entity.id" value="${id!}">
+	<input type="hidden" id="entity.tenant" name="entity.tenant"
+		value="${tenant!}">
+	<input type="hidden" id="entity.storeId" name="entity.storeId"
+		value="${masterId!}">
+	<tr>
+		<td>货品名称</td>
+		<td><input dojoType="custom.TextInput" name="entity.goodName"
+			value="${goodName!}">
+		</td>
+	</tr>
+	<tr>
+		<td>货品编号</td>
+		<td><input dojoType="custom.TextInput" name="entity.goodId"
+			value="${goodId!}">
+		</td>
+	</tr>
+	<tr>
+		<td>货品数量</td>
+		<td><input dojoType="custom.TextInput" name="entity.goodNumber"
+			value="${goodNumber!}">
+		</td>
+	</tr>
+	<tr>
+		<td>货品规格</td>
+		<td><input dojoType="custom.TextInput" name="entity.goodSpec"
+			value="${goodSpec!}">
+		</td>
+	</tr>
+</table>

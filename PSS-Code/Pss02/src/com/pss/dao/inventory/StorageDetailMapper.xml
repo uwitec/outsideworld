@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pss.dao.inventory.StorageDetailMapper">
+
+	<resultMap type="com.pss.domain.model.entity.inventory.StorageDetail"
+		id="StorageDetailMapper">
+		<id property="id" column="id" />
+		<result property="tenant" column="tenant" />
+		<result property="lastUpdateUser" column="last_update_user" />
+		<result property="lastUpdateDate" column="last_update_date" />
+		<result property="storeId" column="store_id" />
+		<result property="goodName" column="good_name" />
+		<result property="goodId" column="good_id" />
+		<result property="goodSpec" column="good_specification" />
+		<result property="goodNumber" column="number" />
+		<result property="note" column="note" />
+	</resultMap>
+
+	<insert id="add" parameterType="com.pss.domain.model.entity.inventory.StorageDetail">
+		insert into
+		storage_detail(id,tenant,last_update_user,last_update_date,store_id,good_name,good_id,good_specification,number,note)
+		values(#{id},#{tenant},#{lastUpdateUser},#{lastUpdateDate},#{storeId},#{goodName},#{goodSpec},#{goodNumber},#{goodId},#{note});
+	</insert>
+
+	<delete id="delete" parameterType="java.lang.String">
+		delete from storage_detail
+		where
+		id=#{id}
+	</delete>
+
+	<update id="update" parameterType="com.pss.domain.model.entity.inventory.StorageDetail">
+		update storage_detail set
+		last_update_user = #{lastUpdateUser},
+		last_update_date =
+		#{lastUpdateDate},
+		note = #{note}
+		where id = #{id}
+	</update>
+
+	<select id="findById" parameterType="java.lang.String"
+		resultMap="StorageDetailMapper">
+		select * from storage_detail where id=#{id}
+	</select>
+
+	<select id="findByEntity" parameterType="com.pss.domain.model.entity.inventory.StorageDetail"
+		resultMap="StorageDetailMapper">
+		select * from storage_detail where tenant = #{tenant}
+		<if test="id != null and id!=''">
+			and id = #{id}
+		</if>
+		<if test="last_update_user != null">
+			and last_update_user = #{lastUpdateUser}
+		</if>
+		<if test="last_update_date != null">
+			and last_update_date = #{lastUpdateDate}
+		</if>
+		limit 1
+	</select>
+
+	<select id="queryByEntity" parameterType="com.pss.domain.model.entity.inventory.StorageDetail"
+		resultMap="StorageDetailMapper">
+		select * from storage_detail where tenant = #{tenant}
+		<if test="id != null and id!=''">
+			and id = #{id}
+		</if>
+		<if test="last_update_user != null">
+			and last_update_user = #{lastUpdateUser}
+		</if>
+		<if test="last_update_date != null">
+			and last_update_date = #{lastUpdateDate}
+		</if>
+	</select>
+
+	<select id="queryByParams" parameterType="java.util.Map"
+		resultMap="StorageDetailMapper">
+		select * from storage_detail where tenant = #{tenant}
+		and
+		store_id = #{masterId}
+		limit
+		#{offset},#{limit}
+	</select>
+
+	<select id="countByEntity" parameterType="com.pss.domain.model.entity.inventory.StorageDetail"
+		resultType="java.lang.Integer">
+		select count(*) from storage_detail where tenant =
+		#{tenant}
+	</select>
+
+	<select id="countByParams" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		select count(*) from storage_detail where tenant =
+		#{tenant} and store_id = #{masterId}
+	</select>
+</mapper>

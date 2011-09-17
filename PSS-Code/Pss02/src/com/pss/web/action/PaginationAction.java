@@ -25,7 +25,7 @@ public abstract class PaginationAction<T extends Entity> extends
 	protected int pageSize = 5;
 	protected int totalCount;
 
-	private Map<String, Object> query = new HashMap<String, Object>();
+	protected Map<String, Object> query = new HashMap<String, Object>();
 
 	protected Map<String, Object> getQuery() {
 		query.put("tenant", getTenantId());
