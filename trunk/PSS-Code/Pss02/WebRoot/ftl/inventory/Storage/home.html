@@ -3,7 +3,8 @@
 	<button dojoType="dijit.form.Button"
 		onClick="Common.showDialog('新建入库单','${basePath}/Storage_add')">新建</button>
 	<span dojoType="dijit.ToolbarSeparator"></span>
-	<button dojoType="dijit.form.Button" onClick="Common.update('修改进货单','${basePath}/Storage_update')">修改</button>
+	<button dojoType="dijit.form.Button"
+		onClick="Common.update('修改进货单','${basePath}/Storage_update')">修改</button>
 	<span dojoType="dijit.ToolbarSeparator"></span>
 	<button dojoType="dijit.form.Button" onClick="">删除</button>
 	<form id="searchForm" action="${basePath}/Storage/queryEntity">
@@ -17,6 +18,15 @@
 		<tr>
 			<th field="id" width="auto">编号</th>
 			<th field="note" width="auto">说明</th>
+			<th field="id" witdh="auto" formatter="operation">操作</th>
 		</tr>
 	</thead>
 </table>
+<script type="text/javascript">
+	function operation(value, rowIndex) {
+		return "<button dojoType='dijit.form.Button' onClick='gotoDetail("+value+")'>明细管理</button>";
+	}
+	function gotoDetail(storageId){
+		Common.setMainPane('${basePath}/StorageDetail_home?masterId='+storageId);
+	}
+</script>
