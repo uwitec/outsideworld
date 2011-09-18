@@ -14,17 +14,17 @@
 
 	<insert id="add" parameterType="com.pss.domain.model.entity.inventory.Storage">
 		insert into
-		store(id,tenant,last_update_user,last_update_date,status,note)
+		storage(id,tenant,last_update_user,last_update_date,status,note)
 		values(#{id},#{tenant},#{lastUpdateUser},#{lastUpdateDate},#{status},#{note});
 	</insert>
 
 	<delete id="delete" parameterType="java.lang.String">
-		delete from store where
+		delete from storage where
 		id=#{id}
 	</delete>
 
 	<update id="update" parameterType="com.pss.domain.model.entity.inventory.Storage">
-		update store set
+		update storage set
 		last_update_user =
 		#{lastUpdateUser}, last_update_date =
 		#{lastUpdateDate},
@@ -34,12 +34,12 @@
 
 	<select id="findById" parameterType="java.lang.String"
 		resultMap="StorageMapper">
-		select * from store where id=#{id}
+		select * from storage where id=#{id}
 	</select>
 
 	<select id="findByEntity" parameterType="com.pss.domain.model.entity.inventory.Storage"
 		resultMap="StorageMapper">
-		select * from store where tenant = #{tenant}
+		select * from storage where tenant = #{tenant}
 		<if test="id != null and id!=''">
 			and id = #{id}
 		</if>
@@ -57,7 +57,7 @@
 
 	<select id="queryByEntity" parameterType="com.pss.domain.model.entity.inventory.Storage"
 		resultMap="StorageMapper">
-		select * from store where tenant = #{tenant}
+		select * from storage where tenant = #{tenant}
 		<if test="id != null and id!=''">
 			and id = #{id}
 		</if>
@@ -74,19 +74,19 @@
 
 	<select id="queryByParams" parameterType="java.util.Map"
 		resultMap="StorageMapper">
-		select * from store where tenant = #{tenant}
+		select * from storage where tenant = #{tenant}
 		limit
 		#{offset},#{limit}
 	</select>
 
 	<select id="countByEntity" parameterType="com.pss.domain.model.entity.inventory.Storage"
 		resultType="java.lang.Integer">
-		select count(*) from store where tenant = #{tenant}
+		select count(*) from storage where tenant = #{tenant}
 	</select>
 
 	<select id="countByParams" parameterType="java.util.Map"
 		resultType="java.lang.Integer">
-		select count(*) from store where tenant = #{tenant}
+		select count(*) from storage where tenant = #{tenant}
 	</select>
 
 </mapper>
