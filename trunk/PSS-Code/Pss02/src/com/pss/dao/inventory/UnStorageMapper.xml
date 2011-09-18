@@ -14,17 +14,17 @@
 
 	<insert id="add" parameterType="com.pss.domain.model.entity.inventory.Storage">
 		insert into
-		unstore(id,tenant,last_update_user,last_update_date,status,note)
+		unstorage(id,tenant,last_update_user,last_update_date,status,note)
 		values(#{id},#{tenant},#{lastUpdateUser},#{lastUpdateDate},#{status},#{note});
 	</insert>
 
 	<delete id="delete" parameterType="java.lang.String">
-		delete from unstore where
+		delete from unstorage where
 		id=#{id}
 	</delete>
 
 	<update id="update" parameterType="com.pss.domain.model.entity.inventory.Storage">
-		update unstore set
+		update unstorage set
 		last_update_user =
 		#{lastUpdateUser}, last_update_date =
 		#{lastUpdateDate},
@@ -34,12 +34,12 @@
 
 	<select id="findById" parameterType="java.lang.String"
 		resultMap="StorageMapper">
-		select * from unstore where id=#{id}
+		select * from unstorage where id=#{id}
 	</select>
 
 	<select id="findByEntity" parameterType="com.pss.domain.model.entity.inventory.Storage"
 		resultMap="StorageMapper">
-		select * from unstore where tenant = #{tenant}
+		select * from unstorage where tenant = #{tenant}
 		<if test="id != null and id!=''">
 			and id = #{id}
 		</if>
@@ -57,7 +57,7 @@
 
 	<select id="queryByEntity" parameterType="com.pss.domain.model.entity.inventory.Storage"
 		resultMap="StorageMapper">
-		select * from unstore where tenant = #{tenant}
+		select * from unstorage where tenant = #{tenant}
 		<if test="id != null and id!=''">
 			and id = #{id}
 		</if>
@@ -74,19 +74,19 @@
 
 	<select id="queryByParams" parameterType="java.util.Map"
 		resultMap="StorageMapper">
-		select * from unstore where tenant = #{tenant}
+		select * from unstorage where tenant = #{tenant}
 		limit
 		#{offset},#{limit}
 	</select>
 
 	<select id="countByEntity" parameterType="com.pss.domain.model.entity.inventory.Storage"
 		resultType="java.lang.Integer">
-		select count(*) from unstore where tenant = #{tenant}
+		select count(*) from unstorage where tenant = #{tenant}
 	</select>
 
 	<select id="countByParams" parameterType="java.util.Map"
 		resultType="java.lang.Integer">
-		select count(*) from unstore where tenant = #{tenant}
+		select count(*) from unstorage where tenant = #{tenant}
 	</select>
 
 </mapper>
