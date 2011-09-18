@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+	default-autowire="byName">
+	<bean id="storageService" class="com.pss.service.impl.StorageService">
+	</bean>
+	<bean id="storageRepository" class="com.pss.domain.repository.inventory.StorageRepository">
+	</bean>
+	<bean id="nnStorageService" class="com.pss.service.impl.UnStorageService">
+	</bean>
+	<bean id="nnStorageRepository" class="com.pss.domain.repository.inventory.UnStorageRepository">
+	</bean>
+	<bean id="changeService" class="com.pss.service.impl.ChangeService">
+	</bean>
+	<bean id="changeRepository" class="com.pss.domain.repository.inventory.ChangeRepository">
+	</bean>
+</beans>

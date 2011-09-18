@@ -9,7 +9,6 @@ import com.pss.domain.model.entity.Entity;
  * 
  */
 public class Storage extends Entity {
-
 	private int status;
 	private String note;
 

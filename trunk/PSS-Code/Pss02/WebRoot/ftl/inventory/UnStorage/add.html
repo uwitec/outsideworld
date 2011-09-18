@@ -1,0 +1,9 @@
+<#assign basePath="${request.getContextPath()}/inventory">
+<center>
+	<div id="addUnStorageFormErrors"></div>
+	<form id="addUnStorage" method="post"
+		action="${basePath}/UnStorage/addEntity"><#include
+		"detail.html"/></form>
+	<button dojoType="dijit.form.Button"
+		onClick="Common.submitFormAsync('addUnStorage', Common.closeDiaogAndRefresh)">保存</button>
+</center>

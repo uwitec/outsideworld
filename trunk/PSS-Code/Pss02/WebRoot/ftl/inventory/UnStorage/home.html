@@ -1,0 +1,22 @@
+<#assign basePath="${request.getContextPath()}/inventory">
+<div dojoType="dijit.Toolbar">
+	<button dojoType="dijit.form.Button"
+		onClick="Common.showDialog('新建出库单','${basePath}/UnStorage_add')">新建</button>
+	<span dojoType="dijit.ToolbarSeparator"></span>
+	<button dojoType="dijit.form.Button" onClick="Common.update('修改出库单','${basePath}/UnStorage_update')">修改</button>
+	<span dojoType="dijit.ToolbarSeparator"></span>
+	<button dojoType="dijit.form.Button" onClick="">删除</button>
+	<form id="searchForm" action="${basePath}/UnStorage/queryEntity">
+		<button id="searchBtn" dojoType="dijit.form.Button"
+			onClick="Common.search()">查询</button>
+	</form>
+</div>
+<#include "../../common/pager.html"/>
+<table id="jsonGrid" dojoType="dojox.grid.DataGrid">
+	<thead>
+		<tr>
+			<th field="id" width="auto">编号</th>
+			<th field="note" width="auto">说明</th>
+		</tr>
+	</thead>
+</table>
