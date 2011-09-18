@@ -1,7 +1,7 @@
 CREATE TABLE `goods` (
   `id` varchar(32) NOT NULL,
   `name` varchar(200) DEFAULT NULL,
-  `category` varchar(1) DEFAULT NULL,
+  `category` varchar(200) DEFAULT NULL,
   `specification` varchar(200) DEFAULT NULL,
   `unit` varchar(10) DEFAULT NULL,
   `purchase_price` double(15,3) DEFAULT NULL,
