@@ -24,7 +24,7 @@ public abstract class AbstractService<T extends Entity> extends IdService implem
 			EntityAlreadyExistedException {
 		Class c = entity.getClass();
 		String name = StringUtils.lowerCase(c.getSimpleName());
-		entity.setId(nextStr(name, 64));
+		entity.setId(nextStr(name, 32));
 		repository().add(entity);
 	}
 
