@@ -15,6 +15,7 @@
 package com.pss.web.action;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.struts2.json.annotations.JSON;
@@ -138,6 +139,7 @@ public abstract class EntityAction<T extends Entity> extends AbstractAction {
 		try {
 			entity.setTenant(getTenantId());
 			entity.setLastUpdateUser(getUserId());
+			entity.setLastUpdateDate(new Date());
 			service().add(entity);
 			setCorrect(true);
 		} catch (BusinessHandleException e) {
