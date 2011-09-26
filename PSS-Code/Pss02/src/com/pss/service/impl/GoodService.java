@@ -14,6 +14,8 @@
 
 package com.pss.service.impl;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,14 +31,21 @@ import com.pss.exception.EntityNotExistedException;
 import com.pss.service.IGoodService;
 
 /**
- * <p>类说明</p> 
- * <p>Copyright: 版权所有 (c) 2010 - 2030</p>
- * <p>Company: Travelsky</p>
- * @author  Travelsky
+ * <p>
+ * 类说明
+ * </p>
+ * <p>
+ * Copyright: 版权所有 (c) 2010 - 2030
+ * </p>
+ * <p>
+ * Company: Travelsky
+ * </p>
+ * 
+ * @author Travelsky
  * @version 1.0
- * @since   Aug 29, 2011
+ * @since Aug 29, 2011
  */
-public class GoodService extends AbstractService<Good> implements IGoodService{
+public class GoodService extends AbstractService<Good> implements IGoodService {
 
 	@Autowired
 	private GoodRepository goodRepository;
@@ -47,45 +56,59 @@ public class GoodService extends AbstractService<Good> implements IGoodService{
 	public BaseRepository<Good> repository() {
 		return goodRepository;
 	}
-    @Transactional
+
+	@Transactional
 	@Override
 	public void add(Good entity) throws BusinessHandleException,
 			EntityAlreadyExistedException {
-    	resetCategory(entity);
-		if(entity.findByLogic(goodRepository)){
+		resetCategory(entity);
+		if (entity.findByLogic(goodRepository)) {
 			throw new BusinessHandleException("category.logic.repeate");
-		}	
+		}
 		super.add(entity);
 	}
-    
-    @Transactional
+
+	@Transactional
 	@Override
 	public void update(Good entity) throws BusinessHandleException,
 			EntityNotExistedException {
-    	resetCategory(entity);
-    	if(entity.findByLogic(goodRepository)){
+		resetCategory(entity);
+		if (entity.findByLogic(goodRepository)) {
 			throw new BusinessHandleException("category.logic.repeate");
 		}
-    	if(goodRepository.find(entity.getId())==null){
-    		throw new BusinessHandleException("date.deleted");
-    	}
+		if (goodRepository.find(entity.getId()) == null) {
+			throw new BusinessHandleException("date.deleted");
+		}
 		super.update(entity);
 	}
-    
-    /**
-     * 重新将分类名设置成分类id
-     * @param entity
-     * @throws BusinessHandleException
-     */
-    private void resetCategory(Good entity)throws BusinessHandleException{
-    	//将分类名称转化为分类id
+
+	/**
+	 * 重新将分类名设置成分类id
+	 * 
+	 * @param entity
+	 * @throws BusinessHandleException
+	 */
+	private void resetCategory(Good entity) throws BusinessHandleException {
+		// 将分类名称转化为分类id
 		String name = entity.getCategory();
-		if(StringUtils.isBlank(name)){
+		if (StringUtils.isBlank(name)) {
 			throw new BusinessHandleException("category.name.isNull");
 		}
 		GoodCategory goodCategory = new GoodCategory();
 		goodCategory.setCategoryName(name);
 		goodCategory.setTenant(entity.getTenant());
 		entity.setCategory(goodCategory.findIdByName(goodCategoryRepository));
-    }
+	}
+
+	/**
+	 * 按照货品名称前缀模糊搜索
+	 * 
+	 * @param good
+	 * @return
+	 * @throws BusinessHandleException
+	 */
+	@Override
+	public List<Good> queryByPrefix(Good good) throws BusinessHandleException {
+		return goodRepository.queryByPrefix(good);
+	}
 }

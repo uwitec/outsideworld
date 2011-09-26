@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pss.dao.purchase.GoodMapper">
-<resultMap type="com.pss.domain.model.entity.purchase.Good" id="GoodMapper">
+	<resultMap type="com.pss.domain.model.entity.purchase.Good"
+		id="GoodMapper">
 		<id property="id" column="id" />
 		<result property="tenant" column="tenant" />
 		<result property="name" column="name" />
 		<result property="category" column="category" />
-		<result property="specification" column="specification"/>
+		<result property="specification" column="specification" />
 		<result property="unit" column="unit" />
 		<result property="purchasePrice" column="purchase_price" />
 		<result property="salePrice" column="sale_price" />
@@ -29,7 +30,8 @@
 
 	<update id="update" parameterType="com.pss.domain.model.entity.purchase.Good">
 		update goods set name =
-		#{name},category = #{category},unit = #{unit}, purchase_price=#{purchasePrice},
+		#{name},category = #{category},unit = #{unit},
+		purchase_price=#{purchasePrice},
 		sale_price=#{salePrice},inventory=#{inventory},barcode=#{barcode},status=#{status},lastUpdateUser=#{lastUpdateUser},lastUpdateDate=now()
 		where tenant = #{tenant} and id = #{id}
 	</update>
@@ -42,15 +44,17 @@
 	<select id="findByEntity" parameterType="com.pss.domain.model.entity.purchase.Good"
 		resultMap="GoodMapper">
 		select * from goods where name = #{name} and tenant
-		= #{tenant}
+		=
+		#{tenant}
 	</select>
 
 	<select id="queryByEntity" parameterType="com.pss.domain.model.entity.purchase.Good"
 		resultMap="GoodMapper">
 		select * from goods where name = #{name} and tenant
-		= #{tenant}
+		=
+		#{tenant}
 	</select>
-	
+
 	<select id="queryByParams" parameterType="java.util.Map"
 		resultMap="GoodMapper">
 		select * from goods where tenant = #{entity.tenant}
@@ -60,7 +64,7 @@
 		<if test="entity.name!=null and entity.id!=''">
 			and name like '%${entity.name}%'
 	    </if>
-	    <if test="entity.category!=null and entity.category!=''">
+		<if test="entity.category!=null and entity.category!=''">
 			and like '%${entity.category}%'
 	    </if>
 		limit
@@ -87,11 +91,24 @@
 		<if test="entity.name!=null and entity.id!=''">
 			and name like '%${entity.name}%'
 	    </if>
-	    <if test="entity.category!=null and entity.category!=''">
+		<if test="entity.category!=null and entity.category!=''">
 			and like '%${entity.category}%'
 	    </if>
 	</select>
-	<select id="findByLogic" parameterType="com.pss.domain.model.entity.purchase.Good" resultMap="GoodMapper">
-	    select * from goods where tenant=#{tenant} and category=#{category} and name=#{name} and specification=#{specification}
+
+	<select id="findByLogic" parameterType="com.pss.domain.model.entity.purchase.Good"
+		resultMap="GoodMapper">
+		select * from goods where tenant=#{tenant} and
+		category=#{category} and
+		name=#{name} and
+		specification=#{specification}
+	</select>
+
+	<select id="queryByPrefix" parameterType="com.pss.domain.model.entity.purchase.Good"
+		resultMap="GoodMapper">
+		select * from goods where tenant = #{tenant}
+		<if test="name != null and name!=''">
+			and name like '%${name}%'
+		</if>
 	</select>
 </mapper>

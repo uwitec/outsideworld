@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 
 import com.pss.domain.model.entity.inventory.StorageDetail;
 import com.pss.service.IBusinessService;
+import com.pss.service.IGoodService;
 import com.pss.service.IStorageDetailService;
 import com.pss.web.action.DetailsPaginationAction;
 
