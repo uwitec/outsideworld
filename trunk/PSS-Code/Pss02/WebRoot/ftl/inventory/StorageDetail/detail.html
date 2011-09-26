@@ -11,8 +11,8 @@
 		value="${masterId!}">
 	<tr>
 		<td>货品名称</td>
-		<td><input dojoType="custom.TextInput" name="entity.goodName"
-			value="${goodName!}">
+		<td><input jsId="entity.goodName" dojoType="custom.AutoCompleter"
+			store="goodStore" searchAttr="goodName" value="${goodName!}">
 		</td>
 	</tr>
 	<tr>
