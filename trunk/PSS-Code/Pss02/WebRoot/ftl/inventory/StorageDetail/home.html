@@ -1,28 +1,32 @@
 <#assign basePath="${request.getContextPath()}/inventory">
 <span dojoType="dojo.data.ItemFileReadStore" jsId="goodStore"
-	url="${basePath}/StorageDetail/queryGoods">
-	<div dojoType="dijit.Toolbar">
-		<button dojoType="dijit.form.Button"
-			onClick="Common.showDialog('添加货品','${basePath}/StorageDetail_add?masterId=${masterId}')">新建</button>
-		<span dojoType="dijit.ToolbarSeparator"></span>
-		<button dojoType="dijit.form.Button"
-			onClick="Common.update('修改货品','${basePath}/StorageDetail_update')">修改</button>
-		<span dojoType="dijit.ToolbarSeparator"></span>
-		<button dojoType="dijit.form.Button" onClick="">删除</button>
-		<span>进货单明细管理</span>
-		<form id="searchForm"
-			action="${basePath}/StorageDetail/queryEntity?masterId=${masterId}">
-			<button id="searchBtn" dojoType="dijit.form.Button"
-				onClick="Common.search()">查询</button>
-		</form>
-	</div> <#include "../../common/pager.html"/>
-	<table id="jsonGrid" dojoType="dojox.grid.DataGrid">
-		<thead>
-			<tr>
-				<th field="id" width="auto">编号</th>
-				<th field="goodName" width="auto">货品名称</th>
-				<th field="goodNumber" width="auto">货品数量</th>
-				<th filed="goodSpec" width="auto">货品规格</th>
-			</tr>
-		</thead>
-	</table>
+	url="${basePath}/InventoryGood/queryGoods"></span>
+<div dojoType="dijit.Toolbar">
+	<span>进货单明细管理</span> <span dojoType="dijit.ToolbarSeparator"></span>
+	<button dojoType="dijit.form.Button"
+		onClick="Common.setMainPane('${basePath}/Storage_home');">返回</button>
+	<span dojoType="dijit.ToolbarSeparator"></span>
+	<button dojoType="dijit.form.Button"
+		onClick="Common.showDialog('添加货品','${basePath}/StorageDetail_add?masterId=${masterId}')">新建</button>
+	<span dojoType="dijit.ToolbarSeparator"></span>
+	<button dojoType="dijit.form.Button"
+		onClick="Common.update('修改货品','${basePath}/StorageDetail_update')">修改</button>
+	<span dojoType="dijit.ToolbarSeparator"></span>
+	<button dojoType="dijit.form.Button" onClick="">删除</button>
+	<form id="searchForm"
+		action="${basePath}/StorageDetail/queryEntity?masterId=${masterId}">
+		<button id="searchBtn" dojoType="dijit.form.Button"
+			onClick="Common.search()">查询</button>
+	</form>
+</div>
+<#include "../../common/pager.html"/>
+<table id="jsonGrid" dojoType="dojox.grid.DataGrid">
+	<thead>
+		<tr>
+			<th field="id" width="auto">编号</th>
+			<th field="goodName" width="auto">货品名称</th>
+			<th field="goodNumber" width="auto">货品数量</th>
+			<th filed="goodSpec" width="auto">货品规格</th>
+		</tr>
+	</thead>
+</table>
