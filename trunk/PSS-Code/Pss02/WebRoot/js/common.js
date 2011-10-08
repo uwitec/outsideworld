@@ -4,6 +4,7 @@ var Common = {
 	confirmDialog : null,
 	confirmOK : null,
 	confirmData : null,
+	queryCondition : null,
 	/* 定义一个什么都不做的空方法 */
 	nullFunction : function() {
 
@@ -308,5 +309,15 @@ var Common = {
 			Common.hideDialog();
 			Common.search();
 		}
+	},
+	/* 初始化查询条件 */
+	initSearchForm : function() {
+		if (Common.queryCondition == null)
+			return;
+		var form = dojo.byId("searchForm");
+		dojo.query("input:text", form).forEach(function(node, index, array) {
+			node.value = Common.queryCondition[node.name];
+		});
+		Common.queryCondition = null;
 	}
 };
