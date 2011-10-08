@@ -8,6 +8,7 @@
 	<span dojoType="dijit.ToolbarSeparator"></span>
 	<button dojoType="dijit.form.Button" onClick="">删除</button>
 	<form id="searchForm" action="${basePath}/Storage/queryEntity">
+		进货单编号：<input name="entity.id" />
 		<button id="searchBtn" dojoType="dijit.form.Button"
 			onClick="Common.search()">查询</button>
 	</form>
@@ -24,10 +25,12 @@
 	</thead>
 </table>
 <script type="text/javascript">
+	Common.initSearchForm();
 	function operation(value, rowIndex) {
 		return "<button dojoType='dijit.form.Button' onClick='gotoDetail("+value+")'>明细管理</button>";
 	}
 	function gotoDetail(storageId){
+		Common.queryCondition = dojo.formToObject("searchForm");
 		Common.setMainPane('${basePath}/StorageDetail_home?masterId='+storageId);
 	}
 </script>
