@@ -1,9 +1,0 @@
-<#assign basePath="${request.getContextPath()}/inventory">
-<center>
-	<div id="addChangeDetailFormErrors"></div>
-	<form id="addChangeDetailForm" method="post"
-		action="${basePath}/ChangeDetail/addEntity"><#include
-		"detail.html"/></form>
-	<button dojoType="dijit.form.Button"
-		onClick="Common.submitFormAsync('addChangeDetailForm', Common.closeDiaogAndRefresh)">保存</button>
-</center>
