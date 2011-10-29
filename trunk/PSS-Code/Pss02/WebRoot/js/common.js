@@ -266,6 +266,10 @@ var Common = {
 	search : function() {
 		var url = dojo.attr("searchForm", "action");
 		var params = dojo.formToObject("searchForm");
+		var page = parseInt(document.getElementById("page").innerHTML);
+		var pageSize = parseInt(document.getElementById("pageSize").value);
+		params["page"] = page;
+		params["pageSize"] = pageSize;
 		Common.refreshDataGrid("jsonGrid", url, params);
 	},
 	/* 更新数据 */
