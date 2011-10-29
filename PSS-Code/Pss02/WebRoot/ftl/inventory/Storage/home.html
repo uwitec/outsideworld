@@ -30,7 +30,7 @@
 		return "<button dojoType='dijit.form.Button' onClick='gotoDetail("+value+")'>明细管理</button>";
 	}
 	function gotoDetail(storageId){
-		Common.queryCondition = dojo.formToObject("searchForm");
+		Common.saveSearchCondition();
 		Common.setMainPane('${basePath}/StorageDetail_home?masterId='+storageId);
 	}
 </script>
