@@ -310,10 +310,16 @@ var Common = {
 			Common.search();
 		}
 	},
+	/* 保存查询条件 */
+	saveSearchCondition : function() {
+		Common.queryCondition = dojo.formToObject("searchForm");
+		Common.queryCondition.page = document.getElementById("page").innerHTML;
+	},
 	/* 初始化查询条件 */
 	initSearchForm : function() {
 		if (Common.queryCondition == null)
 			return;
+		document.getElementById("page").innerHTML = Common.queryCondition.page;
 		var form = dojo.byId("searchForm");
 		dojo.query("input:text", form).forEach(function(node, index, array) {
 			node.value = Common.queryCondition[node.name];
