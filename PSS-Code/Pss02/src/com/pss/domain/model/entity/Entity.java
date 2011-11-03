@@ -16,6 +16,8 @@ package com.pss.domain.model.entity;
 
 import java.util.Date;
 
+import org.apache.struts2.json.annotations.JSON;
+
 /**
  * <p>
  * 类说明
@@ -34,9 +36,9 @@ import java.util.Date;
 public abstract class Entity {
 	private String id;
 	private String tenant;
-    private String lastUpdateUser;
-    private Date lastUpdateDate;
-    
+	private String lastUpdateUser;
+	private Date createDatetime;
+	private Date lastUpdateDate;
 
 	public String getId() {
 		return id;
@@ -53,17 +55,30 @@ public abstract class Entity {
 	public void setTenant(String tenant) {
 		this.tenant = tenant;
 	}
-	
+
 	public String getLastUpdateUser() {
 		return lastUpdateUser;
 	}
+
 	public void setLastUpdateUser(String lastUpdateUser) {
 		this.lastUpdateUser = lastUpdateUser;
 	}
+
+	@JSON(format = "yyyy/MM/dd HH:mm:ss")
 	public Date getLastUpdateDate() {
 		return lastUpdateDate;
 	}
+
 	public void setLastUpdateDate(Date lastUpdateDate) {
 		this.lastUpdateDate = lastUpdateDate;
+	}
+
+	@JSON(format = "yyyy/MM/dd HH:mm:ss")
+	public Date getCreateDatetime() {
+		return createDatetime;
+	}
+
+	public void setCreateDatetime(Date createDatetime) {
+		this.createDatetime = createDatetime;
 	}
 }
