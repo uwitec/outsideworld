@@ -1,19 +1,9 @@
 <#assign basePath="${request.getContextPath()}/inventory">
 <center>
-<<<<<<< .mine
-	<div id="addUnStorageDetailFormErrors"></div>
-	<form id="addUnStorageDetailForm" method="post"
-		action="${basePath}/UnStorageDetail/addEntity"><#include
-=======
 	<div id="addChangeDetailFormErrors"></div>
 	<form id="addChangeDetailForm" method="post"
 		action="${basePath}/ChangeDetail/addEntity"><#include
->>>>>>> .r440
 		"detail.html"/></form>
 	<button dojoType="dijit.form.Button"
-<<<<<<< .mine
 		onClick="Common.submitFormAsync('addUnStorageDetailForm', Common.closeDiaogAndRefresh)">保存</button>
-=======
-		onClick="Common.submitFormAsync('addChangeDetailForm', Common.closeDiaogAndRefresh)">保存</button>
->>>>>>> .r440
 </center>
