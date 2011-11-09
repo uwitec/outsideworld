@@ -4,6 +4,7 @@
 package com.pss.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.pss.domain.model.entity.purchase.PrePurchaseDetail;
 import com.pss.domain.repository.BaseRepository;
@@ -14,6 +15,7 @@ import com.pss.service.IPrePurchaseDetailService;
  * @author liang
  *
  */
+@Service
 public class PrePurchaseDetailService extends AbstractService<PrePurchaseDetail> implements IPrePurchaseDetailService {
 
 	@Autowired
