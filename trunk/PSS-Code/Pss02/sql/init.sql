@@ -6,6 +6,7 @@ insert into `role` values('3','销售','销售');
 insert into function(function_id,url,module,title) values('0','sys/User_home','System','用户管理');
 insert into function(function_id,url,module,title) values('1','purchase/Supplier_home','Purchase','供应商管理');
 insert into function(function_id,url,module,title) values('2','purchase/GoodCategory_home','Purchase','货品分类管理');
+insert into function(function_id,url,module,title) values('3','purchase/PrePurchase_home','Purchase','采购单管理');
 insert into function(function_id,url,module,title) values('4','inventory/Storage_home','Inventory','入库单管理');
 insert into function(function_id,url,module,title) values('6','inventory/Change_home','Inventory','变更单管理');
 insert into function(function_id,url,module,title) values('5','inventory/UnStorage_home','Inventory','出库单管理');
