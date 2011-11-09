@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pss.dao.purchase.PrePurchaseDetailMapper">
+
+	<resultMap type="com.pss.domain.model.entity.purchase.PrePurchaseDetail" id="PrePurchaseDetailMapper">
+		<id property="id" column="id" />
+		<result property="tenant" column="tenant" />
+		<result property="prePurchaseID" column="pur_id" />
+		<result property="prePurchaseSupplier" column="supplier" />
+		<result property="prePurchaseGoods" column="goods" />
+		<result property="prePurchaseSpecification" column="specification" />
+		<result property="prePurchaseAmount" column="amount" />
+		<result property="prePurchaseUnit" column="unit" />
+		<result property="prePurchasePrice" column="purchase_price" />
+		<result property="preRefPurchasePrice" column="ref_purchase_price" />
+		<result property="prePurchaseInventory" column="inventory" />
+		<result property="prePurchaseDepreciation" column="depreciation" />
+		<result property="prePurchaseNote" column="note" />
+		<result property="lastUpdateUser" column="last_update_user" />
+		<result property="lastUpdateDate" column="last_update_date" />
+	</resultMap>
+
+	<insert id="add" parameterType="com.pss.domain.model.entity.purchase.PrePurchaseDetail">
+		insert into
+		pre_purchase_detail(id,tenant,pur_id,supplier,goods,specification,amount,unit,purchase_price,ref_purchase_price,inventory,depreciation,note,
+		last_update_user,last_update_date)
+		values(#{id},#{tenant},#{prePurchaseID},#{prePurchaseSupplier},#{prePurchaseGoods},#{prePurchaseSpecification},#{prePurchaseAmount},#{prePurchaseUnit},#{prePurchasePrice},
+		#{preRefPurchasePrice},#{prePurchaseInventory},#{prePurchaseDepreciation},#{prePurchaseNote},#{lastUpdateUser},#{lastUpdateDate});
+	</insert>
+
+	<delete id="delete" parameterType="java.lang.String">
+		delete from pre_purchase_detail where
+		id=#{id}
+	</delete>
+
+	<update id="update" parameterType="com.pss.domain.model.entity.purchase.PrePurchaseDetail">
+		update pre_purchase_detail set supplier =
+		#{prePurchaseSupplier},goods = #{prePurchaseGoods},specification = #{prePurchaseSpecification}, amount=#{prePurchaseAmount},
+		unit=#{prePurchaseUnit},purchase_price=#{prePurchasePrice},ref_purchase_price=#{preRefPurchasePrice},inventory=#{prePurchaseInventory},
+		depreciation=#{prePurchaseDepreciation},note=#{prePurchaseNote},last_update_user=#{prePurchaseLastUpdateUser},last_update_date=#{prePurchaseLastUpdateDate}
+		where pur_id = #{prePurchaseID} and id = #{id} and tenant = #{tenant}
+	</update>
+
+	<select id="findById" parameterType="java.lang.String"
+		resultMap="PrePurchaseDetailMapper">
+		select * from pre_purchase_detail where id=#{id}
+	</select>
+
+	<select id="findByEntity" parameterType="com.pss.domain.model.entity.purchase.PrePurchaseDetail"
+		resultMap="PrePurchaseDetailMapper">
+		select * from pre_purchase_detail where tenant = #{tenant}
+		<if test="id != null and id!=''">
+			and id = #{id}
+		</if>
+		<if test="lastUpdateUser != null">
+			and last_update_user = #{lastUpdateUser}
+		</if>
+		<if test="lastUpdateDate != null">
+			and last_update_date = #{lastUpdateDate}
+		</if>
+		limit 1
+	</select>
+
+	<select id="queryByEntity" parameterType="com.pss.domain.model.entity.purchase.PrePurchaseDetail"
+		resultMap="PrePurchaseDetailMapper">
+		select * from pre_purchase_detail where tenant = #{tenant}
+		<if test="id != null and id!=''">
+			and id = #{id}
+		</if>
+		<if test="lastUpdateUser != null">
+			and last_update_user = #{lastUpdateUser}
+		</if>
+		<if test="lastUpdateDate != null">
+			and last_update_date = #{lastUpdateDate}
+		</if>
+	</select>
+	
+	<select id="queryByParams" parameterType="java.util.Map"
+		resultMap="PrePurchaseDetailMapper">
+		select * from pre_purchase_detail where pur_id = #{prePurchaseID}
+		and tenant = #{tenant}
+		<if test="min_time != null">
+			and last_update_date >= #{min_time}
+	    </if>
+		<if test="max_time != null">
+			and last_update_date <= #{max_time}
+	    </if>
+		limit
+		#{offset},#{limit}
+	</select>
+
+	<select id="countByEntity" parameterType="com.pss.domain.model.entity.purchase.PrePurchaseDetail"
+		resultType="java.lang.Integer">
+		select * from pre_purchase_detail where tenant = #{tenant}
+		<if test="id != null and id!=''">
+			and id = #{id}
+		</if>
+		<if test="lastUpdateUser != null">
+			and last_update_user = #{lastUpdateUser}
+		</if>
+		<if test="lastUpdateDate != null">
+			and last_update_date = #{lastUpdateDate}
+		</if>
+	</select>
+
+	<select id="countByParams" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		select * from pre_purchase_detail where pur_id = #{prePurchaseID}
+		and tenant = #{tenant}
+		<if test="min_time != null">
+			and last_update_date >= #{min_time}
+	    </if>
+		<if test="max_time != null">
+			and last_update_date <= #{max_time}
+	    </if>
+		limit
+		#{offset},#{limit}
+	</select>
+</mapper>
