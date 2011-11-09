@@ -9,6 +9,8 @@ import com.pss.domain.model.entity.Entity;
 
 /**
  * @author liang
+ * 
+ * 采购单
  *
  */
 public class PrePurchase extends Entity {
