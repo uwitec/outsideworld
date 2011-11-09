@@ -34,20 +34,20 @@
 		resultMap="PrePurchaseMapper">
 		select * from pre_purchase where tenant
 		= #{tenant}
-		<if test="id != null and id!=''">
+		<if test="id != null and id! = ''">
 			and id = #{id}
 		</if>
-		<if test="last_update_user != null">
+		<if test="lastUpdateUser != null">
 			and last_update_user = #{lastUpdateUser}
 		</if>
-		<if test="last_update_date != null">
+		<if test="lastUpdateDate != null">
 			and last_update_date = #{lastUpdateDate}
 		</if>
 		<if test="status != null">
 			and status = #{status}
 		</if>
-		<if test="entity.supplierName!=null and entity.supplierName!=''">
-			and name like '%${entity.supplierName}%'
+		<if test="supplierName != null and supplierName != ''">
+			and name like '%#{supplierName}%'
 	    </if>
 		limit 1
 	</select>
@@ -56,28 +56,28 @@
 		resultMap="SupplierMapper">
 		select * from suppliers where tenant
 		= #{tenant}
-		<if test="id != null and id!=''">
+		<if test="id != null and id! = ''">
 			and id = #{id}
 		</if>
-		<if test="last_update_user != null">
+		<if test="lastUpdateUser != null">
 			and last_update_user = #{lastUpdateUser}
 		</if>
-		<if test="last_update_date != null">
+		<if test="lastUpdateDate != null">
 			and last_update_date = #{lastUpdateDate}
 		</if>
 		<if test="status != null">
 			and status = #{status}
 		</if>
-		<if test="entity.supplierName!=null and entity.supplierName!=''">
-			and name like '%${entity.supplierName}%'
+		<if test="supplierName != null and supplierName != ''">
+			and name like '%#{supplierName}%'
 	    </if>
 	</select>
 	
 	<select id="queryByParams" parameterType="java.util.Map"
 		resultMap="SupplierMapper">
-		select * from Suppliers where tenant = #{entity.tenant}
-		<if test="entity.supplierName!=null and entity.supplierName!=''">
-			and name like '%${entity.supplierName}%'
+		select * from Suppliers where tenant = #{tenant}
+		<if test="supplierName != null and supplierName != ''">
+			and name like '%#{supplierName}%'
 	    </if>
 		limit
 		#{offset},#{limit}
@@ -87,28 +87,28 @@
 		resultType="java.lang.Integer">
 		select * from suppliers where tenant
 		= #{tenant}
-		<if test="id != null and id!=''">
+		<if test="id != null and id! = ''">
 			and id = #{id}
 		</if>
-		<if test="last_update_user != null">
+		<if test="lastUpdateUser != null">
 			and last_update_user = #{lastUpdateUser}
 		</if>
-		<if test="last_update_date != null">
+		<if test="lastUpdateDate != null">
 			and last_update_date = #{lastUpdateDate}
 		</if>
 		<if test="status != null">
 			and status = #{status}
 		</if>
-		<if test="entity.supplierName!=null and entity.supplierName!=''">
-			and name like '%${entity.supplierName}%'
+		<if test="supplierName != null and supplierName != ''">
+			and name like '%#{supplierName}%'
 	    </if>
 	</select>
 
 	<select id="countByParams" parameterType="java.util.Map"
 		resultType="java.lang.Integer">
-		select * from Suppliers where tenant = #{entity.tenant}
-		<if test="entity.supplierName!=null and entity.supplierName!=''">
-			and name like '%${entity.supplierName}%'
+		select * from Suppliers where tenant = #{tenant}
+		<if test="supplierName != null and supplierName != ''">
+			and name like '%#{supplierName}%'
 	    </if>
 		limit
 		#{offset},#{limit}
