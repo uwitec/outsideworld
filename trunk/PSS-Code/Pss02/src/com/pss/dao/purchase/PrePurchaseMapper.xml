@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pss.dao.purchase.PrePurchaseMapper">
+	<resultMap type="com.pss.domain.model.entity.purchase.PrePurchase" id="PrePurchaseMapper">
+		<id property="id" column="id" />
+		<result property="tenant" column="tenant" />
+		<result property="status" column="status" />
+		<result property="lastUpdateUser" column="last_update_user" />
+		<result property="lastUpdateDate" column="last_update_date" />
+	</resultMap>
+
+	<insert id="add" parameterType="com.pss.domain.model.entity.purchase.PrePurchase">
+		insert into
+		pre_purchase (id,tenant,status,last_update_user,last_update_date)
+		values(#{id},#{tenant},#{status},#{lastUpdateUser},#{lastUpdateDate});
+	</insert>
+
+	<delete id="delete" parameterType="java.lang.String">
+		delete from pre_purchase where
+		id=#{id}
+	</delete>
+
+	<update id="update" parameterType="com.pss.domain.model.entity.purchase.PrePurchase">
+		update pre_purchase set status = #{status},last_update_user = #{lastUpdateUser}, last_update_date=#{lastUpdateDate}
+		where tenant = #{tenant} and id = #{id}
+	</update>
+
+	<select id="findById" parameterType="java.lang.String"
+		resultMap="PrePurchaseMapper">
+		select * from pre_purchase where id=#{id}
+	</select>
+
+	<select id="findByEntity" parameterType="com.pss.domain.model.entity.purchase.PrePurchase"
+		resultMap="PrePurchaseMapper">
+		select * from pre_purchase where tenant
+		= #{tenant}
+		<if test="id != null and id!=''">
+			and id = #{id}
+		</if>
+		<if test="last_update_user != null">
+			and last_update_user = #{lastUpdateUser}
+		</if>
+		<if test="last_update_date != null">
+			and last_update_date = #{lastUpdateDate}
+		</if>
+		<if test="status != null">
+			and status = #{status}
+		</if>
+		<if test="entity.supplierName!=null and entity.supplierName!=''">
+			and name like '%${entity.supplierName}%'
+	    </if>
+		limit 1
+	</select>
+
+	<select id="queryByEntity" parameterType="com.pss.domain.model.entity.purchase.Supplier"
+		resultMap="SupplierMapper">
+		select * from suppliers where tenant
+		= #{tenant}
+		<if test="id != null and id!=''">
+			and id = #{id}
+		</if>
+		<if test="last_update_user != null">
+			and last_update_user = #{lastUpdateUser}
+		</if>
+		<if test="last_update_date != null">
+			and last_update_date = #{lastUpdateDate}
+		</if>
+		<if test="status != null">
+			and status = #{status}
+		</if>
+		<if test="entity.supplierName!=null and entity.supplierName!=''">
+			and name like '%${entity.supplierName}%'
+	    </if>
+	</select>
+	
+	<select id="queryByParams" parameterType="java.util.Map"
+		resultMap="SupplierMapper">
+		select * from Suppliers where tenant = #{entity.tenant}
+		<if test="entity.supplierName!=null and entity.supplierName!=''">
+			and name like '%${entity.supplierName}%'
+	    </if>
+		limit
+		#{offset},#{limit}
+	</select>
+
+	<select id="countByEntity" parameterType="com.pss.domain.model.entity.purchase.Supplier"
+		resultType="java.lang.Integer">
+		select * from suppliers where tenant
+		= #{tenant}
+		<if test="id != null and id!=''">
+			and id = #{id}
+		</if>
+		<if test="last_update_user != null">
+			and last_update_user = #{lastUpdateUser}
+		</if>
+		<if test="last_update_date != null">
+			and last_update_date = #{lastUpdateDate}
+		</if>
+		<if test="status != null">
+			and status = #{status}
+		</if>
+		<if test="entity.supplierName!=null and entity.supplierName!=''">
+			and name like '%${entity.supplierName}%'
+	    </if>
+	</select>
+
+	<select id="countByParams" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		select * from Suppliers where tenant = #{entity.tenant}
+		<if test="entity.supplierName!=null and entity.supplierName!=''">
+			and name like '%${entity.supplierName}%'
+	    </if>
+		limit
+		#{offset},#{limit}
+	</select>
+
+</mapper>
