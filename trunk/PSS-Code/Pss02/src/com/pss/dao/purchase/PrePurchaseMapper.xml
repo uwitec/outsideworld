@@ -54,7 +54,7 @@
 
 	<select id="queryByEntity" parameterType="com.pss.domain.model.entity.purchase.Supplier"
 		resultMap="SupplierMapper">
-		select * from suppliers where tenant
+		select * from pre_purchase where tenant
 		= #{tenant}
 		<if test="id != null and id! = ''">
 			and id = #{id}
@@ -75,7 +75,7 @@
 	
 	<select id="queryByParams" parameterType="java.util.Map"
 		resultMap="SupplierMapper">
-		select * from Suppliers where tenant = #{tenant}
+		select * from pre_purchase where tenant = #{tenant}
 		<if test="supplierName != null and supplierName != ''">
 			and name like '%#{supplierName}%'
 	    </if>
@@ -85,7 +85,7 @@
 
 	<select id="countByEntity" parameterType="com.pss.domain.model.entity.purchase.Supplier"
 		resultType="java.lang.Integer">
-		select * from suppliers where tenant
+		select * from pre_purchase where tenant
 		= #{tenant}
 		<if test="id != null and id! = ''">
 			and id = #{id}
@@ -106,7 +106,7 @@
 
 	<select id="countByParams" parameterType="java.util.Map"
 		resultType="java.lang.Integer">
-		select * from Suppliers where tenant = #{tenant}
+		select * from pre_purchase where tenant = #{tenant}
 		<if test="supplierName != null and supplierName != ''">
 			and name like '%#{supplierName}%'
 	    </if>
