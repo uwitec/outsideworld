@@ -95,8 +95,6 @@
 	<select id="countByParams" parameterType="java.util.Map"
 		resultType="java.lang.Integer">
 		select count(*) from pre_purchase where tenant = #{tenant}
-		limit
-		#{offset},#{limit}
 	</select>
 
 </mapper>
