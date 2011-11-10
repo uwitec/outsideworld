@@ -46,14 +46,11 @@
 		<if test="status != null">
 			and status = #{status}
 		</if>
-		<if test="supplierName != null and supplierName != ''">
-			and name like '%#{supplierName}%'
-	    </if>
 		limit 1
 	</select>
 
-	<select id="queryByEntity" parameterType="com.pss.domain.model.entity.purchase.Supplier"
-		resultMap="SupplierMapper">
+	<select id="queryByEntity" parameterType="com.pss.domain.model.entity.purchase.PrePurchase"
+		resultMap="PrePurchaseMapper">
 		select * from pre_purchase where tenant
 		= #{tenant}
 		<if test="id != null and id! = ''">
@@ -68,22 +65,16 @@
 		<if test="status != null">
 			and status = #{status}
 		</if>
-		<if test="supplierName != null and supplierName != ''">
-			and name like '%#{supplierName}%'
-	    </if>
 	</select>
 	
 	<select id="queryByParams" parameterType="java.util.Map"
-		resultMap="SupplierMapper">
+		resultMap="PrePurchaseMapper">
 		select * from pre_purchase where tenant = #{tenant}
-		<if test="supplierName != null and supplierName != ''">
-			and name like '%#{supplierName}%'
-	    </if>
 		limit
 		#{offset},#{limit}
 	</select>
 
-	<select id="countByEntity" parameterType="com.pss.domain.model.entity.purchase.Supplier"
+	<select id="countByEntity" parameterType="com.pss.domain.model.entity.purchase.PrePurchase"
 		resultType="java.lang.Integer">
 		select * from pre_purchase where tenant
 		= #{tenant}
@@ -99,17 +90,11 @@
 		<if test="status != null">
 			and status = #{status}
 		</if>
-		<if test="supplierName != null and supplierName != ''">
-			and name like '%#{supplierName}%'
-	    </if>
 	</select>
 
 	<select id="countByParams" parameterType="java.util.Map"
 		resultType="java.lang.Integer">
-		select * from pre_purchase where tenant = #{tenant}
-		<if test="supplierName != null and supplierName != ''">
-			and name like '%#{supplierName}%'
-	    </if>
+		select count(*) from pre_purchase where tenant = #{tenant}
 		limit
 		#{offset},#{limit}
 	</select>

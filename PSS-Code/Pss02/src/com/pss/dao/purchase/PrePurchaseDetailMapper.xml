@@ -77,7 +77,7 @@
 	
 	<select id="queryByParams" parameterType="java.util.Map"
 		resultMap="PrePurchaseDetailMapper">
-		select * from pre_purchase_detail where pur_id = #{prePurchaseID}
+		select * from pre_purchase_detail where pur_id = #{entity.prePurchaseID}
 		and tenant = #{tenant}
 		<if test="min_time != null">
 			and last_update_date >= #{min_time}
@@ -105,7 +105,7 @@
 
 	<select id="countByParams" parameterType="java.util.Map"
 		resultType="java.lang.Integer">
-		select * from pre_purchase_detail where pur_id = #{prePurchaseID}
+		select * from pre_purchase_detail where pur_id = #{entity.prePurchaseID}
 		and tenant = #{tenant}
 		<if test="min_time != null">
 			and last_update_date >= #{min_time}
