@@ -9,6 +9,14 @@ http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
 	</bean>
 	<bean id="supplierRepository" class="com.pss.domain.repository.purchase.SupplierRepository">
 	</bean>
+	<bean id="prePurchaseService" class="com.pss.service.impl.PrePurchaseService">
+	</bean>
+	<bean id="prePurchaseRepository" class="com.pss.domain.repository.purchase.PrePurchaseRepository">
+	</bean>
+	<bean id="prePurchaseDetailService" class="com.pss.service.impl.PrePurchaseDetailService">
+	</bean>
+	<bean id="prePurchaseDetailRepository" class="com.pss.domain.repository.purchase.PrePurchaseDetailRepository">
+	</bean>
 	<bean id="goodService" class="com.pss.service.impl.GoodService">
 	</bean>
 	<bean id="goodRepository" class="com.pss.domain.repository.purchase.GoodRepository">
