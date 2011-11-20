@@ -59,8 +59,8 @@ var Common = {
 			load : function(response) {
 				if (!Common.checkLogin(response)) {
 					return;
-				} else if (!Common.hasErrors(data, formId)) {
-					success(data);
+				} else if (!Common.hasErrors(response)) {
+					success(response);
 				}
 			}
 		};
@@ -132,7 +132,12 @@ var Common = {
 			return true;
 		}
 
-		var formErrors = dojo.byId(formId + "Errors");
+		var formErrors = null;
+		if (!formId) {
+			formErrors = dojo.byId("errors");
+		} else {
+			formErrors = dojo.byId(formId + "Errors");
+		}
 		if (formErrors == null) {
 			formErrors = dojo.byId("errors");
 		}
