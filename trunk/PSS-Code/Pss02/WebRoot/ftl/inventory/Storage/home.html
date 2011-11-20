@@ -6,7 +6,8 @@
 	<button dojoType="dijit.form.Button"
 		onClick="Common.update('修改进货单','${basePath}/Storage_update')">修改</button>
 	<span dojoType="dijit.ToolbarSeparator"></span>
-	<button dojoType="dijit.form.Button" onClick="">删除</button>
+	<button dojoType="dijit.form.Button"
+		onClick="Common.remove('${basePath}/Storage/deleteEntity')">删除</button>
 	<form id="searchForm" action="${basePath}/Storage/queryEntity">
 		进货单编号：<input name="entity.id" />
 		<button id="searchBtn" dojoType="dijit.form.Button"
