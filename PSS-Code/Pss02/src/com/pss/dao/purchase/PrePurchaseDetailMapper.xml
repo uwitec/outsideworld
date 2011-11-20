@@ -83,7 +83,7 @@
 			and last_update_date >= #{min_time}
 	    </if>
 		<if test="max_time != null">
-			and last_update_date <= #{max_time}
+			and #{max_time} >= last_update_date
 	    </if>
 		limit
 		#{offset},#{limit}
