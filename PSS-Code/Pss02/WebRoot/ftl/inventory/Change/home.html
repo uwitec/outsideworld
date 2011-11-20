@@ -1,13 +1,14 @@
 <#assign basePath="${request.getContextPath()}/inventory">
 <div dojoType="dijit.Toolbar">
 	<button dojoType="dijit.form.Button"
-		onClick="Common.showDialog('新建入库单','${basePath}/UnStorage_add')">新建</button>
+		onClick="Common.showDialog('新建入库单','${basePath}/Change_add')">新建</button>
 	<span dojoType="dijit.ToolbarSeparator"></span>
 	<button dojoType="dijit.form.Button"
-		onClick="Common.update('修改进货单','${basePath}/UnStorage_update')">修改</button>
+		onClick="Common.update('修改进货单','${basePath}/Change_update')">修改</button>
 	<span dojoType="dijit.ToolbarSeparator"></span>
-	<button dojoType="dijit.form.Button" onClick="">删除</button>
-	<form id="searchForm" action="${basePath}/UnStorage/queryEntity">
+	<button dojoType="dijit.form.Button"
+		onClick="Common.remove('${basePath}/Change/deleteEntity')">删除</button>
+	<form id="searchForm" action="${basePath}/Change/queryEntity">
 		进货单编号：<input name="entity.id" />
 		<button id="searchBtn" dojoType="dijit.form.Button"
 			onClick="Common.search()">查询</button>
@@ -31,6 +32,6 @@
 	}
 	function gotoDetail(storageId){
 		Common.queryCondition = dojo.formToObject("searchForm");
-		Common.setMainPane('${basePath}/UnStorageDetail_home?masterId='+storageId);
+		Common.setMainPane('${basePath}/ChangeDetail_home?masterId='+storageId);
 	}
 </script>
