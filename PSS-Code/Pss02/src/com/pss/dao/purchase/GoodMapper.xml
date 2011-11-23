@@ -50,8 +50,7 @@
 
 	<select id="queryByEntity" parameterType="com.pss.domain.model.entity.purchase.Good"
 		resultMap="GoodMapper">
-		select * from goods where name = #{name} and tenant
-		=
+		select * from goods where name = #{name} and tenant =
 		#{tenant}
 	</select>
 
@@ -107,8 +106,5 @@
 	<select id="queryByPrefix" parameterType="com.pss.domain.model.entity.purchase.Good"
 		resultMap="GoodMapper">
 		select * from goods where tenant = #{tenant}
-		<if test="name != null and name!=''">
-			and name like '%${name}%'
-		</if>
 	</select>
 </mapper>

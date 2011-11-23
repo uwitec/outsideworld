@@ -16,27 +16,6 @@
 		<result property="note" column="note" />
 	</resultMap>
 
-	<insert id="add" parameterType="com.pss.domain.model.entity.inventory.StorageDetail">
-		insert into
-		storage_detail(id,tenant,last_update_user,last_update_date,store_id,good_name,good_id,good_specification,number,note)
-		values(#{id},#{tenant},#{lastUpdateUser},#{lastUpdateDate},#{storeId},#{goodName},#{goodSpec},#{goodNumber},#{goodId},#{note});
-	</insert>
-
-	<delete id="delete" parameterType="java.lang.String">
-		delete from storage_detail
-		where
-		id=#{id}
-	</delete>
-
-	<update id="update" parameterType="com.pss.domain.model.entity.inventory.StorageDetail">
-		update storage_detail set
-		last_update_user = #{lastUpdateUser},
-		last_update_date =
-		#{lastUpdateDate},
-		note = #{note}
-		where id = #{id}
-	</update>
-
 	<select id="findById" parameterType="java.lang.String"
 		resultMap="StorageDetailMapper">
 		select * from storage_detail where id=#{id}
@@ -91,4 +70,25 @@
 		select count(*) from storage_detail where tenant =
 		#{tenant} and store_id = #{masterId}
 	</select>
+
+	<insert id="add" parameterType="com.pss.domain.model.entity.inventory.StorageDetail">
+		insert into
+		storage_detail(id,tenant,last_update_user,last_update_date,store_id,good_name,good_id,good_specification,number,note)
+		values(#{id},#{tenant},#{lastUpdateUser},#{lastUpdateDate},#{storeId},#{goodName},#{goodId},#{goodSpec},#{goodNumber},#{note})
+	</insert>
+
+	<delete id="delete" parameterType="java.lang.String">
+		delete from storage_detail
+		where
+		id=#{id}
+	</delete>
+
+	<update id="update" parameterType="com.pss.domain.model.entity.inventory.StorageDetail">
+		update storage_detail set
+		last_update_user = #{lastUpdateUser},
+		last_update_date =
+		#{lastUpdateDate},
+		note = #{note}
+		where id = #{id}
+	</update>
 </mapper>

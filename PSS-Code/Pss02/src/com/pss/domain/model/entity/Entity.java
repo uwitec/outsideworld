@@ -39,10 +39,8 @@ public abstract class Entity {
 	private String lastUpdateUser;
 	private Date createDatetime;
 	private Date lastUpdateDate;
-	
-	public Entity(){
-		this.createDatetime = new Date();
-		this.lastUpdateDate = this.createDatetime;
+
+	public Entity() {
 	}
 
 	public String getId() {

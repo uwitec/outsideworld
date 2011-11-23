@@ -8,14 +8,15 @@
 		<result property="tenant" column="tenant" />
 		<result property="lastUpdateUser" column="last_update_user" />
 		<result property="lastUpdateDate" column="last_update_date" />
+		<result property="createDatetime" column="create_datetime" />
 		<result property="status" column="status" />
 		<result property="note" column="note" />
 	</resultMap>
 
 	<insert id="add" parameterType="com.pss.domain.model.entity.inventory.Storage">
 		insert into
-		storage(id,tenant,last_update_user,last_update_date,status,note)
-		values(#{id},#{tenant},#{lastUpdateUser},#{lastUpdateDate},#{status},#{note});
+		storage(id,tenant,create_datetime,last_update_user,last_update_date,status,note)
+		values(#{id},#{tenant},now(),#{lastUpdateUser},now(),#{status},#{note});
 	</insert>
 
 	<delete id="delete" parameterType="java.lang.String">
@@ -26,9 +27,9 @@
 	<update id="update" parameterType="com.pss.domain.model.entity.inventory.Storage">
 		update storage set
 		last_update_user =
-		#{lastUpdateUser}, last_update_date =
-		#{lastUpdateDate},
-		status = #{status}, note = #{note}
+		#{lastUpdateUser}, last_update_date = now(),
+		status =
+		#{status}, note = #{note}
 		where id = #{id}
 	</update>
 
@@ -70,11 +71,27 @@
 		<if test="status != null">
 			and status = #{status}
 		</if>
+		order by
+		last_update_date desc,create_datetime desc
 	</select>
 
 	<select id="queryByParams" parameterType="java.util.Map"
 		resultMap="StorageMapper">
 		select * from storage where tenant = #{tenant}
+		<if test="entity.id != null and entity.id!=''">
+			and id like '%${entity.id}%'
+		</if>
+		<if test="entity.lastUpdateUser != null">
+			and last_update_user = #{entity.lastUpdateUser}
+		</if>
+		<if test="entity.lastUpdateDate != null">
+			and last_update_date = #{entity.lastUpdateDate}
+		</if>
+		<if test="entity.status != null">
+			and status = #{entity.status}
+		</if>
+		order by
+		last_update_date desc,create_datetime desc
 		limit
 		#{offset},#{limit}
 	</select>
