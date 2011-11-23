@@ -15,7 +15,7 @@ public class InventoryGoodAction extends AbstractAction {
 
 	private static final long serialVersionUID = 1L;
 
-	private String value;
+	private String identifier = "name";
 
 	private List<Good> items;
 
@@ -25,7 +25,6 @@ public class InventoryGoodAction extends AbstractAction {
 	public String queryGoods() {
 		Good good = new Good();
 		good.setTenant(getTenantId());
-		good.setName(value);
 
 		try {
 			items = goodService.queryByPrefix(good);
@@ -36,11 +35,11 @@ public class InventoryGoodAction extends AbstractAction {
 		return SUCCESS;
 	}
 
-	public void setValue(String value) {
-		this.value = value;
-	}
-
 	public List<Good> getItems() {
 		return items;
+	}
+
+	public String getIdentifier() {
+		return identifier;
 	}
 }
