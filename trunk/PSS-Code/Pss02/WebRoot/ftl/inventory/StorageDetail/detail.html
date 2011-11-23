@@ -11,9 +11,10 @@
 		value="${masterId!}">
 	<tr>
 		<td>货品名称</td>
-		<td><input jsId="entity.goodName" dojoType="custom.AutoCompleter"
-			store="goodStore" searchAttr="goodName" value="${goodName!}">
-		</td>
+		<td><input id="entity.goodName"
+			dojoType="dijit.form.FilteringSelect" value="name"
+			name="entity.goodName" displayedValue="${goodId!}" store="goodStore"
+			searchAttr="name" autocomplete="true"></td>
 	</tr>
 	<tr>
 		<td>货品编号</td>

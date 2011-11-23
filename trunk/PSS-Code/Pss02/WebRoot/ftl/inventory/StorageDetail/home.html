@@ -12,7 +12,8 @@
 	<button dojoType="dijit.form.Button"
 		onClick="Common.update('修改货品','${basePath}/StorageDetail_update')">修改</button>
 	<span dojoType="dijit.ToolbarSeparator"></span>
-	<button dojoType="dijit.form.Button" onClick="">删除</button>
+	<button dojoType="dijit.form.Button"
+		onClick="Common.remove('${basePath}/StorageDetail/deleteEntity')">删除</button>
 	<form id="searchForm"
 		action="${basePath}/StorageDetail/queryEntity?masterId=${masterId}">
 		<button id="searchBtn" dojoType="dijit.form.Button"
@@ -26,7 +27,7 @@
 			<th field="id" width="auto">编号</th>
 			<th field="goodName" width="auto">货品名称</th>
 			<th field="goodNumber" width="auto">货品数量</th>
-			<th filed="goodSpec" width="auto">货品规格</th>
+			<th field="goodSpec" width="auto">货品规格</th>
 		</tr>
 	</thead>
 </table>
