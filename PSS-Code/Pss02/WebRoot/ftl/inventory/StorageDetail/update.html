@@ -1,9 +1,9 @@
 <#assign basePath="${request.getContextPath()}/inventory">
 <center>
-	<div id="updateUnStorageFormErrors"></div>
-	<form id="updateUnStorage" method="post"
-		action="${basePath}/UnStorage/updateEntity"><#include
+	<div id="updateStorageDetailFormErrors"></div>
+	<form id="updateStorageDetailForm" method="post"
+		action="${basePath}/StorageDetail/updateEntity"><#include
 		"detail.html"/></form>
 	<button dojoType="dijit.form.Button"
-		onClick="Common.submitFormAsync('updateUnStorage', Common.closeDiaogAndRefresh)">保存</button>
+		onClick="Common.submitFormAsync('StorageDetail', Common.closeDiaogAndRefresh)">保存</button>
 </center>
