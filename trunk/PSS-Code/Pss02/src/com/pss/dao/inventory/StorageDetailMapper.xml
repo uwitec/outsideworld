@@ -53,8 +53,11 @@
 	<select id="queryByParams" parameterType="java.util.Map"
 		resultMap="StorageDetailMapper">
 		select * from storage_detail where tenant = #{tenant}
-		and
-		store_id = #{masterId}
+		and store_id =
+		#{masterId}
+		<if test="entity.goodName != null and entity.goodName != ''">
+			and good_name like '%${entity.goodName}%'
+		</if>
 		limit
 		#{offset},#{limit}
 	</select>
