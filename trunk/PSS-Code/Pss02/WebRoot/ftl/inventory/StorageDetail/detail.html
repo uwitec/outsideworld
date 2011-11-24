@@ -2,7 +2,7 @@
 && entity.id??> <#assign id=entity.id> <#assign tenant=entity.tenant>
 <#assign storeId=entity.storeId> <#assign goodName=entity.goodName>
 <#assign goodId=entity.goodId> <#assign goodNumber=entity.goodNumber>
-<#assign goodSpec=entity.goodSpec> <#assign note=entity.note> </#if>
+<#assign goodSpec=entity.goodSpec></#if>
 <table>
 	<input type="hidden" id="entity.id" name="entity.id" value="${id!}">
 	<input type="hidden" id="entity.tenant" name="entity.tenant"
@@ -13,8 +13,8 @@
 		<td>货品名称</td>
 		<td><input id="entity.goodName"
 			dojoType="dijit.form.FilteringSelect" value="name"
-			name="entity.goodName" displayedValue="${goodId!}" store="goodStore"
-			searchAttr="name" autocomplete="true"></td>
+			name="entity.goodName" displayedValue="${goodName!}"
+			store="goodStore" searchAttr="name" autocomplete="true"></td>
 	</tr>
 	<tr>
 		<td>货品编号</td>
