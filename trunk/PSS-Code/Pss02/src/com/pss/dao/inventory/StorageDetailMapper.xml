@@ -58,6 +58,12 @@
 		<if test="entity.goodName != null and entity.goodName != ''">
 			and good_name like '%${entity.goodName}%'
 		</if>
+		<if test="entity.goodSpec != null and entity.goodSpec != ''">
+			and good_specification like '%${entity.goodSpec}%'
+		</if>
+		<if test="entity.note != null and entity.note != ''">
+			and note like '%${entity.note}%'
+		</if>
 		limit
 		#{offset},#{limit}
 	</select>
