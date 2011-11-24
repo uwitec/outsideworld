@@ -16,6 +16,7 @@
 		onClick="Common.remove('${basePath}/StorageDetail/deleteEntity')">删除</button>
 	<form id="searchForm"
 		action="${basePath}/StorageDetail/queryEntity?masterId=${masterId}">
+		货品名称：<input name="entity.goodName" />
 		<button id="searchBtn" dojoType="dijit.form.Button"
 			onClick="Common.search()">查询</button>
 	</form>
@@ -28,6 +29,7 @@
 			<th field="goodName" width="auto">货品名称</th>
 			<th field="goodNumber" width="auto">货品数量</th>
 			<th field="goodSpec" width="auto">货品规格</th>
+			<th field="note" width="auto">说明</th>
 		</tr>
 	</thead>
 </table>
