@@ -34,11 +34,19 @@ import org.apache.struts2.json.annotations.JSON;
  * @since Jun 21, 2011
  */
 public abstract class Entity {
+
+	protected String code = "ENTITY";
+
 	private String id;
 	private String tenant;
 	private String lastUpdateUser;
 	private Date createDatetime;
 	private Date lastUpdateDate;
+
+	@JSON(serialize = false)
+	public String getCode() {
+		return code;
+	}
 
 	public Entity() {
 	}
