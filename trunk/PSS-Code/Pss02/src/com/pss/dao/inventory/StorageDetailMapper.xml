@@ -85,10 +85,14 @@
 
 	<update id="update" parameterType="com.pss.domain.model.entity.inventory.StorageDetail">
 		update storage_detail set
+		good_name = #{goodName},
+		good_specification = #{goodSpec},
+		number =
+		#{goodNumber},
+		note = #{note},
 		last_update_user = #{lastUpdateUser},
-		last_update_date =
-		#{lastUpdateDate},
-		note = #{note}
-		where id = #{id}
+		last_update_date = now()
+		where id
+		= #{id}
 	</update>
 </mapper>
