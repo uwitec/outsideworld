@@ -90,6 +90,9 @@
 		<if test="entity.status != null">
 			and status = #{entity.status}
 		</if>
+		<if test="entity.note != null and entity.note != ''">
+			and note like '%${entity.note}%'
+		</if>
 		order by
 		last_update_date desc,create_datetime desc
 		limit

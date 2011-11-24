@@ -133,7 +133,7 @@ public class LoginAction extends AbstractAction {
 	}
 
 	public String validationCode() throws Exception {
-		ImageResult result = ValidationImageUtil.createImage(198, 21);
+		ImageResult result = ValidationImageUtil.createImage(60, 25);
 		// 获得字节的输出流
 		ByteArrayInputStream input = getByteArrayIpputStream(result.getImage());
 		// 将验证码存入session
