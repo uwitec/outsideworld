@@ -104,4 +104,10 @@
 		where id
 		= #{id}
 	</update>
+
+	<delete id="deleteByMasterId" parameterType="java.lang.String">
+		delete from
+		storage_detail
+		where store_id=#{id}
+	</delete>
 </mapper>

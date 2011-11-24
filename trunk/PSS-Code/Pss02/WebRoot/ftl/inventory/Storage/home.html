@@ -29,7 +29,7 @@
 <script type="text/javascript">
 	Common.initSearchForm();
 	function operation(value, rowIndex) {
-		return "<button dojoType='dijit.form.Button' onClick='gotoDetail("+value+")'>明细管理</button>";
+		return "<button dojoType='dijit.form.Button' onClick='gotoDetail(\""+value+"\")'>明细管理</button>";
 	}
 	function gotoDetail(storageId){
 		Common.saveSearchCondition();

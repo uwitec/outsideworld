@@ -1,5 +1,7 @@
 package com.pss.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -13,18 +15,21 @@ import com.pss.exception.EntityAlreadyExistedException;
 import com.pss.exception.EntityNotExistedException;
 import com.pss.service.IBusinessService;
 
-public abstract class AbstractService<T extends Entity> extends IdService implements IBusinessService<T> {
-	
-	
+public abstract class AbstractService<T extends Entity> extends IdService
+		implements IBusinessService<T> {
+
+	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+
 	public abstract BaseRepository<T> repository();
 
 	@Transactional
 	@Override
 	public void add(T entity) throws BusinessHandleException,
 			EntityAlreadyExistedException {
-		Class c = entity.getClass();
+		Class<?> c = entity.getClass();
 		String name = StringUtils.lowerCase(c.getSimpleName());
-		entity.setId(nextStr(name, 32));
+		entity.setId(entity.getCode() + sdf.format(new Date())
+				+ nextStr(name, 16 - entity.getCode().length()));
 		repository().add(entity);
 	}
 
@@ -84,6 +89,5 @@ public abstract class AbstractService<T extends Entity> extends IdService implem
 			EntityNotExistedException {
 		repository().update(entity);
 	}
-	
-	
+
 }
