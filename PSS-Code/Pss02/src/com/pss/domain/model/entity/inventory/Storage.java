@@ -9,8 +9,13 @@ import com.pss.domain.model.entity.Entity;
  * 
  */
 public class Storage extends Entity {
+
 	private String status;
 	private String note;
+
+	public Storage() {
+		code = "RKM";
+	}
 
 	public String getStatus() {
 		return status;

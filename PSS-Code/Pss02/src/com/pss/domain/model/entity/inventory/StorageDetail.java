@@ -21,6 +21,10 @@ public class StorageDetail extends Entity {
 
 	private String note;
 
+	public StorageDetail() {
+		code = "RKS";
+	}
+
 	public String getNote() {
 		return note;
 	}
