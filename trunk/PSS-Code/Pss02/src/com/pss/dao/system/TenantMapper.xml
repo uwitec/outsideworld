@@ -38,4 +38,8 @@
 		select count(tenant_id) from tenant where tenant_email =
 		#{email}
 	</select>
+	<select id="findById" parameterType="java.lang.String"
+		resultMap="TenantMapper">
+		select * from tenant where tenant_id = #{id}
+	</select>
 </mapper>

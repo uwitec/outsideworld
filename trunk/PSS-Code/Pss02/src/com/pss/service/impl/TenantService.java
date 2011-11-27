@@ -89,4 +89,8 @@ public class TenantService extends IdService implements ITenantService {
 		this.userRepository = userRepository;
 	}
 
+	@Override
+	public Tenant findById(String id) throws BusinessHandleException {
+		return tenantRepository.findById(id);
+	}
 }

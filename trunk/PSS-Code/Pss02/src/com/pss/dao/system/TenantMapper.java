@@ -30,4 +30,6 @@ public interface TenantMapper {
 	String findIdByName(String tenantName);
 
 	Integer queryByEmail(String email);
+
+	Tenant findById(String id);
 }

@@ -73,6 +73,7 @@
 				<param name="contentType">image/jpeg</param>
 				<param name="inputName">inputStream</param>
 			</result>
+			<result name="logout" type="redirect">/</result>
 		</action>
 	</package>
 

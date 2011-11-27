@@ -7,8 +7,11 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.pss.domain.model.entity.sys.Function;
+import com.pss.domain.model.entity.sys.Tenant;
 import com.pss.domain.model.entity.sys.User;
+import com.pss.exception.BusinessHandleException;
 import com.pss.service.IFunctionService;
+import com.pss.service.ITenantService;
 import com.pss.web.WebKeys;
 
 public class HomeAction extends AbstractAction {
@@ -17,6 +20,8 @@ public class HomeAction extends AbstractAction {
 
 	@Autowired
 	private IFunctionService functionService;
+	@Autowired
+	private ITenantService tenantService;
 
 	private User user;
 
@@ -36,6 +41,14 @@ public class HomeAction extends AbstractAction {
 	public User getUser() {
 		user.setUserPassword(null);
 		return user;
+	}
+
+	public Tenant getTenant() {
+		try {
+			return tenantService.findById(user.getTenant());
+		} catch (BusinessHandleException e) {
+			return new Tenant();
+		}
 	}
 
 	private void initFunction(User user) {

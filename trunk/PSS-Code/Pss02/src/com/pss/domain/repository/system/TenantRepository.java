@@ -40,8 +40,8 @@ public class TenantRepository {
 		tenantMapper.addTenant(tenant);
 	}
 
-	public Tenant query(String tenantId) throws BusinessHandleException {
-		return null;
+	public Tenant findById(String id) throws BusinessHandleException {
+		return tenantMapper.findById(id);
 	}
 
 	public Integer queryByName(String tenantName)
