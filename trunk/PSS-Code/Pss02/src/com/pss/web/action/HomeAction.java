@@ -18,6 +18,8 @@ public class HomeAction extends AbstractAction {
 	@Autowired
 	private IFunctionService functionService;
 
+	private User user;
+
 	// 所获得的系统的菜单
 	private List<Function> systemFunction = new ArrayList<Function>();
 	private List<Function> purchaseFunction = new ArrayList<Function>();
@@ -26,9 +28,14 @@ public class HomeAction extends AbstractAction {
 
 	@Override
 	public String execute() {
-		User user = getDataFromSession(WebKeys.USER);
+		user = getDataFromSession(WebKeys.USER);
 		initFunction(user);
 		return SUCCESS;
+	}
+
+	public User getUser() {
+		user.setUserPassword(null);
+		return user;
 	}
 
 	private void initFunction(User user) {
