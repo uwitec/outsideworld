@@ -6,25 +6,27 @@
 <script src="/Pss/js/dojo/dojo.js" djConfig="parseOnLoad: true"></script>
 <script type="text/javascript" src="/Pss/js/common.js"></script>
 <script type="text/javascript">
-            dojo.require("custom.TextInput");
-        </script>
+dojo.require("custom.TextInput");
+dojo.require("dijit.form.Button");
+</script>
 <link rel="stylesheet" type="text/css"
 	href="/Pss/js/dijit/themes/claro/claro.css" />
-<link rel="stylesheet" href="/Pss/css/960.css" />
+<link rel="stylesheet" type="text/css" href="/Pss/css/common/common.css" />
 <link rel="stylesheet" href="/Pss/css/text.css" />
 </head>
 <body class="claro">
-	<div class="container_12">
-		<div class="grid_12" style="height: 100px;"></div>
+	<div class="page">
+		<div>
+			<div style="height: 50px;">LOGO</div>
+			<div class="header-line">PSS</div>
+		</div>
 
-		<div class="clear"></div>
-
-		<div class="grid_3">&nbsp;</div>
-
-		<div class="grid_6">
+		<div style="width: 300px; margin: 120px auto;">
+			<span>登陆</span>
 			<div id="registError"></div>
 			<form id="regist" action="/Pss/Regist/regist" method="post">
-				<table style="border: 1px solid #9f9f9f;" cellspacing="10">
+				<table style="border: 1px solid #9f9f9f; margin: 5px;"
+					cellspacing="10">
 					<tr>
 						<td width="80" align="right"><label for="name">租户名称</label></td>
 						<td><input dojoType="custom.TextInput" name="account"
@@ -56,15 +58,16 @@
 							invalidMessage="邮件地址不合法"
 							remote="json/validateEmailOfRegist.action" /></td>
 					</tr>
-					<tr>
-						<td colspan="2" align="center"><input type="button"
-							onclick="Common.submitFormAsync('regist',registResponse)"
-							value="注册" /></td>
-					</tr>
 				</table>
 			</form>
-
-			<div class="grid_3">&nbsp;</div>
+			<div style="text-align: right;">
+				<button dojoType="dijit.form.Button"
+					onclick="Common.submitFormAsync('regist',registResponse)">注册</button>
+			</div>
+		</div>
+		<div class="footer">
+			<hr></hr>
+			<span>Copyright ©</span>
 		</div>
 	</div>
 	<script type="text/javascript">

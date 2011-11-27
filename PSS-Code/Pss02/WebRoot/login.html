@@ -7,6 +7,7 @@
 <script type="text/javascript" src="/Pss/js/common.js"></script>
 <script type="text/javascript">
     dojo.require("custom.TextInput");
+    dojo.require("dijit.form.Button");
        function registVC(){
            dojo.attr(dojo.byId("validationImg"),"src","/Pss/Login/validationCode.action?d="+new Date().toString());
        }
@@ -19,31 +20,30 @@
 </script>
 <link rel="stylesheet" type="text/css"
 	href="/Pss/js/dijit/themes/claro/claro.css" />
-<link rel="stylesheet" href="/Pss/css/960.css" />
 <link rel="stylesheet" href="/Pss/css/text.css" />
+<link rel="stylesheet" type="text/css" href="/Pss/css/common/common.css" />
 </head>
 <body class="claro">
-	<div class="container_12">
+	<div class="page">
+		<div>
+			<div style="height: 50px;">LOGO</div>
+			<div class="header-line">PSS</div>
+		</div>
 
-		<div class="grid_12" style="height: 100px;"></div>
-
-		<div class="clear"></div>
-
-		<div class="grid_7">&nbsp;</div>
-
-		<div class="grid_5">
-			<!-- 登陆的div -->
+		<div style="width: 300px; margin: 120px auto;">
+			<span>登陆</span>
 			<div id="loginErrors"></div>
 			<form id="login" action="/Pss/Login/login" method="post">
-				<table width="350" style="border: 1px solid #9f9f9f;"
+				<table style="border: 1px solid #9f9f9f; margin: 5px;"
 					cellspacing="10">
 					<tr>
-						<td width="50"><label for="name">租&nbsp;&nbsp;&nbsp;户</label>
+						<td width="50"><label for="name">公&nbsp;&nbsp;&nbsp;司</label>
 						</td>
 						<td width="150"><input id="tenant" name="tenantName"
 							required="true" dojoType="custom.TextInput"
 							regExp="^[a-zA-Z][a-zA-Z0-9_]{5,15}$"
-							invalidMessage="租户名称只能包含6-16位字母或数字" style="width: 150px;" /></td>
+							invalidMessage="租户名称只能包含6-16位字母或数字" style="width: 150px;" />
+						</td>
 						<td width="150"></td>
 					</tr>
 					<tr>
@@ -52,15 +52,18 @@
 						<td width="150"><input id="name" name="user.userName"
 							required="true" dojoType="custom.TextInput"
 							regExp="^[a-zA-Z][a-zA-Z0-9_]{5,15}$"
-							invalidMessage="用户名称只能包含6-16位字母或数字" style="width: 150px;" /></td>
+							invalidMessage="用户名称只能包含6-16位字母或数字" style="width: 150px;" />
+						</td>
 						<td width="150"></td>
 					</tr>
 					<tr>
-						<td><label for="password">密&nbsp;&nbsp;&nbsp;码</label></td>
+						<td><label for="password">密&nbsp;&nbsp;&nbsp;码</label>
+						</td>
 						<td><input type="password" id="password"
 							name="user.userPassword" required="true"
 							dojoType="custom.TextInput" regExp="^[0-9|a-z|A-Z]{8,16}$"
-							invalidMessage="用户密码必须是8至16位字母或数字" style="width: 150px;" /></td>
+							invalidMessage="用户密码必须是8至16位字母或数字" style="width: 150px;" />
+						</td>
 						<td></td>
 					</tr>
 					<tr>
@@ -68,20 +71,25 @@
 						<td><input type="text" id="validationCode"
 							name="validationCode" required="true" dojoType="custom.TextInput"
 							style="width: 80px;" /> <img id="validationImg" src="" alt=""
-							width="60" height="25" style="vertical-align: middle;" />
-						</td>
+							width="60" height="25" style="vertical-align: middle;" /></td>
 						<td><a id="refrash" href="#" style="line-height: 18px;">看不清</a>
 						</td>
 					</tr>
 				</table>
 			</form>
-			<center>
-				<input type="button"
-					onClick="Common.submitFormAsync('login',loginResponse)" value="登陆" />
-				<a href="/Pss/regist.html">注册</a>
-			</center>
+			<div style="text-align: right;">
+				<button dojoType="dijit.form.Button"
+					onClick="Common.submitFormAsync('login',loginResponse)">登陆</button>
+				<button dojoType="dijit.form.Button"
+					onClick="Common.goTo('/Pss/regist.html')">注册</button>
+			</div>
 		</div>
-		<script type="text/javascript">
+		<div class="footer">
+			<hr></hr>
+			<span>Copyright ©</span>
+		</div>
+	</div>
+	<script type="text/javascript">
 	function loginResponse(data){
 	if(data!=null && data.correct){
 		Common.goTo('/Pss/');
