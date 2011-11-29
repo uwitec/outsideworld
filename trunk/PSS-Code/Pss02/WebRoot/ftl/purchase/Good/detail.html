@@ -1,8 +1,7 @@
 <#if entity?? && entity.id??> <#assign id=entity.id> <#assign
-tenant=entity.tenant> <#assign category=entity.category>
-<#assign name=entity.name><#assign unit=entity.unit>
-<#assign purchasePrice=entity.purchasePrice>
-<#assign salePrice=entity.salePrice>
+tenant=entity.tenant> <#assign category=entity.category> <#assign
+name=entity.name><#assign unit=entity.unit> <#assign
+purchasePrice=entity.purchasePrice> <#assign salePrice=entity.salePrice>
 </#if>
 <table>
 	<input type="hidden" id="entity.id" name="entity.id" value="${id!}">
@@ -12,38 +11,34 @@ tenant=entity.tenant> <#assign category=entity.category>
 		<td>商品名称：</td>
 		<td><input dojoType="custom.TextInput" name="entity.name"
 			required="true" regExp=".{1,50}" invalidMessage="商品名称必须为1-50位字符"
-			value="${name!}">
-		</td>
+			value="${name!}"></td>
 	</tr>
 	<tr>
 		<td>商品分类：</td>
-		<td><#include "category.html"/>
-		</td>
-		<td><input id="entity.category" name="entity.category" acco="" type="hidden"/></td>
+		<td><#include "category.html"/></td>
 	</tr>
 	<tr>
 		<td>计量单位：</td>
 		<td><select name="entity.unit">
-		        <option value="0">件</option>
-		        <option value="1">个</option>
-		        <option value="2">公斤</option>
-		        <option value="3">两</option>
-		        <option value="4">条</option>
-		    </select>
-		</td>
+				<option value="件">件</option>
+				<option value="个">个</option>
+				<option value="公斤">公斤</option>
+				<option value="两">两</option>
+				<option value="条">条</option>
+		</select></td>
 	</tr>
 	<tr>
 		<td>参考进价：</td>
-		<td><input dojoType="custom.TextInput" name="entity.purchasePrice"
-			required="true" regExp="^(0|[1-9][0-9]*)(\.[0-9][0-9]?)?" invalidMessage="参考进价必须为数字，且最多保留两位小数"
-			value="${purchasePrice!}">
+		<td><input dojoType="custom.TextInput"
+			name="entity.purchasePrice" required="true"
+			regExp="^(0|[1-9][0-9]*)(\.[0-9][0-9]?)?"
+			invalidMessage="参考进价必须为数字，且最多保留两位小数" value="${purchasePrice!}">
 		</td>
 	</tr>
 	<tr>
 		<td>参考售价：</td>
 		<td><input dojoType="custom.TextInput" name="entity.salePrice"
-			required="true" regExp="^(0|[1-9][0-9]*)(\.[0-9][0-9]?)?" invalidMessage="参考售价必须为数字，且最多保留两位小数"
-			value="${salePrice!}">
-		</td>
+			required="true" regExp="^(0|[1-9][0-9]*)(\.[0-9][0-9]?)?"
+			invalidMessage="参考售价必须为数字，且最多保留两位小数" value="${salePrice!}"></td>
 	</tr>
 </table>

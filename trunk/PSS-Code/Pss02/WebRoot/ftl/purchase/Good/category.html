@@ -1,2 +1,3 @@
-<input jsId="entity.category" dojoType="custom.AutoCompleter" store="categoryStore" searchAttr="categoryName" value="${category!}">
-
+<input dojoType="dijit.form.FilteringSelect" name="entity.category"
+	store="categoryStore" searchAttr="categoryName" value="name"
+	displayedValue="${categoryName!}" autocomplete="true">
