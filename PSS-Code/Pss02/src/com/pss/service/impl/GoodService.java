@@ -61,7 +61,7 @@ public class GoodService extends AbstractService<Good> implements IGoodService {
 	@Override
 	public void add(Good entity) throws BusinessHandleException,
 			EntityAlreadyExistedException {
-		resetCategory(entity);
+		// resetCategory(entity);
 		if (entity.findByLogic(goodRepository)) {
 			throw new BusinessHandleException("category.logic.repeate");
 		}
@@ -72,7 +72,7 @@ public class GoodService extends AbstractService<Good> implements IGoodService {
 	@Override
 	public void update(Good entity) throws BusinessHandleException,
 			EntityNotExistedException {
-		resetCategory(entity);
+		// resetCategory(entity);
 		if (entity.findByLogic(goodRepository)) {
 			throw new BusinessHandleException("category.logic.repeate");
 		}

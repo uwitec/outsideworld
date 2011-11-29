@@ -17,6 +17,7 @@ package com.pss.domain.model.entity.sys;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.struts2.json.annotations.JSON;
 
 import com.pss.common.annotation.FieldValidation;
 import com.pss.domain.model.entity.Entity;
@@ -72,13 +73,12 @@ public class User extends Entity {
 			throws BusinessHandleException {
 		User user = userRepository.find(this);
 		if (user != null
-				&& (StringUtils.isBlank(getId()) || !StringUtils.equals(getId(),
-						user.getId()))) {
+				&& (StringUtils.isBlank(getId()) || !StringUtils.equals(
+						getId(), user.getId()))) {
 			return true;
 		}
 		return false;
 	}
-	
 
 	public String getUserName() {
 		return userName;
@@ -96,6 +96,7 @@ public class User extends Entity {
 		this.userPassword = userPassword;
 	}
 
+	@JSON(format = "yyyy/MM/dd HH:mm:ss")
 	public Date getLastLoginTime() {
 		return lastLoginTime;
 	}

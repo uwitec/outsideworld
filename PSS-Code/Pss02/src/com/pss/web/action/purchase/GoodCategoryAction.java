@@ -15,8 +15,10 @@ public class GoodCategoryAction extends
 	private static final long serialVersionUID = 1L;
 
 	private boolean hideSysCate = false;
-	
+
 	private String value;
+
+	private String identifier = "categoryName";
 
 	@Autowired
 	private IGoodCategoryService goodCategoryService;
@@ -24,6 +26,10 @@ public class GoodCategoryAction extends
 	@Override
 	public IBusinessService<GoodCategory> service() {
 		return goodCategoryService;
+	}
+
+	public String getIdentifier() {
+		return identifier;
 	}
 
 	@Override
@@ -80,8 +86,8 @@ public class GoodCategoryAction extends
 	public void setHideSysCate(String hideSysCate) {
 		this.hideSysCate = new Boolean(hideSysCate);
 	}
-	
-	public String category(){
+
+	public String category() {
 		GoodCategory goodCategory = new GoodCategory();
 		try {
 			goodCategory.setTenant(getTenantId());
@@ -103,6 +109,5 @@ public class GoodCategoryAction extends
 	public void setValue(String value) {
 		this.value = value;
 	}
-	
-	
+
 }
