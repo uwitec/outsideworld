@@ -1,5 +1,8 @@
 package com.pss.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +23,8 @@ public class UserService extends AbstractService<User> implements IUserService {
 
 	@Autowired
 	private TenantRepository tenantRepository;
+
+	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
 
 	@Transactional
 	@Override
@@ -50,11 +55,13 @@ public class UserService extends AbstractService<User> implements IUserService {
 		if (user.isRepeateName(userRepository)) {
 			throw new EntityAlreadyExistedException("user.userName.repeated");
 		}
-		user.setId(nextStr("user", 64));
+		String name = StringUtils.lowerCase(user.getClass().getSimpleName());
+		user.setId(user.getCode() + sdf.format(new Date())
+				+ nextStr(name, 16 - user.getCode().length()));
 		userRepository.add(user);
 	}
-	
-	public BaseRepository<User> repository(){
+
+	public BaseRepository<User> repository() {
 		return userRepository;
 	}
 }
