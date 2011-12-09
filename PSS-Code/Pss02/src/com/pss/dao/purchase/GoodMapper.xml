@@ -64,7 +64,7 @@
 			and name like '%${entity.name}%'
 	    </if>
 		<if test="entity.category!=null and entity.category!=''">
-			and like '%${entity.category}%'
+			and category like '%${entity.category}%'
 	    </if>
 		limit
 		#{offset},#{limit}
