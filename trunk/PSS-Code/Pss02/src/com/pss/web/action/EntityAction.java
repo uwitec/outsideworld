@@ -159,6 +159,7 @@ public abstract class EntityAction<T extends Entity> extends AbstractAction {
 	public String updateEntity() {
 		try {
 			entity.setLastUpdateUser(getUserId());
+			entity.setLastUpdateDate(new Date());
 			service().update(entity);
 			setCorrect(true);
 		} catch (BusinessHandleException e) {
