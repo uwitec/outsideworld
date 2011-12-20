@@ -1,0 +1,37 @@
+<#assign basePath="${request.getContextPath()}/purchase">
+<div dojoType="dijit.Toolbar">
+	<button dojoType="dijit.form.Button"
+		onClick="Common.showDialog('新建采购单','${basePath}/PrePurchase_add')">新建</button>
+	<span dojoType="dijit.ToolbarSeparator"></span>
+	<button dojoType="dijit.form.Button"
+		onClick="Common.update('修改采购单','${basePath}/PrePurchase_update')">修改</button>
+	<span dojoType="dijit.ToolbarSeparator"></span>
+	<button dojoType="dijit.form.Button" onClick="Common.remove('${request.getContextPath()}/purchase/PrePurchase/deleteEntity')">删除</button>
+	<form id="searchForm" action="${basePath}/PrePurchase/queryEntity">
+		采购单编号：<input name="entity.id" />
+		<button id="searchBtn" dojoType="dijit.form.Button"
+			onClick="Common.search()">查询</button>
+	</form>
+</div>
+<#include "../../common/pager.html"/>
+<table id="jsonGrid" dojoType="dojox.grid.DataGrid">
+	<thead>
+		<tr>
+			<th field="id" width="auto">编号</th>
+			<th field="lastUpdateUser" width="auto">操作员</th>
+			<th field="lastUpdateDate" width="auto">操作日期</th>
+			<th field="status" witdh="auto">状态</th>
+			<th field="id" witdh="auto" formatter="operation">操作</th>
+		</tr>
+	</thead>
+</table>
+<script type="text/javascript">
+	Common.initSearchForm();
+	function operation(value, rowIndex) {
+		return "<a href='#' onClick='gotoDetail(\""+value+"\")'>"+value+"</a>";
+	}
+	function gotoDetail(masterId){
+		Common.saveSearchCondition();
+		Common.setMainPane('${basePath}/PrePurchaseDetail_home?masterId=' + masterId);
+	}
+</script>
