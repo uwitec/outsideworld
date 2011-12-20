@@ -1,0 +1,16 @@
+<#assign basePath="${request.getContextPath()}/purchase"> 
+<#if entity?? && entity.id??> 
+<#assign id=entity.id> 
+<#assign tenant=entity.tenant>
+<#assign status=entity.status>
+</#if>
+<table>
+	<input type="hidden" id="entity.id" name="entity.id" value="${id!}">
+	<input type="hidden" id="entity.tenant" name="entity.tenant"
+		value="${tenant!}">
+	<tr>
+		<td>采购单状态</td>
+		<td><input dojoType="custom.TextInput" name="entity.status"
+			value="${status!}"></td>
+	</tr>
+</table>

@@ -1,0 +1,9 @@
+<#assign basePath="${request.getContextPath()}/purchase">
+<center>
+	<div id="addPrePurchaseFormErrors"></div>
+	<form id="addPrePurchase" method="post"
+		action="${basePath}/PrePurchase/addEntity"><#include
+		"detail.html"/></form>
+	<button dojoType="dijit.form.Button"
+		onClick="Common.submitFormAsync('addPrePurchase', Common.closeDiaogAndRefresh)">保存</button>
+</center>
