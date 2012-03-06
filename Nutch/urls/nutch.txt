@@ -1,2 +1,2 @@
-http://www.sina.com
-http://www.sohu.com
+http://www.sina.com/
+http://www.sohu.com/
