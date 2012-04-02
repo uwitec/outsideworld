@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -19,8 +20,10 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "site")
 public class Site {
 
-	@GenericGenerator(name = "idGenerator", strategy = "uuid")
+	@Id
 	@GeneratedValue(generator = "idGenerator")
+	@GenericGenerator(name = "idGenerator", strategy = "uuid")
+	@Column(length = 64)
 	private String id;
 
 	@OneToMany(targetEntity = Element.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -36,7 +39,7 @@ public class Site {
 	@Column(nullable = false)
 	private int type;
 
-	@Column(nullable = false)
+	@Column(name = "fetch_interval", nullable = false)
 	private int interval;
 
 	@Column(nullable = false)
