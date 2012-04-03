@@ -32,7 +32,7 @@ public class Template {
 	@Column(nullable = false)
 	private String domain;
 
-	@Column(nullable = false)
+	@Column(name = "url_regex", nullable = false)
 	private String urlRegex;
 
 	public String getId() {
