@@ -31,6 +31,7 @@
 
 		<!-- Entity -->
 		<mapping class="com.nutch.manager.entity.Site" />
+		<mapping class="com.nutch.manager.entity.Template" />
 		<mapping class="com.nutch.manager.entity.Element" />
 	</session-factory>
 </hibernate-configuration>

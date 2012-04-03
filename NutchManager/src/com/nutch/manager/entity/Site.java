@@ -26,9 +26,9 @@ public class Site {
 	@Column(length = 64)
 	private String id;
 
-	@OneToMany(targetEntity = Element.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(targetEntity = Template.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "site_id")
-	private Set<Element> urlRules = new HashSet<Element>();
+	private Set<Template> tempaltes = new HashSet<Template>();
 
 	@Column(nullable = false, length = 100)
 	private String name;
@@ -126,11 +126,11 @@ public class Site {
 		this.type = type;
 	}
 
-	public Set<Element> getUrlRules() {
-		return urlRules;
+	public Set<Template> getTempaltes() {
+		return tempaltes;
 	}
 
-	public void setUrlRules(Set<Element> urlRules) {
-		this.urlRules = urlRules;
+	public void setTempaltes(Set<Template> tempaltes) {
+		this.tempaltes = tempaltes;
 	}
 }
