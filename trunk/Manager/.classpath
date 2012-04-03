@@ -44,5 +44,6 @@
 	<classpathentry kind="lib" path="/Common/lib/jboss-logging-3.1.0.CR2.jar"/>
 	<classpathentry kind="lib" path="/Common/lib/jboss-transaction-api_1.1_spec-1.0.0.Final.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Nutch"/>
+	<classpathentry kind="lib" path="/Nutch/lib/hadoop-core-0.20.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
