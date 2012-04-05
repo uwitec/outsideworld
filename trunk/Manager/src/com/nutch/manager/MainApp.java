@@ -7,10 +7,17 @@ import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.nutch.crawl.Crawl;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.orm.hibernate3.HibernateTemplate;
 
 public class MainApp {
 
-	private static Context context = new Context();
+	private static ApplicationContext applicationContext = new ClassPathXmlApplicationContext(
+			"applicationContext.xml");
+	private static HibernateTemplate hibernateTemplate = applicationContext
+			.getBean("hibernateTemplate", HibernateTemplate.class);
+	private static Context context = new Context(hibernateTemplate);
 
 	private static int startNutch() throws Exception {
 		// clear crawl DB

@@ -79,19 +79,4 @@ public class UrlInjector {
 		fw.flush();
 		fw.close();
 	}
-
-	public static void main(String[] args) {
-		Context context = new Context();
-		UrlInjector urlInjector = new UrlInjector(context);
-
-		List<String> urls = new ArrayList<String>();
-		urls.add("http://www.163.com/");
-		urls.add("http://www.sohu.com/");
-
-		try {
-			urlInjector.inject(urls);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 }

@@ -6,6 +6,7 @@ import java.util.Properties;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.nutch.util.NutchConfiguration;
+import org.springframework.orm.hibernate3.HibernateTemplate;
 
 public class Context {
 
@@ -17,7 +18,7 @@ public class Context {
 	private String nutchTopN;
 	private String nutchUrls;
 
-	public Context() {
+	public Context(HibernateTemplate hibernateTemplate) {
 		Properties properties = new Properties();
 		try {
 			properties.load(this.getClass().getClassLoader()
@@ -39,6 +40,9 @@ public class Context {
 		if (!new File(nutchUrls).exists()) {
 			new File(nutchUrls).mkdirs();
 		}
+
+		/* load configuration from database */
+		hibernateTemplate.find("from Site");
 	}
 
 	public String getNutchCrawlDB() {
