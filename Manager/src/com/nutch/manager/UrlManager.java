@@ -19,7 +19,7 @@ public class UrlManager {
 		this.context = context;
 	}
 
-	public void inject(List<String> urls) throws Exception {
+	public void injectURLs(List<String> urls) throws Exception {
 		/* create new URL file */
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
 		File tmpDir = new File(System.getenv("TMP"), sdf.format(new Date()));
