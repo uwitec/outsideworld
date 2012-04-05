@@ -12,7 +12,6 @@ import org.apache.hadoop.util.ToolRunner;
 import org.apache.nutch.crawl.Injector;
 import org.apache.nutch.util.NutchConfiguration;
 
-
 public class UrlInjector {
 
 	private Context context;
@@ -47,15 +46,14 @@ public class UrlInjector {
 		args[1] = tmpDir.getAbsolutePath();
 		System.out.println(args[1]);
 		Configuration conf = NutchConfiguration.create();
-		int rc = ToolRunner.run(conf, new Injector(),
-				args);
+		int rc = ToolRunner.run(conf, new Injector(), args);
 		if (rc != 0) {
 			throw new Exception("Inject URLs error");
 		}
 	}
 
 	public void initNutchUrls(List<String> urls) throws Exception {
-		File urlDir = new File(context.getNutchUrlDir());
+		File urlDir = new File(context.getNutchUrls());
 
 		/* remove old files */
 		for (File file : urlDir.listFiles()) {
