@@ -6,63 +6,63 @@ import java.util.List;
 
 public class Item {
 	/**
-	 * ±íÊ¾url
+	 * å½“å‰url
 	 */
 	private String url;
 	/**
-	 * Ò³ÃæµÄÄÚÈİ
+	 * byteå†…å®¹
 	 */
 	private byte[] rawData;
 	/**
-	 * ½âÂëºóµÄstring
+	 * pageçš„stringæ ¼å¼ï¼Œæ˜¯ç”±rawDataå’Œencodingè·å¾—çš„
 	 */
 	private String pageString;
 	/**
-	 * ±àÂë·½Ê½
+	 * ç¼–ç 
 	 */
 	private String encoding;
-	/**
-	 * ±íÊ¾×¥È¡¹ı³ÌÖĞµÄ×´Ì¬£¬Èç¹û³ö´í£¬Ôò×´Ì¬ÉèÖÃÎªfalse
-	 */
+    /**
+     * è§£ææ—¶å€™çš„çŠ¶æ€ï¼Œåœ¨è§£æè¿‡ç¨‹ä¸­ï¼Œä¸€æ—¦å‘è§‰çŠ¶æ€æœ‰é”™ï¼Œåˆ™ç«‹åˆ»åœæ­¢è§£æ
+     */
 	private boolean status = true;
 	/**
-	 * ±íÊ¾×¥È¡µÄÄÚÈİ
+	 * å†…å®¹
 	 */
     private String content;
     /**
-     * ±íÊ¾×¥È¡µÄ±êÌâ
+     * æ ‡é¢˜
      */
     private String title;
     /**
-     * ±íÊ¾·¢²¼Ê±¼ä
+     * å‘å¸ƒæ—¶é—´
      */
     private Date pubTime;
     /**
-     * ×¥È¡Ê±¼ä
+     * æŠ“å–æ—¶é—´
      */
     private Date crawlTime;
     /**
-     * ±íÊ¾»ØÌûÊı
+     * ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      */
     private int replyNum;
     /**
-     * ×ª·¢Êı
+     * è½¬è´´æ•°ç›®
      */
     private int transNum;
     /**
-     * ×¥È¡µÄÀàĞÍ ¡°0¡±±íÊ¾ÂÛÌ³ ¡°1¡±±íÊ¾ĞÂÎÅ ¡°2¡±±íÊ¾²©¿Í
+     * è¿æ¥æ‰€å±ç±»å‹â€œ0â€è¡¨ç¤ºæ–°é—» â€œ1â€è¡¨ç¤ºBBS â€œ2â€è¡¨ç¤ºå¾®è–„
      */
     private String type;
     /**
-     * Á¬½Ó
+     * å¤–éƒ¨urls
      */
     private List<OUrl> ourls = new ArrayList<OUrl>();
     /**
-     * À´Ô´
+     * å‘å¸ƒè€…
      */
     private String source;
     /**
-     * Ä£°åÉèÖÃ
+     * æ¨¡æ¿
      */
     private Template template;
     
