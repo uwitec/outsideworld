@@ -13,7 +13,7 @@ public class TitleExtract extends AExtract {
 	        	return;
 	        }
 	        String title = extract("title",item);
-	        //采用默认的抽取方法进行抽取
+	        //濡傛灉娌℃湁鎶藉彇鍒帮紝鍒欎娇鐢ㄩ粯璁ょ殑鎶藉彇绛栫暐
 	        if(StringUtils.isBlank(title)){
 	        	
 	        }
