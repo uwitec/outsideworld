@@ -11,11 +11,11 @@ import org.apache.hadoop.util.ToolRunner;
 import org.apache.nutch.crawl.Injector;
 import org.apache.nutch.util.NutchConfiguration;
 
-public class UrlInjector {
+public class UrlManager {
 
 	private Context context;
 
-	public UrlInjector(Context context) {
+	public UrlManager(Context context) {
 		this.context = context;
 	}
 
@@ -41,7 +41,7 @@ public class UrlInjector {
 		fw.close();
 
 		String[] args = new String[2];
-		args[0] = context.getNutchCrawlDB();
+		args[0] = context.getCrawlDB();
 		args[1] = tmpDir.getAbsolutePath();
 		System.out.println(args[1]);
 		Configuration conf = NutchConfiguration.create();
@@ -51,8 +51,8 @@ public class UrlInjector {
 		}
 	}
 
-	public void initNutchUrls(List<String> urls) throws Exception {
-		File urlDir = new File(context.getNutchUrls());
+	public void injectRootURLs(List<String> urls) throws Exception {
+		File urlDir = new File(context.getCrawlUrls());
 
 		/* remove old files */
 		for (File file : urlDir.listFiles()) {
