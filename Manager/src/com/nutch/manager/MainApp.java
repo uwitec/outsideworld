@@ -19,27 +19,28 @@ public class MainApp {
 			.getBean("hibernateTemplate", HibernateTemplate.class);
 	private static Context context = new Context(hibernateTemplate);
 
-	private static int startNutch() throws Exception {
+	/* 启动 Crawl */
+	private static int startCrawl() throws Exception {
 		// clear crawl DB
-		FileUtils.cleanDirectory(new File(context.getNutchCrawlDB()));
+		FileUtils.cleanDirectory(new File(context.getCrawlDB()));
 
 		/* inject root URLs */
 		List<String> urls = new ArrayList<String>();
 		urls.add("http://www.163.com/");
 		urls.add("http://www.sohu.com/");
-		new UrlInjector(context).initNutchUrls(urls);
+		new UrlManager(context).injectRootURLs(urls);
 
 		/* crawl parameters */
 		String[] args = new String[9];
-		args[0] = context.getNutchUrls();
+		args[0] = context.getCrawlUrls();
 		args[1] = "-dir";
-		args[2] = context.getNutchCrawlDB();
+		args[2] = context.getCrawlDB();
 		args[3] = "-threads";
-		args[4] = context.getNutchThread();
+		args[4] = context.getCrawlThread();
 		args[5] = "-depth";
-		args[6] = context.getNutchDepth();
+		args[6] = context.getCrawlDepth();
 		args[7] = "-topN";
-		args[8] = context.getNutchTopN();
+		args[8] = context.getCrawlTopN();
 
 		/* start Crawl */
 		int rc = ToolRunner.run(context.getNutchConfig(), new Crawl(), args);
@@ -47,7 +48,7 @@ public class MainApp {
 	}
 
 	public static void main(String[] args) throws Exception {
-		startNutch();
+		startCrawl();
 	}
 
 }

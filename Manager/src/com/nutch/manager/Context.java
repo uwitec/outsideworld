@@ -12,11 +12,11 @@ public class Context {
 
 	private Configuration nutchConfig = NutchConfiguration.create();
 
-	private String nutchCrawlDB;
-	private String nutchThread;
-	private String nutchDepth;
-	private String nutchTopN;
-	private String nutchUrls;
+	private String crawlDB;
+	private String crawlThread;
+	private String crawlDepth;
+	private String crawlTopN;
+	private String crawlUrls;
 
 	public Context(HibernateTemplate hibernateTemplate) {
 		Properties properties = new Properties();
@@ -27,69 +27,46 @@ public class Context {
 			e.printStackTrace();
 		}
 
-		nutchCrawlDB = properties.getProperty("crawl.db");
-		nutchUrls = properties.getProperty("crawl.urls");
-		nutchThread = properties.getProperty("crawl.threads");
-		nutchDepth = properties.getProperty("crawl.depth");
-		nutchTopN = properties.getProperty("crawl.top");
+		crawlDB = properties.getProperty("crawl.db");
+		crawlUrls = properties.getProperty("crawl.urls");
+		crawlThread = properties.getProperty("crawl.threads");
+		crawlDepth = properties.getProperty("crawl.depth");
+		crawlTopN = properties.getProperty("crawl.top");
 
 		/* check parameters */
-		if (!new File(nutchCrawlDB).exists()) {
-			new File(nutchCrawlDB).mkdirs();
+		if (!new File(crawlDB).exists()) {
+			new File(crawlDB).mkdirs();
 		}
-		if (!new File(nutchUrls).exists()) {
-			new File(nutchUrls).mkdirs();
+		if (!new File(crawlUrls).exists()) {
+			new File(crawlUrls).mkdirs();
 		}
 
 		/* load configuration from database */
 		hibernateTemplate.find("from Site");
 	}
 
-	public String getNutchCrawlDB() {
-		return nutchCrawlDB;
+	public String getCrawlDB() {
+		return crawlDB;
 	}
 
 	public Configuration getNutchConfig() {
 		return nutchConfig;
 	}
 
-	public String getNutchThread() {
-		return nutchThread;
+	public String getCrawlThread() {
+		return crawlThread;
 	}
 
-	public void setNutchThread(String nutchThread) {
-		this.nutchThread = nutchThread;
+	public String getCrawlDepth() {
+		return crawlDepth;
 	}
 
-	public String getNutchDepth() {
-		return nutchDepth;
+	public String getCrawlTopN() {
+		return crawlTopN;
 	}
 
-	public void setNutchDepth(String nutchDepth) {
-		this.nutchDepth = nutchDepth;
+	public String getCrawlUrls() {
+		return crawlUrls;
 	}
 
-	public String getNutchTopN() {
-		return nutchTopN;
-	}
-
-	public void setNutchTopN(String nutchTopN) {
-		this.nutchTopN = nutchTopN;
-	}
-
-	public String getNutchUrls() {
-		return nutchUrls;
-	}
-
-	public void setNutchUrls(String nutchUrls) {
-		this.nutchUrls = nutchUrls;
-	}
-
-	public void setNutchConfig(Configuration nutchConfig) {
-		this.nutchConfig = nutchConfig;
-	}
-
-	public void setNutchCrawlDB(String nutchCrawlDB) {
-		this.nutchCrawlDB = nutchCrawlDB;
-	}
 }
