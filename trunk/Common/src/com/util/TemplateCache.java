@@ -12,14 +12,11 @@ import org.apache.commons.lang.StringUtils;
 import com.model.Template;
 
 public class TemplateCache {
-	/**
-	 * Ê¹ÓÃdomain×÷Îªkey£¬templateµÄÁĞ±í×÷ÎªvalueµÄcache,²éÑ¯µÄÊ±ºòĞèÒª½«domain½øĞĞ¶Ô±È£¬È¡µÃTemplate
-	 * µÄÁĞ±í£¬È»ºó¸ù¾İurlºÍÕıÔò±í´ïÊ½½øĞĞ²éÕÒ
-	 */
+
     private static Map<String,List<Template>> cache = new HashMap<String,List<Template>>();
     
     /**
-     * ¸ù¾İurl²éÕÒÏàÓ¦µÄtemplate
+     * ä»cacheä¸­è·å¾—template
      * @param url
      * @return
      * @throws Exception
@@ -43,7 +40,7 @@ public class TemplateCache {
     }
     
     /**
-     * ½«template¼ÓÈëcacheÖĞ
+     * æ·»åŠ templateåˆ°cacheä¸­
      * @param template
      */
     public static void addTemplate(Template template) {
