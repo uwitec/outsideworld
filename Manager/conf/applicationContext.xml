@@ -23,7 +23,7 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="packagesToScan">
 			<list>
-				<value>com.nutch.manager.entity</value>
+				<value>com.model</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
