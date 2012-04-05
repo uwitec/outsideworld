@@ -13,7 +13,7 @@ public class ContentExtract extends AExtract {
         	return;
         }
         String content = extract("content",item);
-        //²ÉÓÃÄ¬ÈÏµÄ³éÈ¡·½·¨½øĞĞ³éÈ¡
+        //å¦‚æœæ²¡æœ‰æŠ½å–ï¼Œåˆ™ä½¿ç”¨é»˜è®¤çš„æŠ½å–ç­–ç•¥
         if(StringUtils.isBlank(content)){
         	
         }
