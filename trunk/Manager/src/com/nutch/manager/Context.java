@@ -9,8 +9,8 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.nutch.util.NutchConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
+import com.dao.CommonDAO;
 import com.model.Site;
 import com.util.SpringFactory;
 
@@ -19,7 +19,7 @@ public class Context {
 	private static Logger LOG = LoggerFactory.getLogger(Context.class);
 
 	private Configuration nutchConfig;
-	private HibernateTemplate hibernateTemplate;
+	private CommonDAO commonDAO;
 
 	private String crawlDB;
 	private String crawlThread;
@@ -29,14 +29,9 @@ public class Context {
 
 	private List<Site> sites = null;
 
-	@SuppressWarnings("unchecked")
 	public Context() {
 		this.nutchConfig = NutchConfiguration.create();
-		try {
-			this.hibernateTemplate = SpringFactory.getBean("hibernateTemplate");
-		} catch (Exception e) {
-			LOG.error("Get HibernateTemplate error", e);
-		}
+		this.commonDAO = SpringFactory.getBean("commonDAO");
 
 		Properties properties = new Properties();
 		try {
@@ -61,7 +56,7 @@ public class Context {
 		}
 
 		/* load configuration from database */
-		sites = hibernateTemplate.find("from Site");
+		sites = commonDAO.getAll(Site.class);
 	}
 
 	public String getCrawlDB() {
