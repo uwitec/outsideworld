@@ -15,5 +15,7 @@ public class ExtractChain implements Extract {
 			}
 		}
 	}
-
+	public void setExtracts(List<Extract> extracts) {
+		this.extracts = extracts;
+	}
 }
