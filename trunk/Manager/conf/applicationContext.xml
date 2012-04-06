@@ -10,6 +10,32 @@
            http://www.springframework.org/schema/tx   
            http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
+	<!-- Extractors -->
+	<bean id="contentExtract" class="com.extract.ContentExtract" />
+	<bean id="decodingExtract" class="com.extract.Decoding" />
+	<bean id="ourlsExtract" class="com.extract.OUrlsExtract" />
+	<bean id="pubTimeExtract" class="com.extract.PubTimeExtract" />
+	<bean id="replyNumberExtract" class="com.extract.ReplyNumExtract" />
+	<bean id="templateNumberExtract" class="com.extract.TemplateExtract" />
+	<bean id="titleExtract" class="com.extract.TitleExtract" />
+	<bean id="transNumExtract" class="com.extract.TransNumExtract" />
+
+	<!-- ExtractChain -->
+	<bean id="extractChain" class="com.extract.ExtractChain">
+		<property name="extracts">
+			<list>
+				<ref bean="contentExtract" />
+				<ref bean="decodingExtract" />
+				<ref bean="ourlsExtract" />
+				<ref bean="pubTimeExtract" />
+				<ref bean="replyNumberExtract" />
+				<ref bean="templateNumberExtract" />
+				<ref bean="titleExtract" />
+				<ref bean="transNumExtract" />
+			</list>
+		</property>
+	</bean>
+
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
@@ -44,35 +70,14 @@
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 
-	<!--  
-	<bean id="testJob" class="com.nutch.manager.job.TestJob" />
-
-	<bean id="jobtask"
-		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="targetObject">
-			<ref bean="testJob" />
-		</property>
-		<property name="targetMethod">
-			<value>work</value>
-		</property>
-	</bean>
-
-	<bean id="schedule" class="org.springframework.scheduling.quartz.CronTriggerBean">
-		<property name="jobDetail">
-			<ref bean="jobtask" />
-		</property>
-		<property name="cronExpression">
-			<value>10,15,20,25,30,35,40,45,50,55 * * * * ?</value>
-		</property>
-	</bean>
-
-	<bean id="quertz" lazy-init="true" autowire="no"
-		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-		<property name="triggers">
-			<list>
-				<ref bean="schedule" />
-			</list>
-		</property>
-	</bean>
-	-->
+	<!-- <bean id="testJob" class="com.nutch.manager.job.TestJob" /> <bean id="jobtask" 
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"> 
+		<property name="targetObject"> <ref bean="testJob" /> </property> <property 
+		name="targetMethod"> <value>work</value> </property> </bean> <bean id="schedule" 
+		class="org.springframework.scheduling.quartz.CronTriggerBean"> <property 
+		name="jobDetail"> <ref bean="jobtask" /> </property> <property name="cronExpression"> 
+		<value>10,15,20,25,30,35,40,45,50,55 * * * * ?</value> </property> </bean> 
+		<bean id="quertz" lazy-init="true" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean"> 
+		<property name="triggers"> <list> <ref bean="schedule" /> </list> </property> 
+		</bean> -->
 </beans>
