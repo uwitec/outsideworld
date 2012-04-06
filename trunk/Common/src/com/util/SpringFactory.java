@@ -9,11 +9,11 @@ public class SpringFactory {
 			"applicationContext.xml");
 
 	@SuppressWarnings("unchecked")
-	public static <T> T getBean(String beanid) throws Exception {
+	public static <T> T getBean(String beanid) {
 		return (T) context.getBean(beanid);
 	}
 
-	public static void setApplication(ApplicationContext cont) throws Exception {
+	public static void setApplication(ApplicationContext cont) {
 		context = cont;
 	}
 }
