@@ -2,12 +2,15 @@ package com.nutch.manager;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.nutch.util.NutchConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.orm.hibernate3.HibernateTemplate;
+
+import com.model.Site;
 
 public class Context {
 
@@ -21,6 +24,9 @@ public class Context {
 	private String crawlTopN;
 	private String crawlUrls;
 
+	private List<Site> sites = null;
+
+	@SuppressWarnings("unchecked")
 	public Context(ApplicationContext context) {
 		this.context = context;
 		this.nutchConfig = NutchConfiguration.create();
@@ -50,7 +56,7 @@ public class Context {
 		}
 
 		/* load configuration from database */
-		hibernateTemplate.find("from Site");
+		sites = hibernateTemplate.find("from Site");
 	}
 
 	public String getCrawlDB() {
@@ -77,4 +83,7 @@ public class Context {
 		return crawlUrls;
 	}
 
+	public List<Site> getSites() {
+		return sites;
+	}
 }
