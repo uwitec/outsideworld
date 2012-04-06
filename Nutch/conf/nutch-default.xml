@@ -164,13 +164,13 @@
 
 <property>
   <name>http.proxy.host</name>
-  <value>172.17.18.80</value>
+  <value></value>
   <description>The proxy hostname.  If empty, no proxy is used.</description>
 </property>
 
 <property>
   <name>http.proxy.port</name>
-  <value>8080</value>
+  <value></value>
   <description>The proxy port.</description>
 </property>
 
