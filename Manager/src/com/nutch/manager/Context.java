@@ -12,7 +12,9 @@ import org.slf4j.LoggerFactory;
 
 import com.dao.CommonDAO;
 import com.model.Site;
+import com.model.Template;
 import com.util.SpringFactory;
+import com.util.TemplateCache;
 
 public class Context {
 
@@ -27,7 +29,8 @@ public class Context {
 	private String crawlTopN;
 	private String crawlUrls;
 
-	private List<Site> sites = null;
+	private List<Site> sites;
+	private List<Template> templates;
 
 	public Context() {
 		this.nutchConfig = NutchConfiguration.create();
@@ -58,6 +61,13 @@ public class Context {
 		/* load configuration from database */
 		LOG.info("Load Configuration from Database");
 		sites = commonDAO.getAll(Site.class);
+		templates = commonDAO.getAll(Template.class);
+
+		/* Resist Templates */
+		LOG.info("Regist Templates");
+		for (Template template : templates) {
+			TemplateCache.addTemplate(template);
+		}
 	}
 
 	public String getCrawlDB() {
