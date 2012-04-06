@@ -1,7 +1,7 @@
 package com.nutch.manager;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -9,6 +9,8 @@ import org.apache.hadoop.util.ToolRunner;
 import org.apache.nutch.crawl.Crawl;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.model.Site;
 
 public class MainApp {
 
@@ -22,9 +24,10 @@ public class MainApp {
 		FileUtils.cleanDirectory(new File(context.getCrawlDB()));
 
 		/* inject root URLs */
-		List<String> urls = new ArrayList<String>();
-		urls.add("http://www.163.com/");
-		urls.add("http://www.sohu.com/");
+		List<String> urls = new LinkedList<String>();
+		for (Site site : context.getSites()) {
+			urls.add(site.getUrl());
+		}
 		new UrlManager(context).injectRootURLs(urls);
 
 		/* crawl parameters */
