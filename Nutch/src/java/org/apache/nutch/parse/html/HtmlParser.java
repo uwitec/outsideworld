@@ -56,6 +56,10 @@ import org.w3c.dom.DocumentFragment;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import com.extract.Extract;
+import com.model.Item;
+import com.util.SpringFactory;
+
 public class HtmlParser implements Parser {
   public static final Logger LOG = LoggerFactory.getLogger("org.apache.nutch.parse.html");
 
@@ -145,6 +149,7 @@ public class HtmlParser implements Parser {
 
     // parse the content
     DocumentFragment root;
+    Item item = new Item();
     try {
       byte[] contentInOctets = content.getContent();
       InputSource input = new InputSource(new ByteArrayInputStream(contentInOctets));
@@ -158,6 +163,13 @@ public class HtmlParser implements Parser {
       metadata.set(Metadata.CHAR_ENCODING_FOR_CONVERSION, encoding);
 
       input.setEncoding(encoding);
+      
+      
+      item.setRawData(content.getContent());
+      item.setEncoding(encoding);
+      item.setUrl(content.getUrl());
+      Extract extract = (Extract)SpringFactory.getBean("extractChain");
+      extract.process(item);
       if (LOG.isTraceEnabled()) { LOG.trace("Parsing..."); }
       root = parse(input);
     } catch (IOException e) {
@@ -209,8 +221,9 @@ public class HtmlParser implements Parser {
                                         content.getMetadata(), metadata);
     ParseResult parseResult = ParseResult.createParseResult(content.getUrl(), 
                                                  new ParseImpl(text, parseData));
+   
 
-    // run filters on parse
+     //run filters on parse
     ParseResult filteredParse = this.htmlParseFilters.filter(content, parseResult, 
                                                              metaTags, root);
     if (metaTags.getNoCache()) {             // not okay to cache
