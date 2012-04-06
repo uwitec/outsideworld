@@ -23,13 +23,13 @@ public class CommonDAO {
 		CommonDAO.hibernateTemplate = hibernateTemplate;
 	}
 
-	public void add(Object entity) {
+	public void save(Object entity) {
 		hibernateTemplate.save(entity);
 	}
 
-	public void addAll(List<?> list) {
+	public void saveAll(List<?> list) {
 		for (Object object : list) {
-			add(object);
+			save(object);
 		}
 	}
 
