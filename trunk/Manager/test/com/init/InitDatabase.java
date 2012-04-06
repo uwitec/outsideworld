@@ -32,7 +32,7 @@ public class InitDatabase {
 		e1.setType("Xpath");
 
 		Template t1 = new Template();
-		t1.setDomain("http://news.163.com/");
+		t1.setDomain("news.163.com");
 		t1.setUrlRegex("^http://news.163.com/\\d+/\\d+/\\d+/\\w+.html");
 		t1.getElements().add(e1);
 

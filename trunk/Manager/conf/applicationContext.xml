@@ -16,7 +16,7 @@
 	<bean id="ourlsExtract" class="com.extract.OUrlsExtract" />
 	<bean id="pubTimeExtract" class="com.extract.PubTimeExtract" />
 	<bean id="replyNumberExtract" class="com.extract.ReplyNumExtract" />
-	<bean id="templateNumberExtract" class="com.extract.TemplateExtract" />
+	<bean id="templateExtract" class="com.extract.TemplateExtract" />
 	<bean id="titleExtract" class="com.extract.TitleExtract" />
 	<bean id="transNumExtract" class="com.extract.TransNumExtract" />
 
@@ -24,12 +24,12 @@
 	<bean id="extractChain" class="com.extract.ExtractChain">
 		<property name="extracts">
 			<list>
+				<ref bean="templateExtract" />
 				<ref bean="contentExtract" />
 				<ref bean="decodingExtract" />
 				<ref bean="ourlsExtract" />
 				<ref bean="pubTimeExtract" />
 				<ref bean="replyNumberExtract" />
-				<ref bean="templateNumberExtract" />
 				<ref bean="titleExtract" />
 				<ref bean="transNumExtract" />
 			</list>
