@@ -168,7 +168,7 @@ public class HtmlParser implements Parser {
       item.setRawData(content.getContent());
       item.setEncoding(encoding);
       item.setUrl(content.getUrl());
-      Extract extract = (Extract)SpringFactory.getBean("extractChain");
+      Extract extract = SpringFactory.getBean("extractChain");
       extract.process(item);
       if (LOG.isTraceEnabled()) { LOG.trace("Parsing..."); }
       root = parse(input);
