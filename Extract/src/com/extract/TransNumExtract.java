@@ -1,12 +1,24 @@
 package com.extract;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.model.Item;
 
-public class TransNumExtract implements Extract {
+public class TransNumExtract extends AExtract {
 
 	@Override
 	public void process(Item item) throws Exception {
-		// TODO Auto-generated method stub
+		if(item.getTemplate()==null){
+        	item.setStatus(false);
+        	return;
+        }
+        String transNum = extract("transNum",item);
+        int trans = 0;
+        //如果没有抽取到，则使用默认的抽取策略
+        if(!StringUtils.isBlank(transNum)&&StringUtils.isNumeric(transNum)){
+        	trans = Integer.parseInt(transNum);
+        }
+        item.setReplyNum(trans);
 
 	}
 
