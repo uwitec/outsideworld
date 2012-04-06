@@ -56,6 +56,7 @@ public class Context {
 		}
 
 		/* load configuration from database */
+		LOG.info("Load Configuration from Database");
 		sites = commonDAO.getAll(Site.class);
 	}
 
