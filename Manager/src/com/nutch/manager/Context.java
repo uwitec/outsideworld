@@ -7,15 +7,18 @@ import java.util.Properties;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.nutch.util.NutchConfiguration;
-import org.springframework.context.ApplicationContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.model.Site;
+import com.util.SpringFactory;
 
 public class Context {
 
+	private static Logger LOG = LoggerFactory.getLogger(Context.class);
+
 	private Configuration nutchConfig;
-	private ApplicationContext context;
 	private HibernateTemplate hibernateTemplate;
 
 	private String crawlDB;
@@ -27,11 +30,13 @@ public class Context {
 	private List<Site> sites = null;
 
 	@SuppressWarnings("unchecked")
-	public Context(ApplicationContext context) {
-		this.context = context;
+	public Context() {
 		this.nutchConfig = NutchConfiguration.create();
-		this.hibernateTemplate = this.context.getBean("hibernateTemplate",
-				HibernateTemplate.class);
+		try {
+			this.hibernateTemplate = SpringFactory.getBean("hibernateTemplate");
+		} catch (Exception e) {
+			LOG.error("Get HibernateTemplate error", e);
+		}
 
 		Properties properties = new Properties();
 		try {

@@ -7,16 +7,12 @@ import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.nutch.crawl.Crawl;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.model.Site;
 
 public class MainApp {
 
-	private static ApplicationContext applicationContext = new ClassPathXmlApplicationContext(
-			"applicationContext.xml");
-	private static Context context = new Context(applicationContext);
+	private static Context context = new Context();
 
 	/* 启动 Crawl */
 	private static int startCrawl() throws Exception {
