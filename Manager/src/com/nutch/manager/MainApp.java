@@ -9,15 +9,12 @@ import org.apache.hadoop.util.ToolRunner;
 import org.apache.nutch.crawl.Crawl;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
 public class MainApp {
 
 	private static ApplicationContext applicationContext = new ClassPathXmlApplicationContext(
 			"applicationContext.xml");
-	private static HibernateTemplate hibernateTemplate = applicationContext
-			.getBean("hibernateTemplate", HibernateTemplate.class);
-	private static Context context = new Context(hibernateTemplate);
+	private static Context context = new Context(applicationContext);
 
 	/* 启动 Crawl */
 	private static int startCrawl() throws Exception {

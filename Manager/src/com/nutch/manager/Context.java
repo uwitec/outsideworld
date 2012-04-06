@@ -6,11 +6,14 @@ import java.util.Properties;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.nutch.util.NutchConfiguration;
+import org.springframework.context.ApplicationContext;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
 public class Context {
 
-	private Configuration nutchConfig = NutchConfiguration.create();
+	private Configuration nutchConfig;
+	private ApplicationContext context;
+	private HibernateTemplate hibernateTemplate;
 
 	private String crawlDB;
 	private String crawlThread;
@@ -18,7 +21,12 @@ public class Context {
 	private String crawlTopN;
 	private String crawlUrls;
 
-	public Context(HibernateTemplate hibernateTemplate) {
+	public Context(ApplicationContext context) {
+		this.context = context;
+		this.nutchConfig = NutchConfiguration.create();
+		this.hibernateTemplate = this.context.getBean("hibernateTemplate",
+				HibernateTemplate.class);
+
 		Properties properties = new Properties();
 		try {
 			properties.load(this.getClass().getClassLoader()
