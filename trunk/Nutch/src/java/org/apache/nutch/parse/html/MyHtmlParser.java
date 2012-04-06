@@ -20,18 +20,12 @@ package org.apache.nutch.parse.html;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.nutch.metadata.Metadata;
-import org.apache.nutch.metadata.Nutch;
-import org.apache.nutch.parse.HTMLMetaTags;
-import org.apache.nutch.parse.HtmlParseFilters;
 import org.apache.nutch.parse.Outlink;
 import org.apache.nutch.parse.ParseData;
 import org.apache.nutch.parse.ParseImpl;
@@ -47,6 +41,7 @@ import org.w3c.dom.DOMException;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import com.dao.ItemDao;
 import com.extract.Extract;
 import com.model.Item;
 import com.model.OUrl;
@@ -156,7 +151,9 @@ public class MyHtmlParser implements Parser {
       }
       if (LOG.isTraceEnabled()) {
           LOG.trace("found "+outlinks.length+" outlinks in "+content.getUrl());
-      } 
+      }
+      ItemDao itemDao = (ItemDao)SpringFactory.getBean("itemDao");
+      itemDao.insert(item);
     } catch (IOException e) {
       return new ParseStatus(e).getEmptyParseResult(content.getUrl(), getConf());
     } catch (DOMException e) {
