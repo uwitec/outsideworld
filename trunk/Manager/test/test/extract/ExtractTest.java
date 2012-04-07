@@ -24,7 +24,6 @@ public class ExtractTest {
 		List<Template> templates = commonDAO.getAll(Template.class);
 		for (Template template : templates) {
 			TemplateCache.addTemplate(template);
-			System.out.println(template.getElements().size());
 		}
 	}
 
