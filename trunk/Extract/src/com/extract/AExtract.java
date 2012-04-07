@@ -25,7 +25,7 @@ public abstract class AExtract implements Extract {
 	}
 	
 	private String getString(String pageString,Element e) throws Exception{
-		if(StringUtils.equals("xpath", e.getType())){
+		if(StringUtils.endsWithIgnoreCase("xpath", e.getType())){
 			return XPathUtil.getResult(pageString, e.getDefine());
 		}
 		else if(StringUtils.equals("css", e.getType())){
