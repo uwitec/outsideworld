@@ -33,7 +33,7 @@ public class InitDatabase {
 		
 		Element e2 = new Element();
 		e2.setName("content");
-		e2.setDefine("//div[@class='endContent']");
+		e2.setDefine("//div[@id='endText']");
 		e2.setType("Xpath");
 
 		Template t1 = new Template();
