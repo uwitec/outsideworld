@@ -12,8 +12,4 @@ public class SpringFactory {
 	public static <T> T getBean(String beanid) {
 		return (T) context.getBean(beanid);
 	}
-
-	public static void setApplication(ApplicationContext cont) {
-		context = cont;
-	}
 }
