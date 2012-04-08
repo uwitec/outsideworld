@@ -28,7 +28,7 @@ public class MongoUtil {
 		db = mgo.getDB(databse);
 	}
 
-	public static WriteResult insert(List<DBObject> li, String tableName) {
+	public WriteResult insert(List<DBObject> li, String tableName) {
 		DBCollection coll = null;
 		if (!StringUtils.isBlank(tableName)) {
 			coll = db.getCollection(tableName);
@@ -37,7 +37,7 @@ public class MongoUtil {
 		return null;
 	}
 
-	public static WriteResult insert(DBObject o, String tableName) {
+	public WriteResult insert(DBObject o, String tableName) {
 		DBCollection coll = null;
 		if (!StringUtils.isBlank(tableName)) {
 			coll = db.getCollection(tableName);
@@ -47,7 +47,7 @@ public class MongoUtil {
 		return null;
 	}
 
-	public static WriteResult update(BasicDBObject o, String tableName) {
+	public WriteResult update(BasicDBObject o, String tableName) {
 		DBCollection coll = null;
 		if (!StringUtils.isBlank(tableName)) {
 			coll = db.getCollection(tableName);
@@ -58,7 +58,7 @@ public class MongoUtil {
 		return null;
 	}
 
-	public static WriteResult delete(BasicDBObject o, String tableName) {
+	public WriteResult delete(BasicDBObject o, String tableName) {
 		DBCollection coll = null;
 		if (!StringUtils.isBlank(tableName)) {
 			coll = db.getCollection(tableName);
