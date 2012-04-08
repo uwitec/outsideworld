@@ -19,7 +19,7 @@ public class MongoUtil {
 
 	private MongoUtil(String host, int port, String databse) {
 		try {
-			mgo = new Mongo(host, 27017);
+			mgo = new Mongo(host, port);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (MongoException e) {
