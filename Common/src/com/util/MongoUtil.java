@@ -16,7 +16,7 @@ public class MongoUtil {
 	private static DB db;
 	static{
 		try {
-			mgo = new Mongo("",2585);
+			mgo = new Mongo("125.211.218.8",2585);
 			db = mgo.getDB("");
 		} catch (Exception e) {
 		} 
