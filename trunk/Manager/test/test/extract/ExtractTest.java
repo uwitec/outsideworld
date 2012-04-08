@@ -29,8 +29,7 @@ public class ExtractTest {
 
 	@Test
 	public void testExtract() throws Exception {
-		String content = FileUtils
-				.readFileToString(new File("web/web1.txt"));
+		String content = FileUtils.readFileToString(new File("web/web1.txt"));
 		Item item = new Item();
 		item.setRawData(content.getBytes());
 		item.setEncoding("UTF-8");
@@ -38,10 +37,10 @@ public class ExtractTest {
 		extractChain.process(item);
 		printItem(item);
 	}
-	
-	private void printItem(Item item){
-		System.out.println("title:"+item.getTitle());
-		System.out.println("content:"+item.getContent());
-		System.out.println("urls number:"+item.getOurls().size());
+
+	private void printItem(Item item) {
+		System.out.println("title:" + item.getTitle());
+		System.out.println("content:" + item.getContent());
+		System.out.println("urls number:" + item.getOurls().size());
 	}
 }
