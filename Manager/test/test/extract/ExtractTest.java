@@ -30,7 +30,7 @@ public class ExtractTest {
 	@Test
 	public void testExtract() throws Exception {
 		String content = FileUtils
-				.readFileToString(new File("D:/Temp/web1.txt"));
+				.readFileToString(new File("web/web1.txt"));
 		Item item = new Item();
 		item.setRawData(content.getBytes());
 		item.setEncoding("UTF-8");
@@ -42,5 +42,6 @@ public class ExtractTest {
 	private void printItem(Item item){
 		System.out.println("title:"+item.getTitle());
 		System.out.println("content:"+item.getContent());
+		System.out.println("urls number:"+item.getOurls().size());
 	}
 }
