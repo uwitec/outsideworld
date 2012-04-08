@@ -56,6 +56,8 @@ import org.w3c.dom.DocumentFragment;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import com.dao.ItemDao;
+import com.dao.mongo.ItemDaoImpl;
 import com.extract.Extract;
 import com.model.Item;
 import com.util.SpringFactory;
@@ -78,6 +80,8 @@ public class HtmlParser implements Parser {
   
   private String parserImpl;
 
+  private ItemDao itemDAO = new ItemDaoImpl();
+  
   /**
    * Given a <code>byte[]</code> representing an html file of an 
    * <em>unknown</em> encoding,  read out 'charset' parameter in the meta tag   
@@ -170,6 +174,7 @@ public class HtmlParser implements Parser {
       item.setUrl(content.getUrl());
       Extract extract = SpringFactory.getBean("extractChain");
       extract.process(item);
+      if(item.getTitle()!=null)itemDAO.insert(item);
       if (LOG.isTraceEnabled()) { LOG.trace("Parsing..."); }
       root = parse(input);
     } catch (IOException e) {
