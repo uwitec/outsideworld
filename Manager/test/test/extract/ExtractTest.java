@@ -5,10 +5,10 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.api.fetch.Fetcher;
 import com.dao.CommonDAO;
 import com.dao.ItemDao;
 import com.dao.mongo.ItemDaoImpl;
-import com.extract.ExtractChain;
 import com.model.Item;
 import com.model.Template;
 import com.util.SpringFactory;
@@ -16,7 +16,6 @@ import com.util.TemplateCache;
 
 public class ExtractTest {
 
-	private ExtractChain extractChain = SpringFactory.getBean("extractChain");
 	private CommonDAO commonDAO = SpringFactory.getBean("commonDAO");
 	private ItemDao itemDAO = new ItemDaoImpl();
 	private Fetcher fetcher = new Fetcher();
@@ -32,9 +31,8 @@ public class ExtractTest {
 	@Test
 	public void testExtract() throws Exception {
 		Item item = new Item();
-		item.setUrl("http://news.163.com/12/0408/18/7UJBHEUU0001124J.html");
+		item.setUrl("http://news.163.com/12/0408/18/7UJBEMPK0001124J.html");
 		fetcher.fetch(item);
-		extractChain.process(item);
 		printItem(item);
 		itemDAO.insert(item);
 	}
