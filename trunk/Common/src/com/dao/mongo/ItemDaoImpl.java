@@ -5,12 +5,15 @@ import com.model.Item;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.util.MongoUtil;
+import com.util.SpringFactory;
 
 public class ItemDaoImpl implements ItemDao {
 
+	private MongoUtil mongoDB = SpringFactory.getBean("mongoDB");
+	
 	@Override
 	public void insert(Item item) throws Exception {
-		MongoUtil.insert(trans(item), "story");
+		mongoDB.insert(trans(item), "story");
 		
 	}
 	
