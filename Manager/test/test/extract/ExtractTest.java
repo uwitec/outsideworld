@@ -1,9 +1,7 @@
 package test.extract;
 
-import java.io.File;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,6 +19,7 @@ public class ExtractTest {
 	private ExtractChain extractChain = SpringFactory.getBean("extractChain");
 	private CommonDAO commonDAO = SpringFactory.getBean("commonDAO");
 	private ItemDao itemDAO = new ItemDaoImpl();
+	private Fetcher fetcher = new Fetcher();
 
 	@Before
 	public void setUp() {
@@ -32,11 +31,9 @@ public class ExtractTest {
 
 	@Test
 	public void testExtract() throws Exception {
-		String content = FileUtils.readFileToString(new File("web/web1.txt"));
 		Item item = new Item();
-		item.setRawData(content.getBytes());
-		item.setEncoding("UTF-8");
-		item.setUrl("http://news.163.com/12/0407/14/7UGB0QJI00011229.html");
+		item.setUrl("http://news.163.com/12/0408/18/7UJBHEUU0001124J.html");
+		fetcher.fetch(item);
 		extractChain.process(item);
 		printItem(item);
 		itemDAO.insert(item);
