@@ -14,14 +14,25 @@ public class XPathUtil {
 		Object[] objs = node.evaluateXPath(xpath);
 		if (objs != null && objs.length > 0) {
 			if (objs[0] instanceof TagNode) {
-				return ((TagNode) objs[0]).getText().toString();
+				return extractTxt((TagNode) objs[0]);
 			} else {
-				return objs[0].toString();
+				return "";
 			}
 		} else {
 			return "";
 		}
+	}
 
+	@SuppressWarnings("unchecked")
+	public static String extractTxt(TagNode node) {
+		List<TagNode> children = node.getAllElementsList(true);
+		for (TagNode child : children) {
+			if (child.getName().equalsIgnoreCase("script")) {
+				child.removeAllChildren();
+				node.removeChild(child);
+			}
+		}
+		return node.getText().toString();
 	}
 
 	public static List<String> getResults(String input, String xpath)
