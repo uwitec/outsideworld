@@ -25,12 +25,12 @@
 		<property name="extracts">
 			<list>
 				<ref bean="templateExtract" />
-				<ref bean="contentExtract" />
 				<ref bean="decodingExtract" />
 				<ref bean="ourlsExtract" />
+				<ref bean="titleExtract" />
+				<ref bean="contentExtract" />
 				<ref bean="pubTimeExtract" />
 				<ref bean="replyNumberExtract" />
-				<ref bean="titleExtract" />
 				<ref bean="transNumExtract" />
 			</list>
 		</property>
