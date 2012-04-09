@@ -9,8 +9,7 @@ import org.htmlcleaner.TagNode;
 public class XPathUtil {
 	private static HtmlCleaner htmlCleaner = new HtmlCleaner();
 
-	public static String getResult(String input, String xpath) throws Exception {
-		TagNode node = htmlCleaner.clean(input);
+	public static String getResult(TagNode node, String xpath) throws Exception {
 		Object[] objs = node.evaluateXPath(xpath);
 		if (objs != null && objs.length > 0) {
 			if (objs[0] instanceof TagNode) {
@@ -35,10 +34,9 @@ public class XPathUtil {
 		return node.getText().toString();
 	}
 
-	public static List<String> getResults(String input, String xpath)
+	public static List<String> getResults(TagNode node, String xpath)
 			throws Exception {
 		List<String> result = new ArrayList<String>();
-		TagNode node = htmlCleaner.clean(input);
 		TagNode[] nodes = (TagNode[]) node.evaluateXPath(xpath);
 		if (nodes != null && nodes.length > 0) {
 			for (TagNode n : nodes) {
