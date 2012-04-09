@@ -77,16 +77,16 @@ public class InitDatabase {
 	public void testSinaBlog() {
 		Element e1 = new Element();
 		e1.setName("title");
-		e1.setDefine("//div[@class='articalTitle']");
+		e1.setDefine("//h2[@class='titName SG_txta']");
 		e1.setType("Xpath");
 
 		Element e2 = new Element();
 		e2.setName("content");
-		e2.setDefine("//div[@class='articalContent']");
+		e2.setDefine("//div[@class='articalContent  ']");
 		e2.setType("Xpath");
 
 		Template t1 = new Template();
-		t1.setDomain("http://blog.sina.com.cn");
+		t1.setDomain("blog.sina.com.cn");
 		t1.setUrlRegex("^http://blog.sina.com.cn/s/blog_\\S+.html\\?tj=1");
 		t1.getElements().add(e1);
 		t1.getElements().add(e2);

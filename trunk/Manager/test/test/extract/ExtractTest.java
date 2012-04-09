@@ -32,7 +32,8 @@ public class ExtractTest {
 	public void testExtract() throws Exception {
 		Item item = new Item();
 		//item.setUrl("http://news.163.com/12/0408/18/7UJBEMPK0001124J.html");
-		item.setUrl("http://www.tianya.cn/publicforum/content/develop/1/984122.shtml");
+		//item.setUrl("http://www.tianya.cn/publicforum/content/develop/1/984122.shtml");
+		item.setUrl("http://blog.sina.com.cn/s/blog_613c0d86010126wf.html?tj=1");
 		fetcher.fetch(item);
 		printItem(item);
 	}
