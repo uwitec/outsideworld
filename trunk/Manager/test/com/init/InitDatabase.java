@@ -32,12 +32,18 @@ public class InitDatabase {
 		e2.setName("content");
 		e2.setDefine("//div[@id='endText']");
 		e2.setType("Xpath");
+		
+		Element e3 = new Element();
+		e3.setName("pubTime");
+		e3.setType("Xpath");
+		e3.setDefine("body//div[3]//div//div[2]//div//span[0]");
 
 		Template t1 = new Template();
 		t1.setDomain("news.163.com");
 		t1.setUrlRegex("^http://news.163.com/\\d+/\\d+/\\d+/\\w+.html");
 		t1.getElements().add(e1);
 		t1.getElements().add(e2);
+		t1.getElements().add(e3);
 
 		Site s1 = new Site();
 		s1.setName("网易新闻");
