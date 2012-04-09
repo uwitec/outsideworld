@@ -1,0 +1,23 @@
+#搜狐开放平台api地址
+host=http://api.t.sohu.com
+
+#注册应用时生成的应用 consumerKey 
+consumerKey=
+#注册应用时生成的 consumerSecret
+consumerSecret=
+
+#用户授权后得到的accessToken
+accessToken=
+#用户授权后得到的tokenSecret
+tokenSecret=
+
+#callback地址
+oauth_callback=oob
+
+
+#以下为xauth使用
+
+#sohu passport用户名
+username=
+#密码
+pwd=

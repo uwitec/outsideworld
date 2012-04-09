@@ -1,0 +1,4 @@
+1、授权过程请参看com.sohu.t.open.auth.Authorize
+2、调用api请完成第一步后获取accesstoken，然后配置auth.property。方可直接使用com.sohu.t.open.api包调用接口
+3、此版SDK只给开发者当参考使用，更多详情见http://open.t.sohu.com/
+4、疑问或建议请邮件openapi@sohu-inc.com
