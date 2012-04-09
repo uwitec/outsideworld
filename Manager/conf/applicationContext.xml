@@ -24,9 +24,9 @@
 	<bean id="extractChain" class="com.extract.ExtractChain">
 		<property name="extracts">
 			<list>
-				<ref bean="templateExtract" />
 				<ref bean="decodingExtract" />
 				<ref bean="ourlsExtract" />
+				<ref bean="templateExtract" />
 				<ref bean="titleExtract" />
 				<ref bean="contentExtract" />
 				<ref bean="pubTimeExtract" />
