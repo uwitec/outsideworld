@@ -24,6 +24,7 @@ public class XPathUtil {
 
 	@SuppressWarnings("unchecked")
 	public static String extractTxt(TagNode node) {
+		String text = "";
 		List<TagNode> children = node.getAllElementsList(true);
 		for (TagNode child : children) {
 			if (child.getName().equalsIgnoreCase("script")) {
@@ -31,6 +32,7 @@ public class XPathUtil {
 				node.removeChild(child);
 			}
 		}
+		System.out.println(node.getText());
 		return node.getText().toString();
 	}
 
