@@ -133,7 +133,7 @@ public class HtmlParser implements Parser {
 				LOG.trace("Parsing...");
 			}
 			Extract extract = (Extract) SpringFactory.getBean("extractChain");
-			extract.process(item);
+			extract.process(item, null);
 
 			/* URLs */
 			if (item.getOurls() != null) {
