@@ -31,10 +31,10 @@ public class ExtractTest {
 	@Test
 	public void testExtract() throws Exception {
 		Item item = new Item();
-		item.setUrl("http://news.163.com/12/0408/18/7UJBEMPK0001124J.html");
+		//item.setUrl("http://news.163.com/12/0408/18/7UJBEMPK0001124J.html");
+		item.setUrl("http://www.tianya.cn/publicforum/content/develop/1/984122.shtml");
 		fetcher.fetch(item);
 		printItem(item);
-		itemDAO.insert(item);
 	}
 
 	private void printItem(Item item) {
