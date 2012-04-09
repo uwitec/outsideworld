@@ -58,12 +58,18 @@ public class InitDatabase {
 		e2.setName("content");
 		e2.setDefine("//div[@class='post']");
 		e2.setType("Xpath");
+		
+		Element e3 = new Element();
+		e3.setName("pubTime");
+		e3.setType("Xpath");
+		e3.setDefine("body//div[4]//table//tbody//tr//td");
 
 		Template t1 = new Template();
 		t1.setDomain("www.tianya.cn");
 		t1.setUrlRegex("^http://www.tianya.cn/\\w+/\\w+/\\w+/\\d+/\\d+.shtml");
 		t1.getElements().add(e1);
 		t1.getElements().add(e2);
+		t1.getElements().add(e3);
 
 		Site s1 = new Site();
 		s1.setName("天涯论坛 ");
@@ -84,12 +90,18 @@ public class InitDatabase {
 		e2.setName("content");
 		e2.setDefine("//div[@class='articalContent  ']");
 		e2.setType("Xpath");
+		
+		Element e3 = new Element();
+		e3.setName("pubTime");
+		e3.setType("Xpath");
+		e3.setDefine("body//div[2]//div//div[2]//div[2]//div//div[2]//div//div//span[3]");
 
 		Template t1 = new Template();
 		t1.setDomain("blog.sina.com.cn");
 		t1.setUrlRegex("^http://blog.sina.com.cn/s/blog_\\S+.html\\?tj=1");
 		t1.getElements().add(e1);
 		t1.getElements().add(e2);
+		t1.getElements().add(e3);
 
 		Site s1 = new Site();
 		s1.setName("新浪博客 ");
