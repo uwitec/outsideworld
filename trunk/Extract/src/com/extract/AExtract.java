@@ -12,24 +12,23 @@ import com.util.XPathUtil;
 
 public abstract class AExtract implements Extract {
 
-
-	protected String extract(String field,Item item) throws Exception{
+	protected String extract(String field, Item item, ParsedHtml parsedHtml)
+			throws Exception {
 		Template template = item.getTemplate();
-        Set<Element> elements= template.getElements();
-        for(Element e:elements){
-        	if(StringUtils.equals(field, e.getName())){
-        		return getString(item.getPageString(),e);
-        	}
-        }
-        return "";
-	}
-	
-	private String getString(String pageString,Element e) throws Exception{
-		if(StringUtils.endsWithIgnoreCase("xpath", e.getType())){
-			return XPathUtil.getResult(pageString, e.getDefine());
+		Set<Element> elements = template.getElements();
+		for (Element e : elements) {
+			if (StringUtils.equals(field, e.getName())) {
+				return getString(parsedHtml, e);
+			}
 		}
-		else if(StringUtils.equals("css", e.getType())){
-			return CssUtil.getResult(pageString, e.getDefine());
+		return "";
+	}
+
+	private String getString(ParsedHtml parsedHtml, Element e) throws Exception {
+		if (StringUtils.endsWithIgnoreCase("xpath", e.getType())) {
+			return XPathUtil.getResult(parsedHtml.getNode(), e.getDefine());
+		} else if (StringUtils.equals("css", e.getType())) {
+			return CssUtil.getResult(parsedHtml.getDoc(), e.getDefine());
 		}
 		return "";
 	}

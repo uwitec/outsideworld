@@ -7,13 +7,11 @@ import com.model.Item;
 public class Decoding implements Extract {
 
 	@Override
-	public void process(Item item) throws Exception {
-		if(StringUtils.isBlank(item.getEncoding())){
+	public void process(Item item, ParsedHtml parsedHtml) throws Exception {
+		if (StringUtils.isBlank(item.getEncoding())) {
 			item.setStatus(false);
 			return;
 		}
-		item.setPageString(new String(item.getRawData(),item.getEncoding()));
-
+		item.setPageString(new String(item.getRawData(), item.getEncoding()));
 	}
-
 }
