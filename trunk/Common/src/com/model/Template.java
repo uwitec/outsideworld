@@ -34,6 +34,9 @@ public class Template {
 
 	@Column(name = "url_regex", nullable = false)
 	private String urlRegex;
+	
+	@Column(name = "fetch_interval")
+	private int fetchInterval;
 
 	public String getId() {
 		return id;
@@ -65,5 +68,13 @@ public class Template {
 
 	public void setUrlRegex(String urlRegex) {
 		this.urlRegex = urlRegex;
+	}
+
+	public int getFetchInterval() {
+		return fetchInterval;
+	}
+
+	public void setFetchInterval(int fetchInterval) {
+		this.fetchInterval = fetchInterval;
 	}
 }
