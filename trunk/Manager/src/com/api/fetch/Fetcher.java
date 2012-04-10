@@ -45,7 +45,7 @@ public class Fetcher {
 				item.setEncoding(encoding);
 				entity.consumeContent();
 				Extract extractChain = SpringFactory.getBean("extractChain");
-				extractChain.process(item,null);
+				extractChain.process(item);
 			}
 
 		} catch (Exception e) {
