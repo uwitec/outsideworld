@@ -41,6 +41,7 @@ public class InitDatabase {
 		Template t1 = new Template();
 		t1.setDomain("news.163.com");
 		t1.setUrlRegex("^http://news.163.com/\\d+/\\d+/\\d+/\\w+.html");
+		t1.setFetchInterval(1000*60);
 		t1.getElements().add(e1);
 		t1.getElements().add(e2);
 		t1.getElements().add(e3);
@@ -73,6 +74,7 @@ public class InitDatabase {
 		Template t1 = new Template();
 		t1.setDomain("www.tianya.cn");
 		t1.setUrlRegex("^http://www.tianya.cn/\\w+/\\w+/\\w+/\\d+/\\d+.shtml");
+		t1.setFetchInterval(1000*60);
 		t1.getElements().add(e1);
 		t1.getElements().add(e2);
 		t1.getElements().add(e3);
@@ -105,6 +107,7 @@ public class InitDatabase {
 		Template t1 = new Template();
 		t1.setDomain("blog.sina.com.cn");
 		t1.setUrlRegex("^http://blog.sina.com.cn/s/blog_\\S+.html\\?tj=1");
+		t1.setFetchInterval(1000*60);
 		t1.getElements().add(e1);
 		t1.getElements().add(e2);
 		t1.getElements().add(e3);
