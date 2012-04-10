@@ -4,5 +4,5 @@ import com.model.Item;
 
 public interface Extract {
 
-	public void process(Item item, ParsedHtml parsedHtml) throws Exception;
+	public void process(Item item) throws Exception;
 }

@@ -7,7 +7,7 @@ import com.model.Item;
 public class Decoding implements Extract {
 
 	@Override
-	public void process(Item item, ParsedHtml parsedHtml) throws Exception {
+	public void process(Item item) throws Exception {
 		if (StringUtils.isBlank(item.getEncoding())) {
 			item.setStatus(false);
 			return;
