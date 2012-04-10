@@ -6,19 +6,19 @@ import org.apache.commons.lang.StringUtils;
 
 import com.model.Element;
 import com.model.Item;
+import com.model.ParsedHtml;
 import com.model.Template;
 import com.util.CssUtil;
 import com.util.XPathUtil;
 
 public abstract class AExtract implements Extract {
 
-	protected String extract(String field, Item item, ParsedHtml parsedHtml)
-			throws Exception {
+	protected String extract(String field, Item item) throws Exception {
 		Template template = item.getTemplate();
 		Set<Element> elements = template.getElements();
 		for (Element e : elements) {
 			if (StringUtils.equals(field, e.getName())) {
-				return getString(parsedHtml, e);
+				return getString(item.getParsedHtml(), e);
 			}
 		}
 		return "";

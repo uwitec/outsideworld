@@ -9,7 +9,7 @@ import com.util.TemplateCache;
 public class TemplateExtract implements Extract {
 
 	@Override
-	public void process(Item item, ParsedHtml parsedHtml) throws Exception {
+	public void process(Item item) throws Exception {
 		if (StringUtils.isBlank(item.getUrl())) {
 			item.setStatus(false);
 			return;

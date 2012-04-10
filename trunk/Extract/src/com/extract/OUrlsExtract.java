@@ -12,9 +12,9 @@ import com.util.UrlUtils;
 public class OUrlsExtract implements Extract {
 
 	@Override
-	public void process(Item item, ParsedHtml parsedHtml) throws Exception {
-		List<String> urls = CssUtil
-				.getResults(parsedHtml.getDoc(), "a", "href");
+	public void process(Item item) throws Exception {
+		List<String> urls = CssUtil.getResults(item.getParsedHtml().getDoc(),
+				"a", "href");
 		for (String url : urls) {
 			if (!StringUtils.startsWith(url, "http://")
 					&& !StringUtils.startsWith(url, "https://")) {

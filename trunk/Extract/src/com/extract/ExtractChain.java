@@ -3,18 +3,19 @@ package com.extract;
 import java.util.List;
 
 import com.model.Item;
+import com.model.ParsedHtml;
 
 public class ExtractChain implements Extract {
 
 	private List<Extract> extracts;
 
 	@Override
-	public void process(Item item, ParsedHtml parsedHtml) throws Exception {
+	public void process(Item item) throws Exception {
 		for (Extract extract : extracts) {
-			if (item.getPageString() != null && parsedHtml == null) {
-				parsedHtml = new ParsedHtml(item.getPageString());
+			if (item.getPageString() != null && item.getParsedHtml() == null) {
+				item.setParsedHtml(new ParsedHtml(item.getPageString()));
 			}
-			extract.process(item, parsedHtml);
+			extract.process(item);
 			if (!item.isStatus()) {
 				return;
 			}
