@@ -38,8 +38,8 @@ public class SinaWeiboClient implements WeiboClient {
 		}
 		HtmlElement loginname = page.getElementById("userId");
 		HtmlElement password = page.getElementById("passwd");
-		loginname.setAttribute("value", "aries_monster@163.com");
-		password.setAttribute("value", "heroiam");
+		loginname.setAttribute("value", "");
+		password.setAttribute("value", "");
 		HtmlPage loginPage = button.click();
 
 		/* get token from URL */
