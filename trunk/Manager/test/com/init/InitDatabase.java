@@ -32,16 +32,16 @@ public class InitDatabase {
 		e2.setName("content");
 		e2.setDefine("//div[@id='endText']");
 		e2.setType("Xpath");
-		
+
 		Element e3 = new Element();
 		e3.setName("pubTime");
 		e3.setType("Xpath");
-		e3.setDefine("body//div[3]//div//div[2]//div//span[0]");
+		e3.setDefine("//div[@class='endContent']/span");
 
 		Template t1 = new Template();
 		t1.setDomain("news.163.com");
 		t1.setUrlRegex("^http://news.163.com/\\d+/\\d+/\\d+/\\w+.html");
-		t1.setFetchInterval(1000*60);
+		t1.setFetchInterval(1000 * 60);
 		t1.getElements().add(e1);
 		t1.getElements().add(e2);
 		t1.getElements().add(e3);
@@ -65,19 +65,26 @@ public class InitDatabase {
 		e2.setName("content");
 		e2.setDefine("//div[@class='post']");
 		e2.setType("Xpath");
-		
+
 		Element e3 = new Element();
 		e3.setName("pubTime");
 		e3.setType("Xpath");
 		e3.setDefine("body//div[4]//table//tbody//tr//td");
 
+		Element e4 = new Element();
+		e4.setName("replyNum");
+		e4.setType("Xpath");
+		e4.setDefine("//div[@class='info']");
+		e4.setRegex(".*回复：(\\d+)");
+
 		Template t1 = new Template();
 		t1.setDomain("www.tianya.cn");
 		t1.setUrlRegex("^http://www.tianya.cn/\\w+/\\w+/\\w+/\\d+/\\d+.shtml");
-		t1.setFetchInterval(1000*60);
+		t1.setFetchInterval(1000 * 60);
 		t1.getElements().add(e1);
 		t1.getElements().add(e2);
 		t1.getElements().add(e3);
+		t1.getElements().add(e4);
 
 		Site s1 = new Site();
 		s1.setName("天涯论坛 ");
@@ -98,7 +105,7 @@ public class InitDatabase {
 		e2.setName("content");
 		e2.setDefine("//div[@class='articalContent  ']");
 		e2.setType("Xpath");
-		
+
 		Element e3 = new Element();
 		e3.setName("pubTime");
 		e3.setType("Xpath");
@@ -107,7 +114,7 @@ public class InitDatabase {
 		Template t1 = new Template();
 		t1.setDomain("blog.sina.com.cn");
 		t1.setUrlRegex("^http://blog.sina.com.cn/s/blog_\\S+.html\\?tj=1");
-		t1.setFetchInterval(1000*60);
+		t1.setFetchInterval(1000 * 60);
 		t1.getElements().add(e1);
 		t1.getElements().add(e2);
 		t1.getElements().add(e3);
