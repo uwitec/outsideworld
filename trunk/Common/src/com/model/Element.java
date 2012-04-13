@@ -27,6 +27,20 @@ public class Element {
 	@Column(nullable = false, length = 200)
 	private String define;
 
+	@Column
+	private String regex;
+
+	@Column
+	private String format;
+
+	public String getRegex() {
+		return regex;
+	}
+
+	public void setRegex(String regex) {
+		this.regex = regex;
+	}
+
 	@Column(nullable = false)
 	private int status;
 
@@ -69,4 +83,13 @@ public class Element {
 	public void setStatus(int status) {
 		this.status = status;
 	}
+
+	public String getFormat() {
+		return format;
+	}
+
+	public void setFormat(String format) {
+		this.format = format;
+	}
+
 }
