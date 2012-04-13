@@ -18,8 +18,7 @@ public class TransNumExtract extends AExtract {
 		if (!StringUtils.isBlank(transNum) && StringUtils.isNumeric(transNum)) {
 			trans = Integer.parseInt(transNum);
 		}
-		item.setReplyNum(trans);
-
+		item.setTransNum(trans);
 	}
 
 }
