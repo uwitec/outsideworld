@@ -1,23 +1,23 @@
 package com.weibo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import weibo4j.Oauth;
 import weibo4j.Timeline;
 import weibo4j.Weibo;
-import weibo4j.examples.oauth2.Log;
 import weibo4j.http.AccessToken;
 import weibo4j.model.Status;
-import weibo4j.model.StatusWapper;
-import weibo4j.model.WeiboException;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.model.Item;
 
-public class SinaWeiboClient implements WeiboClient {
+public class SinaWeiboClient extends AbstractWeiboClient<Status> {
 
 	private Weibo weibo = new Weibo();
+	private Timeline tm = new Timeline();
 
 	private AccessToken getToken() throws Exception {
 		Oauth oauth = new Oauth();
@@ -38,8 +38,8 @@ public class SinaWeiboClient implements WeiboClient {
 		}
 		HtmlElement loginname = page.getElementById("userId");
 		HtmlElement password = page.getElementById("passwd");
-		loginname.setAttribute("value", "");
-		password.setAttribute("value", "");
+		loginname.setAttribute("value", "sinaweibot@126.com");
+		password.setAttribute("value", "5131421");
 		HtmlPage loginPage = button.click();
 
 		/* get token from URL */
@@ -55,39 +55,77 @@ public class SinaWeiboClient implements WeiboClient {
 	}
 
 	@Override
-	public void setUp() throws Exception {
-		AccessToken token = getToken();
-		weibo.setToken(token.getAccessToken());
-		System.out.println("Expire: " + token.getExpireIn());
-		System.out.println("Limit: " + token.getRateLimitLimit());
-		System.out.println("Remaining: " + token.getRateLimitRemaining());
-		System.out.println("Reset: " + token.getRateLimitReset());
+	public List<Item> sortItems(List<Status> newItems, List<Status> oldItems) {
+		List<Item> list = new ArrayList<Item>();
+
+		if (newItems == null || newItems.size() < 1) {
+			return list;
+		}
+		newItems = filterItem(newItems);
+
+		if (oldItems == null) {
+			for (Status newItem : newItems) {
+				list.add(wrapItem(newItem));
+			}
+			return list;
+		}
+
+		boolean single = true;
+		for (Status newItem : newItems) {
+			single = true;
+			for (Status oldItem : oldItems) {
+				if (newItem.getId().equals(oldItem.getId())) {
+					single = false;
+					break;
+				}
+			}
+			if (single) {
+				list.add(wrapItem(newItem));
+			}
+		}
+		return list;
 	}
 
 	@Override
-	public void crawl() {
-		Timeline tm = new Timeline();
+	public List<Status> filterItem(List<Status> weibos) {
+		// TODO Auto-generated method stub
+		return weibos;
+	}
+
+	@Override
+	public List<Status> getWeibos() {
 		try {
-			StatusWapper status = tm.getPublicTimeline();
-			for (Status s : status.getStatuses()) {
-				Log.logInfo(s.toString());
-			}
-			System.out.println(status.getNextCursor());
-			System.out.println(status.getPreviousCursor());
-			System.out.println(status.getTotalNumber());
-			System.out.println(status.getHasvisible());
-		} catch (WeiboException e) {
+			return tm.getPublicTimeline(100, 0).getStatuses();
+		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
 		}
 	}
 
+	@Override
+	public void login() throws Exception {
+		AccessToken token = getToken();
+		weibo.setToken(token.getAccessToken());
+	}
+
+	@Override
+	public boolean isSame(Status object1, Status object2) {
+		return object1.getId().equals(object2.getId());
+	}
+
+	@Override
+	public void saveItems(List<Item> items) throws Exception {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public Item wrapItem(Status weibo) {
+		// TODO Auto-generated method stub
+		System.out.println(weibo.getText());
+		return null;
+	}
+
 	public static void main(String[] args) {
-		try {
-			SinaWeiboClient client = new SinaWeiboClient();
-			client.setUp();
-			client.crawl();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		new Thread(new SinaWeiboClient()).run();
 	}
 }
