@@ -20,23 +20,31 @@ public abstract class AbstractWeiboClient<T> implements Runnable {
 					login();
 				}
 				items = sortItems(newWeibos, lastWeibos);
+				items = filterItem(items);
 				saveItems(items);
+				items = null;
 				lastWeibos = newWeibos;
 			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			try {
+				Thread.sleep(getInterval() * 1000);
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
+	/* 登录微博客户端 */
 	public abstract void login() throws Exception;
 
+	/* 去掉重复的微博 */
 	public List<Item> sortItems(List<T> newItems, List<T> oldItems) {
 		List<Item> list = new ArrayList<Item>();
 
 		if (newItems == null || newItems.size() < 1) {
 			return list;
 		}
-		newItems = filterItem(newItems);
 
 		if (oldItems == null) {
 			for (T newItem : newItems) {
@@ -61,13 +69,21 @@ public abstract class AbstractWeiboClient<T> implements Runnable {
 		return list;
 	}
 
+	/* 判断两条微博是是同一条微博 */
 	public abstract boolean isSame(T weibo1, T weibo2);
 
+	/* 封装微博 */
 	public abstract Item wrapItem(T weibo);
 
+	/* 取得最新的微博 */
 	public abstract List<T> getWeibos() throws Exception;
 
-	public abstract List<T> filterItem(List<T> weibos);
+	/* 过滤和关键字有关的微博 */
+	public abstract List<Item> filterItem(List<Item> weibos);
 
+	/* 保存微博 */
 	public abstract void saveItems(List<Item> items) throws Exception;
+
+	/* 抓取间隔，单位：秒 */
+	public abstract int getInterval();
 }

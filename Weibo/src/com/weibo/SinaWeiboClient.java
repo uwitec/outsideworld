@@ -1,6 +1,5 @@
 package com.weibo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import weibo4j.Oauth;
@@ -55,41 +54,9 @@ public class SinaWeiboClient extends AbstractWeiboClient<Status> {
 	}
 
 	@Override
-	public List<Item> sortItems(List<Status> newItems, List<Status> oldItems) {
-		List<Item> list = new ArrayList<Item>();
-
-		if (newItems == null || newItems.size() < 1) {
-			return list;
-		}
-		newItems = filterItem(newItems);
-
-		if (oldItems == null) {
-			for (Status newItem : newItems) {
-				list.add(wrapItem(newItem));
-			}
-			return list;
-		}
-
-		boolean single = true;
-		for (Status newItem : newItems) {
-			single = true;
-			for (Status oldItem : oldItems) {
-				if (newItem.getId().equals(oldItem.getId())) {
-					single = false;
-					break;
-				}
-			}
-			if (single) {
-				list.add(wrapItem(newItem));
-			}
-		}
-		return list;
-	}
-
-	@Override
-	public List<Status> filterItem(List<Status> weibos) {
+	public List<Item> filterItem(List<Item> items) {
 		// TODO Auto-generated method stub
-		return weibos;
+		return items;
 	}
 
 	@Override
@@ -127,5 +94,10 @@ public class SinaWeiboClient extends AbstractWeiboClient<Status> {
 
 	public static void main(String[] args) {
 		new Thread(new SinaWeiboClient()).run();
+	}
+
+	@Override
+	public int getInterval() {
+		return 3;
 	}
 }
