@@ -16,27 +16,27 @@ import oauth.signpost.http.HttpParameters;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import com.model.Item;
 import com.sohu.t.open.util.TwUtils;
 
-public class SohuWeiboClient extends  AbstractWeiboClient<Map<String,String>>{
-	
+public class SohuWeiboClient extends AbstractWeiboClient<Map<String, String>> {
+
 	private String accessToken;
 	private String accessTokenSecret;
 
-	 @Override
-	 public boolean isSame(Map<String, String> weibo1, Map<String, String>
-	 weibo2) {
-	 if (StringUtils.equals(weibo2.get("id"), weibo2.get("id"))) {
-	 return true;
-	 }
-	 return false;
-	 }
+	@Override
+	public boolean isSame(Map<String, String> weibo1, Map<String, String> weibo2) {
+		if (StringUtils.equals(weibo2.get("id"), weibo2.get("id"))) {
+			return true;
+		}
+		return false;
+	}
 
-	 @Override
-	 public Item wrapItem(Map<String, String> weibo) {
-	 // TODO Auto-generated method stub
-	 return null;
-	 }
+	@Override
+	public Item wrapItem(Map<String, String> weibo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	public List<Map<String, String>> getWeibos() throws Exception {
 
@@ -73,34 +73,35 @@ public class SohuWeiboClient extends  AbstractWeiboClient<Map<String,String>>{
 		return models;
 	}
 
-	 @Override
-	 public List<Item> filterItem(List<Item> weibos) {
-	 // TODO Auto-generated method stub
-	 return null;
-	 }
-	
-	 @Override
-	 public void saveItems(List<Item> items) throws Exception {
-	
-	 }
+	@Override
+	public List<Item> filterItem(List<Item> weibos) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-	 @Override
-	 public int getInterval() {
-	 return 10;
-	 }
+	@Override
+	public void saveItems(List<Item> items) throws Exception {
+
+	}
+
+	@Override
+	public int getInterval() {
+		return 10;
+	}
 
 	public static void main(String[] args) throws Exception {
-		SohuWeiboClient c = new SohuWeiboClient();		
-		String accessTokenStr =c.XAuthAuthorize("fangxia722@sohu.com", "fangxia722");
-		if(StringUtils.isBlank(accessTokenStr)){
+		SohuWeiboClient c = new SohuWeiboClient();
+		String accessTokenStr = c.XAuthAuthorize("fangxia722@sohu.com",
+				"fangxia722");
+		if (StringUtils.isBlank(accessTokenStr)) {
 			return;
 		}
 		c.setAccessToken(accessTokenStr.split("&")[0].split("=")[1]);
 		c.setAccessTokenSecret(accessTokenStr.split("&")[1].split("=")[1]);
-		 for (int i = 0; i < 1; i++) {
-		 c.getWeibos();
-		 Thread.sleep(5000);
-		 }
+		for (int i = 0; i < 1; i++) {
+			c.getWeibos();
+			Thread.sleep(5000);
+		}
 	}
 
 	private String http(String url, String method, boolean isAuthorize)
@@ -112,10 +113,10 @@ public class SohuWeiboClient extends  AbstractWeiboClient<Map<String,String>>{
 		systemProperties.setProperty("http.proxyHost", "172.17.18.80");
 		systemProperties.setProperty("http.proxyPort", "8080");
 		request.setRequestMethod(method);
-        if(isAuthorize){
-        	consumer.setTokenWithSecret(accessToken, accessTokenSecret);
-        	consumer.sign(request);
-        }
+		if (isAuthorize) {
+			consumer.setTokenWithSecret(accessToken, accessTokenSecret);
+			consumer.sign(request);
+		}
 		request.connect();
 		BufferedReader reader = new BufferedReader(new InputStreamReader(
 				request.getInputStream(), "UTF-8"));
@@ -199,8 +200,9 @@ public class SohuWeiboClient extends  AbstractWeiboClient<Map<String,String>>{
 
 	@Override
 	public void login() throws Exception {
-		String accessTokenStr =XAuthAuthorize("fangxia722@sohu.com", "fangxia722");
-		if(StringUtils.isBlank(accessTokenStr)){
+		String accessTokenStr = XAuthAuthorize("fangxia722@sohu.com",
+				"fangxia722");
+		if (StringUtils.isBlank(accessTokenStr)) {
 			return;
 		}
 		setAccessToken(accessTokenStr.split("&")[0].split("=")[1]);
