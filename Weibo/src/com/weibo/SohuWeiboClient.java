@@ -18,25 +18,25 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import com.sohu.t.open.util.TwUtils;
 
-public class SohuWeiboClient {
+public class SohuWeiboClient extends  AbstractWeiboClient<Map<String,String>>{
 	
 	private String accessToken;
 	private String accessTokenSecret;
 
-	// @Override
-	// public boolean isSame(Map<String, String> weibo1, Map<String, String>
-	// weibo2) {
-	// if (StringUtils.equals(weibo2.get("id"), weibo2.get("id"))) {
-	// return true;
-	// }
-	// return false;
-	// }
+	 @Override
+	 public boolean isSame(Map<String, String> weibo1, Map<String, String>
+	 weibo2) {
+	 if (StringUtils.equals(weibo2.get("id"), weibo2.get("id"))) {
+	 return true;
+	 }
+	 return false;
+	 }
 
-	// @Override
-	// public Item wrapItem(Map<String, String> weibo) {
-	// // TODO Auto-generated method stub
-	// return null;
-	// }
+	 @Override
+	 public Item wrapItem(Map<String, String> weibo) {
+	 // TODO Auto-generated method stub
+	 return null;
+	 }
 
 	public List<Map<String, String>> getWeibos() throws Exception {
 
@@ -73,21 +73,21 @@ public class SohuWeiboClient {
 		return models;
 	}
 
-	// @Override
-	// public List<Item> filterItem(List<Item> weibos) {
-	// // TODO Auto-generated method stub
-	// return null;
-	// }
-	//
-	// @Override
-	// public void saveItems(List<Item> items) throws Exception {
-	//
-	// }
+	 @Override
+	 public List<Item> filterItem(List<Item> weibos) {
+	 // TODO Auto-generated method stub
+	 return null;
+	 }
+	
+	 @Override
+	 public void saveItems(List<Item> items) throws Exception {
+	
+	 }
 
-	// @Override
-	// public int getInterval() {
-	// return 10;
-	// }
+	 @Override
+	 public int getInterval() {
+	 return 10;
+	 }
 
 	public static void main(String[] args) throws Exception {
 		SohuWeiboClient c = new SohuWeiboClient();		
@@ -195,5 +195,15 @@ public class SohuWeiboClient {
 
 	public void setAccessTokenSecret(String accessTokenSecret) {
 		this.accessTokenSecret = accessTokenSecret;
+	}
+
+	@Override
+	public void login() throws Exception {
+		String accessTokenStr =XAuthAuthorize("fangxia722@sohu.com", "fangxia722");
+		if(StringUtils.isBlank(accessTokenStr)){
+			return;
+		}
+		setAccessToken(accessTokenStr.split("&")[0].split("=")[1]);
+		setAccessTokenSecret(accessTokenStr.split("&")[1].split("=")[1]);
 	}
 }
