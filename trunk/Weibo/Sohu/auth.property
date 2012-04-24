@@ -2,9 +2,9 @@
 host=http://api.t.sohu.com
 
 #注册应用时生成的应用 consumerKey 
-consumerKey=
+consumerKey=ta9lM8nbMhHM8ZLQmsI8
 #注册应用时生成的 consumerSecret
-consumerSecret=
+consumerSecret=yftEFtbWH2N#MVZoW!^CdEu8RC*S!N1x8P6FFKo5
 
 #用户授权后得到的accessToken
 accessToken=
@@ -18,6 +18,6 @@ oauth_callback=oob
 #以下为xauth使用
 
 #sohu passport用户名
-username=
+username=fangxia722@sohu.com
 #密码
-pwd=
+pwd=fangxia722
