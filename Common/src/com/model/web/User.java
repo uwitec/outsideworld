@@ -9,6 +9,8 @@ public class User {
 	private int id;
 
 	private int groupId;
+	
+	private Role role;
 
 	private String name;
 
