@@ -29,7 +29,7 @@ public class SinaWeiboClient extends AbstractWeiboClient<Status> {
 		HtmlPage authPage = null;
 		try {
 			webClient = new WebClient();
-			webClient.waitForBackgroundJavaScript(100);
+			webClient.waitForBackgroundJavaScript(50);
 			webClient.setRedirectEnabled(true);
 			webClient.setThrowExceptionOnScriptError(false);
 			webClient.setCssEnabled(false);
@@ -58,12 +58,12 @@ public class SinaWeiboClient extends AbstractWeiboClient<Status> {
 			if (url == null) {
 				url = loginPage.getUrl().toString();
 			}
-
 			// 取得Code
 			String code = "";
 			if (url.contains("?code=")) {
 				code = url.substring(url.indexOf("?code=") + "?code=".length());
 				token = oauth.getAccessTokenByCode(code);
+				return;
 			}
 
 			// 如果出现授权页面
@@ -82,11 +82,11 @@ public class SinaWeiboClient extends AbstractWeiboClient<Status> {
 				if (StringUtils.isEmpty(url)) {
 					url = authPage.getUrl().toString();
 				}
-				System.out.println("###" + url);
 				if (url.contains("?code=")) {
 					code = url.substring(url.indexOf("?code=")
 							+ "?code=".length());
 					token = oauth.getAccessTokenByCode(code);
+					return;
 				}
 			}
 		} catch (Exception e) {
@@ -119,13 +119,17 @@ public class SinaWeiboClient extends AbstractWeiboClient<Status> {
 	@Override
 	public void login() throws Exception {
 		String tokenStr = null;
-		if (token != null) {
-			tokenStr = token.getRefreshToken();
-		}
-		if (StringUtils.isEmpty(tokenStr)) {
+		if (token == null) {
 			getToken();
+			tokenStr = token.getAccessToken();
+		} else {
+			tokenStr = token.getRefreshToken();
+			if (StringUtils.isEmpty(tokenStr)) {
+				getToken();
+				tokenStr = token.getAccessToken();
+			}
 		}
-		weibo.setToken(token.getAccessToken());
+		weibo.setToken(tokenStr);
 	}
 
 	@Override
