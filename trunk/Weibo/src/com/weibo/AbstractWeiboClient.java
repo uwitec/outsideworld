@@ -12,12 +12,18 @@ public abstract class AbstractWeiboClient<T> implements Runnable {
 		List<T> lastWeibos = null;
 		List<T> newWeibos = null;
 		List<Item> items = null;
+		try {
+			login();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		while (true) {
 			try {
 				newWeibos = getWeibos();
 				// 抓取微薄异常,重新登陆
 				if (newWeibos == null) {
 					login();
+					break;
 				}
 				items = sortItems(newWeibos, lastWeibos);
 				items = filterItem(items);
