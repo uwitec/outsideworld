@@ -2,6 +2,8 @@ package com.weibo;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 import weibo4j.Oauth;
 import weibo4j.Timeline;
 import weibo4j.Weibo;
@@ -17,40 +19,85 @@ public class SinaWeiboClient extends AbstractWeiboClient<Status> {
 
 	private Weibo weibo = new Weibo();
 	private Timeline tm = new Timeline();
+	private AccessToken token = null;
 
-	private AccessToken getToken() throws Exception {
+	private void getToken() throws Exception {
+		WebClient webClient = null;
 		Oauth oauth = new Oauth();
-
-		/* open token page */
-		WebClient webClient = new WebClient();
 		HtmlPage page = null;
-		page = webClient.getPage(oauth.authorize("code"));
+		HtmlPage loginPage = null;
+		HtmlPage authPage = null;
+		try {
+			webClient = new WebClient();
+			webClient.waitForBackgroundJavaScript(100);
+			webClient.setRedirectEnabled(true);
+			webClient.setThrowExceptionOnScriptError(false);
+			webClient.setCssEnabled(false);
 
-		/* submit login form */
-		HtmlElement button = null;
-		List<HtmlElement> list = page.getElementsByTagName("a");
-		for (HtmlElement a : list) {
-			if ("WB_btn_oauth formbtn_01".equals(a.getAttribute("class"))) {
-				button = a;
-				break;
+			// OAuth页面
+			page = webClient.getPage(oauth.authorize("code"));
+			String url = null;
+
+			// 填写表单
+			HtmlElement loginname = page.getElementById("userId");
+			HtmlElement password = page.getElementById("passwd");
+			loginname.setAttribute("value", "sinaweibot@126.com");
+			password.setAttribute("value", "5131421");
+
+			// 提交表单
+			List<HtmlElement> list = page.getElementsByTagName("a");
+			for (HtmlElement a : list) {
+				if ("WB_btn_oauth formbtn_01".equals(a.getAttribute("class"))) {
+					loginPage = a.click();
+					break;
+				}
 			}
+
+			// 取得URL
+			url = loginPage.getWebResponse().getResponseHeaderValue("Location");
+			if (url == null) {
+				url = loginPage.getUrl().toString();
+			}
+
+			// 取得Code
+			String code = "";
+			if (url.contains("?code=")) {
+				code = url.substring(url.indexOf("?code=") + "?code=".length());
+				token = oauth.getAccessTokenByCode(code);
+			}
+
+			// 如果出现授权页面
+			if (StringUtils.isEmpty(code)) {
+				list = loginPage.getElementsByTagName("a");
+				for (HtmlElement a : list) {
+					if ("WB_btn_oauth formbtn_01".equals(a
+							.getAttribute("class"))) {
+						webClient.setJavaScriptTimeout(100);
+						authPage = a.click();
+						break;
+					}
+				}
+				url = authPage.getWebResponse().getResponseHeaderValue(
+						"Location");
+				if (StringUtils.isEmpty(url)) {
+					url = authPage.getUrl().toString();
+				}
+				System.out.println("###" + url);
+				if (url.contains("?code=")) {
+					code = url.substring(url.indexOf("?code=")
+							+ "?code=".length());
+					token = oauth.getAccessTokenByCode(code);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			page.cleanUp();
+			loginPage.cleanUp();
+			authPage.cleanUp();
+			webClient.closeAllWindows();
+			webClient.setTimeout(1000);
 		}
-		HtmlElement loginname = page.getElementById("userId");
-		HtmlElement password = page.getElementById("passwd");
-		loginname.setAttribute("value", "sinaweibot@126.com");
-		password.setAttribute("value", "5131421");
-		HtmlPage loginPage = button.click();
-
-		/* get token from URL */
-		String url = loginPage.getUrl().toString();
-
-		/* close windows */
-		webClient.closeAllWindows();
-
-		/* return token */
-		String code = url.substring(url.indexOf("?code=") + "?code=".length());
-		AccessToken token = oauth.getAccessTokenByCode(code);
-		return token;
 	}
 
 	@Override
@@ -71,7 +118,13 @@ public class SinaWeiboClient extends AbstractWeiboClient<Status> {
 
 	@Override
 	public void login() throws Exception {
-		AccessToken token = getToken();
+		String tokenStr = null;
+		if (token != null) {
+			tokenStr = token.getRefreshToken();
+		}
+		if (StringUtils.isEmpty(tokenStr)) {
+			getToken();
+		}
 		weibo.setToken(token.getAccessToken());
 	}
 
