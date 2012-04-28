@@ -23,7 +23,6 @@ public abstract class AbstractWeiboClient<T> implements Runnable {
 				// 抓取微薄异常,重新登陆
 				if (newWeibos == null) {
 					login();
-					break;
 				}
 				items = sortItems(newWeibos, lastWeibos);
 				items = filterItem(items);
