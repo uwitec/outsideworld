@@ -11,8 +11,14 @@ public class Topic {
 	/* 主题名称 */
 	private String name;
 
-	/* 关键词 */
-	private String keyword;
+	/* 必须有的关键词 */
+	private String mustHave;
+
+	/* 可以有的关键词 */
+	private String mayHave;
+
+	/* 不能有的关键词 */
+	private String cannotHave;
 
 	/* 是否负面 */
 	private boolean isNegative;
