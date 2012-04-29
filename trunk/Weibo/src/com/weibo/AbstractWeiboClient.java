@@ -1,81 +1,97 @@
 package com.weibo;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.model.Item;
 
 public abstract class AbstractWeiboClient<T> implements Runnable {
 
+	private Set<Object> cache = new HashSet<Object>();
+	private int MAX_RETRY = 5;
+
 	@Override
 	public void run() {
-		List<T> lastWeibos = null;
-		List<T> newWeibos = null;
+		List<T> weibos = null;
 		List<Item> items = null;
 		try {
 			login();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		int retry = 0;
 		while (true) {
 			try {
-				newWeibos = getWeibos();
-				// 抓取微薄异常,重新登陆
-				if (newWeibos == null) {
-					login();
+				weibos = getWeibos();
+				retry = 1;
+			} catch (Exception e) {
+				e.printStackTrace();
+				if (retry < MAX_RETRY) {
+					retry++;
+					try {
+						login();
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
+					continue;
+				} else {
+					break;
 				}
-				items = sortItems(newWeibos, lastWeibos);
+			}
+			try {
+				items = sortItems(weibos);
 				items = filterItem(items);
 				saveItems(items);
 				items = null;
-				lastWeibos = newWeibos;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			try {
-				Thread.sleep(getInterval() * 1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			if (getInterval() > 0) {
+				try {
+					Thread.sleep(getInterval() * 1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
+
+	public abstract Object getIdentifier(T weibo);
 
 	/* 登录微博客户端 */
 	public abstract void login() throws Exception;
 
 	/* 去掉重复的微博 */
-	public List<Item> sortItems(List<T> newItems, List<T> oldItems) {
+	public List<Item> sortItems(List<T> newItems) {
 		List<Item> list = new ArrayList<Item>();
 
-		if (newItems == null || newItems.size() < 1) {
+		if (newItems == null) {
 			return list;
 		}
 
-		if (oldItems == null) {
+		if (cache.size() < 1) {
 			for (T newItem : newItems) {
 				list.add(wrapItem(newItem));
+				cache.add(getIdentifier(newItem));
 			}
 			return list;
 		}
 
-		boolean single = true;
 		for (T newItem : newItems) {
-			single = false;
-			for (T oldItem : oldItems) {
-				if (isSame(newItem, oldItem)) {
-					single = false;
-					break;
-				}
-			}
-			if (single) {
+			if (!cache.contains(getIdentifier(newItem))) {
 				list.add(wrapItem(newItem));
 			}
+		}
+
+		/* 重置缓存 */
+		cache.clear();
+		for (T newItem : newItems) {
+			cache.add(getIdentifier(newItem));
 		}
 		return list;
 	}
-
-	/* 判断两条微博是是同一条微博 */
-	public abstract boolean isSame(T weibo1, T weibo2);
 
 	/* 封装微博 */
 	public abstract Item wrapItem(T weibo);
