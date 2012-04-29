@@ -86,12 +86,12 @@ public class MiniQQClient
                 getPoolThread().start();   
                 log("QQ START SUCESS.......");   
                    
-                //sendMsgToQQ("377693703", "¸çÉÏÏßÁË£¡");   
+                //sendMsgToQQ("377693703", "å“¥ä¸Šçº¿äº†ï¼");   
             }   
         }   
         catch (Exception e)   
         {   
-            log("QQ·¢ÉúÒì³£ÍË³ö\t"+e.getMessage());   
+            log("QQå‘ç”Ÿå¼‚å¸¸é€€å‡º\t"+e.getMessage());   
             Thread.currentThread().stop();   
         }   
     }   
@@ -107,7 +107,7 @@ public class MiniQQClient
         }   
         catch (Exception e)   
         {   
-            System.out.println("QQÒì³£ÍË³ö\t"+e.getMessage());   
+            System.out.println("QQå¼‚å¸¸é€€å‡º\t"+e.getMessage());   
         }   
     }   
        
@@ -126,7 +126,7 @@ public class MiniQQClient
         String check = "";    
         if(!checkType.startsWith("!"))   
         {   
-            //Éú³ÉÍ¼Æ¬ÑéÖ¤Âë    
+            //ç”Ÿæˆå›¾ç‰‡éªŒè¯ç     
         }   
         else  
         {   
@@ -142,11 +142,11 @@ public class MiniQQClient
            
         result = sendHttpMessage(loginUrl, METHOD.GET.name(), null);   
            
-        p = Pattern.compile("µÇÂ¼³É¹¦£¡");   
+        p = Pattern.compile("ç™»å½•æˆåŠŸï¼");   
         m = p. matcher(result);   
         if(m.find())   
         {   
-            log("Welcome QQ : "+this.qq+" Login Success£¡");    
+            log("Welcome QQ : "+this.qq+" Login Successï¼");    
         }   
         else  
         {   
@@ -154,7 +154,7 @@ public class MiniQQClient
             return false;   
         }   
            
-        //´ÓcookieÖĞÌáÈ¡ptwebqq,skey   
+        //ä»cookieä¸­æå–ptwebqq,skey   
         p = Pattern.compile("ptwebqq=(\\w+);");   
         m = p.matcher(cookie);   
         if(m.find())   
@@ -179,7 +179,7 @@ public class MiniQQClient
         catch (UnsupportedEncodingException e)   
         {   
         }   
-        content = "r="+content;//postµÄÊı¾İ   
+        content = "r="+content;//postçš„æ•°æ®   
         result = sendHttpMessage(channelLoginUrl, METHOD.POST.name(), content);   
            
         p = Pattern.compile("\"vfwebqq\":\"(\\w+)\"");   
@@ -196,7 +196,7 @@ public class MiniQQClient
         return true;   
     }   
        
-    //µÇÂ½³É¹¦ È¡QQºÃÓÑ   
+    //ç™»é™†æˆåŠŸ å–QQå¥½å‹   
     public void fetchAllFriends()   
     {   
         String getFriendsurl = "http://web2-b.qq.com/api/get_user_friends2";   
@@ -205,7 +205,7 @@ public class MiniQQClient
         String result2 = fetchAllFriends(getFriendsurl2);   
         //firends   
         Map<String, User> user = getFriendInfo(result);  //   
-        Map<String, User> user2 = getFriendInfo(result2); //ÕæÕıµÄQQºÅÂë   
+        Map<String, User> user2 = getFriendInfo(result2); //çœŸæ­£çš„QQå·ç    
            
         if(user!=null && user2!=null && user.size() == user2.size())   
         {   
@@ -222,7 +222,7 @@ public class MiniQQClient
         }   
     }   
        
-    //ÔÚÏßÓÃ»§    
+    //åœ¨çº¿ç”¨æˆ·    
     public void fetchAllOnlineFriends()   
     {   
         String onlineUserURL = host+"/channel/get_online_buddies2";   
@@ -292,7 +292,7 @@ public class MiniQQClient
             }
             else
             {
-            	json.put("to", toQQ);//Òª·¢ËÍµÄÈË   
+            	json.put("to", toQQ);//è¦å‘é€çš„äºº   
             }
             json.put("face", 330);   
                
@@ -301,7 +301,7 @@ public class MiniQQClient
             JSONArray font = new JSONArray();   
             font.add("font");   
                
-            JSONObject font1 = new JSONObject().put("name", "ËÎÌå").put("size", "10");   
+            JSONObject font1 = new JSONObject().put("name", "å®‹ä½“").put("size", "10");   
                
             JSONArray style = new JSONArray();   
             style.add(0);   
@@ -316,7 +316,7 @@ public class MiniQQClient
             json.put("content", msg.toString());   
             json.put("msg_id", new Random().nextInt(10000000));   
             json.put("clientid", this.clientid);   
-            json.put("psessionid", this.psessionid);//ĞèÒªÕâ¸ö²ÅÄÜ·¢ËÍ   
+            json.put("psessionid", this.psessionid);//éœ€è¦è¿™ä¸ªæ‰èƒ½å‘é€   
             String sendMsgUrl = this.host+"/channel/send_msg2";   
             String content = json.toString();   
                 
@@ -326,11 +326,11 @@ public class MiniQQClient
             }   
             catch (UnsupportedEncodingException e)   
             {   
-            }//ËûÒªĞèÒª±àÂë   
+            }//ä»–è¦éœ€è¦ç¼–ç    
             content ="r="+content;   
-            //·¢ËÍ   
+            //å‘é€   
             String res = sendHttpMessage(sendMsgUrl, METHOD.POST.name(), content);   
-            //²»³öÒâÍâ£¬ÕâÊÇ·µ»Ø½á¹û£º{"retcode":0,"result":"ok"}   
+            //ä¸å‡ºæ„å¤–ï¼Œè¿™æ˜¯è¿”å›ç»“æœï¼š{"retcode":0,"result":"ok"}   
             if(null == res || !res.contains("result"))  return false;   
             JSONObject rh = new JSONObject(res);   
             if("ok".equals(rh.getString("result")))   
@@ -350,7 +350,7 @@ public class MiniQQClient
         return sendMsg(getFriend(qq).getUin(), message,"");   
     }   
        
-    //HTTP ÏûÏ¢·¢ËÍ   
+    //HTTP æ¶ˆæ¯å‘é€   
     public String sendHttpMessage(String url, String method, String contents)   
     {   
         try  
@@ -395,7 +395,7 @@ public class MiniQQClient
                
             InputStream ins =  conn.getInputStream();   
                
-            //´¦ÀíGZIPÑ¹ËõµÄ   
+            //å¤„ç†GZIPå‹ç¼©çš„   
             if(null != conn.getHeaderField("Content-Encoding") && conn.getHeaderField("Content-Encoding").equals("gzip"))   
             {   
                 byte[] b = null;   
@@ -444,7 +444,7 @@ public class MiniQQClient
            
     }   
        
-    //¼ÓÃÜÃÜÂë   
+    //åŠ å¯†å¯†ç    
     public  String encodePass(String pass, String code)   
     {   
         try  
@@ -459,7 +459,7 @@ public class MiniQQClient
     }   
        
   
-    // ¼ÇÂ¼ÈÕÖ¾   
+    // è®°å½•æ—¥å¿—   
     private void log(String msg)   
     {   
         System.out.println(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date())+" : "+ msg);   
@@ -489,7 +489,7 @@ public class MiniQQClient
 		        sendMsg(from_uin+"", thw,"");
 		        //Thread.sleep(500);  
 		        
-		        System.out.print(from_uin+"Ëµ£º\n"+content+"\n\n»úÆ÷ÈË»Ø´ğËµ£º\n"+thw);
+		        System.out.print(from_uin+"è¯´ï¼š\n"+content+"\n\næœºå™¨äººå›ç­”è¯´ï¼š\n"+thw);
 		        
 	        
 	        
@@ -511,7 +511,7 @@ public class MiniQQClient
         long from_uin = value.getLong("uin");   
         String status = value.getString("status");   
         User u = firends2.get(from_uin);   
-        log("ÓÃ»§£º"+u.getNick()+"\t"+status);  
+        log("ç”¨æˆ·ï¼š"+u.getNick()+"\t"+status);  
         
     }   
        
@@ -534,7 +534,7 @@ public class MiniQQClient
                             String poll_type = result.getJSONObject(0).getString("poll_type");   
                             JSONObject value = result.getJSONObject(0).getJSONObject("value");   
                             if("message".equals(poll_type))   
-                            {//ºÃÓÑÏûÏ¢   
+                            {//å¥½å‹æ¶ˆæ¯   
                                 try  
                                 {   
                                     receiveMsg(value,false);   
@@ -544,19 +544,19 @@ public class MiniQQClient
                                 }   
                             }   
                             else if("buddies_status_change".equals(poll_type))   
-                            {//ºÃÓÑÉÏÏÂÏß   
+                            {//å¥½å‹ä¸Šä¸‹çº¿   
                                 changeStatus(value);   
                             }   
                             else if("group_message".equals(poll_type))   
-                            {//ÈºÏûÏ¢   
+                            {//ç¾¤æ¶ˆæ¯   
                                    receiveMsg(value,true);
                             }   
-                            //system_message ÊÇÏµÍ³ÏûÏ¢   
+                            //system_message æ˜¯ç³»ç»Ÿæ¶ˆæ¯   
                         }   
                         else if(retcode == 121)   
                         {   
                             run = false;   
-                            log("QQÒÑ¾­ÔÚ±ğ´¦µÇÂ¼£¡");   
+                            log("QQå·²ç»åœ¨åˆ«å¤„ç™»å½•ï¼");   
                         }   
                     }   
                     catch (Exception e)   
