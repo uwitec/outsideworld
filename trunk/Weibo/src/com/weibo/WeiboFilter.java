@@ -39,7 +39,12 @@ public class WeiboFilter {
 			List<Topic> list = commonDAO.query("from Topic");
 			topic.clear();
 			for (Topic t : list) {
-				topic.add(t.getMayHave());
+				if (t.getMustHave() != null) {
+					String[] ss = t.getMustHave().split(" ");
+					for (String s : ss) {
+						topic.add(s);
+					}
+				}
 			}
 			lastupdate = System.currentTimeMillis();
 		}
