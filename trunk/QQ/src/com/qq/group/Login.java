@@ -21,7 +21,7 @@ public class Login {
 	private MD5 md = new MD5();
 	private int clientid = 35599910;
 	/**
-	 * µÇÂ¼
+	 * ç™»å½•
 	 * @param userName
 	 * @param password
 	 * @return
@@ -43,7 +43,7 @@ public class Login {
 				+ "&h=1&ptredirect=0&ptlang=2052&from_ui=1&pttype=1&dumy=&fp=loginerroralert";
         String result = HttpUtil.doGet(loginUrl, "utf-8",null);
         System.out.println(result);
-        Pattern p = Pattern.compile("µÇÂ¼³É¹¦£¡");
+        Pattern p = Pattern.compile("ç™»å½•æˆåŠŸï¼");
 		Matcher m = p.matcher(result);
 		if (!m.find()) {
 			result = "";
@@ -54,7 +54,7 @@ public class Login {
 			if(StringUtils.equals("ptwebqq", c.getName())){
 				resultMap.put(c.getName(), c.getValue());
 				String jsonR = loginAfter(c.getValue());
-				//´ÓjsonRÖĞ»ñÈ¡"vfwebqq""psessionid"
+				//ä»jsonRä¸­è·å–"vfwebqq""psessionid"
 				JSONObject value = new JSONObject(jsonR);
 				if(StringUtils.equals("0",value.getString("retcode"))){
 					JSONObject o =value.getJSONObject("result");
@@ -72,7 +72,7 @@ public class Login {
     	return resultMap;
     }
     /**
-     * ¿´ÊÇ·ñĞèÒªÑéÖ¤Âë£¬´ó¶àÊıÇé¿öÏÂ²»ĞèÒª£¬Òò´ËÒ²¾ÍÃ»ÓĞÕë¶ÔÑéÖ¤Âğ×ö´¦Àí
+     * çœ‹æ˜¯å¦éœ€è¦éªŒè¯ç ï¼Œå¤§å¤šæ•°æƒ…å†µä¸‹ä¸éœ€è¦ï¼Œå› æ­¤ä¹Ÿå°±æ²¡æœ‰é’ˆå¯¹éªŒè¯å—åšå¤„ç†
      * @param userName
      * @return
      * @throws Exception
