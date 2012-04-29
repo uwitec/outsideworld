@@ -86,6 +86,26 @@
 		<property name="hibernateTemplate" ref="hibernateTemplate" />
 	</bean>
 
+	<!-- Cache -->
+	<bean id="cache" class="com.util.CacheStore">
+		<property name="commonDAO" ref="commonDAO" />
+		<property name="interval" value="5" />
+		<property name="config">
+			<list>
+				<array>
+					<value>test</value>
+					<value>from Site</value>
+					<value>5</value>
+				</array>
+				<array>
+					<value>topic</value>
+					<value>from Topic</value>
+					<value>5</value>
+				</array>
+			</list>
+		</property>
+	</bean>
+
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory"></property>
