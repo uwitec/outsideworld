@@ -30,9 +30,9 @@ public class PollGroupMessage extends Thread {
 							"poll_type");
 					JSONObject value = result.getJSONObject(0)
 							.getJSONObject("value");
-					if ("message".equals(poll_type)) {// ºÃÓÑÏûÏ¢
-					} else if ("buddies_status_change".equals(poll_type)) {// ºÃÓÑÉÏÏÂÏß
-					} else if ("group_message".equals(poll_type)) {// ÈºÏûÏ¢
+					if ("message".equals(poll_type)) {// å¥½å‹æ¶ˆæ¯
+					} else if ("buddies_status_change".equals(poll_type)) {// å¥½å‹ä¸Šä¸‹çº¿
+					} else if ("group_message".equals(poll_type)) {// ç¾¤æ¶ˆæ¯
 						System.out.println(value);
 					}
 				} 
