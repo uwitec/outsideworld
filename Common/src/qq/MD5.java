@@ -1,8 +1,8 @@
 /**
- * java°æwebqq3ÃÜÂëÓëÑéÖ¤ÂëµÄMD5¼ÓÃÜËã·¨
+ * javaç‰ˆwebqq3å¯†ç ä¸éªŒè¯ç çš„MD5åŠ å¯†ç®—æ³•
  * 
- * @author ×÷Õß E-mail:hangxin1940@gmail.com
- * @version ´´½¨Ê±¼ä£º2011-7-23 19:34:30
+ * @author ä½œè€… E-mail:hangxin1940@gmail.com
+ * @version åˆ›å»ºæ—¶é—´ï¼š2011-7-23 19:34:30
  */
 package qq;
 public class MD5 {
@@ -27,12 +27,12 @@ public class MD5 {
 				str = str + hex_chr.charAt((n >> (j * 8 + 4)) & 0x0F)
 						+ hex_chr.charAt((n >> (j * 8)) & 0x0F);
 		}
-		// Ä¬ÈÏÈ«²¿´óĞ´
+		// é»˜è®¤å…¨éƒ¨å¤§å†™
 		return str.toUpperCase();
 	}
 
 	/*
-	 * ÕâÀï¸Ä¶¯ÁË
+	 * è¿™é‡Œæ”¹åŠ¨äº†
 	 *  Add integers, wrapping at 2^32
 	 */
 	private int add(int x, int y) {
@@ -74,7 +74,7 @@ public class MD5 {
 	}
 
 	/*
-	 * ±ê×¼md5¼ÓÃÜ
+	 * æ ‡å‡†md5åŠ å¯†
 	 */
 	public String calcMD5(String str) {
 		int[] i = str2bin(str);
@@ -85,7 +85,7 @@ public class MD5 {
 	}
 
 	/*
-	 * Èı±émd5¼ÓÃÜ£¬ÓëwebqqµÄÊµÏÖÒ»Ñù
+	 * ä¸‰émd5åŠ å¯†ï¼Œä¸webqqçš„å®ç°ä¸€æ ·
 	 */
 	public String calcMD5_3(String str) {
 		int[] i = str2bin(str);
@@ -98,7 +98,7 @@ public class MD5 {
 	}
 
 	/*
-	 * ÕâÀï¸Ä¶¯±È½Ï´ó 
+	 * è¿™é‡Œæ”¹åŠ¨æ¯”è¾ƒå¤§ 
 	 * Convert a string to a sequence of 16-word blocks, stored as an
 	 * array. Append padding bits and the length, as described in the MD5
 	 * standard.
@@ -117,7 +117,7 @@ public class MD5 {
 	}
 
 	/*
-	 * ÕâÀï¸Ä¶¯±È½Ï´ó
+	 * è¿™é‡Œæ”¹åŠ¨æ¯”è¾ƒå¤§
 	 * Take a string and return the hex representation of its MD5.
 	 */
 	private int[] coreMD5(int[] n, int length) {
