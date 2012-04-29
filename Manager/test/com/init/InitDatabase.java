@@ -7,6 +7,7 @@ import com.dao.CommonDAO;
 import com.model.Element;
 import com.model.Site;
 import com.model.Template;
+import com.model.policy.Topic;
 import com.util.SpringFactory;
 
 public class InitDatabase {
@@ -19,6 +20,14 @@ public class InitDatabase {
 		commonDAO.update("delete from Element");
 		commonDAO.update("delete from Template");
 		commonDAO.update("delete from Site");
+		commonDAO.update("delete from Topic");
+	}
+
+	@Test
+	public void topic() {
+		Topic t1 = new Topic();
+		t1.setMustHave("我");
+		commonDAO.save(t1);
 	}
 
 	@Test
