@@ -5,12 +5,16 @@ import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
+import com.dao.ItemDao;
+import com.dao.mongo.ItemDaoImpl;
 import com.model.Item;
 import com.tencent.weibo.api.Statuses_API;
 import com.tencent.weibo.beans.OAuth;
 
 public class TencentWeiboClient extends
 		AbstractWeiboClient<Map<String, Object>> {
+
+	private ItemDao itemDAO = new ItemDaoImpl();
 
 	private OAuth oauth;
 	private Statuses_API st = new Statuses_API();
@@ -47,12 +51,20 @@ public class TencentWeiboClient extends
 
 	@Override
 	public List<Item> filterItem(List<Item> weibos) {
+		for (int i = 0; i < weibos.size(); i++) {
+			if (!WeiboFilter.isValid(weibos.get(i))) {
+				weibos.remove(i);
+				i--;
+			}
+		}
 		return weibos;
 	}
 
 	@Override
 	public void saveItems(List<Item> items) throws Exception {
-		System.out.println(items.size());
+		for (Item item : items) {
+			itemDAO.insert(item);
+		}
 	}
 
 	@Override
