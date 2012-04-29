@@ -2,10 +2,11 @@ package com.qq.group;
 
 import java.util.Map;
 
-import com.util.HttpUtil;
-
 import atg.taglib.json.util.JSONArray;
 import atg.taglib.json.util.JSONObject;
+
+import com.model.Item;
+import com.util.HttpUtil;
 
 public class PollGroupMessage extends Thread {
 	private Map<String,String> param;
@@ -41,5 +42,10 @@ public class PollGroupMessage extends Thread {
 			}
 			
 		}
+	}
+	
+	private Item  transToItem(String jsonR) {
+		Item item = new Item();
+		return item;
 	}
 }
