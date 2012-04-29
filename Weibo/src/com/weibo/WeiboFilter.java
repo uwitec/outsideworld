@@ -1,32 +1,47 @@
 package com.weibo;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.algorithm.ConcentricString;
+import com.dao.CommonDAO;
 import com.model.Item;
 import com.model.policy.Topic;
-import com.util.CacheStore;
 import com.util.SpringFactory;
 
 public class WeiboFilter {
 
-	private static CacheStore cache = SpringFactory.getBean("cache");
+	private static CommonDAO commonDAO = SpringFactory.getBean("commonDAO");
+
+	private static Set<String> topic = new HashSet<String>();
+
+	private static long lastupdate = 0;
 
 	public static boolean isValid(Item item) {
+		checkExpire();
 		try {
 			List<String> list = new ConcentricString().concentric(item
 					.getContent());
-			List<Topic> topicList = cache.get("topic");
-			for (Topic topic : topicList) {
-				for (String txt : list) {
-					if (topic.getMustHave().contains(txt)) {
-						return true;
-					}
+			for (String word : list) {
+				if (topic.contains(word)) {
+					return true;
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	private static void checkExpire() {
+		if (System.currentTimeMillis() - lastupdate > 1000 * 3600) {
+			List<Topic> list = commonDAO.query("from Topic");
+			topic.clear();
+			for (Topic t : list) {
+				topic.add(t.getMayHave());
+			}
+			lastupdate = System.currentTimeMillis();
+		}
 	}
 }
