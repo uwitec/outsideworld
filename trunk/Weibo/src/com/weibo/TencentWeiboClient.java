@@ -1,78 +1,66 @@
 package com.weibo;
 
 import java.util.List;
+import java.util.Map;
 
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.tencent.weibo.utils.OAuthClient;
-import com.tencent.weibo.utils.QHttpClient;
+import org.codehaus.jackson.map.ObjectMapper;
 
-public class TencentWeiboClient{
-	
-    public void login()  throws Exception {
-		com.tencent.weibo.beans.OAuth oauth = new com.tencent.weibo.beans.OAuth(
-				"801106206", "030f769fcb345443df7f92ec4e711e1f",
+import com.model.Item;
+import com.tencent.weibo.api.Statuses_API;
+import com.tencent.weibo.beans.OAuth;
+
+public class TencentWeiboClient extends
+		AbstractWeiboClient<Map<String, Object>> {
+
+	private OAuth oauth;
+	private Statuses_API st = new Statuses_API();
+
+	@Override
+	public void login() throws Exception {
+		oauth = new OAuth("801106206", "030f769fcb345443df7f92ec4e711e1f",
 				"null");
-		OAuthClient auth = new OAuthClient();
+	}
 
-		// 获取request token
-		oauth = auth.requestToken(oauth);
+	@Override
+	public Object getIdentifier(Map<String, Object> weibo) {
+		return weibo.get("id");
+	}
 
-		if (oauth.getStatus() == 1) {
-			System.out.println("Get Request Token failed!");
-			return;
-		} else {
-			String oauth_token = oauth.getOauth_token();
+	@Override
+	public Item wrapItem(Map<String, Object> weibo) {
+		Item item = new Item();
+		item.setContent(weibo.get("text").toString());
+		return item;
+	}
 
-			String url = "http://open.t.qq.com/cgi-bin/authorize?oauth_token="
-					+ oauth_token+"&checkStatus=no&checkType=login";
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Map<String, Object>> getWeibos() throws Exception {
+		ObjectMapper mapper = new ObjectMapper();
+		List<Map<String, Object>> data = null;
+		String jsonStr = st.public_timeline(oauth, "json", "0", "100");
+		Map<String, Object> m = (Map<String, Object>) mapper.readValue(jsonStr,
+				Map.class).get("data");
+		data = (List<Map<String, Object>>) m.get("info");
+		return data;
+	}
 
-			System.out.println("Get verification code......url:"+url);
-			//使用httpUnit
-			WebClient webClient = new WebClient();
-			webClient.setJavaScriptEnabled(false);
-			webClient.setCssEnabled(false);
-			HtmlPage page = webClient.getPage(url);
-			//点击“授权”按钮，获取授权页面
-			HtmlElement button = null;
-			List<HtmlElement> list = page.getElementsByTagName("input");
-			for (HtmlElement a : list) {
-				if ("sub".equals(a.getAttribute("class"))&&"submit".equals(a.getAttribute("type"))) {
-					button = a;
-					break;
-				}
-			}
-			HtmlElement loginname = page.getElementById("u");
-			HtmlElement password = page.getElementById("p");
-			loginname.setAttribute("value", "1808318464");
-			password.setAttribute("value", "20110528wj");
-			HtmlPage loginPage = button.click();
-			/* get token from URL */
-			HtmlElement vCode = loginPage.getElementById("vCode");
+	@Override
+	public List<Item> filterItem(List<Item> weibos) {
+		return weibos;
+	}
 
-			/* close windows */
+	@Override
+	public void saveItems(List<Item> items) throws Exception {
+		System.out.println(items.size());
+	}
 
-			webClient.closeAllWindows();
+	@Override
+	public int getInterval() {
+		return 0;
+	}
 
-			/* return token */
-			String vcode = vCode.getAttribute("text");
-			System.out.println("当前授权吗是："+vcode);
-			oauth.setOauth_verifier(vcode);
-			oauth = auth.accessToken(oauth);
-			System.out.println("Response from server：");
-
-			if (oauth.getStatus() == 2) {
-				System.out.println("Get Access Token failed!");
-				return;
-			} else {
-				
-			}
-		}
-    }
-    
-    public static void main(String[] args) throws Exception{
-    	TencentWeiboClient client = new TencentWeiboClient();
-    	client.login();
-    }
+	public static void main(String[] args) throws Exception {
+		new Thread(new TencentWeiboClient()).start();
+	}
 }
