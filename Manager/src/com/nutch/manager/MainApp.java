@@ -8,7 +8,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.nutch.crawl.Crawl;
 
-import com.model.Site;
+import com.model.policy.Source;
 
 public class MainApp {
 
@@ -21,7 +21,7 @@ public class MainApp {
 
 		/* inject root URLs */
 		List<String> urls = new LinkedList<String>();
-		for (Site site : context.getSites()) {
+		for (Source site : context.getSites()) {
 			urls.add(site.getUrl());
 		}
 		new UrlManager(context).injectRootURLs(urls);
