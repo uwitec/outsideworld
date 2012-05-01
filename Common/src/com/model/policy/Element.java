@@ -15,12 +15,12 @@ public class Element {
 	@Id
 	@GeneratedValue(generator = "increment")
 	@GenericGenerator(name = "increment", strategy = "increment")
-	private String id;
+	private int id;
 
-	@Column(nullable = false, length = 200)
+	@Column(nullable = false, length = 100)
 	private String name;
 
-	@Column(nullable = false, length = 200)
+	@Column(nullable = false)
 	private ElementType type;
 
 	@Column(nullable = false, length = 200)
@@ -32,11 +32,19 @@ public class Element {
 	@Column(length = 200)
 	private String format;
 
-	public String getId() {
+	public String getRegex() {
+		return regex;
+	}
+
+	public void setRegex(String regex) {
+		this.regex = regex;
+	}
+
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -62,14 +70,6 @@ public class Element {
 
 	public void setDefine(String define) {
 		this.define = define;
-	}
-
-	public String getRegex() {
-		return regex;
-	}
-
-	public void setRegex(String regex) {
-		this.regex = regex;
 	}
 
 	public String getFormat() {

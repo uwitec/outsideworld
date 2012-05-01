@@ -1,11 +1,18 @@
 package com.model.policy;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -20,8 +27,12 @@ public class Source {
 	@GenericGenerator(name = "increment", strategy = "increment")
 	private int id;
 
+	@OneToMany(targetEntity = Template.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "source_id")
+	private Set<Template> tempaltes = new HashSet<Template>();
+
 	/* 分类ID */
-	@Column(nullable = false)
+	@Column(nullable = false, name = "category_id")
 	private int categoryId;
 
 	/* 名称 */
@@ -74,6 +85,14 @@ public class Source {
 
 	public void setType(SourceType type) {
 		this.type = type;
+	}
+
+	public Set<Template> getTempaltes() {
+		return tempaltes;
+	}
+
+	public void setTempaltes(Set<Template> tempaltes) {
+		this.tempaltes = tempaltes;
 	}
 
 	public static enum SourceType {

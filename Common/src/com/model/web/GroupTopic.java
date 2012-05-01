@@ -2,18 +2,27 @@ package com.model.web;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
 @Entity
-@Table(name = "topic")
+@Table(name = "group_topic")
 public class GroupTopic {
 
+	@Id
+	@GeneratedValue(generator = "increment")
+	@GenericGenerator(name = "increment", strategy = "increment")
+	private int id;
+
 	/* 用户组ID */
-	@Column(nullable = false)
+	@Column(nullable = false, name = "group_id")
 	private int groupId;
 
 	/* 主题ID */
-	@Column(nullable = false)
+	@Column(nullable = false, name = "topic_id")
 	private int topicId;
 
 	public int getGroupId() {
@@ -30,5 +39,13 @@ public class GroupTopic {
 
 	public void setTopicId(int topicId) {
 		this.topicId = topicId;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }
