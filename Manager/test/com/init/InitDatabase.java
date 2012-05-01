@@ -4,9 +4,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.dao.CommonDAO;
-import com.model.Element;
-import com.model.Site;
-import com.model.Template;
+import com.model.policy.Element;
+import com.model.policy.Element.ElementType;
+import com.model.policy.Source;
+import com.model.policy.Template;
 import com.model.policy.Topic;
 import com.util.SpringFactory;
 
@@ -19,14 +20,15 @@ public class InitDatabase {
 		/* clear sites */
 		commonDAO.update("delete from Element");
 		commonDAO.update("delete from Template");
-		commonDAO.update("delete from Site");
+		commonDAO.update("delete from Source");
 		commonDAO.update("delete from Topic");
 	}
 
 	@Test
 	public void topic() {
 		Topic t1 = new Topic();
-		t1.setMustHave("我");
+		t1.setName("test");
+		t1.setInclude("我");
 		commonDAO.save(t1);
 	}
 
@@ -35,16 +37,16 @@ public class InitDatabase {
 		Element e1 = new Element();
 		e1.setName("title");
 		e1.setDefine("//h1[@id='h1title']");
-		e1.setType("Xpath");
+		e1.setType(ElementType.XPATH);
 
 		Element e2 = new Element();
 		e2.setName("content");
 		e2.setDefine("//div[@id='endText']");
-		e2.setType("Xpath");
+		e2.setType(ElementType.XPATH);
 
 		Element e3 = new Element();
 		e3.setName("pubTime");
-		e3.setType("Xpath");
+		e3.setType(ElementType.XPATH);
 		e3.setDefine("//div[@class='endContent']/span");
 
 		Template t1 = new Template();
@@ -55,7 +57,7 @@ public class InitDatabase {
 		t1.getElements().add(e2);
 		t1.getElements().add(e3);
 
-		Site s1 = new Site();
+		Source s1 = new Source();
 		s1.setName("网易新闻");
 		s1.setUrl("http://news.163.com/");
 		s1.getTempaltes().add(t1);
@@ -68,21 +70,21 @@ public class InitDatabase {
 		Element e1 = new Element();
 		e1.setName("title");
 		e1.setDefine("//h1[@id='hTitle']");
-		e1.setType("Xpath");
+		e1.setType(ElementType.XPATH);
 
 		Element e2 = new Element();
 		e2.setName("content");
 		e2.setDefine("//div[@class='post']");
-		e2.setType("Xpath");
+		e2.setType(ElementType.XPATH);
 
 		Element e3 = new Element();
 		e3.setName("pubTime");
-		e3.setType("Xpath");
+		e3.setType(ElementType.XPATH);
 		e3.setDefine("body//div[4]//table//tbody//tr//td");
 
 		Element e4 = new Element();
 		e4.setName("replyNum");
-		e4.setType("Xpath");
+		e4.setType(ElementType.XPATH);
 		e4.setDefine("//div[@class='info']");
 		e4.setRegex(".*回复：(\\d+)");
 
@@ -95,7 +97,7 @@ public class InitDatabase {
 		t1.getElements().add(e3);
 		t1.getElements().add(e4);
 
-		Site s1 = new Site();
+		Source s1 = new Source();
 		s1.setName("天涯论坛 ");
 		s1.setUrl("http://www.tianya.cn/bbs/");
 		s1.getTempaltes().add(t1);
@@ -108,16 +110,16 @@ public class InitDatabase {
 		Element e1 = new Element();
 		e1.setName("title");
 		e1.setDefine("//h2[@class='titName SG_txta']");
-		e1.setType("Xpath");
+		e1.setType(ElementType.XPATH);
 
 		Element e2 = new Element();
 		e2.setName("content");
 		e2.setDefine("//div[@class='articalContent  ']");
-		e2.setType("Xpath");
+		e2.setType(ElementType.XPATH);
 
 		Element e3 = new Element();
 		e3.setName("pubTime");
-		e3.setType("Xpath");
+		e3.setType(ElementType.XPATH);
 		e3.setDefine("body//div[2]//div//div[2]//div[2]//div//div[2]//div//div//span[3]");
 
 		Template t1 = new Template();
@@ -128,7 +130,7 @@ public class InitDatabase {
 		t1.getElements().add(e2);
 		t1.getElements().add(e3);
 
-		Site s1 = new Site();
+		Source s1 = new Source();
 		s1.setName("新浪博客 ");
 		s1.setUrl("http://blog.sina.com.cn/");
 		s1.getTempaltes().add(t1);
