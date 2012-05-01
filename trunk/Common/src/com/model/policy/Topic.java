@@ -2,6 +2,8 @@ package com.model.policy;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -22,43 +24,44 @@ public class Topic {
 	private int id;
 
 	/* 主题名称 */
-	@Column
+	@Column(nullable = false, unique = true, length = 200)
 	private String name;
 
 	/* 必须有的关键词 */
-	@Column
-	private String mustHave;
+	@Column(nullable = false, length = 300)
+	private String include;
 
 	/* 可以有的关键词 */
-	@Column
-	private String mayHave;
+	@Column(length = 300)
+	private String option;
 
 	/* 不能有的关键词 */
-	@Column
-	private String cannotHave;
+	@Column(length = 300)
+	private String exclude;
 
 	/* 是否负面 */
-	@Column
-	private boolean isNegative;
+	@Column(nullable = false)
+	private boolean isNegative = false;
 
 	/* 开启报警 */
-	@Column
-	private boolean enableWarning;
+	@Column(nullable = false)
+	private boolean enableWarning = false;
 
 	/* 报警条件 */
-	@Column
+	@Column(nullable = false)
 	private int warningLimit;
 
 	/* 报警方式 */
-	@Column
-	private String warningType;
+	@Enumerated(EnumType.STRING)
+	private WarnType warnType;
 
 	/* 邮件标题or短信内容 */
-	@Column
+	@Column(length = 300)
 	private String warningTitle;
 
 	/* 禁用 */
-	private boolean disable;
+	@Column(nullable = false)
+	private boolean disable = false;
 
 	public int getId() {
 		return id;
@@ -76,32 +79,32 @@ public class Topic {
 		this.name = name;
 	}
 
-	public String getMustHave() {
-		return mustHave;
-	}
-
-	public void setMustHave(String mustHave) {
-		this.mustHave = mustHave;
-	}
-
-	public String getMayHave() {
-		return mayHave;
-	}
-
-	public void setMayHave(String mayHave) {
-		this.mayHave = mayHave;
-	}
-
-	public String getCannotHave() {
-		return cannotHave;
-	}
-
-	public void setCannotHave(String cannotHave) {
-		this.cannotHave = cannotHave;
-	}
-
 	public boolean isNegative() {
 		return isNegative;
+	}
+
+	public String getInclude() {
+		return include;
+	}
+
+	public void setInclude(String include) {
+		this.include = include;
+	}
+
+	public String getOption() {
+		return option;
+	}
+
+	public void setOption(String option) {
+		this.option = option;
+	}
+
+	public String getExclude() {
+		return exclude;
+	}
+
+	public void setExclude(String exclude) {
+		this.exclude = exclude;
 	}
 
 	public void setNegative(boolean isNegative) {
@@ -124,12 +127,12 @@ public class Topic {
 		this.warningLimit = warningLimit;
 	}
 
-	public String getWarningType() {
-		return warningType;
+	public WarnType getWarnType() {
+		return warnType;
 	}
 
-	public void setWarningType(String warningType) {
-		this.warningType = warningType;
+	public void setWarnType(WarnType warnType) {
+		this.warnType = warnType;
 	}
 
 	public String getWarningTitle() {
@@ -146,5 +149,9 @@ public class Topic {
 
 	public void setDisable(boolean disable) {
 		this.disable = disable;
+	}
+
+	public static enum WarnType {
+		EMAIL, SMS
 	}
 }
