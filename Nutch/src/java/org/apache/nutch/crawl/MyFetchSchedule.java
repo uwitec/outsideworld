@@ -2,7 +2,7 @@ package org.apache.nutch.crawl;
 
 import org.apache.hadoop.io.Text;
 
-import com.model.Template;
+import com.model.policy.Template;
 import com.util.TemplateCache;
 
 public class MyFetchSchedule extends AbstractFetchSchedule {
