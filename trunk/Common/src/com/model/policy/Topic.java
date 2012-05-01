@@ -28,35 +28,36 @@ public class Topic {
 	private String name;
 
 	/* 必须有的关键词 */
-	@Column(nullable = false, length = 300)
+	@Column(nullable = false, length = 200)
 	private String include;
 
 	/* 可以有的关键词 */
-	@Column(length = 300)
-	private String option;
+	@Column(length = 200)
+	private String optional;
 
 	/* 不能有的关键词 */
-	@Column(length = 300)
+	@Column(length = 200)
 	private String exclude;
 
 	/* 是否负面 */
-	@Column(nullable = false)
+	@Column(nullable = false, name = "negative")
 	private boolean isNegative = false;
 
 	/* 开启报警 */
-	@Column(nullable = false)
+	@Column(nullable = false, name = "warn")
 	private boolean enableWarning = false;
 
 	/* 报警条件 */
-	@Column(nullable = false)
+	@Column(nullable = false, name = "warn_limit")
 	private int warningLimit;
 
 	/* 报警方式 */
 	@Enumerated(EnumType.STRING)
+	@Column(name = "warn_type")
 	private WarnType warnType;
 
 	/* 邮件标题or短信内容 */
-	@Column(length = 300)
+	@Column(length = 300, name = "warn_title")
 	private String warningTitle;
 
 	/* 禁用 */
@@ -91,12 +92,12 @@ public class Topic {
 		this.include = include;
 	}
 
-	public String getOption() {
-		return option;
+	public String getOptional() {
+		return optional;
 	}
 
-	public void setOption(String option) {
-		this.option = option;
+	public void setOptional(String optional) {
+		this.optional = optional;
 	}
 
 	public String getExclude() {

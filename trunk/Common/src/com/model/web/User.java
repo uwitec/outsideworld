@@ -23,7 +23,7 @@ public class User {
 	@GenericGenerator(name = "increment", strategy = "increment")
 	private int id;
 
-	@Column(nullable = false)
+	@Column(nullable = false, name = "group_id")
 	private int groupId;
 
 	@Column(nullable = false, length = 200, unique = true)
@@ -36,13 +36,13 @@ public class User {
 	private String phone;
 
 	@Column(nullable = false, length = 30, unique = true)
-	private String mobileNum;
+	private String mobile;
 
 	@Column(nullable = false, length = 200)
 	private String department;
 
 	@Column(nullable = false, length = 50)
-	private String loginName;
+	private String loginname;
 
 	@Column(nullable = false, length = 50)
 	private String password;
@@ -90,12 +90,12 @@ public class User {
 		this.phone = phone;
 	}
 
-	public String getMobileNum() {
-		return mobileNum;
+	public String getMobile() {
+		return mobile;
 	}
 
-	public void setMobileNum(String mobileNum) {
-		this.mobileNum = mobileNum;
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 
 	public String getDepartment() {
@@ -106,12 +106,12 @@ public class User {
 		this.department = department;
 	}
 
-	public String getLoginName() {
-		return loginName;
+	public String getLoginname() {
+		return loginname;
 	}
 
-	public void setLoginName(String loginName) {
-		this.loginName = loginName;
+	public void setLoginname(String loginname) {
+		this.loginname = loginname;
 	}
 
 	public String getPassword() {

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.model.policy.Template;
+
 public class Item {
 	/**
 	 * 当前url

@@ -1,9 +1,16 @@
 package com.model.policy;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -17,13 +24,17 @@ public class Template {
 	@GenericGenerator(name = "increment", strategy = "increment")
 	private int id;
 
-	@Column(nullable = false, length = 200, unique = true)
-	private String domain;
+	@OneToMany(targetEntity = Element.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "template_id")
+	private Set<Element> elements = new HashSet<Element>();
 
 	@Column(nullable = false, length = 200)
+	private String domain;
+
+	@Column(name = "url_regex", nullable = false)
 	private String urlRegex;
 
-	@Column(nullable = false)
+	@Column(name = "fetch_interval")
 	private int fetchInterval;
 
 	public int getId() {
@@ -32,6 +43,14 @@ public class Template {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public Set<Element> getElements() {
+		return elements;
+	}
+
+	public void setElements(Set<Element> elements) {
+		this.elements = elements;
 	}
 
 	public String getDomain() {
