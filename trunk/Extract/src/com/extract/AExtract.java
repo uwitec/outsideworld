@@ -6,10 +6,11 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.model.Element;
 import com.model.Item;
 import com.model.ParsedHtml;
-import com.model.Template;
+import com.model.policy.Element;
+import com.model.policy.Element.ElementType;
+import com.model.policy.Template;
 import com.util.CssUtil;
 import com.util.XPathUtil;
 
@@ -42,9 +43,9 @@ public abstract class AExtract implements Extract {
 	}
 
 	private String getString(ParsedHtml parsedHtml, Element e) throws Exception {
-		if (StringUtils.endsWithIgnoreCase("xpath", e.getType())) {
+		if (ElementType.XPATH.equals(e.getType())) {
 			return XPathUtil.getResult(parsedHtml.getNode(), e.getDefine());
-		} else if (StringUtils.equals("css", e.getType())) {
+		} else if (ElementType.CSS.equals(e.getType())) {
 			return CssUtil.getResult(parsedHtml.getDoc(), e.getDefine());
 		}
 		return "";

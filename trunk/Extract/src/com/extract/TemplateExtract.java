@@ -3,7 +3,7 @@ package com.extract;
 import org.apache.commons.lang.StringUtils;
 
 import com.model.Item;
-import com.model.Template;
+import com.model.policy.Template;
 import com.util.TemplateCache;
 
 public class TemplateExtract implements Extract {
