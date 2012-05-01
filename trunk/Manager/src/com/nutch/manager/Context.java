@@ -11,8 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.dao.CommonDAO;
-import com.model.Site;
-import com.model.Template;
+import com.model.policy.Source;
+import com.model.policy.Template;
 import com.util.SpringFactory;
 import com.util.TemplateCache;
 
@@ -29,7 +29,7 @@ public class Context {
 	private String crawlTopN;
 	private String crawlUrls;
 
-	private List<Site> sites;
+	private List<Source> sites;
 	private List<Template> templates;
 
 	public Context() {
@@ -60,7 +60,7 @@ public class Context {
 
 		/* load configuration from database */
 		LOG.info("Load Configuration from Database");
-		sites = commonDAO.getAll(Site.class);
+		sites = commonDAO.getAll(Source.class);
 		templates = commonDAO.getAll(Template.class);
 
 		/* Resist Templates */
@@ -94,7 +94,7 @@ public class Context {
 		return crawlUrls;
 	}
 
-	public List<Site> getSites() {
+	public List<Source> getSites() {
 		return sites;
 	}
 }
