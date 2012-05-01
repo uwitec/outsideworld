@@ -11,7 +11,7 @@ import com.dao.CommonDAO;
 import com.dao.ItemDao;
 import com.dao.mongo.ItemDaoImpl;
 import com.model.Item;
-import com.model.Template;
+import com.model.policy.Template;
 import com.util.SpringFactory;
 import com.util.TemplateCache;
 
