@@ -6,6 +6,7 @@ import org.junit.Test;
 import com.dao.CommonDAO;
 import com.model.policy.Element;
 import com.model.policy.Element.ElementType;
+import com.model.policy.Param;
 import com.model.policy.Source;
 import com.model.policy.Template;
 import com.model.policy.Topic;
@@ -22,6 +23,52 @@ public class InitDatabase {
 		commonDAO.update("delete from Template");
 		commonDAO.update("delete from Source");
 		commonDAO.update("delete from Topic");
+		commonDAO.update("delete from Param");
+	}
+
+	@Test
+	public void weibo() {
+		Param p1 = new Param();
+		p1.setName1("appkey");
+		p1.setValue1("1222837781");
+		p1.setType("sinaweibo");
+		commonDAO.save(p1);
+
+		Param p2 = new Param();
+		p2.setName1("appkey");
+		p2.setValue1("1222837781");
+		p2.setType("sinaweibo");
+		commonDAO.save(p2);
+
+		Param p3 = new Param();
+		p3.setName1("appkey");
+		p3.setValue1("1222837781");
+		p3.setType("sinaweibo");
+		commonDAO.save(p3);
+
+		Param p4 = new Param();
+		p4.setName1("token");
+		p4.setValue1("801106206");
+		p4.setName2("secret");
+		p4.setValue2("030f769fcb345443df7f92ec4e711e1f");
+		p4.setType("tencentweibo");
+		commonDAO.save(p4);
+
+		Param p5 = new Param();
+		p5.setName1("token");
+		p5.setValue1("801106206");
+		p5.setName2("secret");
+		p5.setValue2("030f769fcb345443df7f92ec4e711e1f");
+		p5.setType("tencentweibo");
+		commonDAO.save(p5);
+
+		Param p6 = new Param();
+		p6.setName1("token");
+		p6.setValue1("801106206");
+		p6.setName2("secret");
+		p6.setValue2("030f769fcb345443df7f92ec4e711e1f");
+		p6.setType("tencentweibo");
+		commonDAO.save(p6);
 	}
 
 	@Test
