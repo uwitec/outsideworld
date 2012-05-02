@@ -1,11 +1,9 @@
 package net.paoding.analysis.analyzer;
 
 import java.io.Reader;
-
 import net.paoding.analysis.analyzer.impl.MaxWordLengthTokenCollector;
 import net.paoding.analysis.analyzer.impl.MostWordsTokenCollector;
 import net.paoding.analysis.knife.Knife;
-
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 

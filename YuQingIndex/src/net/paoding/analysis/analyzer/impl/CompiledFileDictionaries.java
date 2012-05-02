@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 import net.paoding.analysis.dictionary.BinaryDictionary;
 import net.paoding.analysis.dictionary.Dictionary;
 import net.paoding.analysis.dictionary.HashBinaryDictionary;
@@ -32,7 +31,6 @@ import net.paoding.analysis.dictionary.support.filewords.FileWordsReader;
 import net.paoding.analysis.exception.PaodingAnalysisException;
 import net.paoding.analysis.knife.CJKKnife;
 import net.paoding.analysis.knife.Dictionaries;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

@@ -16,10 +16,8 @@
 package net.paoding.analysis.analyzer;
 
 import java.util.Iterator;
-
-import org.apache.lucene.analysis.Token;
-
 import net.paoding.analysis.knife.Collector;
+import org.apache.lucene.analysis.Token;
 
 /**
  * 

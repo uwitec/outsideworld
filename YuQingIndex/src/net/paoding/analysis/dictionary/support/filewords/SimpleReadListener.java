@@ -18,7 +18,6 @@ package net.paoding.analysis.dictionary.support.filewords;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Map;
-
 import net.paoding.analysis.dictionary.Word;
 import net.paoding.analysis.knife.CharSet;
 

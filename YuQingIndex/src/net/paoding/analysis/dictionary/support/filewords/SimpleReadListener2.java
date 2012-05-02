@@ -19,7 +19,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Map;
-
 import net.paoding.analysis.dictionary.Word;
 
 /**

@@ -17,10 +17,7 @@ package net.paoding.analysis.analyzer.impl;
 
 import java.util.Iterator;
 import java.util.LinkedList;
-
-
 import net.paoding.analysis.analyzer.TokenCollector;
-
 import org.apache.lucene.analysis.Token;
 
 
