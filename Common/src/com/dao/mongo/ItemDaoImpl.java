@@ -1,5 +1,6 @@
 package com.dao.mongo;
 
+import java.util.List;
 import com.dao.ItemDao;
 import com.model.Item;
 import com.mongodb.BasicDBObject;
@@ -30,6 +31,12 @@ public class ItemDaoImpl implements ItemDao {
 		o.put("url", item.getUrl());
 		return o;
 	}
+
+    @Override
+    public List<Item> poll(int num) throws Exception {
+        // TODO Auto-generated method stub
+        return null;
+    }
 	
 	
 
