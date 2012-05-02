@@ -13,8 +13,7 @@ import org.apache.lucene.index.NoDeletionPolicy;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
-import org.bson.types.ObjectId;
-import com.mongodb.BasicDBObject;
+import com.model.Item;
 
 /**
  * 使用lucene建立索引 <p>类说明</p> <p>Copyright: 版权所有 (c) 2010 - 2030</p> <p>Company: Travelsky</p>
@@ -41,7 +40,7 @@ public class Index {
         // 设置config
         IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_35, analyzer);
         // 创建模式，
-        config.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
+        config.setOpenMode(IndexWriterConfig.OpenMode.APPEND);
         // 不删除
         config.setIndexDeletionPolicy(NoDeletionPolicy.INSTANCE);
         writer = new IndexWriter(dir, config);
@@ -53,15 +52,15 @@ public class Index {
      * @param items
      * @throws Exception
      */
-    public void index(BasicDBObject o) throws Exception {
-        String id = ((ObjectId) o.get("_id")).toString();
+    public void index(Item o) throws Exception {
+        String id = o.getId();
         Field idFiled = new Field("id", id, Field.Store.YES, Field.Index.NO);
-        String title = (String) o.get("title");
+        String title = o.getTitle();
         Field titleFiled = new Field("title", title, Field.Store.YES, Field.Index.ANALYZED);
-        String content = (String) o.get("content");
+        String content = o.getContent();
         Field contentFiled = new Field("content", content, Field.Store.YES, Field.Index.ANALYZED);
         // 查询时指定这个字段为查询字段，不做索引
-        Date pubTime = (Date) o.get("pubtime");
+        Date pubTime = o.getPubTime();
         if (pubTime == null) {
             pubTime = new Date();
         }
@@ -99,9 +98,8 @@ public class Index {
      * @param objs
      * @throws Exception
      */
-    public void index(List<BasicDBObject> objs,String dir) throws Exception {
-        open(dir);
-        for(BasicDBObject o:objs){           
+    public void index(List<Item> objs) throws Exception {
+        for(Item o:objs){           
             index(o);                
          }          
          commit();
