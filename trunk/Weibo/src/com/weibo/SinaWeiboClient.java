@@ -49,13 +49,6 @@ public class SinaWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 	}
 
 	@Override
-	public void saveItems(List<Item> items) throws Exception {
-		for (Item item : items) {
-			itemDAO.insert(item);
-		}
-	}
-
-	@Override
 	public int getInterval() {
 		return 0;
 	}
