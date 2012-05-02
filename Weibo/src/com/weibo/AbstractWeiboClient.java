@@ -1,16 +1,29 @@
 package com.weibo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.locks.Lock;
 
+import com.dao.ItemDao;
+import com.dao.mongo.ItemDaoImpl;
 import com.model.Item;
 
 public abstract class AbstractWeiboClient<T> implements Runnable {
 
-	private Set<Object> cache = new HashSet<Object>();
+	private Set<Serializable> cache;
+
+	protected ItemDao itemDAO = new ItemDaoImpl();
+
 	private int MAX_RETRY = 5;
+
+	protected String[] params;
+
+	public AbstractWeiboClient(String[] params) {
+		this.params = params;
+		cache = getCache();
+	}
 
 	@Override
 	public void run() {
@@ -58,7 +71,11 @@ public abstract class AbstractWeiboClient<T> implements Runnable {
 		}
 	}
 
-	public abstract Object getIdentifier(T weibo);
+	public abstract Set<Serializable> getCache();
+
+	public abstract Lock getLock();
+
+	public abstract Serializable getIdentifier(T weibo);
 
 	/* 登录微博客户端 */
 	public abstract void login() throws Exception;
@@ -66,31 +83,49 @@ public abstract class AbstractWeiboClient<T> implements Runnable {
 	/* 去掉重复的微博 */
 	public List<Item> sortItems(List<T> newItems) {
 		List<Item> list = new ArrayList<Item>();
+		Lock lock = getLock();
+		try {
+			lock.lock();
+			if (newItems == null) {
+				return list;
+			}
 
-		if (newItems == null) {
-			return list;
-		}
+			if (cache.size() < 1) {
+				for (T newItem : newItems) {
+					list.add(wrapItem(newItem));
+					cache.add(getIdentifier(newItem));
+				}
+				return list;
+			}
 
-		if (cache.size() < 1) {
 			for (T newItem : newItems) {
-				list.add(wrapItem(newItem));
+				if (!cache.contains(getIdentifier(newItem))) {
+					list.add(wrapItem(newItem));
+				}
+			}
+
+			/* 重置缓存 */
+			cache.clear();
+			for (T newItem : newItems) {
 				cache.add(getIdentifier(newItem));
 			}
-			return list;
-		}
-
-		for (T newItem : newItems) {
-			if (!cache.contains(getIdentifier(newItem))) {
-				list.add(wrapItem(newItem));
-			}
-		}
-
-		/* 重置缓存 */
-		cache.clear();
-		for (T newItem : newItems) {
-			cache.add(getIdentifier(newItem));
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			lock.unlock();
 		}
 		return list;
+	}
+
+	/* 过滤和关键字有关的微博 */
+	public List<Item> filterItem(List<Item> weibos) {
+		for (int i = 0; i < weibos.size(); i++) {
+			if (!WeiboFilter.isValid(weibos.get(i))) {
+				weibos.remove(i);
+				i--;
+			}
+		}
+		return weibos;
 	}
 
 	/* 封装微博 */
@@ -98,9 +133,6 @@ public abstract class AbstractWeiboClient<T> implements Runnable {
 
 	/* 取得最新的微博 */
 	public abstract List<T> getWeibos() throws Exception;
-
-	/* 过滤和关键字有关的微博 */
-	public abstract List<Item> filterItem(List<Item> weibos);
 
 	/* 保存微博 */
 	public abstract void saveItems(List<Item> items) throws Exception;
