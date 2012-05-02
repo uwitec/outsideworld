@@ -3,11 +3,15 @@ package com.weibo;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
+import java.util.Set;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.basic.DefaultOAuthConsumer;
@@ -21,21 +25,21 @@ import com.sohu.t.open.util.TwUtils;
 
 public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 
+	private static Set<Serializable> cache = new HashSet<Serializable>(200);
+	private static Lock lock = new ReentrantLock();
+
+	public SohuWeiboClient(String[] params) {
+		super(params);
+	}
+
 	private String accessToken;
 	private String accessTokenSecret;
 
 	@Override
-	public boolean isSame(Map<String, Object> weibo1, Map<String, Object> weibo2) {
-		if (weibo2.get("id").equals(weibo2.get("id"))) {
-			return true;
-		}
-		return false;
-	}
-
-	@Override
 	public Item wrapItem(Map<String, Object> weibo) {
-		// TODO Auto-generated method stub
-		return null;
+		Item item = new Item();
+		item.setContent(weibo.get("text").toString());
+		return item;
 	}
 
 	public List<Map<String, Object>> getWeibos() throws Exception {
@@ -43,59 +47,25 @@ public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 		String jsonObjs = http(
 				"http://api.t.sohu.com/statuses/public_timeline.json", "GET",
 				false);
+		System.out.println(jsonObjs);
 		if (StringUtils.isBlank(jsonObjs)
 				|| StringUtils.startsWith(jsonObjs, "<html>")) {
 			return null;
 		}
 		List<Map<String, Object>> models = trans(jsonObjs);
-		// 批量获取微薄的转发数和评论数
-		String ids = "";
-		for (Map<String, Object> map : models) {
-			ids += map.get("id") + ",";
-		}
-		if (ids.length() == 0) {
-			return models;
-		}
-		ids = ids.substring(0, ids.length() - 1);
-		jsonObjs = http(
-				"http://api.t.sohu.com/statuses/counts.json?ids=" + ids, "GET",
-				true);
-		List<Map<String, Object>> transMap = trans(jsonObjs);
-		for (Map<String, Object> tMap : transMap) {
-			for (Map<String, Object> mMap : models) {
-				if (mMap.get("id").equals(tMap.get("id"))) {
-					mMap.put("comments_count", tMap.get("comments_count"));
-					mMap.put("transmit_count", tMap.get("transmit_count"));
-				}
-			}
-		}
-		System.out.println(models);
 		return models;
 	}
 
 	@Override
-	public List<Item> filterItem(List<Item> weibos) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void saveItems(List<Item> items) throws Exception {
-
+		for (Item item : items) {
+			itemDAO.insert(item);
+		}
 	}
 
 	@Override
 	public int getInterval() {
-		return 10;
-	}
-
-	public static void main(String[] args) throws Exception {
-		SohuWeiboClient c = new SohuWeiboClient();
-		c.login();
-		for (int i = 0; i < 1; i++) {
-			c.getWeibos();
-			Thread.sleep(5000);
-		}
+		return 0;
 	}
 
 	private String http(String url, String method, boolean isAuthorize)
@@ -103,9 +73,6 @@ public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 		URL u = new URL(url);
 		HttpURLConnection request = (HttpURLConnection) u.openConnection();
 		request.setDoOutput(true);
-		Properties systemProperties = System.getProperties();
-		// systemProperties.setProperty("http.proxyHost", "172.17.18.80");
-		// systemProperties.setProperty("http.proxyPort", "8080");
 		request.setRequestMethod(method);
 		if (isAuthorize) {
 			consumer.setTokenWithSecret(accessToken, accessTokenSecret);
@@ -123,6 +90,7 @@ public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	private List<Map<String, Object>> trans(String jsonObjs) throws Exception {
 		ObjectMapper mapper = new ObjectMapper();
 		List<Map<String, Object>> models = mapper.readValue(jsonObjs,
@@ -130,8 +98,8 @@ public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 		return models;
 	}
 
-	private OAuthConsumer consumer = new DefaultOAuthConsumer(
-			"ta9lM8nbMhHM8ZLQmsI8", "yftEFtbWH2N#MVZoW!^CdEu8RC*S!N1x8P6FFKo5");
+	private OAuthConsumer consumer = new DefaultOAuthConsumer(params[2],
+			params[3]);
 
 	// xauth sign parameter
 	public HttpURLConnection signRequestForXauth(HttpURLConnection request,
@@ -152,9 +120,6 @@ public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 		request.setDoOutput(true);
 		request.setRequestMethod("POST");
 		request = signRequestForXauth(request, username, password);
-		Properties systemProperties = System.getProperties();
-		// systemProperties.setProperty("http.proxyHost", "172.17.18.80");
-		// systemProperties.setProperty("http.proxyPort", "8080");
 		OutputStream ot = request.getOutputStream();
 		ot.write(("x_auth_username=" + TwUtils.encode(username)
 				+ "&x_auth_password=" + TwUtils.encode(password) + "&x_auth_mode=client_auth")
@@ -193,16 +158,29 @@ public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 	}
 
 	@Override
-	public void login() throws Exception {
-		String accessTokenStr = XAuthAuthorize("fangxia722@sohu.com",
-				"fangxia722");
+	public synchronized void login() throws Exception {
+		String accessTokenStr = XAuthAuthorize(params[0], params[1]);
 		if (StringUtils.isBlank(accessTokenStr)) {
 			return;
 		}
 		setAccessToken(accessTokenStr.split("&")[0].split("=")[1]);
 		setAccessTokenSecret(accessTokenStr.split("&")[1].split("=")[1]);
 
-		consumer = new DefaultOAuthConsumer("ta9lM8nbMhHM8ZLQmsI8",
-				"yftEFtbWH2N#MVZoW!^CdEu8RC*S!N1x8P6FFKo5");
+		consumer = new DefaultOAuthConsumer(params[2], params[3]);
+	}
+
+	@Override
+	public Set<Serializable> getCache() {
+		return cache;
+	}
+
+	@Override
+	public Lock getLock() {
+		return lock;
+	}
+
+	@Override
+	public Serializable getIdentifier(Map<String, Object> weibo) {
+		return weibo.get("id").toString();
 	}
 }

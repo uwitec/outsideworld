@@ -128,14 +128,18 @@ public abstract class AbstractWeiboClient<T> implements Runnable {
 		return weibos;
 	}
 
+	/* 保存微博 */
+	public void saveItems(List<Item> items) throws Exception {
+		for (Item item : items) {
+			itemDAO.insert(item);
+		}
+	}
+
 	/* 封装微博 */
 	public abstract Item wrapItem(T weibo);
 
 	/* 取得最新的微博 */
 	public abstract List<T> getWeibos() throws Exception;
-
-	/* 保存微博 */
-	public abstract void saveItems(List<Item> items) throws Exception;
 
 	/* 抓取间隔，单位：秒 */
 	public abstract int getInterval();
