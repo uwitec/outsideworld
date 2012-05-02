@@ -1,12 +1,15 @@
 package com.weibo;
 
+import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
-import com.dao.ItemDao;
-import com.dao.mongo.ItemDaoImpl;
 import com.model.Item;
 import com.tencent.weibo.api.Statuses_API;
 import com.tencent.weibo.beans.OAuth;
@@ -14,20 +17,24 @@ import com.tencent.weibo.beans.OAuth;
 public class TencentWeiboClient extends
 		AbstractWeiboClient<Map<String, Object>> {
 
-	private ItemDao itemDAO = new ItemDaoImpl();
+	private static Set<Serializable> cache = new HashSet<Serializable>(100);
+	private static Lock lock = new ReentrantLock();
 
 	private OAuth oauth;
 	private Statuses_API st = new Statuses_API();
 
-	@Override
-	public void login() throws Exception {
-		oauth = new OAuth("801106206", "030f769fcb345443df7f92ec4e711e1f",
-				"null");
+	public TencentWeiboClient(String[] params) {
+		super(params);
 	}
 
 	@Override
-	public Object getIdentifier(Map<String, Object> weibo) {
-		return weibo.get("id");
+	public void login() throws Exception {
+		oauth = new OAuth(params[0], params[1], "null");
+	}
+
+	@Override
+	public Serializable getIdentifier(Map<String, Object> weibo) {
+		return weibo.get("id").toString();
 	}
 
 	@Override
@@ -50,17 +57,6 @@ public class TencentWeiboClient extends
 	}
 
 	@Override
-	public List<Item> filterItem(List<Item> weibos) {
-		for (int i = 0; i < weibos.size(); i++) {
-			if (!WeiboFilter.isValid(weibos.get(i))) {
-				weibos.remove(i);
-				i--;
-			}
-		}
-		return weibos;
-	}
-
-	@Override
 	public void saveItems(List<Item> items) throws Exception {
 		for (Item item : items) {
 			itemDAO.insert(item);
@@ -72,7 +68,13 @@ public class TencentWeiboClient extends
 		return 0;
 	}
 
-	public static void main(String[] args) throws Exception {
-		new Thread(new TencentWeiboClient()).start();
+	@Override
+	public Set<Serializable> getCache() {
+		return cache;
+	}
+
+	@Override
+	public Lock getLock() {
+		return lock;
 	}
 }

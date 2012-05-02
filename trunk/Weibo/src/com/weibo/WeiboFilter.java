@@ -39,8 +39,8 @@ public class WeiboFilter {
 			List<Topic> list = commonDAO.query("from Topic");
 			topic.clear();
 			for (Topic t : list) {
-				if (t.getMustHave() != null) {
-					String[] ss = t.getMustHave().split(" ");
+				if (t.getInclude() != null) {
+					String[] ss = t.getInclude().split(" ");
 					for (String s : ss) {
 						topic.add(s);
 					}

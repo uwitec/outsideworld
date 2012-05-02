@@ -1,24 +1,27 @@
 package com.weibo;
 
+import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
-import com.dao.ItemDao;
-import com.dao.mongo.ItemDaoImpl;
 import com.model.Item;
 import com.tencent.weibo.utils.QHttpClient;
 
 public class SinaWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 
-	private ItemDao itemDAO = new ItemDaoImpl();
+	private static Set<Serializable> cache = new HashSet<Serializable>(200);
+	private static Lock lock = new ReentrantLock();
 
 	private QHttpClient httpClient = new QHttpClient();
-	private String appKey = "1222837781";
 
-	public static void main(String[] args) {
-		new Thread(new SinaWeiboClient()).start();
+	public SinaWeiboClient(String[] params) {
+		super(params);
 	}
 
 	@Override
@@ -40,20 +43,9 @@ public class SinaWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 		List<Map<String, Object>> data = null;
 		String jsonStr = httpClient.httpGet(
 				"http://api.t.sina.com.cn/statuses/public_timeline.json",
-				"source=" + appKey + "&count=200&base_app=0");
+				"source=" + params[0] + "&count=200&base_app=0");
 		data = mapper.readValue(jsonStr, List.class);
 		return data;
-	}
-
-	@Override
-	public List<Item> filterItem(List<Item> weibos) {
-		for (int i = 0; i < weibos.size(); i++) {
-			if (!WeiboFilter.isValid(weibos.get(i))) {
-				weibos.remove(i);
-				i--;
-			}
-		}
-		return weibos;
 	}
 
 	@Override
@@ -69,8 +61,17 @@ public class SinaWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 	}
 
 	@Override
-	public Object getIdentifier(Map<String, Object> weibo) {
-		return weibo.get("mid");
+	public Serializable getIdentifier(Map<String, Object> weibo) {
+		return weibo.get("mid").toString();
 	}
 
+	@Override
+	public Set<Serializable> getCache() {
+		return cache;
+	}
+
+	@Override
+	public Lock getLock() {
+		return lock;
+	}
 }
