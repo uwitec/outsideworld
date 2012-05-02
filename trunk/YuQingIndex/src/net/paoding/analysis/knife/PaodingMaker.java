@@ -33,14 +33,12 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-
 import net.paoding.analysis.Constants;
 import net.paoding.analysis.analyzer.impl.MostWordsModeDictionariesCompiler;
 import net.paoding.analysis.analyzer.impl.SortingDictionariesCompiler;
 import net.paoding.analysis.dictionary.support.detection.Difference;
 import net.paoding.analysis.dictionary.support.detection.DifferenceListener;
 import net.paoding.analysis.exception.PaodingAnalysisException;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.lucene.store.FSLockFactory;

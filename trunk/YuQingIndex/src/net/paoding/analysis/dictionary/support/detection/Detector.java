@@ -17,7 +17,6 @@ package net.paoding.analysis.dictionary.support.detection;
 
 import java.io.File;
 import java.io.FileFilter;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

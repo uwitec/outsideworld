@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
-
 import net.paoding.analysis.knife.CharSet;
 
 /**

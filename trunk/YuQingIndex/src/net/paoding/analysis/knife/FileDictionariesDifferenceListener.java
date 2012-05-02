@@ -18,7 +18,6 @@ package net.paoding.analysis.knife;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-
 import net.paoding.analysis.dictionary.support.detection.Difference;
 import net.paoding.analysis.dictionary.support.detection.DifferenceListener;
 import net.paoding.analysis.dictionary.support.detection.Node;

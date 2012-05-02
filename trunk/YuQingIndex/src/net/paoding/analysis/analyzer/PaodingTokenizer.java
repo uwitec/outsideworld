@@ -18,13 +18,11 @@ package net.paoding.analysis.analyzer;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Iterator;
-
 import net.paoding.analysis.analyzer.impl.MostWordsTokenCollector;
 import net.paoding.analysis.knife.Beef;
 import net.paoding.analysis.knife.Collector;
 import net.paoding.analysis.knife.Knife;
 import net.paoding.analysis.knife.Paoding;
-
 import org.apache.lucene.analysis.Token;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;

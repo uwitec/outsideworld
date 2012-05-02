@@ -12,7 +12,6 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.BitSet;
 import java.util.Properties;
-
 import net.paoding.analysis.Constants;
 import net.paoding.analysis.dictionary.Dictionary;
 import net.paoding.analysis.dictionary.Hit;

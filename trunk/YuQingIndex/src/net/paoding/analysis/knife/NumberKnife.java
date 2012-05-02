@@ -16,7 +16,6 @@
 package net.paoding.analysis.knife;
 
 import java.math.BigInteger;
-
 import net.paoding.analysis.dictionary.Dictionary;
 import net.paoding.analysis.dictionary.Hit;
 

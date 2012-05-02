@@ -16,7 +16,6 @@
 package net.paoding.analysis.analyzer;
 
 import java.util.Properties;
-
 import net.paoding.analysis.Constants;
 import net.paoding.analysis.analyzer.estimate.TryPaodingAnalyzer;
 import net.paoding.analysis.knife.Knife;
