@@ -6,6 +6,7 @@ import com.dao.CommonDAO;
 import com.model.policy.Param;
 import com.util.SpringFactory;
 import com.weibo.SinaWeiboClient;
+import com.weibo.SohuWeiboClient;
 import com.weibo.TencentWeiboClient;
 
 public class WeiboManager {
@@ -13,6 +14,7 @@ public class WeiboManager {
 	private static CommonDAO commonDAO = SpringFactory.getBean("commonDAO");
 
 	public static void main(String[] args) throws Exception {
+
 		/* 新浪微博 */
 		List<Param> sinaParams = commonDAO
 				.query("from Param p where p.type='sinaweibo'");
@@ -27,6 +29,15 @@ public class WeiboManager {
 		for (Param param : tencentParams) {
 			new Thread(new TencentWeiboClient(new String[] { param.getValue1(),
 					param.getValue2() })).start();
+		}
+
+		/* 腾讯微博 */
+		List<Param> sohuParams = commonDAO
+				.query("from Param p where p.type='sohuweibo'");
+		for (Param param : sohuParams) {
+			new Thread(new SohuWeiboClient(new String[] { param.getValue1(),
+					param.getValue2(), param.getValue3(), param.getValue4() }))
+					.start();
 		}
 	}
 }

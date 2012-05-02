@@ -69,6 +69,42 @@ public class InitDatabase {
 		p6.setValue2("030f769fcb345443df7f92ec4e711e1f");
 		p6.setType("tencentweibo");
 		commonDAO.save(p6);
+
+		Param p7 = new Param();
+		p7.setName1("p1");
+		p7.setValue1("fangxia722@sohu.com");
+		p7.setName2("p2");
+		p7.setValue2("fangxia722");
+		p7.setName3("p3");
+		p7.setValue3("ta9lM8nbMhHM8ZLQmsI8");
+		p7.setName4("p4");
+		p7.setValue4("yftEFtbWH2N#MVZoW!^CdEu8RC*S!N1x8P6FFKo5");
+		p7.setType("sohuweibo");
+		commonDAO.save(p7);
+
+		Param p8 = new Param();
+		p8.setName1("p1");
+		p8.setValue1("fangxia722@sohu.com");
+		p8.setName2("p2");
+		p8.setValue2("fangxia722");
+		p8.setName3("p3");
+		p8.setValue3("ta9lM8nbMhHM8ZLQmsI8");
+		p8.setName4("p4");
+		p8.setValue4("yftEFtbWH2N#MVZoW!^CdEu8RC*S!N1x8P6FFKo5");
+		p8.setType("sohuweibo");
+		commonDAO.save(p8);
+
+		Param p9 = new Param();
+		p9.setName1("p1");
+		p9.setValue1("fangxia722@sohu.com");
+		p9.setName2("p2");
+		p9.setValue2("fangxia722");
+		p9.setName3("p3");
+		p9.setValue3("ta9lM8nbMhHM8ZLQmsI8");
+		p9.setName4("p4");
+		p9.setValue4("yftEFtbWH2N#MVZoW!^CdEu8RC*S!N1x8P6FFKo5");
+		p9.setType("sohuweibo");
+		commonDAO.save(p9);
 	}
 
 	@Test
