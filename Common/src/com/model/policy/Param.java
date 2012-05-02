@@ -27,6 +27,12 @@ public class Param {
 	private String name3;
 
 	@Column(length = 200)
+	private String name4;
+
+	@Column(length = 200)
+	private String name5;
+
+	@Column(length = 200)
 	private String value1;
 
 	@Column(length = 200)
@@ -34,6 +40,12 @@ public class Param {
 
 	@Column(length = 200)
 	private String value3;
+
+	@Column(length = 200)
+	private String value4;
+
+	@Column(length = 200)
+	private String value5;
 
 	@Column
 	private String type;
@@ -100,5 +112,37 @@ public class Param {
 
 	public void setName3(String name3) {
 		this.name3 = name3;
+	}
+
+	public String getName4() {
+		return name4;
+	}
+
+	public void setName4(String name4) {
+		this.name4 = name4;
+	}
+
+	public String getName5() {
+		return name5;
+	}
+
+	public void setName5(String name5) {
+		this.name5 = name5;
+	}
+
+	public String getValue4() {
+		return value4;
+	}
+
+	public void setValue4(String value4) {
+		this.value4 = value4;
+	}
+
+	public String getValue5() {
+		return value5;
+	}
+
+	public void setValue5(String value5) {
+		this.value5 = value5;
 	}
 }
