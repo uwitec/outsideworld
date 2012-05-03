@@ -6,8 +6,12 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
@@ -28,6 +32,9 @@ public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 	private static Set<Serializable> cache = new HashSet<Serializable>(200);
 	private static Lock lock = new ReentrantLock();
 
+	private static SimpleDateFormat sdf = new SimpleDateFormat(
+			"E MMM dd hh:mm:ss yyyy", Locale.US);
+
 	public SohuWeiboClient(String[] params) {
 		super(params);
 	}
@@ -39,6 +46,13 @@ public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 	public Item wrapItem(Map<String, Object> weibo) {
 		Item item = new Item();
 		item.setContent(weibo.get("text").toString());
+		try {
+			item.setPubTime(sdf.parse(weibo.get("created_at").toString()
+					.replace("+0800 ", "")));
+		} catch (ParseException e) {
+			e.printStackTrace();
+			item.setPubTime(new Date());
+		}
 		return item;
 	}
 
@@ -47,7 +61,6 @@ public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 		String jsonObjs = http(
 				"http://api.t.sohu.com/statuses/public_timeline.json", "GET",
 				false);
-		System.out.println(jsonObjs);
 		if (StringUtils.isBlank(jsonObjs)
 				|| StringUtils.startsWith(jsonObjs, "<html>")) {
 			return null;
@@ -113,7 +126,7 @@ public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 		return request;
 	}
 
-	private String XAuthAuthorize(String username, String password)
+	private synchronized String XAuthAuthorize(String username, String password)
 			throws Exception {
 		URL url = new URL("http://api.t.sohu.com/oauth/access_token");
 		HttpURLConnection request = (HttpURLConnection) url.openConnection();
@@ -157,16 +170,25 @@ public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 		this.accessTokenSecret = accessTokenSecret;
 	}
 
-	@Override
-	public synchronized void login() throws Exception {
-		String accessTokenStr = XAuthAuthorize(params[0], params[1]);
-		if (StringUtils.isBlank(accessTokenStr)) {
-			return;
-		}
-		setAccessToken(accessTokenStr.split("&")[0].split("=")[1]);
-		setAccessTokenSecret(accessTokenStr.split("&")[1].split("=")[1]);
+	private static Lock loginLock = new ReentrantLock();
 
-		consumer = new DefaultOAuthConsumer(params[2], params[3]);
+	@Override
+	public void login() throws Exception {
+		try {
+			loginLock.lock();
+			String accessTokenStr = XAuthAuthorize(params[0], params[1]);
+			if (StringUtils.isBlank(accessTokenStr)) {
+				return;
+			}
+			setAccessToken(accessTokenStr.split("&")[0].split("=")[1]);
+			setAccessTokenSecret(accessTokenStr.split("&")[1].split("=")[1]);
+
+			consumer = new DefaultOAuthConsumer(params[2], params[3]);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			loginLock.unlock();
+		}
 	}
 
 	@Override
