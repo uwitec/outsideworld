@@ -25,7 +25,7 @@ public class SinaWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 	private QHttpClient httpClient = new QHttpClient();
 
 	private static SimpleDateFormat sdf = new SimpleDateFormat(
-			"E MMM dd hh:mm:ss", Locale.US);
+			"E MMM dd hh:mm:ss yyyy", Locale.US);
 
 	public SinaWeiboClient(String[] params) {
 		super(params);
