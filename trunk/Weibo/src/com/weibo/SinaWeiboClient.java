@@ -1,8 +1,12 @@
 package com.weibo;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
@@ -20,6 +24,9 @@ public class SinaWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 
 	private QHttpClient httpClient = new QHttpClient();
 
+	private static SimpleDateFormat sdf = new SimpleDateFormat(
+			"E MMM dd hh:mm:ss", Locale.US);
+
 	public SinaWeiboClient(String[] params) {
 		super(params);
 	}
@@ -33,6 +40,13 @@ public class SinaWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 	public Item wrapItem(Map<String, Object> weibo) {
 		Item item = new Item();
 		item.setContent(weibo.get("text").toString());
+		try {
+			item.setPubTime(sdf.parse(weibo.get("created_at").toString()
+					.replace("+0800 ", "")));
+		} catch (ParseException e) {
+			e.printStackTrace();
+			item.setPubTime(new Date());
+		}
 		return item;
 	}
 
