@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * 同心串算法
  * 
@@ -55,10 +57,13 @@ public class ConcentricString {
 			}
 		}
 		title = new String(chars);
-		List<String> arrays = Arrays.asList(title.split(" "));
-		if (arrays.size() == 0) {
-			arrays.add(title);
-		}
+		String[] ss = title.split(" ");
+    	List<String> arrays = new ArrayList<String>();
+    	for(String s:ss){
+    		if(!StringUtils.isBlank(s)){
+    			arrays.add(s);
+    		}
+    	}
 		List<String> result = new ArrayList<String>();
 		for (String s : arrays) {
 			for (int i = 0; i < s.length(); i++) {
