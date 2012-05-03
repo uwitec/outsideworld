@@ -1,6 +1,7 @@
 package com.weibo;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +42,8 @@ public class TencentWeiboClient extends
 	public Item wrapItem(Map<String, Object> weibo) {
 		Item item = new Item();
 		item.setContent(weibo.get("text").toString());
+		item.setPubTime(new Date(1000 * Long.parseLong(weibo.get("timestamp")
+				.toString())));
 		return item;
 	}
 
