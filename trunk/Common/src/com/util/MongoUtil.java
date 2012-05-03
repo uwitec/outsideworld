@@ -42,7 +42,6 @@ public class MongoUtil {
 		if (!StringUtils.isBlank(tableName)) {
 			coll = db.getCollection(tableName);
 			coll.insert(o);
-			System.out.println("insert:" + o);
 		}
 		return null;
 	}
