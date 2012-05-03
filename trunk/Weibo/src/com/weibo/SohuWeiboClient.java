@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import com.model.Item;
+import com.sohu.t.open.util.ApiClient;
 import com.sohu.t.open.util.TwUtils;
 
 public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
@@ -57,10 +58,8 @@ public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 	}
 
 	public List<Map<String, Object>> getWeibos() throws Exception {
-
-		String jsonObjs = http(
-				"http://api.t.sohu.com/statuses/public_timeline.json", "GET",
-				false);
+		String jsonObjs = ApiClient.doGetMethod(
+				"http://api.t.sohu.com/statuses/public_timeline.json", "UTF-8");
 		if (StringUtils.isBlank(jsonObjs)
 				|| StringUtils.startsWith(jsonObjs, "<html>")) {
 			return null;
@@ -81,6 +80,7 @@ public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 		return 0;
 	}
 
+	@SuppressWarnings("unused")
 	private String http(String url, String method, boolean isAuthorize)
 			throws Exception {
 		URL u = new URL(url);
