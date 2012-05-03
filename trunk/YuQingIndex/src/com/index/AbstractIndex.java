@@ -1,6 +1,5 @@
 package com.index;
 
-import java.io.File;
 import java.util.Date;
 import java.util.List;
 import net.paoding.analysis.analyzer.PaodingAnalyzer;
@@ -11,41 +10,29 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.NoDeletionPolicy;
 import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 import com.model.Item;
 
-/**
- * 使用lucene建立索引 <p>类说明</p> <p>Copyright: 版权所有 (c) 2010 - 2030</p> <p>Company: Travelsky</p>
- * 
- * @author fangxia722
- * @version 1.0
- * @since May 2, 2012
- */
-public class Index {
 
+public abstract class AbstractIndex {
+    protected static Analyzer analyzer = new PaodingAnalyzer();
     private IndexWriter writer;
-    private Analyzer analyzer;
-
+    private Directory dir;
     /**
-     * 打开索引文件目录
-     * 
-     * @param indexDir
+     * 打开索引文件，默认
+     * @param dir
      * @throws Exception
      */
-    public void open(String indexDir) throws Exception {
-        analyzer = new PaodingAnalyzer();
-        // 设置文件夹
-        Directory dir = FSDirectory.open(new File(indexDir));
-        // 设置config
+    public void open(String dirString) throws Exception{
+        dir = getDirectory(dirString);
+         //设置config
         IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_35, analyzer);
         // 创建模式，
-        config.setOpenMode(IndexWriterConfig.OpenMode.APPEND);
+        config.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
         // 不删除
         config.setIndexDeletionPolicy(NoDeletionPolicy.INSTANCE);
         writer = new IndexWriter(dir, config);
     }
-
     /**
      * 对一批item建立索引
      * 
@@ -90,9 +77,9 @@ public class Index {
      * @throws Exception
      */
     public void commit() throws Exception {
+        writer.optimize();
         writer.commit();
     }
-    
     /**
      * 对一个列表建立索引
      * @param objs
@@ -103,5 +90,19 @@ public class Index {
             index(o);                
          }          
          commit();
+    }
+    
+    abstract protected Directory getDirectory(String dir) throws Exception;
+    
+    public IndexWriter getWriter() {
+        return writer;
+    }
+    
+    public void setWriter(IndexWriter writer) {
+        this.writer = writer;
+    }
+    
+    public Directory getDir() {
+        return dir;
     }
 }
