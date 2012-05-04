@@ -8,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
@@ -66,4 +67,12 @@ public class MongoUtil {
 		return null;
 	}
 
+	public DBCursor get(String tableName, BasicDBObject sample) {
+		DBCollection coll = null;
+		if (!StringUtils.isBlank(tableName)) {
+			coll = db.getCollection(tableName);
+			return coll.find(sample);
+		}
+		return null;
+	}
 }
