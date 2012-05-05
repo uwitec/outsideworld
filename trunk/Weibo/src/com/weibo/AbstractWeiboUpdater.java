@@ -1,6 +1,5 @@
 package com.weibo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -19,10 +18,12 @@ public abstract class AbstractWeiboUpdater implements Runnable {
 
 	private String source;
 	private int chunk;
+	protected String[] params;
 
 	public AbstractWeiboUpdater(String source, int chunk, String params[]) {
 		this.source = source;
 		this.chunk = chunk;
+		this.params = params;
 	}
 
 	@Override
@@ -40,26 +41,26 @@ public abstract class AbstractWeiboUpdater implements Runnable {
 			sample.put("type", "weibo");
 			sample.put("source", source);
 			// TODO 时间范围
+			StringBuilder sb = new StringBuilder();
 			try {
 				DBCursor cursor = itemDAO.find(sample);
 				int i = 0;
-				List<String> list = new ArrayList<String>(chunk);
 				List<Object[]> result = null;
 				while (cursor.hasNext()) {
 					DBObject s = cursor.next();
 					String id = s.get("url").toString();
-					list.add(id);
+					sb.append(id + ",");
 					i++;
 					if (i % chunk == 0) {
-						result = getStatus(list);
+						result = getStatus(sb.toString());
 						update(result);
-						list.clear();
+						sb.delete(0, sb.length());
 					}
 				}
 				cursor.close();
-				result = getStatus(list);
+				result = getStatus(sb.toString());
 				update(result);
-				list.clear();
+				sb.delete(0, sb.length());
 			} catch (NeedLoginException e) {
 				try {
 					log.info("try to login " + source);
@@ -89,6 +90,6 @@ public abstract class AbstractWeiboUpdater implements Runnable {
 	public abstract void login() throws Exception;
 
 	/* 取得微博评论和转发次数 */
-	public abstract List<Object[]> getStatus(List<String> list)
+	public abstract List<Object[]> getStatus(String ids)
 			throws NeedLoginException, Exception;
 }
