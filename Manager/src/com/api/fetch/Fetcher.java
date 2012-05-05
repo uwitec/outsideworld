@@ -19,6 +19,7 @@ import org.mozilla.intl.chardet.nsPSMDetector;
 
 import com.extract.Extract;
 import com.model.Item;
+import com.util.HttpUtil;
 import com.util.SpringFactory;
 
 public class Fetcher {
