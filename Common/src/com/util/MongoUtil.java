@@ -47,13 +47,14 @@ public class MongoUtil {
 		return null;
 	}
 
-	public WriteResult update(BasicDBObject o, String tableName) {
+	public WriteResult update(DBObject o, String tableName) {
 		DBCollection coll = null;
 		if (!StringUtils.isBlank(tableName)) {
 			coll = db.getCollection(tableName);
 			DBObject updateCondition = new BasicDBObject();
-			updateCondition.put("url", o.get("url"));
-			return coll.update(updateCondition, o);
+			updateCondition.put("url", o.get("url").toString());
+			DBObject updateSetValue = new BasicDBObject("$set", o);
+			coll.update(updateCondition, updateSetValue);
 		}
 		return null;
 	}
@@ -67,7 +68,7 @@ public class MongoUtil {
 		return null;
 	}
 
-	public DBCursor get(String tableName, BasicDBObject sample) {
+	public DBCursor find(String tableName, DBObject sample) {
 		DBCollection coll = null;
 		if (!StringUtils.isBlank(tableName)) {
 			coll = db.getCollection(tableName);
