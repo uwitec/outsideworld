@@ -46,6 +46,9 @@ public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 	@Override
 	public Item wrapItem(Map<String, Object> weibo) {
 		Item item = new Item();
+		item.setUrl(weibo.get("id").toString());
+		item.setType("weibo");
+		item.setSource("sohu");
 		item.setContent(weibo.get("text").toString());
 		try {
 			item.setPubTime(sdf.parse(weibo.get("created_at").toString()
