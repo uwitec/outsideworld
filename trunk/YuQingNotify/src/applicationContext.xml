@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+	default-autowire="byName">
+	<!-- 对于channel的配置 -->
+	<bean id="emailPlugin" class="com.notice.plugin.impl.EmailChannelPlugin">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="username" value="xiongtianping35" />
+		<property name="password" value="xiongtianping" />
+
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.timeout">25000</prop>
+				<prop key="mail.smtp.port">465</prop>
+				<prop key="mail.smtp.socketFactory.port">465</prop>
+				<prop key="mail.smtp.socketFactory.fallback">false</prop>
+				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="pluginChains" class="com.notice.plugin.PluginChain">
+		<property name="plugins">
+			<list>
+				<ref bean="emailPlugin" />
+			</list>
+		</property>
+	</bean>
+	<bean id="notifyService" class="com.notice.service.NotifyService"></bean>
+
+	<bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+		<property name="brokerURL" value="tcp://localhost:61616" />
+	</bean>
+	<bean id="destination" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg index="0" value="Notice" />
+	</bean>
+	<bean id="mesConverter" class="com.notice.service.MesConvertor"/>
+	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="defaultDestination" ref="destination" />
+		<property name="messageConverter" ref="mesConverter"/>
+	</bean>
+</beans>
