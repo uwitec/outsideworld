@@ -31,7 +31,7 @@ public class WeiboManager {
 					param.getValue2() })).start();
 		}
 
-		/* 腾讯微博 */
+		/* 搜狐微博 */
 		List<Param> sohuParams = commonDAO
 				.query("from Param p where p.type='sohuweibo'");
 		for (Param param : sohuParams) {
