@@ -17,12 +17,13 @@ public class TencentWeiboUpdater extends AbstractWeiboUpdater {
 
 	public TencentWeiboUpdater(String source, int chunk, String[] params) {
 		super(source, chunk, params);
-		System.out.println(params[0]+";"+params[1]);
 	}
 
 	@Override
 	public void login() throws Exception {
 		oauth = new OAuth(params[0], params[1], "null");
+		oauth.setOauth_token(params[2]);
+		oauth.setOauth_token_secret(params[3]);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -30,7 +31,6 @@ public class TencentWeiboUpdater extends AbstractWeiboUpdater {
 	public List<Object[]> getStatus(String ids) throws NeedLoginException,
 			Exception {
 		String jsonStr = t.re_count(oauth, "json", ids);
-		System.out.println(jsonStr);
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> data = (Map<String, Object>) mapper.readValue(
 				jsonStr, Map.class).get("data");
