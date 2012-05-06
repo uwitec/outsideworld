@@ -47,26 +47,38 @@ public class InitDatabase {
 		commonDAO.save(p3);
 
 		Param p4 = new Param();
-		p4.setName1("token");
+		p4.setName1("customer_key");
 		p4.setValue1("801106206");
-		p4.setName2("secret");
+		p4.setName2("customer_secret");
 		p4.setValue2("030f769fcb345443df7f92ec4e711e1f");
+		p4.setName3("token_key");
+		p4.setValue3("21e08398f115494fb6291988c7b7027f");
+		p4.setName4("token_secret");
+		p4.setValue4("51ea6188ac86c8f2656d7d98bb051a6d");
 		p4.setType("tencentweibo");
 		commonDAO.save(p4);
 
 		Param p5 = new Param();
-		p5.setName1("token");
+		p5.setName1("customer_key");
 		p5.setValue1("801106206");
-		p5.setName2("secret");
+		p5.setName2("customer_secret");
 		p5.setValue2("030f769fcb345443df7f92ec4e711e1f");
+		p5.setName3("token_key");
+		p5.setValue3("21e08398f115494fb6291988c7b7027f");
+		p5.setName4("token_secret");
+		p5.setValue4("51ea6188ac86c8f2656d7d98bb051a6d");
 		p5.setType("tencentweibo");
 		commonDAO.save(p5);
 
 		Param p6 = new Param();
-		p6.setName1("token");
+		p6.setName1("customer_key");
 		p6.setValue1("801106206");
-		p6.setName2("secret");
+		p6.setName2("customer_secret");
 		p6.setValue2("030f769fcb345443df7f92ec4e711e1f");
+		p6.setName3("token_key");
+		p6.setValue3("21e08398f115494fb6291988c7b7027f");
+		p6.setName4("token_secret");
+		p6.setValue4("51ea6188ac86c8f2656d7d98bb051a6d");
 		p6.setType("tencentweibo");
 		commonDAO.save(p6);
 
