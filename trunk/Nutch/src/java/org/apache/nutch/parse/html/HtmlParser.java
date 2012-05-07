@@ -164,7 +164,11 @@ public class HtmlParser implements Parser {
 				LOG.trace("found " + outlinks.length + " outlinks in "
 						+ content.getUrl());
 			}
-			itemDao.insert(item);
+
+			/* Save */
+			if (item.getTemplate() != null) {
+				itemDao.insert(item);
+			}
 		} catch (IOException e) {
 			return new ParseStatus(e).getEmptyParseResult(content.getUrl(),
 					getConf());
