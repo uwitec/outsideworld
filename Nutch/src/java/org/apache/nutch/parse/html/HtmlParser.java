@@ -40,6 +40,7 @@ import org.w3c.dom.DOMException;
 import org.xml.sax.SAXException;
 
 import com.dao.ItemDao;
+import com.dao.mongo.ItemDaoImpl;
 import com.extract.Extract;
 import com.model.Item;
 import com.model.OUrl;
@@ -108,7 +109,7 @@ public class HtmlParser implements Parser {
 
 	private Configuration conf;
 
-	private ItemDao itemDao = SpringFactory.getBean("itemDao");
+	private ItemDao itemDao = new ItemDaoImpl();
 
 	public ParseResult getParse(Content content) {
 
