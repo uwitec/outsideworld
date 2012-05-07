@@ -17,7 +17,6 @@ public class ItemDaoImpl implements ItemDao {
 	@Override
 	public void insert(Item item) throws Exception {
 		mongoDB.insert(trans(item), "story");
-
 	}
 
 	private DBObject trans(Item item) throws Exception {
