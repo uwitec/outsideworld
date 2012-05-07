@@ -36,7 +36,7 @@ public class Source {
 	private int categoryId;
 
 	/* 名称 */
-	@Column(nullable = false, length = 200, unique = true)
+	@Column(nullable = false, length = 200)
 	private String name;
 
 	/* URL */
