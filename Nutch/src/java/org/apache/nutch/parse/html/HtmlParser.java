@@ -39,6 +39,7 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.DOMException;
 import org.xml.sax.SAXException;
 
+import com.dao.ItemDao;
 import com.extract.Extract;
 import com.model.Item;
 import com.model.OUrl;
@@ -107,6 +108,8 @@ public class HtmlParser implements Parser {
 
 	private Configuration conf;
 
+	private ItemDao itemDao = SpringFactory.getBean("itemDao");
+
 	public ParseResult getParse(Content content) {
 
 		String text = "";
@@ -160,8 +163,7 @@ public class HtmlParser implements Parser {
 				LOG.trace("found " + outlinks.length + " outlinks in "
 						+ content.getUrl());
 			}
-			// ItemDao itemDao = (ItemDao)SpringFactory.getBean("itemDao");
-			// itemDao.insert(item);
+			itemDao.insert(item);
 		} catch (IOException e) {
 			return new ParseStatus(e).getEmptyParseResult(content.getUrl(),
 					getConf());
