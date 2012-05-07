@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="build">
+	<property name="dist.dir" value="D:/Temp/yuqing" />
+
+	<path id="classpath">
+		<fileset dir="../Common/lib">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="../Common/lib">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<target name="clean">
+		<delete dir="bin" />
+		<delete dir="${dist.dir}" />
+	</target>
+
+	<target name="init" depends="clean">
+		<mkdir dir="bin" />
+		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${dist.dir}/incoming" />
+		<mkdir dir="${dist.dir}/incoming/processed" />
+		<mkdir dir="${dist.dir}/logs" />
+		<mkdir dir="${dist.dir}/lib" />
+		<copy todir="${dist.dir}/lib">
+			<fileset dir="${lib.dir}" includes="xdb.jar" />
+			<fileset dir="${lib.dir}" includes="xmlparserv2.jar" />
+		</copy>
+	</target>
+
+	<target name="compile" depends="init">
+		<javac srcdir="${src.dir}" destdir="bin">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+
+	<target name="build" depends="compile">
+		<jar destfile="${dist.dir}/${dist.file}" basedir="bin" encoding="UTF-8" />
+
+		<copy todir="${dist.dir}">
+			<fileset file="BeneficiaryAdvice.sh" />
+			<fileset file="Readme.txt" />
+			<fileset file="*.properties" />
+		</copy>
+	</target>
+</project>
