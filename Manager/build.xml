@@ -6,42 +6,67 @@
 		<fileset dir="../Common/lib">
 			<include name="**/*.jar" />
 		</fileset>
-		<fileset dir="../Common/lib">
+		<fileset dir="../Nutch/lib">
 			<include name="**/*.jar" />
 		</fileset>
 	</path>
 
 	<target name="clean">
-		<delete dir="bin" />
 		<delete dir="${dist.dir}" />
 	</target>
 
 	<target name="init" depends="clean">
-		<mkdir dir="bin" />
 		<mkdir dir="${dist.dir}" />
-		<mkdir dir="${dist.dir}/incoming" />
-		<mkdir dir="${dist.dir}/incoming/processed" />
-		<mkdir dir="${dist.dir}/logs" />
+		<mkdir dir="${dist.dir}/bin" />
+		<mkdir dir="${dist.dir}/conf" />
 		<mkdir dir="${dist.dir}/lib" />
-		<copy todir="${dist.dir}/lib">
-			<fileset dir="${lib.dir}" includes="xdb.jar" />
-			<fileset dir="${lib.dir}" includes="xmlparserv2.jar" />
-		</copy>
+		<mkdir dir="${dist.dir}/logs" />
 	</target>
 
-	<target name="compile" depends="init">
-		<javac srcdir="${src.dir}" destdir="bin">
+	<target name="compile-common" depends="init">
+		<javac srcdir="../Common/src" destdir="../Common/bin">
 			<classpath refid="classpath" />
 		</javac>
 	</target>
 
-	<target name="build" depends="compile">
-		<jar destfile="${dist.dir}/${dist.file}" basedir="bin" encoding="UTF-8" />
+	<target name="build-common" depends="compile-common">
+		<jar destfile="${dist.dir}/bin/common.jar" basedir="../Common/bin" />
+	</target>
 
-		<copy todir="${dist.dir}">
-			<fileset file="BeneficiaryAdvice.sh" />
-			<fileset file="Readme.txt" />
-			<fileset file="*.properties" />
-		</copy>
+	<target name="compile-extract" depends="init">
+		<javac srcdir="../Extract/src" destdir="../Extract/bin">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+
+	<target name="build-extract" depends="compile-extract">
+		<jar destfile="${dist.dir}/bin/extract.jar" basedir="../Extract/bin" />
+	</target>
+
+	<target name="compile-manager" depends="init">
+		<javac srcdir="src" destdir="bin">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+
+	<target name="build-manager" depends="compile-manager">
+		<jar destfile="${dist.dir}/bin/manager.jar" basedir="bin" />
+	</target>
+
+	<target name="compile-nutch" depends="init">
+		<javac srcdir="../Nutch/src/java" destdir="../Nutch/bin">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+
+	<target name="build-nutch" depends="compile-nutch">
+		<jar destfile="${dist.dir}/bin/nutch.jar" basedir="../Nutch/bin" />
+	</target>
+
+	<target name="build" depends="build-common,build-extract,build-nutch,build-manager">
+		<copydir dest="${dist.dir}/lib" src="../Common/lib" />
+		<copydir dest="${dist.dir}/lib" src="../Nutch/lib" />
+		<copydir dest="${dist.dir}/conf" src="conf" />
+		<copydir dest="${dist.dir}" src="." includes="*.sh" />
 	</target>
 </project>
