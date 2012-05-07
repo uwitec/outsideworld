@@ -39,9 +39,14 @@ public class Context {
 		Properties properties = new Properties();
 		try {
 			properties.load(this.getClass().getClassLoader()
-					.getResourceAsStream("config.properties"));
-		} catch (IOException e) {
-			e.printStackTrace();
+					.getResourceAsStream("conf/config.properties"));
+		} catch (Exception e) {
+			try {
+				properties.load(this.getClass().getClassLoader()
+						.getResourceAsStream("config.properties"));
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
 		}
 
 		crawlDB = properties.getProperty("crawl.db");
