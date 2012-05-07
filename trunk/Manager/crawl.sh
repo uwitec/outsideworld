@@ -1,1 +1,1 @@
-java -cp ./lib/*:./bin/*:./conf/*: com.nutch.manager.MainApp
+java -classpath ./bin:./conf:./lib/*:./bin/*: com.nutch.manager.MainApp
