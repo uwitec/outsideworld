@@ -19,19 +19,20 @@ public class WeiboFilter {
 	private static long lastupdate = 0;
 
 	public static boolean isValid(Item item) {
-		checkExpire();
-		try {
-			List<String> list = new ConcentricString().concentric(item
-					.getContent());
-			for (String word : list) {
-				if (topic.contains(word)) {
-					return true;
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;
+		return true;
+//		checkExpire();
+//		try {
+//			List<String> list = new ConcentricString().concentric(item
+//					.getContent());
+//			for (String word : list) {
+//				if (topic.contains(word)) {
+//					return true;
+//				}
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return false;
 	}
 
 	private static void checkExpire() {
