@@ -1,6 +1,7 @@
 package com.util;
 
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -17,6 +18,7 @@ import com.mongodb.WriteResult;
 public class MongoUtil {
 	private static Mongo mgo;
 	private static DB db;
+	private static DBCursor cursor;
 
 	private MongoUtil(String host, int port, String databse) {
 		try {
@@ -75,5 +77,31 @@ public class MongoUtil {
 			return coll.find(sample);
 		}
 		return null;
+	}
+
+	/**
+	 * 这个是常用方法，每次返回一定量的数据，类似于关系数据库中的分页
+	 * 
+	 * @param tableName
+	 *            表名称
+	 * @param num
+	 *            返回数目
+	 * @return
+	 * @throws Exception
+	 */
+	public List<BasicDBObject> pollByPage(String tableName, int num)
+			throws Exception {
+		List<BasicDBObject> result = new ArrayList<BasicDBObject>();
+		DBCollection coll = null;
+		if (!StringUtils.isEmpty(tableName)) {
+				coll = db.getCollection(tableName);
+				DBCursor cursor = coll.find().limit(num);
+			while (cursor.hasNext()) {
+				BasicDBObject o = (BasicDBObject) cursor.next();
+				result.add(o);
+			}
+			cursor.remove();
+		}
+		return result;
 	}
 }
