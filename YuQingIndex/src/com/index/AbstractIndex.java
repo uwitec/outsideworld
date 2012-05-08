@@ -40,7 +40,7 @@ public abstract class AbstractIndex {
      * @throws Exception
      */
     public void index(Item o) throws Exception {
-        String id = o.getId();
+        String id = o.getUrl();
         Field idFiled = new Field("id", id, Field.Store.YES, Field.Index.NO);
         String title = o.getTitle();
         Field titleFiled = new Field("title", title, Field.Store.YES, Field.Index.ANALYZED);

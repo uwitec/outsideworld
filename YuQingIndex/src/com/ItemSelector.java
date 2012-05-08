@@ -35,7 +35,7 @@ public class ItemSelector {
         // 定义一个Map，将所有的items定义在map中
         Map<String, Item> map = new HashMap<String, Item>();
         for (Item item : items) {
-            map.put(item.getId(), item);
+            map.put(item.getUrl(), item);
         }
         // 定义set结果
         Set<Item> setResult = new HashSet<Item>();
