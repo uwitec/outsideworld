@@ -14,7 +14,7 @@ public class TestARMDIrectory {
        Item item = new Item();
        item.setContent("hello");
        item.setTitle("你好，我是谁");
-       item.setId("0001");
+       item.setUrl("0001");
        MemIndexImpl index = new MemIndexImpl();
        index.open("");
        index.index(item);
