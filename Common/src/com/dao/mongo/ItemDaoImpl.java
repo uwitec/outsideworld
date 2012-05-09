@@ -1,5 +1,7 @@
 package com.dao.mongo;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.dao.ItemDao;
@@ -32,11 +34,29 @@ public class ItemDaoImpl implements ItemDao {
 		o.put("url", item.getUrl());
 		return o;
 	}
+	
+	private Item trans(DBObject o) throws Exception{
+		Item item = new Item();
+		item.setContent((String)o.get("content"));
+		item.setCrawlTime((Date)o.get("crawlTime"));
+		item.setTitle((String)o.get("title"));
+		item.setPubTime((Date)o.get("pubTime"));
+		item.setReplyNum((Integer)o.get("replyNum"));
+		item.setTransNum((Integer)o.get("transNum"));
+		item.setSource((String)o.get("source"));
+		item.setType((String)o.get("type"));
+		item.setUrl((String)o.get("url"));
+		return item;
+	}
 
 	@Override
-	public List<Item> poll(int num) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Item> poll(int num,int skipNum) throws Exception {
+		List<BasicDBObject> objects = mongoDB.pollByPage("story", num,skipNum);
+		List<Item> results = new ArrayList<Item>();
+		for(BasicDBObject o:objects){
+			results.add(trans(o));
+		}
+		return results;
 	}
 
 	@Override
