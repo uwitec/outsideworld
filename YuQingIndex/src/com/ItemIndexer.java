@@ -1,30 +1,37 @@
 package com;
 
 import java.util.List;
+
 import com.dao.ItemDao;
-import com.index.IndexImp;
+import com.index.AbstractIndex;
 import com.model.Item;
+import com.util.SpringFactory;
 
 
 public class ItemIndexer {
     private ItemDao itemDao;
-    private IndexImp index;
+    private AbstractIndex indexImpl;
     public void index() throws Exception{
         List<Item> items = null;
-        index.open("");
+        indexImpl.open("");
         //每次针对10W条数据建立索引,如果全量数据不够10W，则对全部建立索引
         int i=0;
         do{
-            items = itemDao.poll(1000);
-            index.index(items);
-            index.commit();
+            items = itemDao.poll(1000,i*1000);
+            indexImpl.index(items);
+            indexImpl.commit();
         }while(items!=null&&items.size()>0&&i++<100);
-        index.close();
+        indexImpl.close();
     }
     public ItemDao getItemDao() {
         return itemDao;
     }
     public void setItemDao(ItemDao itemDao) {
         this.itemDao = itemDao;
+    }
+    
+    public static void main(String[] args) throws Exception{
+    	ItemIndexer indexer = (ItemIndexer)SpringFactory.getBean("itemIndexer");
+    	indexer.index();
     }
 }
