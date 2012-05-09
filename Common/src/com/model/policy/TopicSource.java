@@ -25,6 +25,10 @@ public class TopicSource {
 	@Column(nullable = false, name = "source_id")
 	private int sourceId;
 
+	/* 数据源分类ID */
+	@Column(nullable = false, name = "category_id")
+	private int categoryId;
+
 	public int getTopicId() {
 		return topicId;
 	}
@@ -47,5 +51,13 @@ public class TopicSource {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
 	}
 }

@@ -44,7 +44,7 @@ public class User {
 	@Column(nullable = false, length = 50)
 	private String loginname;
 
-	@Column(nullable = false, length = 50)
+	@Column(nullable = false, length = 64)
 	private String password;
 
 	@Column

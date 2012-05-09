@@ -1,5 +1,7 @@
 package com.model.policy;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -63,6 +65,9 @@ public class Topic {
 	/* 禁用 */
 	@Column(nullable = false)
 	private boolean disable = false;
+
+	@Column(name = "expire_dttm")
+	private Date expireDTTM;
 
 	public int getId() {
 		return id;
@@ -154,5 +159,13 @@ public class Topic {
 
 	public static enum WarnType {
 		EMAIL, SMS
+	}
+
+	public Date getExpireDTTM() {
+		return expireDTTM;
+	}
+
+	public void setExpireDTTM(Date expireDTTM) {
+		this.expireDTTM = expireDTTM;
 	}
 }
