@@ -89,13 +89,14 @@ public class MongoUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<BasicDBObject> pollByPage(String tableName, int num)
+	public List<BasicDBObject> pollByPage(String tableName, int num
+			,int skipNum)
 			throws Exception {
 		List<BasicDBObject> result = new ArrayList<BasicDBObject>();
 		DBCollection coll = null;
 		if (!StringUtils.isEmpty(tableName)) {
 				coll = db.getCollection(tableName);
-				DBCursor cursor = coll.find().limit(num);
+				DBCursor cursor = coll.find().skip(skipNum).limit(num);
 			while (cursor.hasNext()) {
 				BasicDBObject o = (BasicDBObject) cursor.next();
 				result.add(o);
