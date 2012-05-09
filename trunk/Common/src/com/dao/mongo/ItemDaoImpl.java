@@ -14,7 +14,7 @@ import com.util.SpringFactory;
 
 public class ItemDaoImpl implements ItemDao {
 
-	private MongoUtil mongoDB = SpringFactory.getBean("mongoDB");
+	private MongoUtil mongoDB;
 
 	@Override
 	public void insert(Item item) throws Exception {
