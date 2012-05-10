@@ -11,6 +11,14 @@ import com.util.SpringFactory;
 public class ItemIndexer {
     private ItemDao itemDao;
     private AbstractIndex indexImpl;
+    
+    public AbstractIndex getIndexImpl() {
+        return indexImpl;
+    }
+    
+    public void setIndexImpl(AbstractIndex indexImpl) {
+        this.indexImpl = indexImpl;
+    }
     public void index() throws Exception{
         List<Item> items = null;
         indexImpl.open("");
