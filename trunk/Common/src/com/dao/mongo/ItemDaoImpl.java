@@ -10,13 +10,22 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.util.MongoUtil;
-import com.util.SpringFactory;
 
 public class ItemDaoImpl implements ItemDao {
 
 	private MongoUtil mongoDB;
 
-	@Override
+	
+    public MongoUtil getMongoDB() {
+        return mongoDB;
+    }
+
+    
+    public void setMongoDB(MongoUtil mongoDB) {
+        this.mongoDB = mongoDB;
+    }
+
+    @Override
 	public void insert(Item item) throws Exception {
 		mongoDB.insert(trans(item), "story");
 	}
@@ -46,6 +55,7 @@ public class ItemDaoImpl implements ItemDao {
 		item.setSource((String)o.get("source"));
 		item.setType((String)o.get("type"));
 		item.setUrl((String)o.get("url"));
+		item.setNum((Integer)o.get("num"));
 		return item;
 	}
 
