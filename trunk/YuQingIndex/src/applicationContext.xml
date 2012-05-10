@@ -8,7 +8,7 @@
            http://www.springframework.org/schema/aop  
            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd  
            http://www.springframework.org/schema/tx   
-           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd" default-autowire="byName">
 
 	<!-- MongoDB -->
 	<bean id="mongoDB" class="com.util.MongoUtil">
@@ -22,69 +22,7 @@
 			<value>nutch</value>
 		</constructor-arg>
 	</bean>
-
-	<!-- Data Source -->
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/nutch" />
-		<property name="username" value="root" />
-		<property name="password" value="password" />
-	</bean>
-
-	<!-- Session Factory -->
-	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-		<property name="dataSource" ref="dataSource" />
-		<property name="packagesToScan">
-			<list>
-				<value>com.model</value>
-			</list>
-		</property>
-		<property name="hibernateProperties">
-			<props>
-				<prop key="hibernate.format_sql">true</prop>
-				<prop key="hibernate.hbm2ddl.auto">update</prop>
-				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-			</props>
-		</property>
-	</bean>
-
-	<!-- HibernateTemplate -->
-	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
-		<property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-
-	<!-- CommonDAO -->
-	<bean id="commonDAO" class="com.dao.CommonDAO">
-		<property name="hibernateTemplate" ref="hibernateTemplate" />
-	</bean>
-
-	<!-- Cache -->
-	<bean id="cache" class="com.util.CacheStore">
-		<property name="commonDAO" ref="commonDAO" />
-		<property name="interval" value="5" />
-		<property name="config">
-			<list>
-				<array>
-					<value>test</value>
-					<value>from Source</value>
-					<value>5</value>
-				</array>
-				<array>
-					<value>topic</value>
-					<value>from Topic</value>
-					<value>5</value>
-				</array>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="transactionManager"
-		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-		<property name="sessionFactory" ref="sessionFactory"></property>
-	</bean>
-
+   
 	<bean id="itemDao" class="com.dao.mongo.ItemDaoImpl"></bean>
 	<bean id="itemIndexer" class="com.ItemIndexer"></bean>
 	<bean id="index" class="com.index.MemIndexImpl"></bean>
