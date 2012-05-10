@@ -7,6 +7,10 @@ import java.util.List;
 import com.model.policy.Template;
 
 public class Item {
+    /**
+     * 此item的num
+     */
+    private int num;
 	/**
 	 * 当前url
 	 */
@@ -197,4 +201,12 @@ public class Item {
 	public void setParsedHtml(ParsedHtml parsedHtml) {
 		this.parsedHtml = parsedHtml;
 	}
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
 }
