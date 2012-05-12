@@ -119,6 +119,36 @@ public class Setup {
 		t1.setName("test");
 		t1.setInclude("中国");
 		commonDAO.save(t1);
+		
+		Topic t2 = new Topic();
+		t2.setName("test1");
+		t2.setInclude("吃");
+		commonDAO.save(t2);
+		
+		Topic t3 = new Topic();
+		t3.setName("test2");
+		t3.setInclude("神经");
+		commonDAO.save(t3);
+		
+		Topic t4 = new Topic();
+		t4.setName("test3");
+		t4.setInclude("手机");
+		commonDAO.save(t4);
+		
+		Topic t5 = new Topic();
+		t5.setName("test4");
+		t5.setInclude("姐姐");
+		commonDAO.save(t5);
+		
+		Topic t6 = new Topic();
+		t6.setName("test5");
+		t6.setInclude("母亲");
+		commonDAO.save(t6);
+		
+		Topic t7 = new Topic();
+		t7.setName("test6");
+		t7.setInclude("大学");
+		commonDAO.save(t7);
 	}
 
 	public static void test163() {
