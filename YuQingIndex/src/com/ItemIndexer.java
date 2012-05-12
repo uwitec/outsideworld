@@ -21,7 +21,7 @@ public class ItemIndexer {
     }
     public void index() throws Exception{
         List<Item> items = null;
-        indexImpl.open("");
+        indexImpl.open("/home/fangxia722/index");
         //每次针对10W条数据建立索引,如果全量数据不够10W，则对全部建立索引
         int i=0;
         do{
