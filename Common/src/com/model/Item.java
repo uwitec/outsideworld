@@ -10,7 +10,7 @@ public class Item {
     /**
      * 此item的num
      */
-    private int num;
+    private long num;
 	/**
 	 * 当前url
 	 */
@@ -71,6 +71,10 @@ public class Item {
 	 * 模板
 	 */
 	private Template template;
+	/**
+	 * 记录此item属于哪个topic
+	 */
+	private String topicIds = "";
 
 	private ParsedHtml parsedHtml;
 
@@ -202,11 +206,19 @@ public class Item {
 		this.parsedHtml = parsedHtml;
 	}
 
-    public int getNum() {
+    public long getNum() {
         return num;
     }
 
-    public void setNum(int num) {
+    public void setNum(long num) {
         this.num = num;
     }
+
+	public String getTopicIds() {
+		return topicIds;
+	}
+
+	public void setTopicIds(String topicIds) {
+		this.topicIds = topicIds;
+	}
 }

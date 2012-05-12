@@ -103,7 +103,8 @@ public class MongoUtil {
 				result.add(o);
 			}
 			if(result.size()>0){
-			    int count = (Integer)result.get(result.size()-1).get("num");
+
+			    Long count = (Long)result.get(result.size()-1).get("num");
 			    BasicDBObject o = new BasicDBObject();
 			    o.put("num", new BasicDBObject("$lte",count));
 			    coll.remove(o);

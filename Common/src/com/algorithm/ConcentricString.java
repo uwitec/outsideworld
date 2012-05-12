@@ -34,7 +34,8 @@ public class ConcentricString {
 			'〡', '〢', '〣', '〤', '〥', '〦', '〧', '〨', '〩', '㊣', '㎎', '㎏', '㎜',
 			'㎝', '㎞', '㎡', '㏄', '㏎', '㏑', '㏒', '㏕', '︰', '￢', '￤', '?', '℡',
 			'㈱', '゛', 'ヽ', '〆', 'ゞ', '﹊', '﹌', '﹎', '﹐', '﹒', '﹕', '﹗', '﹚',
-			'﹜', '﹞', '﹠', '﹢', '﹤', '﹦', '﹩', '﹫', '﹥', '﹨', '﹡', '﹪' };
+			'﹜', '﹞', '﹠', '﹢', '﹤', '﹦', '﹩', '﹫', '﹥', '﹨', '﹡', '﹪', ':',
+			'@', '"', '!', ';', '・', ',', '~', '\t', '\n', '\r' };
 	private static final Map<Character, String> segSet = new HashMap<Character, String>();
 	static {
 		for (char c : segments) {
@@ -58,12 +59,12 @@ public class ConcentricString {
 		}
 		title = new String(chars);
 		String[] ss = title.split(" ");
-    	List<String> arrays = new ArrayList<String>();
-    	for(String s:ss){
-    		if(!StringUtils.isBlank(s)){
-    			arrays.add(s);
-    		}
-    	}
+		List<String> arrays = new ArrayList<String>();
+		for (String s : ss) {
+			if (!StringUtils.isBlank(s)) {
+				arrays.add(s);
+			}
+		}
 		List<String> result = new ArrayList<String>();
 		for (String s : arrays) {
 			for (int i = 0; i < s.length(); i++) {

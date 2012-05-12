@@ -10,6 +10,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.util.MongoUtil;
+import com.util.SpringFactory;
 
 public class ItemDaoImpl implements ItemDao {
 
@@ -55,7 +56,7 @@ public class ItemDaoImpl implements ItemDao {
 		item.setSource((String)o.get("source"));
 		item.setType((String)o.get("type"));
 		item.setUrl((String)o.get("url"));
-		item.setNum((Integer)o.get("num"));
+		item.setNum((Long)o.get("num"));
 		return item;
 	}
 
@@ -77,5 +78,15 @@ public class ItemDaoImpl implements ItemDao {
 	@Override
 	public void update(DBObject object) throws Exception {
 		mongoDB.update(object, "story");
+	}
+
+
+	@Override
+	public void publish(List<Item> items) throws Exception {
+		List<DBObject> result = new ArrayList<DBObject>();
+		for(Item item:items){
+			result.add(trans(item));
+		}
+		mongoDB.insert(result, "published");
 	}
 }
