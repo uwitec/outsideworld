@@ -9,12 +9,13 @@ import java.util.concurrent.locks.Lock;
 import com.dao.ItemDao;
 import com.dao.mongo.ItemDaoImpl;
 import com.model.Item;
+import com.util.SpringFactory;
 
 public abstract class AbstractWeiboClient<T> implements Runnable {
 
 	private Set<Serializable> cache;
 
-	protected ItemDao itemDAO = new ItemDaoImpl();
+	protected ItemDao itemDAO=SpringFactory.getBean("itemDao");
 
 	private int MAX_RETRY = 5;
 
