@@ -94,7 +94,7 @@ public class ItemSelector {
 					Document doc = searcher.doc(scoreDoc.doc);
 					String id = doc.get("id");
 					Item item = map.get(id);
-					item.setTopicIds(item.getTopicIds()+topic.getId());
+					item.setTopicIds(item.getTopicIds()+topic.getId()+",");
 					setResult.add(item);
 					System.out.println(item.getContent());
 				}
