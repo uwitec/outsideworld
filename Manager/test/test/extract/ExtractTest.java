@@ -6,12 +6,12 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.api.fetch.Fetcher;
 import com.dao.CommonDAO;
 import com.dao.ItemDao;
 import com.dao.mongo.ItemDaoImpl;
 import com.model.Item;
 import com.model.policy.Template;
+import com.util.Fetcher;
 import com.util.SpringFactory;
 import com.util.TemplateCache;
 
