@@ -32,7 +32,6 @@ public class XPathUtil {
 				node.removeChild(child);
 			}
 		}
-		System.out.println(node.getText());
 		return node.getText().toString();
 	}
 
