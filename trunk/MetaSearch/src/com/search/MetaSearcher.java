@@ -1,50 +1,132 @@
 package com.search;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.htmlcleaner.HtmlCleaner;
+import org.htmlcleaner.TagNode;
+
+import com.dao.CommonDAO;
 import com.dao.ItemDao;
 import com.extract.Extract;
 import com.model.Item;
-import com.model.policy.Meta;
+import com.model.policy.Param;
 import com.model.policy.Topic;
 import com.util.Fetcher;
+import com.util.SpringFactory;
 
+public class MetaSearcher implements Runnable {
 
-public class MetaSearcher {
-    private Fetcher fetcher;
-    private ItemDao itemDao;
-    private Extract extract;
-    public void metaSearch(List<Topic> topics,List<Meta> metas) throws Exception {
-        for(Meta meta:metas){
-            for(Topic topic:topics){
-                String query = topic.getInclude();
-                query.replaceAll(";", "+");               
-                List<String> urls = meta.constructUrl(query);
-                for(String url:urls){
-                    Item item = new Item();
-                    item.setUrl(url);
-                    fetcher.fetch(item);
-                    extract.process(item);
-                    itemDao.insert(item);
-                }
-            }
-        }
-    }
-    public Fetcher getFetcher() {
-        return fetcher;
-    }
-    public void setFetcher(Fetcher fetcher) {
-        this.fetcher = fetcher;
-    }
-    public ItemDao getItemDao() {
-        return itemDao;
-    }
-    public void setItemDao(ItemDao itemDao) {
-        this.itemDao = itemDao;
-    }
-    public Extract getExtract() {
-        return extract;
-    }
-    public void setExtract(Extract extract) {
-        this.extract = extract;
-    }
+	public static final String KEYWORD = "${KEYWORD}";
+	public static final String OFFSET = "${OFFSET}";
+
+	private static HtmlCleaner htmlCleaner = new HtmlCleaner();
+	private static CommonDAO commonDAO = SpringFactory.getBean("commonDAO");
+	private static Extract extracter = SpringFactory.getBean("extractChain");
+	private static ItemDao itemDAO = SpringFactory.getBean("itemDao");
+
+	private Fetcher fetcher = new Fetcher();
+
+	private List<Item> generateItems() {
+		List<Item> items = new ArrayList<Item>();
+		// TODO filter
+		List<Topic> topics = commonDAO.query("from Topic t");
+		List<Param> list = commonDAO
+				.query("from Param p where p.type = 'metasearch'");
+		for (Topic topic : topics) {
+			String keyword = topic.getInclude().replace(";", "+");
+			for (Param param : list) {
+				String url = param.getValue2();
+				String metaTitle = param.getValue4();
+				int page = Integer.parseInt(param.getValue3());
+				for (int i = 0; i < page; i++) {
+					int offset = 10 * i;
+					String newUrl = url.replace(KEYWORD, keyword).replace(
+							OFFSET, Integer.toString(offset));
+					Item item = new Item();
+					item.setUrl(newUrl);
+					item.setMetaTitle(metaTitle);
+					items.add(item);
+				}
+			}
+		}
+		return items;
+	}
+
+	public void search() {
+		List<Item> items = generateItems();
+		for (Item item : items) {
+			search(item);
+		}
+	}
+
+	private void search(Item item) {
+		try {
+			fetcher.fetch(item);
+			String page = new String(item.getRawData(), item.getEncoding());
+			TagNode doc = htmlCleaner.clean(page);
+			List<String[]> results = getResults(doc, item.getMetaTitle());
+			for (String[] result : results) {
+				Item metaItem = new Item();
+				metaItem.setUrl(result[1]);
+				metaItem.setTitle(result[0]);
+				processMetaItem(metaItem);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void processMetaItem(Item item) {
+		try {
+			fetcher.fetch(item);
+			extracter.process(item);
+			item.setType("MetaSearch");
+			itemDAO.insert(item);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private List<String[]> getResults(TagNode node, String xpath)
+			throws Exception {
+		List<String[]> results = new ArrayList<String[]>();
+		Object[] objs = node.evaluateXPath(xpath);
+		if (objs != null && objs.length > 0) {
+			for (Object obj : objs) {
+				if (obj instanceof TagNode) {
+					String[] result = new String[2];
+					result[0] = extractTxt((TagNode) obj);
+					result[1] = ((TagNode) obj).getAttributeByName("href");
+					results.add(result);
+				}
+			}
+		}
+		return results;
+	}
+
+	@SuppressWarnings("unchecked")
+	private String extractTxt(TagNode node) {
+		List<TagNode> children = node.getAllElementsList(true);
+		for (TagNode child : children) {
+			if (child.getName().equalsIgnoreCase("script")) {
+				child.removeAllChildren();
+				node.removeChild(child);
+			}
+		}
+		return node.getText().toString();
+	}
+
+	@Override
+	public void run() {
+		while (true) {
+			search();
+			try {
+				Thread.sleep(1000 * 3600);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 }
