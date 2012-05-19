@@ -22,6 +22,20 @@ public class Setup {
 		commonDAO.update("delete from Param");
 	}
 
+	public static void meta() {
+		Param p1 = new Param();
+		p1.setName1("name");
+		p1.setValue1("Bing");
+		p1.setName2("URL");
+		p1.setValue2("http://cn.bing.com/search?q=${KEYWORD}&first=${OFFSET}");
+		p1.setName3("page");
+		p1.setValue3("3");
+		p1.setName4("title");
+		p1.setValue4("//li[@class='sa_wr']//h3/a");
+		p1.setType("metasearch");
+		commonDAO.save(p1);
+	}
+
 	public static void weibo() {
 		Param p1 = new Param();
 		p1.setName1("appkey");
@@ -119,32 +133,32 @@ public class Setup {
 		t1.setName("test");
 		t1.setInclude("中国");
 		commonDAO.save(t1);
-		
+
 		Topic t2 = new Topic();
 		t2.setName("test1");
 		t2.setInclude("吃");
 		commonDAO.save(t2);
-		
+
 		Topic t3 = new Topic();
 		t3.setName("test2");
 		t3.setInclude("神经");
 		commonDAO.save(t3);
-		
+
 		Topic t4 = new Topic();
 		t4.setName("test3");
 		t4.setInclude("手机");
 		commonDAO.save(t4);
-		
+
 		Topic t5 = new Topic();
 		t5.setName("test4");
 		t5.setInclude("姐姐");
 		commonDAO.save(t5);
-		
+
 		Topic t6 = new Topic();
 		t6.setName("test5");
 		t6.setInclude("母亲");
 		commonDAO.save(t6);
-		
+
 		Topic t7 = new Topic();
 		t7.setName("test6");
 		t7.setInclude("大学");
@@ -256,6 +270,7 @@ public class Setup {
 
 	public static void main(String[] args) {
 		clear();
+		meta();
 		topic();
 		weibo();
 		test163();
