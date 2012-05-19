@@ -7,10 +7,10 @@ import java.util.List;
 import com.model.policy.Template;
 
 public class Item {
-    /**
-     * 此item的num
-     */
-    private long num;
+	/**
+	 * 此item的num
+	 */
+	private long num;
 	/**
 	 * 当前url
 	 */
@@ -75,6 +75,8 @@ public class Item {
 	 * 记录此item属于哪个topic
 	 */
 	private String topicIds = "";
+
+	private String metaTitle;
 
 	private ParsedHtml parsedHtml;
 
@@ -206,13 +208,13 @@ public class Item {
 		this.parsedHtml = parsedHtml;
 	}
 
-    public long getNum() {
-        return num;
-    }
+	public long getNum() {
+		return num;
+	}
 
-    public void setNum(long num) {
-        this.num = num;
-    }
+	public void setNum(long num) {
+		this.num = num;
+	}
 
 	public String getTopicIds() {
 		return topicIds;
@@ -220,5 +222,13 @@ public class Item {
 
 	public void setTopicIds(String topicIds) {
 		this.topicIds = topicIds;
+	}
+
+	public String getMetaTitle() {
+		return metaTitle;
+	}
+
+	public void setMetaTitle(String metaTitle) {
+		this.metaTitle = metaTitle;
 	}
 }
