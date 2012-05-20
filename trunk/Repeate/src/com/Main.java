@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -17,7 +18,6 @@ import com.algorithm.Agents;
 import com.algorithm.ConcentricString;
 import com.algorithm.KWordsSelector;
 import com.cache.Cache;
-import com.dao.CommonDAO;
 import com.dao.ItemDao;
 import com.model.Item;
 import com.model.TopicItem;
@@ -31,7 +31,7 @@ public class Main {
 	private Cache corpusCache;
 	private Cache wordsCache;
 	private Cache dfCache;
-	private ItemDao itemDAO;
+	private ItemDao itemDao;
 	private ConcentricString concentricString;
 	private KWordsSelector kWordsSelector;
 	private Agents agents;
@@ -42,19 +42,21 @@ public class Main {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		Main main = new Main();
+		Main main = SpringFactory.getBean("main");
 		// 读取语料库的配置文件
-		main.loadCache("topic_ngram_result.txt");
+		main.loadCache("/home/fangxia722/topic_ngram_result.txt");
 		// 表示读取语料库已经完成
 		System.out.println("语料库已经加载完成");
 		// 获得所有的topic
 		List<Topic> topics = main.getCache().get("topic");
-		ItemDao itemDao = main.getItemDAO();
+		ItemDao itemDao = main.getItemDao();
 		for (Topic topic : topics) {
 			List<String> topicWords = Arrays.asList(topic.getInclude().split("；"));
 			String id = String.valueOf(topic.getId());
 			DBObject sample = new BasicDBObject();
-			List<Item> items = itemDao.find(sample);
+			Pattern p = Pattern.compile(id);  
+			sample.put("topicIds", p);
+			List<Item> items = itemDao.findPublished(sample);
 			List<TopicItem> topicItems = new ArrayList<TopicItem>();
 			for (Item item : items) {
 				TopicItem topicItem = new TopicItem();
@@ -70,7 +72,7 @@ public class Main {
 					}
 				}
 				if (!StringUtils.isBlank(item.getTitle())) {
-					topicItem.setRawCStrings(main.getConcentricString()
+					topicItem.setRawTStrings(main.getConcentricString()
 							.concentric(item.getTitle()));
 					keyWords.addAll(topicItem.getRawTStrings());
 					for(String word:topicItem.getRawTStrings()){
@@ -87,6 +89,9 @@ public class Main {
 			main.getWordsCache().clear();
 			main.getDfCache().clear();
 			Collections.sort(topicItems);
+			for(TopicItem ti:topicItems){
+				System.out.println(ti.getLabel()+"    "+ti.getTitle()+"    "+ti.getContent());
+			}
 		}
 	}
 
@@ -133,12 +138,12 @@ public class Main {
 		this.dfCache = dfCache;
 	}
 
-	public ItemDao getItemDAO() {
-		return itemDAO;
+	public ItemDao getItemDao() {
+		return itemDao;
 	}
 
-	public void setItemDAO(ItemDao itemDAO) {
-		this.itemDAO = itemDAO;
+	public void setItemDao(ItemDao itemDAO) {
+		this.itemDao = itemDAO;
 	}
 
 	public ConcentricString getConcentricString() {
