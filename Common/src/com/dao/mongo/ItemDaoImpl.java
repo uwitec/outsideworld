@@ -16,17 +16,15 @@ public class ItemDaoImpl implements ItemDao {
 
 	private MongoUtil mongoDB;
 
-	
-    public MongoUtil getMongoDB() {
-        return mongoDB;
-    }
+	public MongoUtil getMongoDB() {
+		return mongoDB;
+	}
 
-    
-    public void setMongoDB(MongoUtil mongoDB) {
-        this.mongoDB = mongoDB;
-    }
+	public void setMongoDB(MongoUtil mongoDB) {
+		this.mongoDB = mongoDB;
+	}
 
-    @Override
+	@Override
 	public void insert(Item item) throws Exception {
 		mongoDB.insert(trans(item), "story");
 	}
@@ -42,29 +40,33 @@ public class ItemDaoImpl implements ItemDao {
 		o.put("source", item.getSource());
 		o.put("type", item.getType());
 		o.put("url", item.getUrl());
+		o.put("topicIds", item.getTopicIds());
 		return o;
 	}
-	
-	private Item trans(DBObject o) throws Exception{
+
+	private Item trans(DBObject o) throws Exception {
 		Item item = new Item();
-		item.setContent((String)o.get("content"));
-		item.setCrawlTime((Date)o.get("crawlTime"));
-		item.setTitle((String)o.get("title"));
-		item.setPubTime((Date)o.get("pubTime"));
-		item.setReplyNum((Integer)o.get("replyNum"));
-		item.setTransNum((Integer)o.get("transNum"));
-		item.setSource((String)o.get("source"));
-		item.setType((String)o.get("type"));
-		item.setUrl((String)o.get("url"));
-		item.setNum((Long)o.get("num"));
+		item.setContent((String) o.get("content"));
+		item.setCrawlTime((Date) o.get("crawlTime"));
+		item.setTitle((String) o.get("title"));
+		item.setPubTime((Date) o.get("pubTime"));
+		item.setReplyNum((Integer) o.get("replyNum"));
+		item.setTransNum((Integer) o.get("transNum"));
+		item.setSource((String) o.get("source"));
+		item.setType((String) o.get("type"));
+		item.setUrl((String) o.get("url"));
+		if (o.get("num") != null) {
+			item.setNum((Long) o.get("num"));
+		}
+		item.setTopicIds((String) o.get("topicIds"));
 		return item;
 	}
 
 	@Override
-	public List<Item> poll(int num,int skipNum) throws Exception {
-		List<BasicDBObject> objects = mongoDB.pollByPage("story", num,skipNum);
+	public List<Item> poll(int num, int skipNum) throws Exception {
+		List<BasicDBObject> objects = mongoDB.pollByPage("story", num, skipNum);
 		List<Item> results = new ArrayList<Item>();
-		for(BasicDBObject o:objects){
+		for (BasicDBObject o : objects) {
 			results.add(trans(o));
 		}
 		return results;
@@ -72,9 +74,9 @@ public class ItemDaoImpl implements ItemDao {
 
 	@Override
 	public List<Item> find(DBObject sample) throws Exception {
-		DBCursor cursor =  mongoDB.find("story", sample);
+		DBCursor cursor = mongoDB.find("story", sample);
 		List<Item> items = new ArrayList<Item>();
-		while(cursor!=null&&cursor.hasNext()){
+		while (cursor != null && cursor.hasNext()) {
 			DBObject o = cursor.next();
 			items.add(trans(o));
 		}
@@ -86,13 +88,23 @@ public class ItemDaoImpl implements ItemDao {
 		mongoDB.update(object, "story");
 	}
 
-
 	@Override
 	public void publish(List<Item> items) throws Exception {
 		List<DBObject> result = new ArrayList<DBObject>();
-		for(Item item:items){
+		for (Item item : items) {
 			result.add(trans(item));
 		}
 		mongoDB.insert(result, "published");
+	}
+
+	@Override
+	public List<Item> findPublished(DBObject sample) throws Exception {
+		DBCursor cursor = mongoDB.find("published", sample);
+		List<Item> items = new ArrayList<Item>();
+		while (cursor != null && cursor.hasNext()) {
+			DBObject o = cursor.next();
+			items.add(trans(o));
+		}
+		return items;
 	}
 }
