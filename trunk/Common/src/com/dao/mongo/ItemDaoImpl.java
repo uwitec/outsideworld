@@ -71,8 +71,14 @@ public class ItemDaoImpl implements ItemDao {
 	}
 
 	@Override
-	public DBCursor find(DBObject sample) throws Exception {
-		return mongoDB.find("story", sample);
+	public List<Item> find(DBObject sample) throws Exception {
+		DBCursor cursor =  mongoDB.find("story", sample);
+		List<Item> items = new ArrayList<Item>();
+		while(cursor!=null&&cursor.hasNext()){
+			DBObject o = cursor.next();
+			items.add(trans(o));
+		}
+		return items;
 	}
 
 	@Override

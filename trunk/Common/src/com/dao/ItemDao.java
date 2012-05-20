@@ -11,7 +11,7 @@ public interface ItemDao {
 	
 	public void update(DBObject object) throws Exception;
 
-	public DBCursor find(DBObject sample) throws Exception;
+	public List<Item> find(DBObject sample) throws Exception;
 	
 	public List<Item> poll(int num,int skipNum) throws Exception;
 	
