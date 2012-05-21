@@ -84,6 +84,6 @@ public class ConcentricString {
 	 * @return
 	 */
 	public boolean isStop(char c) {
-		return segSet.get(c) != null;
+		return segSet.get(c) != null||'a'<=c&&c<='z'||'A'<=c&&c<='Z';
 	}
 }
