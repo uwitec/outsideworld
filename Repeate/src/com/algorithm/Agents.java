@@ -12,7 +12,7 @@ public class Agents {
 	/**
 	 * 距离的阀值
 	 */
-	private static final double o = 0.6;
+	private static final double o = 0.5;
 
 	/**
 	 * 聚类函数
@@ -34,23 +34,26 @@ public class Agents {
 		map.put(k++, class0);		
 		// 从第二个元素开始聚类
 		for (int i = 1; i < topics.size(); i++) {
-			double result = 2;
+			double result = 0;
 			List<TopicItem> value = null;
 			for(Map.Entry<Integer, List<TopicItem>> cla:map.entrySet()){
 				//计算出当前的topic和cla的平均距离
 				double tmp = distance(topics.get(i),cla);
-				if(result>tmp){
+				//找到一个最相近的类
+				if(result<tmp){
 					result = tmp;
 					value = cla.getValue();
 					l=cla.getKey();
 				}
-			}			
-			if(result>o){
+			}	
+			//如果相似度还是小于0。6，则必须新建分类
+			if(result<o){
 				List<TopicItem> newClass = new ArrayList<TopicItem>();
 				newClass.add(topics.get(i));
 				topics.get(i).setLabel(k);
 				map.put(k++, newClass);	
 			}
+			//否则加入原有分类
 			else{
 				value.add(topics.get(i));
 				topics.get(i).setLabel(l);

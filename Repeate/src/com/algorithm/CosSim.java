@@ -52,7 +52,7 @@ public class CosSim implements Distance {
 		String title = f1.getTitle();
 		String content = f1.getContent();
 		for (WordItem wordItem : f1.getWords()) {
-			String t = wordItem.getWord();
+			String t = wordItem.getWord();			
 			int s = 0;
 			int k = 0;
 			if (!StringUtils.isBlank(title)) {
@@ -74,11 +74,25 @@ public class CosSim implements Distance {
 				}
 			}
 			//double idf = (double)s/wordsCache.getNum(t);
+			double rate = wordItem.getRate();
+			s*=smooth(rate);
 			map.put(t, (double)s);
 			wordItem.setItemNum(s);
 			result += Math.pow(s, 2.0);
 		}
 		return result;
+	}
+	
+	double smooth(double rate){
+		if(rate>100){
+			return 2.0;
+		}
+		else if(rate>20){
+			return 1.5;
+		}
+		else{
+			return 1.0;
+		}
 	}
 
 	public Cache getWordsCache() {

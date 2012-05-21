@@ -92,6 +92,8 @@ public class Main {
 			for(TopicItem ti:topicItems){
 				System.out.println(ti.getLabel()+"    "+ti.getTitle()+"    "+ti.getContent());
 			}
+
+			System.out.println("");
 		}
 	}
 
