@@ -55,7 +55,7 @@
 	<classpathentry kind="lib" path="/Common/lib/httpmime-4.1.2.jar"/>
 	<classpathentry kind="lib" path="/Common/lib/json-taglib-0.4.1.jar"/>
 	<classpathentry kind="lib" path="/Common/lib/jsoup-1.6.1.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/YuqinIndex"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/MetaSearcher"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/YuQingIndex"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
