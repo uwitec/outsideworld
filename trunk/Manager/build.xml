@@ -43,6 +43,16 @@
 		<jar destfile="${dist.dir}/bin/extract.jar" basedir="../Extract/bin" />
 	</target>
 
+	<target name="compile-indexer" depends="init">
+		<javac srcdir="../YuqinIndex/src" destdir="../YuqinIndex/bin">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+
+	<target name="build-indexer" depends="compile-indexer">
+		<jar destfile="${dist.dir}/bin/indexer.jar" basedir="../YuqinIndex/bin" />
+	</target>
+
 	<target name="compile-manager" depends="init">
 		<javac srcdir="src" destdir="bin">
 			<classpath refid="classpath" />
