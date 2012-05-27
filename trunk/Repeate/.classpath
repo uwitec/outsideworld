@@ -53,5 +53,7 @@
 	<classpathentry kind="lib" path="/Common/lib/quartz-all-1.8.6.jar"/>
 	<classpathentry kind="lib" path="/Common/lib/slf4j-api-1.6.4.jar"/>
 	<classpathentry kind="lib" path="/Common/lib/slf4j-log4j12-1.6.4.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/YuQingPaoDing"/>
+	<classpathentry kind="lib" path="/Common/lib/lucene-core-3.6.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
