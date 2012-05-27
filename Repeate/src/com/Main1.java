@@ -13,10 +13,11 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.algorithm.Agents;
-import com.algorithm.ConcentricString;
 import com.algorithm.KWordsSelector;
+import com.algorithm.SegSentence;
 import com.cache.Cache;
 import com.dao.ItemDao;
 import com.model.Item;
@@ -28,34 +29,43 @@ import com.mongodb.DBObject;
 import com.util.CacheStore;
 import com.util.SpringFactory;
 
-public class Main {
+public class Main1 {
+	@Autowired
 	private Cache corpusCache;
+	@Autowired
 	private Cache wordsCache;
+	@Autowired
 	private Cache dfCache;
+	@Autowired
 	private ItemDao itemDao;
-	private ConcentricString concentricString;
+	@Autowired
 	private KWordsSelector kWordsSelector;
+	@Autowired
 	private Agents agents;
+	@Autowired
 	private CacheStore cache;
+	@Autowired
+	private SegSentence segSentence;
 
 	/**
 	 * @param args
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		Main main = SpringFactory.getBean("main");
+		Main1 main = SpringFactory.getBean("main");
 		// 读取语料库的配置文件
-		main.loadCache("/home/fangxia722/topic_ngram_result.txt");
+		main.loadCache("/home/fangxia722/SogouLabDic.dic");
 		// 表示读取语料库已经完成
 		System.out.println("语料库已经加载完成");
 		// 获得所有的topic
 		List<Topic> topics = main.getCache().get("topic");
 		ItemDao itemDao = main.getItemDao();
 		for (Topic topic : topics) {
-			List<String> topicWords = Arrays.asList(topic.getInclude().split("；"));
+			List<String> topicWords = Arrays.asList(topic.getInclude().split(
+					"；"));
 			String id = String.valueOf(topic.getId());
 			DBObject sample = new BasicDBObject();
-			Pattern p = Pattern.compile(id);  
+			Pattern p = Pattern.compile(id);
 			sample.put("topicIds", p);
 			List<Item> items = itemDao.findPublished(sample);
 			List<TopicItem> topicItems = new ArrayList<TopicItem>();
@@ -65,35 +75,37 @@ public class Main {
 				topicItem.setTitle(item.getTitle());
 				Set<String> keyWords = new HashSet<String>();
 				if (!StringUtils.isBlank(item.getContent())) {
-					topicItem.setRawCStrings(main.getConcentricString()
-							.concentric(item.getContent()));
+					topicItem.setRawCStrings(main.getSegSentence().seg(
+							item.getContent()));
 					keyWords.addAll(topicItem.getRawCStrings());
-					for(String word:topicItem.getRawCStrings()){
+					for (String word : topicItem.getRawCStrings()) {
 						main.getWordsCache().addWord(word, 1);
 					}
 				}
 				if (!StringUtils.isBlank(item.getTitle())) {
-					topicItem.setRawTStrings(main.getConcentricString()
-							.concentric(item.getTitle()));
+					topicItem.setRawTStrings(main.getSegSentence().seg(
+							item.getTitle()));
 					keyWords.addAll(topicItem.getRawTStrings());
-					for(String word:topicItem.getRawTStrings()){
+					for (String word : topicItem.getRawTStrings()) {
 						main.getWordsCache().addWord(word, 2);
 					}
 				}
 				for (String word : keyWords) {
 					main.getDfCache().addWord(word, 1);
 				}
-				topicItem.setWords(main.getkWordsSelector().select(keyWords, items.size(), topicWords));
+				topicItem.setWords(main.getkWordsSelector().select(keyWords,
+						items.size(), topicWords));
 				topicItems.add(topicItem);
 			}
 			main.getAgents().clustering(topicItems);
 			main.getWordsCache().clear();
 			main.getDfCache().clear();
 			Collections.sort(topicItems);
-			for(TopicItem ti:topicItems){
-				System.out.print(ti.getLabel()+"    "+ti.getTitle()+"    "+ti.getContent()+"    ");
-				for(WordItem key:ti.getWords()){
-					System.out.print(key.getWord()+" ");
+			for (TopicItem ti : topicItems) {
+				System.out.print(ti.getLabel() + "    " + ti.getTitle()
+						+ "    " + ti.getContent() + "    ");
+				for (WordItem key : ti.getWords()) {
+					System.out.print(key.getWord() + " ");
 				}
 				System.out.println();
 			}
@@ -116,8 +128,14 @@ public class Main {
 		String[] datas = null;
 		Cache corpusCache = SpringFactory.getBean("corpusCache");
 		while ((tmp = bufferInput.readLine()) != null) {
-			datas = tmp.split("\\t");
-			corpusCache.put(datas[0], Integer.parseInt(datas[1]));
+			datas = tmp.split("\\s");
+			if (datas.length == 3
+					&& (StringUtils.contains(datas[2], "N") || StringUtils
+							.contains(datas[2], "V"))) {
+				corpusCache.put(datas[0], Integer.parseInt(datas[1]));
+			} else {
+				corpusCache.put(datas[0], Integer.parseInt(datas[1]));
+			}
 		}
 	}
 
@@ -153,14 +171,6 @@ public class Main {
 		this.itemDao = itemDAO;
 	}
 
-	public ConcentricString getConcentricString() {
-		return concentricString;
-	}
-
-	public void setConcentricString(ConcentricString concentricString) {
-		this.concentricString = concentricString;
-	}
-
 	public KWordsSelector getkWordsSelector() {
 		return kWordsSelector;
 	}
@@ -183,6 +193,14 @@ public class Main {
 
 	public void setCache(CacheStore cache) {
 		this.cache = cache;
+	}
+
+	public SegSentence getSegSentence() {
+		return segSentence;
+	}
+
+	public void setSegSentence(SegSentence segSentence) {
+		this.segSentence = segSentence;
 	}
 
 }
