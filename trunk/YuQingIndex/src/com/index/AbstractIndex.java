@@ -31,8 +31,7 @@ public abstract class AbstractIndex {
 	public void open(String dirString) throws Exception {
 		dir = getDirectory(dirString);
 		// 设置config
-		IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_35,
-				analyzer);
+		IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_36,analyzer);
 		// 创建模式，
 		config.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
 		// 不删除
