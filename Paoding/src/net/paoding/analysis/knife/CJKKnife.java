@@ -549,5 +549,9 @@ public class CJKKnife implements Knife, DictionariesWare {
 		}
 		return false;
 	}
+	
+	public Dictionary getVocabulary(){
+		return vocabulary;
+	}
 
 }
