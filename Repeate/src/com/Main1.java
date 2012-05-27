@@ -19,10 +19,12 @@ import com.algorithm.Agents;
 import com.algorithm.KWordsSelector;
 import com.algorithm.SegSentence;
 import com.cache.Cache;
+import com.dao.ClassDao;
 import com.dao.ItemDao;
 import com.model.Item;
 import com.model.TopicItem;
 import com.model.WordItem;
+import com.model.crawl.ClassItem;
 import com.model.policy.Topic;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -46,6 +48,7 @@ public class Main1 {
 	private CacheStore cache;
 	@Autowired
 	private SegSentence segSentence;
+	private ClassDao classDao;
 
 	/**
 	 * @param args
@@ -101,6 +104,8 @@ public class Main1 {
 			main.getWordsCache().clear();
 			main.getDfCache().clear();
 			Collections.sort(topicItems);
+			int lable = 0;
+			String topicIds = "";
 			for (TopicItem ti : topicItems) {
 				System.out.print(ti.getLabel() + "    " + ti.getTitle()
 						+ "    " + ti.getContent() + "    ");
@@ -108,6 +113,17 @@ public class Main1 {
 					System.out.print(key.getWord() + " ");
 				}
 				System.out.println();
+				topicIds+=ti.getId()+"_";
+				if(ti.getLabel()>lable){
+					ClassItem cla = new ClassItem();
+					cla.setItemIds(topicIds);
+					cla.setLable(lable);
+					cla.setTopicId(topic.getId());
+					main.getClassDao().insert(cla);
+					lable = ti.getLabel();
+					topicIds = "";
+				}
+				
 			}
 
 			System.out.println("");
@@ -201,6 +217,14 @@ public class Main1 {
 
 	public void setSegSentence(SegSentence segSentence) {
 		this.segSentence = segSentence;
+	}
+
+	public ClassDao getClassDao() {
+		return classDao;
+	}
+
+	public void setClassDao(ClassDao classDao) {
+		this.classDao = classDao;
 	}
 
 }
