@@ -53,6 +53,16 @@
 		<jar destfile="${dist.dir}/bin/indexer.jar" basedir="../YuqinIndex/bin" />
 	</target>
 
+	<target name="compile-paoding" depends="init">
+		<javac srcdir="../YuQingPaoDing/src" destdir="../YuQingPaoDing/bin">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+
+	<target name="build-paoding" depends="compile-indexer">
+		<jar destfile="${dist.dir}/bin/paoding.jar" basedir="../YuQingPaoDing/bin" />
+	</target>
+
 	<target name="compile-manager" depends="init">
 		<javac srcdir="src" destdir="bin">
 			<classpath refid="classpath" />
@@ -73,7 +83,7 @@
 		<jar destfile="${dist.dir}/bin/nutch.jar" basedir="../Nutch/bin" />
 	</target>
 
-	<target name="build" depends="build-common,build-extract,build-nutch,build-manager">
+	<target name="build" depends="build-common,build-extract,build-indexer,build-paoding,build-nutch,build-manager">
 		<copydir dest="${dist.dir}/lib" src="../Common/lib" />
 		<copydir dest="${dist.dir}/lib" src="../Nutch/lib" />
 		<copydir dest="${dist.dir}/conf" src="conf">
@@ -81,6 +91,8 @@
 		</copydir>
 		<copydir dest="${dist.dir}/conf" src="../Nutch/conf" />
 		<copydir dest="${dist.dir}/plugins" src="../Nutch/plugins" />
+		<copydir dest="${dist.dir}/bin/dic" src="../YuQingPaoDing/src/dic/词典" />
+		<copydir dest="${dist.dir}/bin/dic" src="../YuQingPaoDing/src/dic" includes="*.dic" />
 		<copydir dest="${dist.dir}" src="." includes="*.sh" />
 		<copydir dest="${dist.dir}" src="." includes="*.bat" />
 	</target>
