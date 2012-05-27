@@ -72,5 +72,6 @@
 		<copydir dest="${dist.dir}/conf" src="../Nutch/conf" />
 		<copydir dest="${dist.dir}/plugins" src="../Nutch/plugins" />
 		<copydir dest="${dist.dir}" src="." includes="*.sh" />
+		<copydir dest="${dist.dir}" src="." includes="*.bat" />
 	</target>
 </project>
