@@ -7,7 +7,6 @@ import java.util.Set;
 
 import com.cache.Cache;
 import com.model.WordItem;
-import com.util.SpringFactory;
 
 public class KWordsSelector {
 	/**
@@ -27,9 +26,9 @@ public class KWordsSelector {
 	 */
 	private static final double a = 1.0;
 	// 选择的特征最多不能超过50个
-	private static final int k = 100;
+	private static final int k = 10;
 	// 根据wordsCache和corpusCache中出现的比例，大于0.4的词语选作当前词语的特征
-	private static final double r = 0.4;
+	private static final double r = 0;
 
 	/**
 	 * @param words
@@ -69,10 +68,6 @@ public class KWordsSelector {
 		if (k < result.size()) {
 				result = result.subList(0, k);
 		}
-		// for (WordItem i : result) {
-		// System.out.println(i.getWord() + " " + i.getCountInWords() + " "
-		// + i.getCountInCorpus());
-		// }
 		return result;
 	}
 
