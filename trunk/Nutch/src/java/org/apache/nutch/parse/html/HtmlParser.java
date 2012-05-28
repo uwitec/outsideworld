@@ -62,6 +62,7 @@ public class HtmlParser implements Parser {
 	private static Pattern charsetPattern = Pattern.compile(
 			"charset=\\s*([a-z][_\\-0-9a-z]*)", Pattern.CASE_INSENSITIVE);
 
+	private ItemDao itemDao = SpringFactory.getBean("itemDao");
 	/**
 	 * Given a <code>byte[]</code> representing an html file of an
 	 * <em>unknown</em> encoding, read out 'charset' parameter in the meta tag
@@ -108,8 +109,6 @@ public class HtmlParser implements Parser {
 	private String defaultCharEncoding;
 
 	private Configuration conf;
-
-	private ItemDao itemDao = new ItemDaoImpl();
 
 	public ParseResult getParse(Content content) {
 
