@@ -1,2 +1,2 @@
-java -Xms256m -Xmx1024m -classpath -classpath ./bin:./conf:./lib/*:./bin/*: com.nutch.manager.WeiboClient
-java -Xms256m -Xmx1024m -classpath -classpath ./bin:./conf:./lib/*:./bin/*: com.nutch.manager.com.nutch.manager.WeiboUpdater
+java -Xms256m -Xmx1024m -classpath ./bin:./conf:./lib/*:./bin/*: com.nutch.manager.WeiboClient
+java -Xms256m -Xmx1024m -classpath ./bin:./conf:./lib/*:./bin/*: com.nutch.manager.com.nutch.manager.WeiboUpdater
