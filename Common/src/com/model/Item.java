@@ -48,7 +48,7 @@ public class Item {
 	 */
 	private Date crawlTime;
 	/**
-	 * ��ʾ������
+	 * 回帖数目
 	 */
 	private int replyNum;
 	/**
@@ -79,6 +79,10 @@ public class Item {
 	private String metaTitle;
 
 	private ParsedHtml parsedHtml;
+	/**
+	 * item在luncene中的score
+	 */
+	private float score;
 
 	public String getContent() {
 		return content;
@@ -230,5 +234,13 @@ public class Item {
 
 	public void setMetaTitle(String metaTitle) {
 		this.metaTitle = metaTitle;
+	}
+
+	public float getScore() {
+		return score;
+	}
+
+	public void setScore(float score) {
+		this.score = score;
 	}
 }
