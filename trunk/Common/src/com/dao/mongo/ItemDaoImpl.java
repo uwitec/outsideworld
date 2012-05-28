@@ -107,4 +107,9 @@ public class ItemDaoImpl implements ItemDao {
 		}
 		return items;
 	}
+	
+	@Override
+	public DBCursor getCursor(DBObject sample) throws Exception {
+		return mongoDB.find("story", sample);
+	}
 }
