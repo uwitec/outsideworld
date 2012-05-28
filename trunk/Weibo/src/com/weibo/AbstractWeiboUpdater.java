@@ -43,7 +43,7 @@ public abstract class AbstractWeiboUpdater implements Runnable {
 			// TODO 时间范围
 			StringBuilder sb = new StringBuilder();
 			try {
-				DBCursor cursor = itemDAO.find(sample);
+				DBCursor cursor = itemDAO.getCursor(sample);
 				int i = 0;
 				List<Object[]> result = null;
 				while (cursor.hasNext()) {
