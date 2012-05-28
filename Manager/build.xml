@@ -96,7 +96,7 @@
 	<target name="build" depends="build-common,build-extract,build-weibo,build-indexer,build-paoding,build-nutch,build-manager">
 		<copydir dest="${dist.dir}/lib" src="../Common/lib" />
 		<copydir dest="${dist.dir}/lib" src="../Nutch/lib" />
-		<copydir dest="${dist.dir}/" src="../Weibo/lib" />
+		<copydir dest="${dist.dir}/lib" src="../Weibo/lib" />
 		<copydir dest="${dist.dir}/conf" src="conf">
 			<exclude name="nutch-default.xml" />
 		</copydir>
