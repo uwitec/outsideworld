@@ -91,9 +91,10 @@ public class ItemSelector {
 			TopDocs hits = searcher.search(query, items.size());
 			if (hits != null && hits.totalHits > 0) {
 				for (ScoreDoc scoreDoc : hits.scoreDocs) {
-					Document doc = searcher.doc(scoreDoc.doc);
+					Document doc = searcher.doc(scoreDoc.doc);					
 					String id = doc.get("id");
 					Item item = map.get(id);
+					item.setScore(scoreDoc.score);
 					item.setTopicIds(item.getTopicIds()+topic.getId()+",");
 					setResult.add(item);
 					System.out.println(item.getContent());
