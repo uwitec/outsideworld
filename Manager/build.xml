@@ -63,6 +63,16 @@
 		<jar destfile="${dist.dir}/bin/paoding.jar" basedir="../YuQingPaoDing/bin" />
 	</target>
 
+	<target name="compile-weibo" depends="init">
+		<javac srcdir="../Weibo/src" destdir="../Weibo/bin">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+
+	<target name="build-weibo" depends="compile-weibo">
+		<jar destfile="${dist.dir}/bin/weibo.jar" basedir="../Weibo/bin" />
+	</target>
+
 	<target name="compile-manager" depends="init">
 		<javac srcdir="src" destdir="bin">
 			<classpath refid="classpath" />
@@ -83,9 +93,10 @@
 		<jar destfile="${dist.dir}/bin/nutch.jar" basedir="../Nutch/bin" />
 	</target>
 
-	<target name="build" depends="build-common,build-extract,build-indexer,build-paoding,build-nutch,build-manager">
+	<target name="build" depends="build-common,build-extract,build-weibo,build-indexer,build-paoding,build-nutch,build-manager">
 		<copydir dest="${dist.dir}/lib" src="../Common/lib" />
 		<copydir dest="${dist.dir}/lib" src="../Nutch/lib" />
+		<copydir dest="${dist.dir}/" src="../Weibo/lib" />
 		<copydir dest="${dist.dir}/conf" src="conf">
 			<exclude name="nutch-default.xml" />
 		</copydir>
