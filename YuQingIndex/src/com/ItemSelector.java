@@ -126,9 +126,13 @@ public class ItemSelector {
 		int i = 0;
 		do {
 			items = itemDao.poll(1000, i * 1000);
+			if(items==null||items.size()<=0){
+				Thread.sleep(1000*60*10);
+				i=0;
+			}
 			itemDao.publish(select(items, topics));
 			i++;
-		} while (items != null&&items.size()>0);
+		} while (true);
 	}
 
 	public ItemDao getItemDao() {
