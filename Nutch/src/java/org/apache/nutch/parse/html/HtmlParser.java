@@ -166,6 +166,7 @@ public class HtmlParser implements Parser {
 
 			/* Save */
 			if (item.getTemplate() != null) {
+				item.setType("web");
 				itemDao.insert(item);
 			}
 		} catch (IOException e) {
