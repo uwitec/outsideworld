@@ -8,7 +8,7 @@
            http://www.springframework.org/schema/aop  
            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd  
            http://www.springframework.org/schema/tx   
-           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd" default-autowire="byName">
 
 	<!-- Extractors -->
 	<bean id="contentExtract" class="com.extract.ContentExtract" />
@@ -39,7 +39,7 @@
 	<!-- MongoDB -->
 	<bean id="mongoDB" class="com.util.MongoUtil">
 		<constructor-arg index="0">
-			<value>125.211.218.8</value>
+			<value>182.50.3.54</value>
 		</constructor-arg>
 		<constructor-arg index="1">
 			<value>27017</value>
@@ -53,9 +53,9 @@
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/yuqing?useUnicode=true&amp;characterEncoding=UTF8"/>
+		<property name="url" value="jdbc:mysql://182.50.3.54:3306/yuqing?useUnicode=true&amp;characterEncoding=UTF8"/>
 		<property name="username" value="root" />
-		<property name="password" value="password" />
+		<property name="password" value="yqdb1q2w3e4r" />
 	</bean>
 
 	<!-- Session Factory -->
@@ -118,15 +118,4 @@
 	<bean id="itemSelector" class="com.ItemSelector"></bean>
 	<bean id="index" class="com.index.MemIndexImpl"></bean>
 	<bean id="indexImpl" class="com.index.IndexImp"></bean>
-
-	<!-- <bean id="testJob" class="com.nutch.manager.job.TestJob" /> <bean id="jobtask" 
-		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"> 
-		<property name="targetObject"> <ref bean="testJob" /> </property> <property 
-		name="targetMethod"> <value>work</value> </property> </bean> <bean id="schedule" 
-		class="org.springframework.scheduling.quartz.CronTriggerBean"> <property 
-		name="jobDetail"> <ref bean="jobtask" /> </property> <property name="cronExpression"> 
-		<value>10,15,20,25,30,35,40,45,50,55 * * * * ?</value> </property> </bean> 
-		<bean id="quertz" lazy-init="true" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean"> 
-		<property name="triggers"> <list> <ref bean="schedule" /> </list> </property> 
-		</bean> -->
 </beans>
