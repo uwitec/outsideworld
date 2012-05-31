@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -36,6 +37,9 @@ public class Template {
 
 	@Column(name = "fetch_interval")
 	private int fetchInterval;
+
+	@ManyToOne(targetEntity = Source.class)
+	private Source source;
 
 	public int getId() {
 		return id;
@@ -75,5 +79,13 @@ public class Template {
 
 	public void setFetchInterval(int fetchInterval) {
 		this.fetchInterval = fetchInterval;
+	}
+
+	public Source getSource() {
+		return source;
+	}
+
+	public void setSource(Source source) {
+		this.source = source;
 	}
 }
