@@ -1,6 +1,7 @@
 package com.search;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.htmlcleaner.HtmlCleaner;
@@ -82,6 +83,7 @@ public class MetaSearcher implements Runnable {
 			fetcher.fetch(item);
 			extracter.process(item);
 			item.setType("MetaSearch");
+			item.setCrawlTime(new Date());
 			itemDAO.insert(item);
 		} catch (Exception e) {
 			e.printStackTrace();
