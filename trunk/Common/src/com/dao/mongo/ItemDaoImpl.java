@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.dao.ItemDao;
 import com.model.Item;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.util.MongoUtil;
-import com.util.SpringFactory;
 
 public class ItemDaoImpl implements ItemDao {
 
@@ -46,6 +47,7 @@ public class ItemDaoImpl implements ItemDao {
 
 	private Item trans(DBObject o) throws Exception {
 		Item item = new Item();
+		item.setId((String)o.get("_id"));
 		item.setContent((String) o.get("content"));
 		item.setCrawlTime((Date) o.get("crawlTime"));
 		item.setTitle((String) o.get("title"));
@@ -92,9 +94,18 @@ public class ItemDaoImpl implements ItemDao {
 	public void publish(List<Item> items) throws Exception {
 		List<DBObject> result = new ArrayList<DBObject>();
 		for (Item item : items) {
-			result.add(trans(item));
+			String idstr = item.getTopicIds();
+			if(!StringUtils.isBlank(idstr)){
+				String[] ids = idstr.split("_");
+				for(String id:ids){
+					DBObject o = new BasicDBObject();
+					o.put("topicId", id);
+					o.put("itemId", item.getId());
+					result.add(o);
+				}
+			}
 		}
-		mongoDB.insert(result, "published");
+		mongoDB.insert(result, "topicItem");
 	}
 
 	@Override

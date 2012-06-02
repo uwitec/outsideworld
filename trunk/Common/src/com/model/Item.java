@@ -7,6 +7,7 @@ import java.util.List;
 import com.model.policy.Template;
 
 public class Item {
+	private String id;
 	/**
 	 * 此item的num
 	 */
@@ -242,5 +243,13 @@ public class Item {
 
 	public void setScore(float score) {
 		this.score = score;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 }
