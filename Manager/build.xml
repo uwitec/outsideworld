@@ -93,7 +93,9 @@
 	</target>
 
 	<target name="build-nutch" depends="compile-nutch">
-		<jar destfile="${dist.dir}/bin/nutch.jar" basedir="../Nutch/bin" />
+		<jar destfile="${dist.dir}/bin/nutch.jar" basedir="../Nutch/bin">
+			<exclude name="log4j.properties" />
+		</jar>
 	</target>
 
 	<target name="build" depends="build-common,build-extract,build-weibo,build-indexer,build-paoding,build-nutch,build-manager">
