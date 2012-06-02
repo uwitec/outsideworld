@@ -5,9 +5,9 @@ import java.util.List;
 import com.dao.CommonDAO;
 import com.model.policy.Param;
 import com.util.SpringFactory;
-import com.weibo.SinaWeiboClient;
-import com.weibo.SohuWeiboClient;
-import com.weibo.TencentWeiboClient;
+import com.weibo.client.SinaWeiboClient;
+import com.weibo.client.SohuWeiboClient;
+import com.weibo.client.TencentWeiboClient;
 
 public class WeiboClient {
 

@@ -5,9 +5,9 @@ import java.util.List;
 import com.dao.CommonDAO;
 import com.model.policy.Param;
 import com.util.SpringFactory;
-import com.weibo.SinaWeiboUpdater;
-import com.weibo.SohuWeiboUpdater;
-import com.weibo.TencentWeiboUpdater;
+import com.weibo.updater.SinaWeiboUpdater;
+import com.weibo.updater.SohuWeiboUpdater;
+import com.weibo.updater.TencentWeiboUpdater;
 
 public class WeiboUpdater {
 
