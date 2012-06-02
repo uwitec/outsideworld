@@ -2,12 +2,12 @@ package com.weibo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
 
 import com.dao.ItemDao;
-import com.dao.mongo.ItemDaoImpl;
 import com.model.Item;
 import com.util.SpringFactory;
 
@@ -15,7 +15,7 @@ public abstract class AbstractWeiboClient<T> implements Runnable {
 
 	private Set<Serializable> cache;
 
-	protected ItemDao itemDAO=SpringFactory.getBean("itemDao");
+	protected ItemDao itemDAO = SpringFactory.getBean("itemDao");
 
 	private int MAX_RETRY = 5;
 
@@ -132,6 +132,9 @@ public abstract class AbstractWeiboClient<T> implements Runnable {
 	/* 保存微博 */
 	public void saveItems(List<Item> items) throws Exception {
 		for (Item item : items) {
+			item.setType("weibo");
+			item.setTitle(item.getContent());
+			item.setCrawlTime(new Date());
 			itemDAO.insert(item);
 		}
 	}

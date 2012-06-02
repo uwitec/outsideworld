@@ -47,7 +47,6 @@ public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 	public Item wrapItem(Map<String, Object> weibo) {
 		Item item = new Item();
 		item.setUrl(weibo.get("id").toString());
-		item.setType("weibo");
 		item.setSource("sohu");
 		item.setContent(weibo.get("text").toString());
 		try {
