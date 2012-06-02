@@ -80,7 +80,10 @@
 	</target>
 
 	<target name="build-manager" depends="compile-manager">
-		<jar destfile="${dist.dir}/bin/manager.jar" basedir="bin" />
+		<jar destfile="${dist.dir}/bin/manager.jar" basedir="bin">
+			<exclude name="*.properties" />
+			<exclude name="*.xml" />
+		</jar>
 	</target>
 
 	<target name="compile-nutch" depends="init">
