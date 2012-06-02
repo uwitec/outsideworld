@@ -20,6 +20,7 @@ package org.apache.nutch.parse.html;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,7 +41,6 @@ import org.w3c.dom.DOMException;
 import org.xml.sax.SAXException;
 
 import com.dao.ItemDao;
-import com.dao.mongo.ItemDaoImpl;
 import com.extract.Extract;
 import com.model.Item;
 import com.model.OUrl;
@@ -167,6 +167,7 @@ public class HtmlParser implements Parser {
 			/* Save */
 			if (item.getTemplate() != null) {
 				item.setType("web");
+				item.setCrawlTime(new Date());
 				itemDao.insert(item);
 			}
 		} catch (IOException e) {
