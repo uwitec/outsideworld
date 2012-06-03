@@ -139,7 +139,7 @@ public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 
 	private synchronized String XAuthAuthorize(String username, String password)
 			throws Exception {
-		LOG.info("Try to login SohuWeibo");
+		LOG.info("XAuthAuthorize SohuWeibo");
 		URL url = new URL("http://api.t.sohu.com/oauth/access_token");
 		HttpURLConnection request = (HttpURLConnection) url.openConnection();
 		request.setDoOutput(true);
@@ -185,6 +185,7 @@ public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 
 	@Override
 	public void login() throws Exception {
+		LOG.info("Try to login SohuWeibo");
 		try {
 			loginLock.lock();
 			String accessTokenStr = XAuthAuthorize(params[0], params[1]);
@@ -195,8 +196,9 @@ public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 			setAccessTokenSecret(accessTokenStr.split("&")[1].split("=")[1]);
 
 			consumer = new DefaultOAuthConsumer(params[2], params[3]);
+			LOG.info("Successfully login SohuWeibo");
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("Login SohuWeibo error", e);
 		} finally {
 			loginLock.unlock();
 		}
