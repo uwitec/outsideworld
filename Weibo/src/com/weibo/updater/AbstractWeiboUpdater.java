@@ -5,17 +5,17 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.dao.ItemDao;
-import com.dao.mongo.ItemDaoImpl;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import com.util.SpringFactory;
 import com.weibo.NeedLoginException;
 
 public abstract class AbstractWeiboUpdater implements Runnable {
 
 	private static Logger log = Logger.getLogger(AbstractWeiboUpdater.class);
 
-	private ItemDao itemDAO = new ItemDaoImpl();
+	private ItemDao itemDAO = SpringFactory.getBean("itemDao");
 
 	private String source;
 	private int chunk;
