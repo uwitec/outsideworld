@@ -1,6 +1,7 @@
 package com.weibo.client;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import com.model.Item;
@@ -18,6 +20,8 @@ import com.tencent.weibo.beans.OAuth;
 public class TencentWeiboClient extends
 		AbstractWeiboClient<Map<String, Object>> {
 
+	private static Logger LOG = Logger.getLogger(TencentWeiboClient.class);
+
 	private static Set<Serializable> cache = new HashSet<Serializable>(100);
 	private static Lock lock = new ReentrantLock();
 
@@ -26,11 +30,15 @@ public class TencentWeiboClient extends
 
 	public TencentWeiboClient(String[] params) {
 		super(params);
+		LOG.info("Initialize TencentWeiboClient");
+		LOG.info("TencentWeiboClient Params:" + Arrays.toString(params));
 	}
 
 	@Override
 	public void login() throws Exception {
+		LOG.info("Try to Login TencentWeibo Client");
 		oauth = new OAuth(params[0], params[1], "null");
+		LOG.info("Finished Login TencentWeibo Client");
 	}
 
 	@Override
@@ -52,12 +60,15 @@ public class TencentWeiboClient extends
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Map<String, Object>> getWeibos() throws Exception {
+		LOG.info("Send Request to Tencentweibo");
 		ObjectMapper mapper = new ObjectMapper();
 		List<Map<String, Object>> data = null;
 		String jsonStr = st.public_timeline(oauth, "json", "0", "100");
 		Map<String, Object> m = (Map<String, Object>) mapper.readValue(jsonStr,
 				Map.class).get("data");
+		LOG.info("Get Response to Tencentweibo");
 		data = (List<Map<String, Object>>) m.get("info");
+		LOG.info("Retrieve " + data.size() + " weibo from Tencentweibo");
 		return data;
 	}
 
