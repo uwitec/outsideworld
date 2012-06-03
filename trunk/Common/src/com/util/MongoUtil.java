@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.bson.types.ObjectId;
+import org.springframework.expression.spel.ast.Operator;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -61,6 +63,15 @@ public class MongoUtil {
 		}
 		return null;
 	}
+	
+	public WriteResult update(DBObject query,DBObject o, String tableName) {
+		DBCollection coll = null;
+		if (!StringUtils.isBlank(tableName)) {
+			coll = db.getCollection(tableName);
+			coll.update(query, o,true,true);
+		}
+		return null;
+	}
 
 	public WriteResult delete(BasicDBObject o, String tableName) {
 		DBCollection coll = null;
@@ -70,6 +81,23 @@ public class MongoUtil {
 		}
 		return null;
 	}
+	
+	public WriteResult delete(List<String> ids, String tableName) {
+		DBCollection coll = null;
+		int len = ids.size();
+        ObjectId[] arr = new ObjectId[len];
+        for(int i=0; i<len; i++){
+            arr[i] = new ObjectId(ids.get(i));
+        }
+        DBObject in = new BasicDBObject("$in", arr);
+        DBObject query = new BasicDBObject("_id", in);
+		if (!StringUtils.isBlank(tableName)) {
+			coll = db.getCollection(tableName);
+			return coll.remove(query);
+		}
+		return null;
+	}
+	
 
 	public DBCursor find(String tableName, DBObject sample) {
 		DBCollection coll = null;
@@ -90,25 +118,28 @@ public class MongoUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<BasicDBObject> pollByPage(String tableName, int num
-			,int skipNum)
+	public List<BasicDBObject> pollByPage(String tableName, int num)
 			throws Exception {
 		List<BasicDBObject> result = new ArrayList<BasicDBObject>();
 		DBCollection coll = null;
 		if (!StringUtils.isEmpty(tableName)) {
 				coll = db.getCollection(tableName);
-				DBCursor cursor = coll.find().skip(skipNum).limit(num);
+				DBObject con = new BasicDBObject();
+				con.put("$ne",-1);
+				DBObject query = new BasicDBObject();
+				query.put("num", con);
+				DBCursor cursor = coll.find(query).limit(num);
 			while (cursor.hasNext()) {
 				BasicDBObject o = (BasicDBObject) cursor.next();
 				result.add(o);
 			}
-			if(result.size()>0){
-
-			    Long count = (Long)result.get(result.size()-1).get("num");
-			    BasicDBObject o = new BasicDBObject();
-			    o.put("num", new BasicDBObject("$lte",count));
-			    coll.remove(o);
-			}
+//			if(result.size()>0){
+//
+//			    Long count = (Long)result.get(result.size()-1).get("num");
+//			    BasicDBObject o = new BasicDBObject();
+//			    o.put("num", new BasicDBObject("$lte",count));
+//			    coll.remove(o);
+//			}
 		}
 		return result;
 	}
