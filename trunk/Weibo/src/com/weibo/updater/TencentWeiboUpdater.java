@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import com.tencent.weibo.api.T_API;
@@ -12,6 +13,8 @@ import com.tencent.weibo.beans.OAuth;
 import com.weibo.NeedLoginException;
 
 public class TencentWeiboUpdater extends AbstractWeiboUpdater {
+
+	private static Logger LOG = Logger.getLogger(TencentWeiboUpdater.class);
 
 	private OAuth oauth;
 	private T_API t = new T_API();
@@ -31,13 +34,16 @@ public class TencentWeiboUpdater extends AbstractWeiboUpdater {
 	@Override
 	public List<Object[]> getStatus(String ids) throws NeedLoginException,
 			Exception {
+		LOG.info("Send Request to Tencentweibo");
 		String jsonStr = t.re_count(oauth, "json", ids);
+		LOG.info("Get Response from Tencentweibo");
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> data = (Map<String, Object>) mapper.readValue(
 				jsonStr, Map.class).get("data");
 		List<Object[]> result = new ArrayList<Object[]>(data.size());
 		Object[] obj = new Object[3];
 		Map<String, Object> info = null;
+		LOG.info("Retrieve " + data.size() + " status from Tencentweibo");
 		for (Entry<String, Object> entry : data.entrySet()) {
 			info = (Map<String, Object>) entry.getValue();
 			obj[0] = entry.getKey();
