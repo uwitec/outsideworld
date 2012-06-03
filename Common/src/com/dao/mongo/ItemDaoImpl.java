@@ -53,14 +53,14 @@ public class ItemDaoImpl implements ItemDao {
 		item.setCrawlTime((Date) o.get("crawlTime"));
 		item.setTitle((String) o.get("title"));
 		item.setPubTime((Date) o.get("pubTime"));
-//		item.setReplyNum((Integer) o.get("replyNum"));
-//		item.setTransNum((Integer) o.get("transNum"));
-//		item.setSource((String) o.get("source"));
-//		item.setType((String) o.get("type"));
-//		item.setUrl(((Long) o.get("url")).toString());
-//		if (o.get("num") != null) {
-//			item.setNum((Long) o.get("num"));
-//		}
+		item.setReplyNum((Integer) o.get("replyNum"));
+		item.setTransNum((Integer) o.get("transNum"));
+		item.setSource((String) o.get("source"));
+		item.setType((String) o.get("type"));
+		//item.setUrl(((Long) o.get("url")).toString());
+		if (o.get("num") != null) {
+			item.setNum((Integer) o.get("num"));
+		}
 		item.setTopicIds((String) o.get("topicIds"));
 		return item;
 	}
