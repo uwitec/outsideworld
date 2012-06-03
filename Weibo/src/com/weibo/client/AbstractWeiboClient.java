@@ -1,4 +1,4 @@
-package com.weibo;
+package com.weibo.client;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,6 +10,7 @@ import java.util.concurrent.locks.Lock;
 import com.dao.ItemDao;
 import com.model.Item;
 import com.util.SpringFactory;
+import com.weibo.WeiboFilter;
 
 public abstract class AbstractWeiboClient<T> implements Runnable {
 

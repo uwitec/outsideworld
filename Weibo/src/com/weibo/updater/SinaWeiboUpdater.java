@@ -1,4 +1,4 @@
-package com.weibo;
+package com.weibo.updater;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,7 @@ import java.util.Map;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import com.sohu.t.open.util.ApiClient;
+import com.weibo.NeedLoginException;
 
 public class SinaWeiboUpdater extends AbstractWeiboUpdater {
 
