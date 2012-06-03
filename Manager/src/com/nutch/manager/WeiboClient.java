@@ -19,8 +19,8 @@ public class WeiboClient {
 		List<Param> sinaParams = commonDAO
 				.query("from Param p where p.type='sinaweibo'");
 		for (Param param : sinaParams) {
-			new Thread(new SinaWeiboClient(new String[] { param.getValue1() }))
-					.start();
+			new Thread(new SinaWeiboClient(new String[] { param.getValue1(),
+					param.getValue2() })).start();
 		}
 
 		/* 腾讯微博 */
@@ -28,7 +28,7 @@ public class WeiboClient {
 				.query("from Param p where p.type='tencentweibo'");
 		for (Param param : tencentParams) {
 			new Thread(new TencentWeiboClient(new String[] { param.getValue1(),
-					param.getValue2() })).start();
+					param.getValue2(), param.getValue5() })).start();
 		}
 
 		/* 搜狐微博 */
@@ -36,8 +36,8 @@ public class WeiboClient {
 				.query("from Param p where p.type='sohuweibo'");
 		for (Param param : sohuParams) {
 			new Thread(new SohuWeiboClient(new String[] { param.getValue1(),
-					param.getValue2(), param.getValue3(), param.getValue4() }))
-					.start();
+					param.getValue2(), param.getValue3(), param.getValue4(),
+					param.getValue5() })).start();
 		}
 	}
 }
