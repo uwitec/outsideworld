@@ -47,7 +47,7 @@ public abstract class AbstractIndex {
 	 */
 	public void index(Item o) throws Exception {
 		Document doc = new Document();
-		String id = o.getUrl();
+		String id = o.getId();
 		if (!StringUtils.isBlank(id)) {
 			Field idFiled = new Field("id", id, Field.Store.YES, Field.Index.NO);
 			doc.add(idFiled);
@@ -123,4 +123,5 @@ public abstract class AbstractIndex {
 	public Directory getDir() {
 		return dir;
 	}
+	
 }
