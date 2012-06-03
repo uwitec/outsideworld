@@ -112,13 +112,16 @@ public class SohuWeiboUpdater extends AbstractWeiboUpdater {
 	@Override
 	public List<Object[]> getStatus(String ids) throws NeedLoginException,
 			Exception {
+		LOG.info("Send Request to Sohuweibo");
 		String jsonObjs = http(
 				"http://api.t.sohu.com/statuses/counts.json?ids=" + ids, "GET",
 				true);
+		LOG.info("Get Response from Sohuweibo");
 		ObjectMapper mapper = new ObjectMapper();
 		List<Map<String, Object>> data = mapper.readValue(jsonObjs, List.class);
 		Object[] obj = new Object[3];
 		List<Object[]> result = new ArrayList<Object[]>(data.size());
+		LOG.info("Retrieve " + data.size() + " status from Sohuweibo");
 		for (Map<String, Object> map : data) {
 			obj[0] = map.get("id");
 			obj[1] = map.get("comments_count");
