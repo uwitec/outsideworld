@@ -39,7 +39,7 @@ public class Login {
 				+ "&verifycode="
 				+ check
 				+ "&remember_uin=1&aid=1003903"
-				+ "&u1=http%3A%2F%2Fweb2.qq.com%2Floginproxy.html%3Fstrong%3Dtrue"
+				+ "&u1=http%3A%2F%2Fweb.qq.com%2Floginproxy.html"
 				+ "&h=1&ptredirect=0&ptlang=2052&from_ui=1&pttype=1&dumy=&fp=loginerroralert";
         String result = HttpUtil.doGet(loginUrl, "utf-8",null);
         System.out.println(result);
@@ -78,7 +78,7 @@ public class Login {
      * @throws Exception
      */
     private String abtainedVerify(String userName) throws Exception {
-    	String url = "http://ptlogin2.qq.com/check?appid=1003903&uin="+userName;
+    	String url = "http://check.ptlogin2.qq.com/check?appid=1003903&uin="+userName;
     	String result = HttpUtil.doGet(url, "utf-8",null);
     	Pattern p = Pattern.compile("\\,\\'([!\\w]+)\\'");
 		Matcher m = p.matcher(result);
