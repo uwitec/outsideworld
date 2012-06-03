@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.document.Document;
@@ -44,17 +46,19 @@ public class ItemSelector {
 	private ItemDao itemDao;
 	private CacheStore cache;
 	private AbstractIndex index;
+	private AbstractIndex indexImpl;
+	private ItemIndexer itemIndexer;
 	private IndexSearcher searcher;
 
 	public List<Item> select(List<Item> items, List<Topic> topics)
 			throws Exception {
-		if(items==null||items.size()<=0){
+		if (items == null || items.size() <= 0) {
 			return new ArrayList<Item>();
 		}
 		// 定义一个Map，将所有的items定义在map中
 		Map<String, Item> map = new HashMap<String, Item>();
 		for (Item item : items) {
-			map.put(item.getUrl(), item);
+			map.put(item.getId(), item);
 		}
 		// 定义set结果
 		Set<Item> setResult = new HashSet<Item>();
@@ -75,15 +79,18 @@ public class ItemSelector {
 				for (String must : musts) {
 					BooleanClause.Occur b = BooleanClause.Occur.MUST;
 					titleQuery.add(new TermQuery(new Term("title", must)), b);
-					contentQuery.add(new TermQuery(new Term("content", must)), b);
+					contentQuery.add(new TermQuery(new Term("content", must)),
+							b);
 				}
 			}
 			if (!StringUtils.isBlank(topic.getExclude())) {
 				String[] mustNots = topic.getExclude().split(";");
 				for (String mustNot : mustNots) {
 					BooleanClause.Occur b = BooleanClause.Occur.MUST_NOT;
-					titleQuery.add(new TermQuery(new Term("title", mustNot)), b);
-					contentQuery.add(new TermQuery(new Term("content", mustNot)), b);
+					titleQuery
+							.add(new TermQuery(new Term("title", mustNot)), b);
+					contentQuery.add(
+							new TermQuery(new Term("content", mustNot)), b);
 				}
 			}
 			query.add(titleQuery, BooleanClause.Occur.SHOULD);
@@ -91,13 +98,16 @@ public class ItemSelector {
 			TopDocs hits = searcher.search(query, items.size());
 			if (hits != null && hits.totalHits > 0) {
 				for (ScoreDoc scoreDoc : hits.scoreDocs) {
-					Document doc = searcher.doc(scoreDoc.doc);					
+					Document doc = searcher.doc(scoreDoc.doc);
 					String id = doc.get("id");
 					Item item = map.get(id);
-					item.setScore(scoreDoc.score);
-					item.setTopicIds(item.getTopicIds()+topic.getId()+",");
-					setResult.add(item);
-					System.out.println(item.getContent());
+					if (item != null) {
+						item.setScore(scoreDoc.score);
+						item.setTopicIds(item.getTopicIds() + topic.getId()
+								+ ",");
+						setResult.add(item);
+						System.out.println(item.getContent());
+					}
 				}
 			}
 		}
@@ -106,6 +116,8 @@ public class ItemSelector {
 		index.getDir().close();
 		List<Item> result = new ArrayList<Item>();
 		result.addAll(setResult);
+		items.removeAll(result);
+		itemIndexer.index(result, items, "D:\\index");
 		return result;
 	}
 
@@ -123,15 +135,16 @@ public class ItemSelector {
 		if (topics == null || topics.size() <= 0) {
 			return;
 		}
-		int i = 0;
+		int skipNum=0;
 		do {
-			items = itemDao.poll(1000, i * 1000);
-			if(items==null||items.size()<=0){
-				Thread.sleep(1000*60*10);
-				i=0;
+			items = itemDao.poll(1000);
+			if (items == null || items.size() <= 0) {
+				Thread.sleep(1000 * 60);
 			}
-			itemDao.publish(select(items, topics));
-			i++;
+			List<Item> result= select(items, topics);
+			int skip = result.size();
+			itemDao.publish(result);
+			skipNum+=skip;
 		} while (true);
 	}
 
@@ -151,10 +164,27 @@ public class ItemSelector {
 		this.cache = cache;
 	}
 
+	public AbstractIndex getIndexImpl() {
+		return indexImpl;
+	}
+
+	public void setIndexImpl(AbstractIndex indexImpl) {
+		this.indexImpl = indexImpl;
+	}
+
 	public static void main(String[] args) throws Exception {
 		ItemSelector selector = (ItemSelector) SpringFactory
 				.getBean("itemSelector");
 		selector.select();
 		System.out.println("完成");
-		}
+	}
+
+	public ItemIndexer getItemIndexer() {
+		return itemIndexer;
+	}
+
+	public void setItemIndexer(ItemIndexer itemIndexer) {
+		this.itemIndexer = itemIndexer;
+	}
+
 }
