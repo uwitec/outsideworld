@@ -7,12 +7,16 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
 
+import org.apache.log4j.Logger;
+
 import com.dao.ItemDao;
 import com.model.Item;
 import com.util.SpringFactory;
 import com.weibo.WeiboFilter;
 
 public abstract class AbstractWeiboClient<T> implements Runnable {
+
+	private static Logger LOG = Logger.getLogger(AbstractWeiboClient.class);
 
 	private Set<Serializable> cache;
 
@@ -116,11 +120,13 @@ public abstract class AbstractWeiboClient<T> implements Runnable {
 		} finally {
 			lock.unlock();
 		}
+		LOG.info("Pickup " + list.size() + " valid weibos");
 		return list;
 	}
 
 	/* 过滤和关键字有关的微博 */
 	public List<Item> filterItem(List<Item> weibos) {
+		LOG.info("Filter from " + weibos.size() + " weibos");
 		for (int i = 0; i < weibos.size(); i++) {
 			if (!WeiboFilter.isValid(weibos.get(i))) {
 				weibos.remove(i);
@@ -132,6 +138,7 @@ public abstract class AbstractWeiboClient<T> implements Runnable {
 
 	/* 保存微博 */
 	public void saveItems(List<Item> items) throws Exception {
+		LOG.info("Insert " + items.size() + " weibos");
 		for (Item item : items) {
 			item.setType("weibo");
 			item.setTitle(item.getContent());
