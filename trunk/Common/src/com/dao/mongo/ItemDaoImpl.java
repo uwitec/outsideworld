@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.bson.types.ObjectId;
 
 import com.dao.ItemDao;
 import com.model.Item;
@@ -47,26 +48,26 @@ public class ItemDaoImpl implements ItemDao {
 
 	private Item trans(DBObject o) throws Exception {
 		Item item = new Item();
-		item.setId((String)o.get("_id"));
+		item.setId(((ObjectId)o.get("_id")).toString());
 		item.setContent((String) o.get("content"));
 		item.setCrawlTime((Date) o.get("crawlTime"));
 		item.setTitle((String) o.get("title"));
 		item.setPubTime((Date) o.get("pubTime"));
-		item.setReplyNum((Integer) o.get("replyNum"));
-		item.setTransNum((Integer) o.get("transNum"));
-		item.setSource((String) o.get("source"));
-		item.setType((String) o.get("type"));
-		item.setUrl((String) o.get("url"));
-		if (o.get("num") != null) {
-			item.setNum((Long) o.get("num"));
-		}
+//		item.setReplyNum((Integer) o.get("replyNum"));
+//		item.setTransNum((Integer) o.get("transNum"));
+//		item.setSource((String) o.get("source"));
+//		item.setType((String) o.get("type"));
+//		item.setUrl(((Long) o.get("url")).toString());
+//		if (o.get("num") != null) {
+//			item.setNum((Long) o.get("num"));
+//		}
 		item.setTopicIds((String) o.get("topicIds"));
 		return item;
 	}
 
 	@Override
-	public List<Item> poll(int num, int skipNum) throws Exception {
-		List<BasicDBObject> objects = mongoDB.pollByPage("story", num, skipNum);
+	public List<Item> poll(int num) throws Exception {
+		List<BasicDBObject> objects = mongoDB.pollByPage("story", num);
 		List<Item> results = new ArrayList<Item>();
 		for (BasicDBObject o : objects) {
 			results.add(trans(o));
@@ -93,6 +94,7 @@ public class ItemDaoImpl implements ItemDao {
 	@Override
 	public void publish(List<Item> items) throws Exception {
 		List<DBObject> result = new ArrayList<DBObject>();
+		List<String> idss = new ArrayList<String>();
 		for (Item item : items) {
 			String idstr = item.getTopicIds();
 			if(!StringUtils.isBlank(idstr)){
@@ -105,7 +107,17 @@ public class ItemDaoImpl implements ItemDao {
 				}
 			}
 		}
+		int len = items.size();
+        ObjectId[] arr = new ObjectId[len];
+        for(int i=0; i<len; i++){
+            arr[i] = new ObjectId(items.get(i).getId());
+        }
+        DBObject in = new BasicDBObject("$in", arr);
+        DBObject query = new BasicDBObject("_id", in);
+        DBObject updateSetValue = new BasicDBObject("num", -1);
+        DBObject o = new BasicDBObject("$set",updateSetValue);
 		mongoDB.insert(result, "topicItem");
+		mongoDB.update(query,o, "story");
 	}
 
 	@Override
@@ -122,5 +134,14 @@ public class ItemDaoImpl implements ItemDao {
 	@Override
 	public DBCursor getCursor(DBObject sample) throws Exception {
 		return mongoDB.find("story", sample);
+	}
+
+	@Override
+	public void remove(List<Item> dels) throws Exception {
+		List<String> ids = new ArrayList<String>();
+		for(Item item:dels){
+			ids.add(item.getId());			
+		}
+		mongoDB.delete(ids, "story");
 	}
 }
