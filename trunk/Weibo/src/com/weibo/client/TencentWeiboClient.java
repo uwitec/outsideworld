@@ -28,8 +28,11 @@ public class TencentWeiboClient extends
 	private OAuth oauth;
 	private Statuses_API st = new Statuses_API();
 
+	private int interval = 0;
+
 	public TencentWeiboClient(String[] params) {
 		super(params);
+		interval = Integer.parseInt(params[2]) * 1000;
 		LOG.info("Initialize TencentWeiboClient");
 		LOG.info("TencentWeiboClient Params:" + Arrays.toString(params));
 	}
@@ -74,7 +77,7 @@ public class TencentWeiboClient extends
 
 	@Override
 	public int getInterval() {
-		return 0;
+		return interval;
 	}
 
 	@Override

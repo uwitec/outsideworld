@@ -40,8 +40,11 @@ public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 	private static SimpleDateFormat sdf = new SimpleDateFormat(
 			"E MMM dd hh:mm:ss yyyy", Locale.US);
 
+	private int interval = 0;
+
 	public SohuWeiboClient(String[] params) {
 		super(params);
+		interval = Integer.parseInt(params[4]) * 1000;
 		LOG.info("Initialize SohuWeiboClient");
 		LOG.info("SohuWeiboClient Params:" + Arrays.toString(params));
 	}
@@ -88,7 +91,7 @@ public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 
 	@Override
 	public int getInterval() {
-		return 0;
+		return interval;
 	}
 
 	@SuppressWarnings("unused")
