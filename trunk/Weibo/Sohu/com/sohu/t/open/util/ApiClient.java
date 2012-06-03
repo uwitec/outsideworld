@@ -20,7 +20,7 @@ import com.sohu.t.open.auth.SohuOAuth;
  */
 public class ApiClient {
 	static MultiThreadedHttpConnectionManager connectionManager = new MultiThreadedHttpConnectionManager();
-	static int TIMEOUT = 10 * 1000;
+	static int TIMEOUT = 100 * 1000;
 	static int MAX_HTTP_CONNECTION = 50;
 	static int count = 0;
 
