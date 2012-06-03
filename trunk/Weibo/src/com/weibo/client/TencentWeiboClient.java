@@ -1,4 +1,4 @@
-package com.weibo;
+package com.weibo.client;
 
 import java.io.Serializable;
 import java.util.Date;

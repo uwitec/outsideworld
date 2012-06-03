@@ -1,4 +1,4 @@
-package com.weibo;
+package com.weibo.updater;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import com.tencent.weibo.api.T_API;
 import com.tencent.weibo.beans.OAuth;
+import com.weibo.NeedLoginException;
 
 public class TencentWeiboUpdater extends AbstractWeiboUpdater {
 

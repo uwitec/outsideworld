@@ -1,4 +1,4 @@
-package com.weibo;
+package com.weibo.client;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -22,6 +22,7 @@ import oauth.signpost.basic.DefaultOAuthConsumer;
 import oauth.signpost.http.HttpParameters;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import com.model.Item;
@@ -29,6 +30,8 @@ import com.sohu.t.open.util.ApiClient;
 import com.sohu.t.open.util.TwUtils;
 
 public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
+
+	private static Logger LOG = Logger.getLogger(SohuWeiboClient.class);
 
 	private static Set<Serializable> cache = new HashSet<Serializable>(200);
 	private static Lock lock = new ReentrantLock();
@@ -130,6 +133,7 @@ public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 
 	private synchronized String XAuthAuthorize(String username, String password)
 			throws Exception {
+		LOG.info("Try to login SohuWeibo");
 		URL url = new URL("http://api.t.sohu.com/oauth/access_token");
 		HttpURLConnection request = (HttpURLConnection) url.openConnection();
 		request.setDoOutput(true);
@@ -141,9 +145,8 @@ public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 				.getBytes());
 		ot.flush();
 		ot.close();
-		System.out.println("Sending request...");
 		request.connect();
-		System.out.println("Response: " + request.getResponseCode() + " "
+		LOG.info("Response: " + request.getResponseCode() + " "
 				+ request.getResponseMessage());
 		BufferedReader reader = new BufferedReader(new InputStreamReader(
 				request.getInputStream()));

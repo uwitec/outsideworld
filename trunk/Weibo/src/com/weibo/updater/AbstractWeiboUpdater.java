@@ -1,4 +1,4 @@
-package com.weibo;
+package com.weibo.updater;
 
 import java.util.List;
 
@@ -9,6 +9,7 @@ import com.dao.mongo.ItemDaoImpl;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import com.weibo.NeedLoginException;
 
 public abstract class AbstractWeiboUpdater implements Runnable {
 

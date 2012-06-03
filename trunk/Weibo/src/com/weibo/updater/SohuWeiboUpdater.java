@@ -1,4 +1,4 @@
-package com.weibo;
+package com.weibo.updater;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -16,11 +16,15 @@ import oauth.signpost.basic.DefaultOAuthConsumer;
 import oauth.signpost.http.HttpParameters;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import com.sohu.t.open.util.TwUtils;
+import com.weibo.NeedLoginException;
 
 public class SohuWeiboUpdater extends AbstractWeiboUpdater {
+
+	private static Logger LOG = Logger.getLogger(SohuWeiboUpdater.class);
 
 	private String accessToken;
 	private String accessTokenSecret;
@@ -52,6 +56,7 @@ public class SohuWeiboUpdater extends AbstractWeiboUpdater {
 
 	private synchronized String XAuthAuthorize(String username, String password)
 			throws Exception {
+		LOG.info("Try to login SohuWeibo");
 		URL url = new URL("http://api.t.sohu.com/oauth/access_token");
 		HttpURLConnection request = (HttpURLConnection) url.openConnection();
 		request.setDoOutput(true);
@@ -63,9 +68,8 @@ public class SohuWeiboUpdater extends AbstractWeiboUpdater {
 				.getBytes());
 		ot.flush();
 		ot.close();
-		System.out.println("Sending request...");
 		request.connect();
-		System.out.println("Response: " + request.getResponseCode() + " "
+		LOG.info("Response: " + request.getResponseCode() + " "
 				+ request.getResponseMessage());
 		BufferedReader reader = new BufferedReader(new InputStreamReader(
 				request.getInputStream()));
