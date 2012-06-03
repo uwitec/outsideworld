@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -41,6 +42,8 @@ public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 
 	public SohuWeiboClient(String[] params) {
 		super(params);
+		LOG.info("Initialize SohuWeiboClient");
+		LOG.info("SohuWeiboClient Params:" + Arrays.toString(params));
 	}
 
 	private String accessToken;
@@ -63,13 +66,16 @@ public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 	}
 
 	public List<Map<String, Object>> getWeibos() throws Exception {
+		LOG.info("Send Request to Sohuweibo");
 		String jsonObjs = ApiClient.doGetMethod(
 				"http://api.t.sohu.com/statuses/public_timeline.json", "UTF-8");
 		if (StringUtils.isBlank(jsonObjs)
 				|| StringUtils.startsWith(jsonObjs, "<html>")) {
 			return null;
 		}
+		LOG.info("Get Response to Sohuweibo");
 		List<Map<String, Object>> models = trans(jsonObjs);
+		LOG.info("Retrieve " + models.size() + " weibo from Sohuweibo");
 		return models;
 	}
 
