@@ -3,23 +3,24 @@ package com.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
 
 public class XPathUtil {
-	private static HtmlCleaner htmlCleaner = new HtmlCleaner();
 
 	public static String getResult(TagNode node, String xpath) throws Exception {
+		String result = "";
 		Object[] objs = node.evaluateXPath(xpath);
 		if (objs != null && objs.length > 0) {
-			if (objs[0] instanceof TagNode) {
-				return extractTxt((TagNode) objs[0]);
-			} else {
-				return "";
+			for (int i = 0; i < objs.length; i++) {
+				if (objs[i] instanceof TagNode) {
+					result += extractTxt((TagNode) objs[i]);
+					if (!result.trim().isEmpty()) {
+						return result;
+					}
+				}
 			}
-		} else {
-			return "";
 		}
+		return result;
 	}
 
 	@SuppressWarnings("unchecked")
