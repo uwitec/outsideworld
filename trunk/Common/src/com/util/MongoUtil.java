@@ -46,7 +46,7 @@ public class MongoUtil {
 		DBCollection coll = null;
 		if (!StringUtils.isBlank(tableName)) {
 			coll = db.getCollection(tableName);
-			o.put("num", coll.getCount()+1);
+			o.put("num", 0);
 			coll.insert(o);
 		}
 		return null;
@@ -133,13 +133,6 @@ public class MongoUtil {
 				BasicDBObject o = (BasicDBObject) cursor.next();
 				result.add(o);
 			}
-//			if(result.size()>0){
-//
-//			    Long count = (Long)result.get(result.size()-1).get("num");
-//			    BasicDBObject o = new BasicDBObject();
-//			    o.put("num", new BasicDBObject("$lte",count));
-//			    coll.remove(o);
-//			}
 		}
 		return result;
 	}

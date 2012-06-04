@@ -38,7 +38,7 @@ public class ItemDaoImpl implements ItemDao {
 		o.put("crawTime", item.getCrawlTime());
 		o.put("pubTime", item.getPubTime());
 		o.put("replyNum", item.getReplyNum());
-		o.put("source", item.getSource());
+		o.put("source", item.getSourceId());
 		o.put("type", item.getType());
 		o.put("url", item.getUrl());
 		return o;
@@ -52,7 +52,7 @@ public class ItemDaoImpl implements ItemDao {
 		item.setTitle((String) o.get("title"));
 		item.setPubTime((Date) o.get("pubTime"));
 		item.setReplyNum((Integer) o.get("replyNum"));
-		item.setSource((String) o.get("source"));
+		item.setSourceId((String) o.get("source"));
 		item.setType((String) o.get("type"));
 		item.setUrl(((String)o.get("url")).toString());
 	    item.setNum((Integer) o.get("num"));

@@ -63,7 +63,7 @@ public class Item {
 	/**
 	 * 发布者
 	 */
-	private String source = "";
+	private String sourceId = "";
 	/**
 	 * 模板
 	 */
@@ -169,14 +169,6 @@ public class Item {
 		this.status = status;
 	}
 
-	public String getSource() {
-		return source;
-	}
-
-	public void setSource(String source) {
-		this.source = source;
-	}
-
 	public Template getTemplate() {
 		return template;
 	}
@@ -239,5 +231,13 @@ public class Item {
 
     public void setTopicIds(String topicIds) {
         this.topicIds = topicIds;
+    }
+
+    public String getSourceId() {
+        return sourceId;
+    }
+
+    public void setSourceId(String sourceId) {
+        this.sourceId = sourceId;
     }
 }
