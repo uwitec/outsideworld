@@ -5,9 +5,13 @@ import com.model.policy.Element;
 import com.model.policy.Element.ElementType;
 import com.model.policy.Param;
 import com.model.policy.Source;
+import com.model.policy.Source.SourceType;
 import com.model.policy.Template;
 import com.model.policy.Topic;
 import com.util.SpringFactory;
+import com.weibo.client.SinaWeiboClient;
+import com.weibo.client.SohuWeiboClient;
+import com.weibo.client.TencentWeiboClient;
 
 public class Setup {
 
@@ -37,6 +41,27 @@ public class Setup {
 	}
 
 	public static void weibo() {
+		Source s1 = new Source();
+		s1.setName("新浪微博");
+		s1.setType(Source.SourceType.WEIBO);
+		s1.setUrl("SinaWeibo");
+		s1.setId(SinaWeiboClient.typeId);
+		commonDAO.save(s1);
+
+		Source s2 = new Source();
+		s2.setName("腾讯微博");
+		s2.setType(Source.SourceType.WEIBO);
+		s2.setUrl("TencentWeibo");
+		s2.setId(TencentWeiboClient.typeId);
+		commonDAO.save(s2);
+
+		Source s3 = new Source();
+		s3.setName("搜狐微博");
+		s3.setType(Source.SourceType.WEIBO);
+		s3.setUrl("SohuWeibo");
+		s3.setId(SohuWeiboClient.typeId);
+		commonDAO.save(s3);
+
 		Param p1 = new Param();
 		p1.setName1("appkey");
 		p1.setValue1("1222837781");
@@ -209,6 +234,7 @@ public class Setup {
 
 		Source s1 = new Source();
 		s1.setName("网易新闻");
+		s1.setType(SourceType.WEBSITE);
 		s1.setUrl("http://news.163.com/");
 		s1.getTempaltes().add(t1);
 
@@ -248,6 +274,7 @@ public class Setup {
 
 		Source s1 = new Source();
 		s1.setName("天涯论坛 ");
+		s1.setType(SourceType.WEBSITE);
 		s1.setUrl("http://www.tianya.cn/bbs/");
 		s1.getTempaltes().add(t1);
 
@@ -280,6 +307,7 @@ public class Setup {
 
 		Source s1 = new Source();
 		s1.setName("新浪博客 ");
+		s1.setType(SourceType.WEBSITE);
 		s1.setUrl("http://blog.sina.com.cn/");
 		s1.getTempaltes().add(t1);
 
