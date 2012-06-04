@@ -29,6 +29,8 @@ public class TencentWeiboClient extends
 	private Statuses_API st = new Statuses_API();
 
 	private int interval = 0;
+	
+	public static int typeId = 100002;
 
 	public TencentWeiboClient(String[] params) {
 		super(params);
@@ -54,7 +56,7 @@ public class TencentWeiboClient extends
 	public Item wrapItem(Map<String, Object> weibo) {
 		Item item = new Item();
 		item.setUrl(weibo.get("id").toString());
-		item.setSource("tencent");
+		item.setSource(String.valueOf(typeId));
 		item.setContent(weibo.get("text").toString());
 		item.setPubTime(new Date(1000 * Long.parseLong(weibo.get("timestamp")
 				.toString())));
