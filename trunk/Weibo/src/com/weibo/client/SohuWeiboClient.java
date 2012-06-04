@@ -44,9 +44,10 @@ public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 
 	public SohuWeiboClient(String[] params) {
 		super(params);
-		interval = Integer.parseInt(params[4]) * 1000;
+		interval = Integer.parseInt(params[4]);
 		LOG.info("Initialize SohuWeiboClient");
 		LOG.info("SohuWeiboClient Params:" + Arrays.toString(params));
+		LOG.info("Fetch Interval: " + interval + " seconds");
 	}
 
 	private String accessToken;
