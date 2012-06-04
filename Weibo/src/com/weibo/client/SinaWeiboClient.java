@@ -53,7 +53,7 @@ public class SinaWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 		Item item = new Item();
 		item.setContent(weibo.get("text").toString());
 		item.setUrl(weibo.get("id").toString());
-		item.setSource(String.valueOf(typeId));
+		item.setSourceId(String.valueOf(typeId));
 		try {
 			item.setPubTime(sdf.parse(weibo.get("created_at").toString()
 					.replace("+0800 ", "")));
