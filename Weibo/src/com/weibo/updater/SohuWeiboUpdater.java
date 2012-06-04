@@ -112,9 +112,6 @@ public class SohuWeiboUpdater extends AbstractWeiboUpdater {
 	@Override
 	public List<Object[]> getStatus(String ids) throws NeedLoginException,
 			Exception {
-		if (ids.isEmpty()) {
-			return new ArrayList<Object[]>();
-		}
 		LOG.info("Send Request to Sohuweibo");
 		String jsonObjs = http(
 				"http://api.t.sohu.com/statuses/counts.json?ids=" + ids, "GET",
