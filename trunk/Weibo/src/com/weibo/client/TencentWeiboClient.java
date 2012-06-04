@@ -56,7 +56,7 @@ public class TencentWeiboClient extends
 	public Item wrapItem(Map<String, Object> weibo) {
 		Item item = new Item();
 		item.setUrl(weibo.get("id").toString());
-		item.setSource(String.valueOf(typeId));
+		item.setSourceId(String.valueOf(typeId));
 		item.setContent(weibo.get("text").toString());
 		item.setPubTime(new Date(1000 * Long.parseLong(weibo.get("timestamp")
 				.toString())));
