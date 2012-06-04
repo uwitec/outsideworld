@@ -26,10 +26,10 @@ public class OUrlsExtract implements Extract {
 			}
 			OUrl o = new OUrl();
 			o.setUrl(url);
-			if (StringUtils.isBlank(item.getSource())) {
+			if (StringUtils.isBlank(item.getSourceId())) {
 				o.setAuthor(UrlUtils.getHost(item.getUrl()));
 			} else {
-				o.setAuthor(item.getSource());
+				o.setAuthor(item.getSourceId());
 			}
 			item.getOurls().add(o);
 		}
