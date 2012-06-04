@@ -65,7 +65,7 @@ public class Context {
 
 		/* load configuration from database */
 		LOG.info("Load Configuration from Database");
-		sites = commonDAO.getAll(Source.class);
+		sites = commonDAO.query("from Source s where s.type = 'WEBSITE'");
 		templates = commonDAO.getAll(Template.class);
 
 		/* Resist Templates */
