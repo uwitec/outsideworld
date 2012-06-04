@@ -32,9 +32,10 @@ public class TencentWeiboClient extends
 
 	public TencentWeiboClient(String[] params) {
 		super(params);
-		interval = Integer.parseInt(params[2]) * 1000;
+		interval = Integer.parseInt(params[2]);
 		LOG.info("Initialize TencentWeiboClient");
 		LOG.info("TencentWeiboClient Params:" + Arrays.toString(params));
+		LOG.info("Fetch Interval: " + interval + " seconds");
 	}
 
 	@Override

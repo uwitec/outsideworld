@@ -35,9 +35,10 @@ public class SinaWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 
 	public SinaWeiboClient(String[] params) {
 		super(params);
-		interval = Integer.parseInt(params[1]) * 1000;
+		interval = Integer.parseInt(params[1]);
 		LOG.info("Initialize SinaWeiboClient");
 		LOG.info("SinaWeiboClient Params:" + Arrays.toString(params));
+		LOG.info("Fetch Interval: " + interval + " seconds");
 	}
 
 	@Override
