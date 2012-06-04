@@ -6,10 +6,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanClause;
@@ -43,6 +42,7 @@ import com.util.SpringFactory;
  * @since May 3, 2012
  */
 public class ItemSelector {
+    private static Logger LOG = Logger.getLogger(ItemSelector.class);
 	private ItemDao itemDao;
 	private CacheStore cache;
 	private AbstractIndex index;
@@ -62,12 +62,13 @@ public class ItemSelector {
 		}
 		// 定义set结果
 		Set<Item> setResult = new HashSet<Item>();
+		LOG.debug("Begin to index for the items ...");
 		// 打开RAMDirectory
 		index.open("");
 		// 建立内存索引
 		index.index(items);
 		index.commit();
-
+		LOG.debug("Index end!");
 		searcher = new IndexSearcher(index.getDir());
 		// 对每个topic建立一次查询
 		for (Topic topic : topics) {
@@ -95,8 +96,10 @@ public class ItemSelector {
 			}
 			query.add(titleQuery, BooleanClause.Occur.SHOULD);
 			query.add(contentQuery, BooleanClause.Occur.SHOULD);
+			LOG.debug("The query is "+query.toString());
 			TopDocs hits = searcher.search(query, items.size());
 			if (hits != null && hits.totalHits > 0) {
+			    LOG.debug("There is "+hits.totalHits+" items found!");
 				for (ScoreDoc scoreDoc : hits.scoreDocs) {
 					Document doc = searcher.doc(scoreDoc.doc);
 					String id = doc.get("id");
@@ -106,18 +109,23 @@ public class ItemSelector {
 						item.setTopicIds(item.getTopicIds() + topic.getId()
 								+ ",");
 						setResult.add(item);
-						System.out.println(item.getContent());
+						LOG.debug("Item title:"+item.getTitle()+" Item content:"+item.getContent());
 					}
 				}
+				LOG.debug("The query "+query.toString()+" selected end!");
 			}
 		}
 		index.close();
 		// 将内存释放
 		index.getDir().close();
+		LOG.debug("Mem index has been closed!");
 		List<Item> result = new ArrayList<Item>();
 		result.addAll(setResult);
 		items.removeAll(result);
+		LOG.debug("There is "+result.size()+" items to be published,and "+items.size()+" items to be deleted!");
+		LOG.debug("Begin to index in disk!");
 		itemIndexer.index(result, items, "D:\\index");
+		LOG.debug("End index in disk!");
 		return result;
 	}
 
@@ -130,21 +138,30 @@ public class ItemSelector {
 	}
 
 	public void select() throws Exception {
+	    LOG.info("Begin to select...");
 		List<Item> items = null;
 		List<Topic> topics = cache.get("topic");
 		if (topics == null || topics.size() <= 0) {
+		    LOG.info("There is no topics,so exit!");
 			return;
 		}
-		int skipNum=0;
 		do {
+		    LOG.info("Begin to get items form mongoDB ...");
 			items = itemDao.poll(1000);
+			LOG.info("Got items end!");
 			if (items == null || items.size() <= 0) {
+			    LOG.info("There is no items in mongodb,so thread sleep 60 second!");
 				Thread.sleep(1000 * 60);
 			}
+			LOG.info("Begin to select items by the topics...");
 			List<Item> result= select(items, topics);
-			int skip = result.size();
+			LOG.info("There is "+result.size()+" items selected!");
+			LOG.info("Begin to publish items ...");
 			itemDao.publish(result);
-			skipNum+=skip;
+			LOG.info("Publish end!");
+			LOG.info( System.getProperty("line.separator"));
+			LOG.info( System.getProperty("line.separator"));
+			LOG.info( System.getProperty("line.separator"));
 		} while (true);
 	}
 
