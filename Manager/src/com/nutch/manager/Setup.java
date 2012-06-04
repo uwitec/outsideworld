@@ -285,6 +285,13 @@ public class Setup {
 
 		commonDAO.save(s1);
 	}
+	
+	public static void indexDir(){
+	    Param p1 = new Param();
+        p1.setName1("index_dir");
+        p1.setValue1("/data/index");
+        commonDAO.save(p1);
+	}
 
 	public static void main(String[] args) {
 		clear();
@@ -294,6 +301,7 @@ public class Setup {
 		test163();
 		testSinaBlog();
 		testTianya();
+		indexDir();
 		System.exit(0);
 	}
 
