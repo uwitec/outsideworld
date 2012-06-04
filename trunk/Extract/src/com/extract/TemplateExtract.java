@@ -19,7 +19,7 @@ public class TemplateExtract implements Extract {
 			item.setStatus(false);
 		} else {
 			item.setTemplate(template);
-			item.setSource(String.valueOf(template.getSource().getId()));
+			item.setSourceId(String.valueOf(template.getSource().getId()));
 		}
 	}
 }
