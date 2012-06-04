@@ -38,11 +38,9 @@ public class ItemDaoImpl implements ItemDao {
 		o.put("crawTime", item.getCrawlTime());
 		o.put("pubTime", item.getPubTime());
 		o.put("replyNum", item.getReplyNum());
-		o.put("transNum", item.getTransNum());
 		o.put("source", item.getSource());
 		o.put("type", item.getType());
 		o.put("url", item.getUrl());
-		o.put("topicIds", item.getTopicIds());
 		return o;
 	}
 
@@ -54,14 +52,10 @@ public class ItemDaoImpl implements ItemDao {
 		item.setTitle((String) o.get("title"));
 		item.setPubTime((Date) o.get("pubTime"));
 		item.setReplyNum((Integer) o.get("replyNum"));
-		item.setTransNum((Integer) o.get("transNum"));
 		item.setSource((String) o.get("source"));
 		item.setType((String) o.get("type"));
-		//item.setUrl(((Long) o.get("url")).toString());
-		if (o.get("num") != null) {
-			item.setNum((Integer) o.get("num"));
-		}
-		item.setTopicIds((String) o.get("topicIds"));
+		item.setUrl(((String)o.get("url")).toString());
+	    item.setNum((Integer) o.get("num"));
 		return item;
 	}
 
@@ -94,7 +88,6 @@ public class ItemDaoImpl implements ItemDao {
 	@Override
 	public void publish(List<Item> items) throws Exception {
 		List<DBObject> result = new ArrayList<DBObject>();
-		List<String> idss = new ArrayList<String>();
 		for (Item item : items) {
 			String idstr = item.getTopicIds();
 			if(!StringUtils.isBlank(idstr)){

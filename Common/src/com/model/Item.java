@@ -7,15 +7,15 @@ import java.util.List;
 import com.model.policy.Template;
 
 public class Item {
-	private String id;
+	private String id="";
 	/**
 	 * 此item的num
 	 */
-	private long num;
+	private int num =0;
 	/**
 	 * 当前url
 	 */
-	private String url;
+	private String url = "";
 	/**
 	 * byte内容
 	 */
@@ -27,7 +27,7 @@ public class Item {
 	/**
 	 * 编码
 	 */
-	private String encoding;
+	private String encoding="UTF-8";
 	/**
 	 * 解析时候的状态，在解析过程中，一旦发觉状态有错，则立刻停止解析
 	 */
@@ -35,31 +35,27 @@ public class Item {
 	/**
 	 * 内容
 	 */
-	private String content;
+	private String content = "";
 	/**
 	 * 标题
 	 */
-	private String title;
+	private String title = "";
 	/**
 	 * 发布时间
 	 */
-	private Date pubTime;
+	private Date pubTime = new Date();
 	/**
 	 * 抓取时间
 	 */
-	private Date crawlTime;
+	private Date crawlTime = new Date();
 	/**
 	 * 回帖数目
 	 */
-	private int replyNum;
-	/**
-	 * 转贴数目
-	 */
-	private int transNum;
+	private int replyNum = 0;
 	/**
 	 * 连接所属类型“0”表示新闻 “1”表示BBS “2”表示微薄
 	 */
-	private String type;
+	private String type ="2";
 	/**
 	 * 外部urls
 	 */
@@ -67,15 +63,11 @@ public class Item {
 	/**
 	 * 发布者
 	 */
-	private String source;
+	private String source = "";
 	/**
 	 * 模板
 	 */
 	private Template template;
-	/**
-	 * 记录此item属于哪个topic
-	 */
-	private String topicIds = "";
 
 	private String metaTitle;
 
@@ -83,7 +75,11 @@ public class Item {
 	/**
 	 * item在luncene中的score
 	 */
-	private float score;
+	private float score = -1;
+	/**
+	 * 用于计算过程的临时量，和前台无关
+	 */
+	private String topicIds;
 
 	public String getContent() {
 		return content;
@@ -123,14 +119,6 @@ public class Item {
 
 	public void setReplyNum(int replyNum) {
 		this.replyNum = replyNum;
-	}
-
-	public int getTransNum() {
-		return transNum;
-	}
-
-	public void setTransNum(int transNum) {
-		this.transNum = transNum;
 	}
 
 	public String getType() {
@@ -213,20 +201,12 @@ public class Item {
 		this.parsedHtml = parsedHtml;
 	}
 
-	public long getNum() {
+	public int getNum() {
 		return num;
 	}
 
-	public void setNum(long num) {
+	public void setNum(int num) {
 		this.num = num;
-	}
-
-	public String getTopicIds() {
-		return topicIds;
-	}
-
-	public void setTopicIds(String topicIds) {
-		this.topicIds = topicIds;
 	}
 
 	public String getMetaTitle() {
@@ -252,4 +232,12 @@ public class Item {
 	public void setId(String id) {
 		this.id = id;
 	}
+
+    public String getTopicIds() {
+        return topicIds;
+    }
+
+    public void setTopicIds(String topicIds) {
+        this.topicIds = topicIds;
+    }
 }
