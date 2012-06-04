@@ -31,6 +31,9 @@ public class SinaWeiboUpdater extends AbstractWeiboUpdater {
 		String jsonStr = ApiClient.doGetMethod(
 				"http://api.t.sina.com.cn/statuses/counts.json?source="
 						+ params[0] + "&ids=" + ids, "UTF-8");
+		if (jsonStr == null || jsonStr.contains("error_code")) {
+			return new ArrayList<Object[]>();
+		}
 		LOG.info("Get Response from Sinaweibo");
 		ObjectMapper mapper = new ObjectMapper();
 		List<Map<String, Object>> data = null;
