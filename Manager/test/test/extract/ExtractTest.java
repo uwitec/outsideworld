@@ -9,6 +9,7 @@ import org.junit.Test;
 import com.dao.CommonDAO;
 import com.dao.ItemDao;
 import com.dao.mongo.ItemDaoImpl;
+import com.extract.Extract;
 import com.model.Item;
 import com.model.policy.Template;
 import com.util.Fetcher;
@@ -18,9 +19,9 @@ import com.util.TemplateCache;
 public class ExtractTest {
 
 	private CommonDAO commonDAO = SpringFactory.getBean("commonDAO");
-	private ItemDao itemDAO = new ItemDaoImpl();
 	private Fetcher fetcher = new Fetcher();
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+	private Extract extract = SpringFactory.getBean("extractChain");
 
 	@Before
 	public void setUp() {
@@ -34,9 +35,10 @@ public class ExtractTest {
 	public void testExtract() throws Exception {
 		Item item = new Item();
 		// item.setUrl("http://news.163.com/12/0408/18/7UJBEMPK0001124J.html");
-		item.setUrl("http://www.tianya.cn/publicforum/content/develop/1/984122.shtml");
+		item.setUrl("http://news.163.com/12/0604/01/8349K5SC00014JB6.html");
 		// item.setUrl("http://blog.sina.com.cn/s/blog_613c0d86010126wf.html?tj=1");
 		fetcher.fetch(item);
+		extract.process(item);
 		printItem(item);
 	}
 
