@@ -59,8 +59,12 @@ public abstract class AbstractWeiboUpdater implements Runnable {
 					}
 				}
 				cursor.close();
-				result = getStatus(sb.toString());
-				update(result);
+				if (sb.length() > 1) {
+					result = getStatus(sb.toString());
+					update(result);
+				} else {
+					Thread.sleep(1000 * 60);
+				}
 				sb.delete(0, sb.length());
 			} catch (NeedLoginException e) {
 				try {
