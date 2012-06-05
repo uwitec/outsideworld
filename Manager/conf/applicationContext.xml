@@ -19,7 +19,6 @@
 	<bean id="replyNumberExtract" class="com.extract.ReplyNumExtract" />
 	<bean id="templateExtract" class="com.extract.TemplateExtract" />
 	<bean id="titleExtract" class="com.extract.TitleExtract" />
-	<bean id="transNumExtract" class="com.extract.TransNumExtract" />
 
 	<!-- ExtractChain -->
 	<bean id="extractChain" class="com.extract.ExtractChain">
@@ -32,7 +31,6 @@
 				<ref bean="contentExtract" />
 				<ref bean="pubTimeExtract" />
 				<ref bean="replyNumberExtract" />
-				<!-- <ref bean="transNumExtract" /> -->
 			</list>
 		</property>
 	</bean>
