@@ -2,8 +2,8 @@ package com.nutch.manager;
 
 import java.util.List;
 
-import com.ItemSelector;
 import com.dao.CommonDAO;
+import com.main.ItemSelector;
 import com.model.policy.Param;
 import com.util.SpringFactory;
 
