@@ -317,6 +317,7 @@ public class Setup {
 	public static void indexDir(){
 	    Param p1 = new Param();
         p1.setName1("index_dir");
+        p1.setType("index_dir");
         p1.setValue1("/data/index");
         commonDAO.save(p1);
 	}
