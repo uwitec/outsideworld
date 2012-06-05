@@ -19,7 +19,6 @@
 	<bean id="replyNumberExtract" class="com.extract.ReplyNumExtract" />
 	<bean id="templateExtract" class="com.extract.TemplateExtract" />
 	<bean id="titleExtract" class="com.extract.TitleExtract" />
-
 	<!-- ExtractChain -->
 	<bean id="extractChain" class="com.extract.ExtractChain">
 		<property name="extracts">
