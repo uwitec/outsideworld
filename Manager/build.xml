@@ -3,7 +3,7 @@
 	<property name="dist.dir" value="D:/Temp/yuqing" />
 
 	<path id="classpath">
-		<fileset dir="../Common/lib">
+		<fileset dir="../Lib/lib">
 			<include name="**/*.jar" />
 		</fileset>
 		<fileset dir="../Nutch/lib">
@@ -60,7 +60,9 @@
 	</target>
 
 	<target name="build-paoding" depends="compile-indexer">
-		<jar destfile="${dist.dir}/bin/paoding.jar" basedir="../YuQingPaoDing/bin" />
+		<jar destfile="${dist.dir}/bin/paoding.jar" basedir="../YuQingPaoDing/bin">
+			<exclude name="dic/**" />
+		</jar>
 	</target>
 
 	<target name="compile-weibo" depends="init">
@@ -99,9 +101,10 @@
 	</target>
 
 	<target name="build" depends="build-common,build-extract,build-weibo,build-indexer,build-paoding,build-nutch,build-manager">
-		<copydir dest="${dist.dir}/lib" src="../Common/lib" />
-		<copydir dest="${dist.dir}/lib" src="../Nutch/lib" />
-		<copydir dest="${dist.dir}/lib" src="../Weibo/lib" />
+		<copy todir="${dist.dir}/lib" flatten="true">
+			<fileset dir="../Lib/lib" includes="**/*.jar" />
+			<fileset dir="../Nutch/lib" includes="*.jar" />
+		</copy>
 		<copydir dest="${dist.dir}/conf" src="conf">
 			<exclude name="nutch-default.xml" />
 		</copydir>
