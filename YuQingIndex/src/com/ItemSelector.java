@@ -50,7 +50,7 @@ public class ItemSelector {
 	private ItemIndexer itemIndexer;
 	private IndexSearcher searcher;
 
-	public List<Item> select(List<Item> items, List<Topic> topics)
+	public List<Item> select(List<Item> items, List<Topic> topics,String dir)
 			throws Exception {
 		if (items == null || items.size() <= 0) {
 			return new ArrayList<Item>();
@@ -124,7 +124,7 @@ public class ItemSelector {
 		items.removeAll(result);
 		LOG.debug("There is "+result.size()+" items to be published,and "+items.size()+" items to be deleted!");
 		LOG.debug("Begin to index in disk!");
-		itemIndexer.index(result, items, "D:\\index");
+		itemIndexer.index(result, items, dir);
 		LOG.debug("End index in disk!");
 		return result;
 	}
@@ -137,7 +137,7 @@ public class ItemSelector {
 		this.index = index;
 	}
 
-	public void select() throws Exception {
+	public void select(String dir) throws Exception {
 	    LOG.info("Begin to select...");
 		List<Item> items = null;
 		List<Topic> topics = cache.get("topic");
@@ -154,7 +154,7 @@ public class ItemSelector {
 				Thread.sleep(1000 * 60);
 			}
 			LOG.info("Begin to select items by the topics...");
-			List<Item> result= select(items, topics);
+			List<Item> result= select(items, topics,dir);
 			LOG.info("There is "+result.size()+" items selected!");
 			LOG.info("Begin to publish items ...");
 			itemDao.publish(result);
@@ -192,7 +192,7 @@ public class ItemSelector {
 	public static void main(String[] args) throws Exception {
 		ItemSelector selector = (ItemSelector) SpringFactory
 				.getBean("itemSelector");
-		selector.select();
+		selector.select("/home/fangxia722/index");
 		System.out.println("完成");
 	}
 
