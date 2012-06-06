@@ -107,6 +107,17 @@ public class MongoUtil {
 		}
 		return null;
 	}
+	
+	public DBCursor find(String tableName, List<String> ids){
+	    int len = ids.size();
+        ObjectId[] arr = new ObjectId[len];
+        for(int i=0; i<len; i++){
+            arr[i] = new ObjectId(ids.get(i));
+        }
+        DBObject in = new BasicDBObject("$in", arr);
+        DBObject query = new BasicDBObject("_id", in);
+        return find(tableName,query);
+	}
 
 	/**
 	 * 这个是常用方法，每次返回一定量的数据，类似于关系数据库中的分页
