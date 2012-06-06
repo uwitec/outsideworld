@@ -11,7 +11,8 @@ public class ContentExtract extends AExtract {
 
 	@Override
 	public void process(Item item) throws Exception {
-		if (item.getTemplate() == null) {
+		if (item.getTemplate() == null
+				&& !"MetaSearch".equalsIgnoreCase(item.getType())) {
 			item.setStatus(false);
 			return;
 		}
@@ -43,9 +44,6 @@ public class ContentExtract extends AExtract {
 			if (child.getName().equalsIgnoreCase("script")) {
 				child.removeAllChildren();
 				node.removeChild(child);
-			} else if (child.getAttributes().size() > 0) {
-				node.removeChild(child);
-				return "";
 			}
 		}
 		return node.getText().toString() + "\n";
