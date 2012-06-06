@@ -40,12 +40,20 @@ public class ContentExtract extends AExtract {
 	@SuppressWarnings("unchecked")
 	private String extractTxt(TagNode node) {
 		List<TagNode> children = node.getAllElementsList(false);
+		int linkLength = 0;
 		for (TagNode child : children) {
 			if (child.getName().equalsIgnoreCase("script")) {
 				child.removeAllChildren();
 				node.removeChild(child);
+			} else if (child.getName().equals("a")) {
+				linkLength += child.getText().length();
 			}
 		}
-		return node.getText().toString() + "\n";
+		String text = node.getText().toString();
+		if (text.length() > linkLength * 2) {
+			return text;
+		} else {
+			return "";
+		}
 	}
 }
