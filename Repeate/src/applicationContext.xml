@@ -91,12 +91,5 @@
 	</bean>
 
 	<bean id="main" class="com.Main1"></bean>
-	<bean id="corpusCache" class="com.cache.Cache"></bean>
-	<bean id="wordsCache" class="com.cache.Cache"></bean>
-	<bean id="dfCache" class="com.cache.Cache"></bean>
-	<bean id="concentricString" class="com.algorithm.ConcentricString"></bean>
-	<bean id="kWordsSelector" class="com.algorithm.KWordsSelector"></bean>
-	<bean id="agents" class="com.algorithm.Agents"></bean>
-	<bean id="distance" class="com.algorithm.CosSim"></bean>
-	<bean id="segSentence" class="com.algorithm.SegSentence"></bean>
+	
 </beans>

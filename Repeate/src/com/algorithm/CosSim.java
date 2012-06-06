@@ -6,7 +6,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
 import com.cache.Cache;
-import com.model.TopicItem;
+import com.model.ReTopicItem;
 import com.model.WordItem;
 
 /**
@@ -22,7 +22,7 @@ public class CosSim implements Distance {
 	 * title中出现的次数是content中的w倍， 作为topic中的特征值
 	 */
 	@Override
-	public double distance(TopicItem f1, TopicItem f2) {
+	public double distance(ReTopicItem f1, ReTopicItem f2) {
 		Map<String, Double> f1Map = new HashMap<String, Double>();
 		Map<String, Double> f2Map = new HashMap<String, Double>();
 		// 记录x1、x2..等等f1中所有特征的平方
@@ -47,7 +47,7 @@ public class CosSim implements Distance {
 	 * @param f1
 	 * @return
 	 */
-	private double sum2(TopicItem f1, Map<String, Double> map) {
+	private double sum2(ReTopicItem f1, Map<String, Double> map) {
 		double result = 0.0;
 		String title = f1.getTitle();
 		String content = f1.getContent();

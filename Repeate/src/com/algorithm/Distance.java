@@ -1,8 +1,8 @@
 package com.algorithm;
 
 
-import com.model.TopicItem;
+import com.model.ReTopicItem;
 
 public interface Distance {
-    public double distance(TopicItem t1,TopicItem t2);
+    public double distance(ReTopicItem t1,ReTopicItem t2);
 }

@@ -20,7 +20,7 @@ import com.algorithm.KWordsSelector;
 import com.cache.Cache;
 import com.dao.ItemDao;
 import com.model.Item;
-import com.model.TopicItem;
+import com.model.ReTopicItem;
 import com.model.WordItem;
 import com.model.policy.Topic;
 import com.mongodb.BasicDBObject;
@@ -58,9 +58,9 @@ public class Main {
 			Pattern p = Pattern.compile(id);  
 			sample.put("topicIds", p);
 			List<Item> items = itemDao.findPublished(sample);
-			List<TopicItem> topicItems = new ArrayList<TopicItem>();
+			List<ReTopicItem> topicItems = new ArrayList<ReTopicItem>();
 			for (Item item : items) {
-				TopicItem topicItem = new TopicItem();
+				ReTopicItem topicItem = new ReTopicItem();
 				topicItem.setContent(item.getContent());
 				topicItem.setTitle(item.getTitle());
 				Set<String> keyWords = new HashSet<String>();
@@ -90,7 +90,7 @@ public class Main {
 			main.getWordsCache().clear();
 			main.getDfCache().clear();
 			Collections.sort(topicItems);
-			for(TopicItem ti:topicItems){
+			for(ReTopicItem ti:topicItems){
 				System.out.print(ti.getLabel()+"    "+ti.getTitle()+"    "+ti.getContent()+"    ");
 				for(WordItem key:ti.getWords()){
 					System.out.print(key.getWord()+" ");

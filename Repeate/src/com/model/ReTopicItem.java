@@ -2,20 +2,20 @@ package com.model;
 
 import java.util.List;
 
-public class TopicItem implements Comparable{
+public class ReTopicItem implements Comparable{
     private String title;
     private String content;
     private String id;
     /**
-     * Ñ¡³öÀ´µÄÌØÕ÷´ÊÓï
+     * Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      */
     private List<WordItem> words;
     /**
-     * Ô­Ê¼µÄtitleÊý¾Ý
+     * Ô­Ê¼ï¿½ï¿½titleï¿½ï¿½ï¿½
      */
     private List<String> rawTStrings;
     /**
-     * Ô­Ê¼µÄcontentÊý¾Ý
+     * Ô­Ê¼ï¿½ï¿½contentï¿½ï¿½ï¿½
      */
     private List<String> rawCStrings;
     private int label;
@@ -64,7 +64,7 @@ public class TopicItem implements Comparable{
 	}
 	@Override
 	public int compareTo(Object o) {
-		TopicItem item=(TopicItem)o;
+		ReTopicItem item=(ReTopicItem)o;
 		return label-item.getLabel();
 	}
 	
