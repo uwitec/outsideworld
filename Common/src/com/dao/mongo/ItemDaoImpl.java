@@ -113,16 +113,6 @@ public class ItemDaoImpl implements ItemDao {
 		mongoDB.update(query,o, "story");
 	}
 
-	@Override
-	public List<Item> findPublished(DBObject sample) throws Exception {
-		DBCursor cursor = mongoDB.find("published", sample);
-		List<Item> items = new ArrayList<Item>();
-		while (cursor != null && cursor.hasNext()) {
-			DBObject o = cursor.next();
-			items.add(trans(o));
-		}
-		return items;
-	}
 	
 	@Override
 	public DBCursor getCursor(DBObject sample) throws Exception {
@@ -137,4 +127,26 @@ public class ItemDaoImpl implements ItemDao {
 		}
 		mongoDB.delete(ids, "story");
 	}
+
+    @Override
+    public List<Item> findByTopicId(String id) throws Exception {
+        //
+        DBObject query = new BasicDBObject();
+        query.put("topicId", id);
+        DBCursor cursor = mongoDB.find("topicItem", query);
+        List<String> ids = new ArrayList<String>();
+        while (cursor != null && cursor.hasNext()) {
+            DBObject o = cursor.next();
+            ids.add((String)o.get("itemId"));
+        }
+        List<Item> items = new ArrayList<Item>();
+        if(ids.size()>0){
+            cursor = mongoDB.find("story", ids);
+            while (cursor != null && cursor.hasNext()) {
+                DBObject o = cursor.next();
+               items.add(trans(o));
+            }
+        }
+        return items;
+    }
 }
