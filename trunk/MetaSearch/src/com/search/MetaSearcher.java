@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
 
@@ -17,6 +18,8 @@ import com.util.Fetcher;
 import com.util.SpringFactory;
 
 public class MetaSearcher implements Runnable {
+
+	private static final Logger LOG = Logger.getLogger(MetaSearcher.class);
 
 	public static final String KEYWORD = "${KEYWORD}";
 	public static final String OFFSET = "${OFFSET}";
@@ -34,6 +37,7 @@ public class MetaSearcher implements Runnable {
 		List<Topic> topics = commonDAO.query("from Topic t");
 		List<Param> list = commonDAO
 				.query("from Param p where p.type = 'metasearch'");
+		LOG.info("Generate Items for metasearch");
 		for (Topic topic : topics) {
 			String keyword = topic.getInclude().replace(";", "+");
 			for (Param param : list) {
@@ -62,6 +66,7 @@ public class MetaSearcher implements Runnable {
 	}
 
 	private void search(Item item) {
+		LOG.info("Search in " + item.getUrl());
 		try {
 			fetcher.fetch(item);
 			String page = new String(item.getRawData(), item.getEncoding());
@@ -71,6 +76,7 @@ public class MetaSearcher implements Runnable {
 				Item metaItem = new Item();
 				metaItem.setUrl(result[1]);
 				metaItem.setTitle(result[0]);
+				metaItem.setType("MetaSearch");
 				processMetaItem(metaItem);
 			}
 		} catch (Exception e) {
@@ -82,7 +88,6 @@ public class MetaSearcher implements Runnable {
 		try {
 			fetcher.fetch(item);
 			extracter.process(item);
-			item.setType("MetaSearch");
 			item.setCrawlTime(new Date());
 			itemDAO.insert(item);
 		} catch (Exception e) {
@@ -121,6 +126,7 @@ public class MetaSearcher implements Runnable {
 
 	@Override
 	public void run() {
+		LOG.info("Start MetaSearch Thread");
 		while (true) {
 			search();
 			try {
