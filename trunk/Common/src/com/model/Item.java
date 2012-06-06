@@ -7,11 +7,11 @@ import java.util.List;
 import com.model.policy.Template;
 
 public class Item {
-	private String id="";
+	private String id = "";
 	/**
 	 * 此item的num
 	 */
-	private int num =0;
+	private int num = 0;
 	/**
 	 * 当前url
 	 */
@@ -27,7 +27,7 @@ public class Item {
 	/**
 	 * 编码
 	 */
-	private String encoding="UTF-8";
+	private String encoding = "UTF-8";
 	/**
 	 * 解析时候的状态，在解析过程中，一旦发觉状态有错，则立刻停止解析
 	 */
@@ -55,7 +55,7 @@ public class Item {
 	/**
 	 * 连接所属类型“0”表示新闻 “1”表示BBS “2”表示微薄
 	 */
-	private String type ="2";
+	private String type = "";
 	/**
 	 * 外部urls
 	 */
@@ -225,19 +225,19 @@ public class Item {
 		this.id = id;
 	}
 
-    public String getTopicIds() {
-        return topicIds;
-    }
+	public String getTopicIds() {
+		return topicIds;
+	}
 
-    public void setTopicIds(String topicIds) {
-        this.topicIds = topicIds;
-    }
+	public void setTopicIds(String topicIds) {
+		this.topicIds = topicIds;
+	}
 
-    public String getSourceId() {
-        return sourceId;
-    }
+	public String getSourceId() {
+		return sourceId;
+	}
 
-    public void setSourceId(String sourceId) {
-        this.sourceId = sourceId;
-    }
+	public void setSourceId(String sourceId) {
+		this.sourceId = sourceId;
+	}
 }
