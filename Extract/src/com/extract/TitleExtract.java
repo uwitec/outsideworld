@@ -20,7 +20,7 @@ public class TitleExtract extends AExtract {
 			title = XPathUtil.getResult(item.getParsedHtml().getNode(),
 					"//title");
 			if (title.contains("_")) {
-				title.substring(0, title.lastIndexOf("_"));
+				title = title.substring(0, title.lastIndexOf("_"));
 			}
 		}
 		item.setTitle(title);
