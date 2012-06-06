@@ -16,7 +16,8 @@ public class ExtractChain implements Extract {
 				item.setParsedHtml(new ParsedHtml(item.getPageString()));
 			}
 			extract.process(item);
-			if (!item.isStatus()) {
+			if (!item.isStatus()
+					&& !"MetaSearch".equalsIgnoreCase(item.getType())) {
 				return;
 			}
 		}

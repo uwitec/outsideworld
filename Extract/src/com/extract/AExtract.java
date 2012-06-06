@@ -18,6 +18,9 @@ public abstract class AExtract implements Extract {
 
 	protected String extract(String field, Item item) throws Exception {
 		Template template = item.getTemplate();
+		if (template == null) {
+			return "";
+		}
 		Set<Element> elements = template.getElements();
 		for (Element e : elements) {
 			if (StringUtils.equals(field, e.getName())) {

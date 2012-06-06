@@ -9,7 +9,8 @@ public class TitleExtract extends AExtract {
 
 	@Override
 	public void process(Item item) throws Exception {
-		if (item.getTemplate() == null) {
+		if (item.getTemplate() == null
+				&& !"MetaSearch".equalsIgnoreCase(item.getType())) {
 			item.setStatus(false);
 			return;
 		}
@@ -18,6 +19,9 @@ public class TitleExtract extends AExtract {
 		if (StringUtils.isBlank(title)) {
 			title = XPathUtil.getResult(item.getParsedHtml().getNode(),
 					"//title");
+			if (title.contains("_")) {
+				title.substring(0, title.lastIndexOf("_"));
+			}
 		}
 		item.setTitle(title);
 	}
