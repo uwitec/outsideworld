@@ -17,7 +17,7 @@ public interface ItemDao {
 	
 	public void publish(List<Item> items) throws Exception;
 	
-	public List<Item> findPublished(DBObject sample) throws Exception;
+	public List<Item> findByTopicId(String id) throws Exception;
 	
 	public DBCursor getCursor(DBObject sample) throws Exception;
 	
