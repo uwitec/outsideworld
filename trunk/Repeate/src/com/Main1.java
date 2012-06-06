@@ -22,7 +22,7 @@ import com.cache.Cache;
 import com.dao.ClassDao;
 import com.dao.ItemDao;
 import com.model.Item;
-import com.model.TopicItem;
+import com.model.ReTopicItem;
 import com.model.WordItem;
 import com.model.crawl.ClassItem;
 import com.model.policy.Topic;
@@ -71,9 +71,9 @@ public class Main1 {
 			Pattern p = Pattern.compile(id);
 			sample.put("topicIds", p);
 			List<Item> items = itemDao.findPublished(sample);
-			List<TopicItem> topicItems = new ArrayList<TopicItem>();
+			List<ReTopicItem> topicItems = new ArrayList<ReTopicItem>();
 			for (Item item : items) {
-				TopicItem topicItem = new TopicItem();
+				ReTopicItem topicItem = new ReTopicItem();
 				topicItem.setContent(item.getContent());
 				topicItem.setTitle(item.getTitle());
 				Set<String> keyWords = new HashSet<String>();
@@ -106,7 +106,7 @@ public class Main1 {
 			Collections.sort(topicItems);
 			int lable = 0;
 			String topicIds = "";
-			for (TopicItem ti : topicItems) {
+			for (ReTopicItem ti : topicItems) {
 				System.out.print(ti.getLabel() + "    " + ti.getTitle()
 						+ "    " + ti.getContent() + "    ");
 				for (WordItem key : ti.getWords()) {
