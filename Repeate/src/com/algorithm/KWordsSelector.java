@@ -10,14 +10,6 @@ import com.model.WordItem;
 
 public class KWordsSelector {
 	/**
-	 * 聚类的文本集合中的cache，记录文本集合中出现的词语以及次数
-	 */
-	private Cache wordsCache;
-	/**
-	 * 记录在本文档集合中词语的df值
-	 */
-	private Cache dfCache;
-	/**
 	 * 语料中的cache
 	 */
 	private Cache corpusCache;
@@ -37,10 +29,12 @@ public class KWordsSelector {
 	 *            传入的topic总的数目，在words中，若有些词在wordCacxhe中出现的次数大于a*len，则去掉
 	 * @param topicStrings
 	 *            topic中所包含的词语，应该去掉
+	 * @param dfCache 记录在本文档集合中词语的df值
+	 * @param wordsCache 聚类的文本集合中的cache，记录文本集合中出现的词语以及次数
 	 * @return 选择出来可以做特征的词语，最多50个
 	 */
 	public List<WordItem> select(Set<String> words, int len,
-			List<String> topicStrings) {
+			List<String> topicStrings,Cache dfCache,Cache wordsCache) {
 		// 首先去掉topicStrings中的词语
 		if (topicStrings != null) {
 			words.removeAll(topicStrings);
@@ -77,21 +71,5 @@ public class KWordsSelector {
 
 	public void setCorpusCache(Cache corpusCache) {
 		this.corpusCache = corpusCache;
-	}
-
-	public Cache getWordsCache() {
-		return wordsCache;
-	}
-
-	public void setWordsCache(Cache wordsCache) {
-		this.wordsCache = wordsCache;
-	}
-
-	public Cache getDfCache() {
-		return dfCache;
-	}
-
-	public void setDfCache(Cache dfCache) {
-		this.dfCache = dfCache;
 	}
 }
