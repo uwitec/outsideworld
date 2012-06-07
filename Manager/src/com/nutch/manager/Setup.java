@@ -27,17 +27,115 @@ public class Setup {
 	}
 
 	public static void meta() {
+		// 必应
+		Source s1 = new Source();
+		s1.setName("必应");
+		s1.setType(SourceType.METASEARCH);
+		s1.setUrl("Bing");
+		s1.setId(200001);
+		commonDAO.save(s1);
+
 		Param p1 = new Param();
 		p1.setName1("name");
-		p1.setValue1("Bing");
+		p1.setValue1("必应");
 		p1.setName2("URL");
 		p1.setValue2("http://cn.bing.com/search?q=${KEYWORD}&first=${OFFSET}");
 		p1.setName3("page");
 		p1.setValue3("3");
 		p1.setName4("title");
 		p1.setValue4("//li[@class='sa_wr']//h3/a");
+		p1.setName5("sourceId");
+		p1.setValue5("200001");
 		p1.setType("metasearch");
 		commonDAO.save(p1);
+
+		// 百度
+		Source s2 = new Source();
+		s2.setName("百度");
+		s2.setType(SourceType.METASEARCH);
+		s2.setUrl("Bing");
+		s2.setId(200002);
+		commonDAO.save(s2);
+
+		Param p2 = new Param();
+		p2.setName1("name");
+		p2.setValue1("百度");
+		p2.setName2("URL");
+		p2.setValue2("http://www.baidu.com/s?wd=${KEYWORD}&pn=${OFFSET}");
+		p2.setName3("page");
+		p2.setValue3("3");
+		p2.setName4("title");
+		p2.setValue4("//h3[@class='t']/a");
+		p2.setName5("sourceId");
+		p2.setValue5("200002");
+		p2.setType("metasearch");
+		commonDAO.save(p2);
+
+		// 谷歌
+		Source s3 = new Source();
+		s3.setName("谷歌");
+		s3.setType(SourceType.METASEARCH);
+		s3.setUrl("Google");
+		s3.setId(200003);
+		commonDAO.save(s3);
+
+		Param p3 = new Param();
+		p3.setName1("name");
+		p3.setValue1("谷歌");
+		p3.setName2("URL");
+		p3.setValue2("http://www.google.com/#q=${KEYWORD}&start=${OFFSET}");
+		p3.setName3("page");
+		p3.setValue3("3");
+		p3.setName4("title");
+		p3.setValue4("//h3[@class='r']/a");
+		p3.setName5("sourceId");
+		p3.setValue5("200003");
+		p3.setType("metasearch");
+		commonDAO.save(p3);
+
+		// 搜狗
+		Source s4 = new Source();
+		s4.setName("搜狗");
+		s4.setType(SourceType.METASEARCH);
+		s4.setUrl("Sougo");
+		s4.setId(200004);
+		commonDAO.save(s4);
+
+		Param p4 = new Param();
+		p4.setName1("name");
+		p4.setValue1("搜狗");
+		p4.setName2("URL");
+		p4.setValue2("http://www.sogou.com/web?query=${KEYWORD}&page=${PAGE}");
+		p4.setName3("page");
+		p4.setValue3("3");
+		p4.setName4("title");
+		p4.setValue4("//h3[@class='pt']/a");
+		p4.setName5("sourceId");
+		p4.setValue5("200004");
+		p4.setType("metasearch");
+		commonDAO.save(p4);
+
+		// 有道
+		Source s5 = new Source();
+		s5.setName("有道");
+		s5.setType(SourceType.METASEARCH);
+		s5.setUrl("Youdao");
+		s5.setId(200005);
+		commonDAO.save(s5);
+
+		Param p5 = new Param();
+		p5.setName1("name");
+		p5.setValue1("有道");
+		p5.setName2("URL");
+		p5.setValue2("http://www.youdao.com/search?q=${KEYWORD}&start=${OFFSET}");
+		p5.setName3("page");
+		p5.setValue3("3");
+		p5.setName4("title");
+		p5.setValue4("//div[@class='t1']/h3/a");
+		p5.setName5("sourceId");
+		p5.setValue5("200005");
+		p5.setType("metasearch");
+		commonDAO.save(p5);
 	}
 
 	public static void weibo() {
@@ -313,13 +411,13 @@ public class Setup {
 
 		commonDAO.save(s1);
 	}
-	
-	public static void indexDir(){
-	    Param p1 = new Param();
-        p1.setName1("index_dir");
-        p1.setType("index_dir");
-        p1.setValue1("/data/index");
-        commonDAO.save(p1);
+
+	public static void indexDir() {
+		Param p1 = new Param();
+		p1.setName1("index_dir");
+		p1.setType("index_dir");
+		p1.setValue1("/data/index");
+		commonDAO.save(p1);
 	}
 
 	public static void main(String[] args) {
