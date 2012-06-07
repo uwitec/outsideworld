@@ -118,9 +118,8 @@
 	<bean id="index" class="com.index.MemIndexImpl"></bean>
 	<bean id="indexImpl" class="com.index.IndexImp"></bean>
 	
+	<bean id="control" class="com.repeate.Control"></bean>
 	<bean id="corpusCache" class="com.cache.Cache"></bean>
-	<bean id="wordsCache" class="com.cache.Cache"></bean>
-	<bean id="dfCache" class="com.cache.Cache"></bean>
 	<bean id="concentricString" class="com.algorithm.ConcentricString"></bean>
 	<bean id="kWordsSelector" class="com.algorithm.KWordsSelector"></bean>
 	<bean id="agents" class="com.algorithm.Agents"></bean>
