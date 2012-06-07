@@ -75,6 +75,16 @@
 		<jar destfile="${dist.dir}/bin/weibo.jar" basedir="../Weibo/bin" />
 	</target>
 
+	<target name="compile-meta" depends="init">
+		<javac srcdir="../MetaSearcher/src" destdir="../MetaSearcher/bin">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+
+	<target name="build-meta" depends="compile-meta">
+		<jar destfile="${dist.dir}/bin/metasearcher.jar" basedir="../MetaSearcher/bin" />
+	</target>
+
 	<target name="compile-manager" depends="init">
 		<javac srcdir="src" destdir="bin">
 			<classpath refid="classpath" />
@@ -100,7 +110,7 @@
 		</jar>
 	</target>
 
-	<target name="build" depends="build-common,build-extract,build-weibo,build-indexer,build-paoding,build-nutch,build-manager">
+	<target name="build" depends="build-common,build-extract,build-weibo,build-indexer,build-paoding,build-nutch,build-meta,build-manager">
 		<copy todir="${dist.dir}/lib" flatten="true">
 			<fileset dir="../Lib/lib" includes="**/*.jar" />
 			<fileset dir="../Nutch/lib" includes="*.jar" />
