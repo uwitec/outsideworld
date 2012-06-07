@@ -5,8 +5,10 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+
 import com.algorithm.Agents;
 import com.algorithm.KWordsSelector;
 import com.algorithm.SegSentence;
@@ -76,35 +78,35 @@ public class Control {
             topicItem.setWords(kWordsSelector.select(keyWords,
                     items.size(), topicWords,dfCache,wordsCache));
             topicItems.add(topicItem);
-            log(topicItems);
+            save(topicItems,topic.getId());
         }
         
     }
     
-    private void log(List<ReTopicItem> topicItems){
+    private void save(List<ReTopicItem> topicItems,int topicId) throws Exception{
         int lable = 0;
-        String seperate = System.
         String topicIds = "";
         for (ReTopicItem ti : topicItems) {
             LOG.debug((ti.getLabel() + "****" + ti.getTitle()+ "    " + ti.getContent() + "    "));
+            String keyWords = "";
             for (WordItem key : ti.getWords()) {
-                LOG.debug(key.getWord() + " ");
+            	keyWords+=key.getWord() + " ";
             }
-            System.out.println();
+            LOG.debug("The key words is:");
+            LOG.debug(keyWords);
             topicIds+=ti.getId()+"_";
             if(ti.getLabel()>lable){
                 ClassItem cla = new ClassItem();
                 cla.setItemIds(topicIds);
                 cla.setLable(lable);
-                cla.setTopicId(topic.getId());
-                main.getClassDao().insert(cla);
+                cla.setTopicId(topicId);
+                classDao.insert(cla);
+                LOG.debug("Insert a class.The topicId is "+topicId+",the class is "+lable+",the itemIds is "+topicIds);
                 lable = ti.getLabel();
                 topicIds = "";
             }
             
         }
-
-        System.out.println("");
     }
     
     public Cache getCorpusCache() {
