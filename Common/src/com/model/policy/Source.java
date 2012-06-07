@@ -96,6 +96,6 @@ public class Source {
 	}
 
 	public static enum SourceType {
-		WEBSITE, WEIBO, SEARCH, QQ
+		WEBSITE, WEIBO, SEARCH, QQ, METASEARCH
 	}
 }
