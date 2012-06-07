@@ -22,6 +22,7 @@ public class MetaSearcher implements Runnable {
 	private static final Logger LOG = Logger.getLogger(MetaSearcher.class);
 
 	public static final String KEYWORD = "${KEYWORD}";
+	public static final String PAGE = "${PAGE}";
 	public static final String OFFSET = "${OFFSET}";
 
 	private static HtmlCleaner htmlCleaner = new HtmlCleaner();
@@ -47,10 +48,13 @@ public class MetaSearcher implements Runnable {
 				for (int i = 0; i < page; i++) {
 					int offset = 10 * i;
 					String newUrl = url.replace(KEYWORD, keyword).replace(
-							OFFSET, Integer.toString(offset));
+							OFFSET,
+							Integer.toString(offset).replace(PAGE,
+									String.valueOf(i + 1)));
 					Item item = new Item();
 					item.setUrl(newUrl);
 					item.setMetaTitle(metaTitle);
+					item.setSourceId(param.getValue5());
 					items.add(item);
 				}
 			}
@@ -77,10 +81,11 @@ public class MetaSearcher implements Runnable {
 				metaItem.setUrl(result[1]);
 				metaItem.setTitle(result[0]);
 				metaItem.setType("MetaSearch");
+				metaItem.setSourceId(item.getSourceId());
 				processMetaItem(metaItem);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("Search in " + item.getUrl() + " error", e);
 		}
 	}
 
@@ -91,7 +96,7 @@ public class MetaSearcher implements Runnable {
 			item.setCrawlTime(new Date());
 			itemDAO.insert(item);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("Processing meta item error", e);
 		}
 	}
 
@@ -132,8 +137,7 @@ public class MetaSearcher implements Runnable {
 			try {
 				Thread.sleep(1000 * 3600);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				LOG.error(e.getMessage());
 			}
 		}
 	}
