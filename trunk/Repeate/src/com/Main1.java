@@ -104,29 +104,7 @@ public class Main1 {
 			main.getWordsCache().clear();
 			main.getDfCache().clear();
 			Collections.sort(topicItems);
-			int lable = 0;
-			String topicIds = "";
-			for (ReTopicItem ti : topicItems) {
-				System.out.print(ti.getLabel() + "    " + ti.getTitle()
-						+ "    " + ti.getContent() + "    ");
-				for (WordItem key : ti.getWords()) {
-					System.out.print(key.getWord() + " ");
-				}
-				System.out.println();
-				topicIds+=ti.getId()+"_";
-				if(ti.getLabel()>lable){
-					ClassItem cla = new ClassItem();
-					cla.setItemIds(topicIds);
-					cla.setLable(lable);
-					cla.setTopicId(topic.getId());
-					main.getClassDao().insert(cla);
-					lable = ti.getLabel();
-					topicIds = "";
-				}
-				
-			}
-
-			System.out.println("");
+			
 		}
 	}
 
