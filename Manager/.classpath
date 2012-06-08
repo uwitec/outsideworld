@@ -12,5 +12,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/MetaSearcher"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/YuqinIndex"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/YuQingLib"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Repeate"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
