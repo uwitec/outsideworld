@@ -30,7 +30,7 @@ public class Setup {
 		// 必应
 		Source s1 = new Source();
 		s1.setName("必应");
-		s1.setType(SourceType.METASEARCH);
+		s1.setType(SourceType.METASE);
 		s1.setUrl("Bing");
 		s1.setId(200001);
 		commonDAO.save(s1);
@@ -52,8 +52,8 @@ public class Setup {
 		// 百度
 		Source s2 = new Source();
 		s2.setName("百度");
-		s2.setType(SourceType.METASEARCH);
-		s2.setUrl("Bing");
+		s2.setType(SourceType.METASE);
+		s2.setUrl("Baidu");
 		s2.setId(200002);
 		commonDAO.save(s2);
 
@@ -74,7 +74,7 @@ public class Setup {
 		// 谷歌
 		Source s3 = new Source();
 		s3.setName("谷歌");
-		s3.setType(SourceType.METASEARCH);
+		s3.setType(SourceType.METASE);
 		s3.setUrl("Google");
 		s3.setId(200003);
 		commonDAO.save(s3);
@@ -96,7 +96,7 @@ public class Setup {
 		// 搜狗
 		Source s4 = new Source();
 		s4.setName("搜狗");
-		s4.setType(SourceType.METASEARCH);
+		s4.setType(SourceType.METASE);
 		s4.setUrl("Sougo");
 		s4.setId(200004);
 		commonDAO.save(s4);
@@ -118,7 +118,7 @@ public class Setup {
 		// 有道
 		Source s5 = new Source();
 		s5.setName("有道");
-		s5.setType(SourceType.METASEARCH);
+		s5.setType(SourceType.METASE);
 		s5.setUrl("Youdao");
 		s5.setId(200005);
 		commonDAO.save(s5);
