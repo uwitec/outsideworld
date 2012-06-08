@@ -32,7 +32,7 @@ public class Template {
 	@Column(nullable = false, length = 200)
 	private String domain;
 
-	@Column(name = "url_regex", nullable = false)
+	@Column(name = "content_url_regex", nullable = false)
 	private String urlRegex;
 
 	@Column(name = "fetch_interval")
@@ -40,6 +40,9 @@ public class Template {
 
 	@ManyToOne(targetEntity = Source.class)
 	private Source source;
+
+	@Column(name = "need_update")
+	private boolean needUpdate = false;
 
 	public int getId() {
 		return id;
@@ -87,5 +90,13 @@ public class Template {
 
 	public void setSource(Source source) {
 		this.source = source;
+	}
+
+	public boolean isNeedUpdate() {
+		return needUpdate;
+	}
+
+	public void setNeedUpdate(boolean needUpdate) {
+		this.needUpdate = needUpdate;
 	}
 }

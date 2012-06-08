@@ -23,7 +23,7 @@ public class Favorite {
 	private String userId;
 
 	/* 舆情ID */
-	@Column(nullable = false, name = "info_id")
+	@Column(nullable = false, name = "item_id")
 	private String infoId;
 
 	public String getUserId() {
