@@ -20,6 +20,9 @@ public class SourceCategory {
 	@Column(nullable = false, length = 200, unique = true)
 	private String name;
 
+	@Column(name = "source_id")
+	private int sourceId;
+
 	public int getId() {
 		return id;
 	}
@@ -34,5 +37,13 @@ public class SourceCategory {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public int getSourceId() {
+		return sourceId;
+	}
+
+	public void setSourceId(int sourceId) {
+		this.sourceId = sourceId;
 	}
 }

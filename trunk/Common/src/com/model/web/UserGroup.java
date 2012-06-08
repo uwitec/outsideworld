@@ -11,8 +11,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "groups")
-public class Group {
+@Table(name = "user_groups")
+public class UserGroup {
 
 	@Id
 	@GeneratedValue(generator = "increment")

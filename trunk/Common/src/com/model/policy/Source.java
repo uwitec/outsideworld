@@ -31,16 +31,12 @@ public class Source {
 	@JoinColumn(name = "source_id")
 	private Set<Template> tempaltes = new HashSet<Template>();
 
-	/* 分类ID */
-	@Column(nullable = false, name = "category_id")
-	private int categoryId;
-
 	/* 名称 */
 	@Column(nullable = false, length = 200)
 	private String name;
 
 	/* URL */
-	@Column(nullable = false, length = 200, unique = true)
+	@Column(name = "entry", nullable = false, length = 200, unique = true)
 	private String url;
 
 	/* 类型 */
@@ -53,14 +49,6 @@ public class Source {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public int getCategoryId() {
-		return categoryId;
-	}
-
-	public void setCategoryId(int categoryId) {
-		this.categoryId = categoryId;
 	}
 
 	public String getName() {
@@ -96,6 +84,6 @@ public class Source {
 	}
 
 	public static enum SourceType {
-		WEBSITE, WEIBO, SEARCH, QQ, METASEARCH
+		WEBSITE, WEIBO, QQ, METASE
 	}
 }

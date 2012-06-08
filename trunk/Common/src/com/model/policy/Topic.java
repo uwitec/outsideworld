@@ -42,11 +42,11 @@ public class Topic {
 	private String exclude;
 
 	/* 是否负面 */
-	@Column(nullable = false, name = "negative")
+	@Column(nullable = false, name = "isnegative")
 	private boolean isNegative = false;
 
 	/* 开启报警 */
-	@Column(nullable = false, name = "warn")
+	@Column(nullable = false, name = "iswarn")
 	private boolean enableWarning = false;
 
 	/* 报警条件 */
@@ -54,16 +54,16 @@ public class Topic {
 	private int warningLimit;
 
 	/* 报警方式 */
-	@Enumerated(EnumType.STRING)
-	@Column(name = "warn_type")
-	private WarnType warnType;
+//	@Enumerated(EnumType.STRING)
+//	@Column(name = "warn_type")
+//	private WarnType warnType;
 
 	/* 邮件标题or短信内容 */
-	@Column(length = 300, name = "warn_title")
-	private String warningTitle;
+//	@Column(length = 300, name = "warn_title")
+//	private String warningTitle;
 
 	/* 禁用 */
-	@Column(nullable = false)
+	@Column(name = "disabled", nullable = false)
 	private boolean disable = false;
 
 	@Column(name = "expire_dttm")
@@ -133,21 +133,21 @@ public class Topic {
 		this.warningLimit = warningLimit;
 	}
 
-	public WarnType getWarnType() {
-		return warnType;
-	}
+//	public WarnType getWarnType() {
+//		return warnType;
+//	}
+//
+//	public void setWarnType(WarnType warnType) {
+//		this.warnType = warnType;
+//	}
 
-	public void setWarnType(WarnType warnType) {
-		this.warnType = warnType;
-	}
-
-	public String getWarningTitle() {
-		return warningTitle;
-	}
-
-	public void setWarningTitle(String warningTitle) {
-		this.warningTitle = warningTitle;
-	}
+//	public String getWarningTitle() {
+//		return warningTitle;
+//	}
+//
+//	public void setWarningTitle(String warningTitle) {
+//		this.warningTitle = warningTitle;
+//	}
 
 	public boolean isDisable() {
 		return disable;
