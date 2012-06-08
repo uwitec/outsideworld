@@ -64,6 +64,10 @@ public class Item {
 	 * 发布者
 	 */
 	private String sourceId = "";
+
+	private String author;
+
+	private String authorIP;
 	/**
 	 * 模板
 	 */
@@ -239,5 +243,21 @@ public class Item {
 
 	public void setSourceId(String sourceId) {
 		this.sourceId = sourceId;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+	public String getAuthorIP() {
+		return authorIP;
+	}
+
+	public void setAuthorIP(String authorIP) {
+		this.authorIP = authorIP;
 	}
 }
