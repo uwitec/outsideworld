@@ -28,7 +28,7 @@ public class ItemDaoImpl implements ItemDao {
 
 	@Override
 	public void insert(Item item) throws Exception {
-		mongoDB.insert(trans(item), "story");
+		mongoDB.insert(trans(item), "item");
 	}
 
 	private DBObject trans(Item item) throws Exception {
@@ -41,6 +41,8 @@ public class ItemDaoImpl implements ItemDao {
 		o.put("source", item.getSourceId());
 		o.put("type", item.getType());
 		o.put("url", item.getUrl());
+		o.put("author", item.getAuthor());
+		o.put("authorIP", item.getAuthorIP());
 		return o;
 	}
 
@@ -56,12 +58,14 @@ public class ItemDaoImpl implements ItemDao {
 		item.setType((String) o.get("type"));
 		item.setUrl(((String)o.get("url")).toString());
 	    item.setNum((Integer) o.get("num"));
+	    item.setAuthor((String)o.get("author"));
+	    item.setAuthorIP((String)o.get("authorIP"));
 		return item;
 	}
 
 	@Override
 	public List<Item> poll(int num) throws Exception {
-		List<BasicDBObject> objects = mongoDB.pollByPage("story", num);
+		List<BasicDBObject> objects = mongoDB.pollByPage("item", num);
 		List<Item> results = new ArrayList<Item>();
 		for (BasicDBObject o : objects) {
 			results.add(trans(o));
@@ -71,7 +75,7 @@ public class ItemDaoImpl implements ItemDao {
 
 	@Override
 	public List<Item> find(DBObject sample) throws Exception {
-		DBCursor cursor = mongoDB.find("story", sample);
+		DBCursor cursor = mongoDB.find("item", sample);
 		List<Item> items = new ArrayList<Item>();
 		while (cursor != null && cursor.hasNext()) {
 			DBObject o = cursor.next();
@@ -82,7 +86,7 @@ public class ItemDaoImpl implements ItemDao {
 
 	@Override
 	public void update(DBObject object) throws Exception {
-		mongoDB.update(object, "story");
+		mongoDB.update(object, "item");
 	}
 
 	@Override
@@ -91,7 +95,7 @@ public class ItemDaoImpl implements ItemDao {
 		for (Item item : items) {
 			String idstr = item.getTopicIds();
 			if(!StringUtils.isBlank(idstr)){
-				String[] ids = idstr.split("_");
+				String[] ids = idstr.split(",");
 				for(String id:ids){
 					DBObject o = new BasicDBObject();
 					o.put("topicId", id);
@@ -110,13 +114,13 @@ public class ItemDaoImpl implements ItemDao {
         DBObject updateSetValue = new BasicDBObject("num", -1);
         DBObject o = new BasicDBObject("$set",updateSetValue);
 		mongoDB.insert(result, "topicItem");
-		mongoDB.update(query,o, "story");
+		mongoDB.update(query,o, "item");
 	}
 
 	
 	@Override
 	public DBCursor getCursor(DBObject sample) throws Exception {
-		return mongoDB.find("story", sample);
+		return mongoDB.find("item", sample);
 	}
 
 	@Override
@@ -125,7 +129,7 @@ public class ItemDaoImpl implements ItemDao {
 		for(Item item:dels){
 			ids.add(item.getId());			
 		}
-		mongoDB.delete(ids, "story");
+		mongoDB.delete(ids, "item");
 	}
 
     @Override
@@ -141,7 +145,7 @@ public class ItemDaoImpl implements ItemDao {
         }
         List<Item> items = new ArrayList<Item>();
         if(ids.size()>0){
-            cursor = mongoDB.find("story", ids);
+            cursor = mongoDB.find("item", ids);
             while (cursor != null && cursor.hasNext()) {
                 DBObject o = cursor.next();
                items.add(trans(o));

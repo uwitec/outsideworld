@@ -1,7 +1,6 @@
 package com.dao.mongo;
 
 import com.dao.ClassDao;
-import com.model.Item;
 import com.model.crawl.ClassItem;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -31,5 +30,14 @@ public class ClassItemImpl implements ClassDao {
 		mongoDB.insert(trans(item), "class");
 
 	}
+
+	@Override
+	public void delete(int topicId) throws Exception {
+		BasicDBObject query = new BasicDBObject();
+		query.put("topicId", topicId);
+		mongoDB.delete(query, "class");
+	}
+	
+	
 
 }
