@@ -19,6 +19,7 @@ public class RepeateClient {
 	 */
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
+		while(true){
         Control control = SpringFactory.getBean("control");
         CacheStore cache = SpringFactory.getBean("cache");
         Cache corpusCache = SpringFactory.getBean("corpusCache");
@@ -30,6 +31,8 @@ public class RepeateClient {
         for(Topic topic:topics){
         	control.repeate(topic, corpusCache);
         }
+        Thread.sleep(1000*60*60*24);
+		}
 	}
 	
 	/**

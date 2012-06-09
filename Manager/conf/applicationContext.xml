@@ -118,6 +118,9 @@
 	<bean id="itemDao" class="com.dao.mongo.ItemDaoImpl">
 		<property name="mongoDB" ref="mongoDB" />
 	</bean>
+	<bean id="classDao" class="com.dao.mongo.ClassItemImpl">
+	    <property name="mongoDB" ref="mongoDB" />
+	</bean>
 	<bean id="itemIndexer" class="com.main.ItemIndexer"></bean>
 	<bean id="itemSelector" class="com.main.ItemSelector"></bean>
 	<bean id="index" class="com.index.MemIndexImpl"></bean>
