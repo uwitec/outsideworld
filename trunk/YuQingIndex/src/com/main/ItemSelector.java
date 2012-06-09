@@ -106,8 +106,13 @@ public class ItemSelector {
 					Item item = map.get(id);
 					if (item != null) {
 						item.setScore(scoreDoc.score);
+						if(!StringUtils.isBlank(item.getTopicIds())){
 						item.setTopicIds(item.getTopicIds() + topic.getId()
 								+ ",");
+						}
+						else{
+							item.setTopicIds(""+topic.getId());
+						}
 						setResult.add(item);
 						LOG.debug("Item title:"+item.getTitle()+" Item content:"+item.getContent());
 					}
