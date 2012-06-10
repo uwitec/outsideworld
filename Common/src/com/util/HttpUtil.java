@@ -1,7 +1,9 @@
 package com.util;
 
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.httpclient.HttpState;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -16,7 +18,9 @@ import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.cookie.Cookie;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.AbstractHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.params.BasicHttpParams;
@@ -59,7 +63,7 @@ public class HttpUtil {
 
 		// 设置coolies
 		HttpClientParams.setCookiePolicy(httpParams,
-				CookiePolicy.BROWSER_COMPATIBILITY);
+				CookiePolicy.RFC_2109);
 		SchemeRegistry registry = new SchemeRegistry();
 		registry.register(new Scheme("http", PlainSocketFactory
 				.getSocketFactory(), 80));
@@ -75,10 +79,15 @@ public class HttpUtil {
 		return httpClient;
 	}
 
-	public static String doGet(String url, String encoding,String Refer) throws Exception {
+	public static String doGet(String url, String encoding,String Refer,List<Cookie> cookies) throws Exception {
 		HttpGet httpget = new HttpGet(url);
 		if (!StringUtils.isBlank(Refer)) {
 			httpget.setHeader("Referer", Refer);
+		}
+		if(cookies!=null){
+			for(Cookie cookie:cookies){
+				((AbstractHttpClient)httpClient).getCookieStore().addCookie(cookie);
+			}
 		}
 		HttpContext context = new BasicHttpContext();
 		String result = null;
