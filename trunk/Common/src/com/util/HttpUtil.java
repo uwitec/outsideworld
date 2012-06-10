@@ -31,7 +31,7 @@ import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 
 public class HttpUtil {
-	private static HttpClient httpClient;
+	private static DefaultHttpClient httpClient;
 	/**
 	 * 最大连接数
 	 */
@@ -75,7 +75,7 @@ public class HttpUtil {
 		httpClient = new DefaultHttpClient(cm, httpParams);
 	}
 
-	public static HttpClient getHttpClient() {
+	public static DefaultHttpClient getHttpClient() {
 		return httpClient;
 	}
 
