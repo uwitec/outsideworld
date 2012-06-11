@@ -39,7 +39,7 @@ public class StoryDaoImpl implements StoryDao {
         result.put("downloadUrl", story.getDownloadUrl());
         result.put("category", story.getCategory());
         result.put("isDownLoad", story.isDownLoad());
-        result.put("result", false);
+        result.put("isIndexed", false);
         return result;
     }
     
