@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import com.cache.Cache;
+import com.dao.CommonDAO;
+import com.model.policy.Param;
 import com.model.policy.Topic;
 import com.repeate.Control;
 import com.util.CacheStore;
@@ -27,7 +29,10 @@ public class RepeateClient {
         if (topics == null || topics.size() <= 0) {
 			return;
 		}
-        loadCache("\\data\\SogouLabDic.dic",corpusCache);
+        CommonDAO commonDao = (CommonDAO) SpringFactory.getBean("commonDAO");
+		List<Param> params = commonDao
+				.query("from Param p where p.type='corpus_file'");
+        loadCache(params.get(0).getValue1(),corpusCache);
         for(Topic topic:topics){
         	control.repeate(topic, corpusCache);
         }
