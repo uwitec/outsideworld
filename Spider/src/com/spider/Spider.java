@@ -70,7 +70,9 @@ public class Spider extends Thread {
 				fetcher.fetch(page);
 				LOG.info("Fetch Html from {} Successfully", page.getUrl());
 
-				updateUrlQueue(page);
+				if (page.getDepth() < 5) {// TODO
+					updateUrlQueue(page);
+				}
 
 				afterCrawled(page);
 			} catch (Exception e) {
