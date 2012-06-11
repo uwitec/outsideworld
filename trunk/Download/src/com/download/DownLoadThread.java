@@ -6,6 +6,13 @@ import com.model.Story;
 public class DownLoadThread implements Runnable {
     private DownLoad download;
     private Story story;
+    
+    
+    public DownLoadThread(DownLoad download, Story story) {
+        this.download = download;
+        this.story = story;
+    }
+    
     @Override
     public void run() {
         download.download(story);
