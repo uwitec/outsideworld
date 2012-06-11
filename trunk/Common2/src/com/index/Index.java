@@ -65,7 +65,7 @@ public class Index {
         }
         String category = o.getCategory();
         if(!StringUtils.isBlank(category)){
-            Field categoryField = new Field("category",category,Field.Store.YES,Field.Index.);
+            Field categoryField = new Field("category",category,Field.Store.YES,Field.Index.NOT_ANALYZED);
         }
         writer.addDocument(doc);
     }
