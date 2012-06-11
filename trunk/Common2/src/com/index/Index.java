@@ -2,6 +2,9 @@ package com.index;
 
 import java.io.File;
 import java.util.List;
+
+import net.paoding.analysis.analyzer.PaodingAnalyzer;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
@@ -12,7 +15,7 @@ import org.apache.lucene.index.NoDeletionPolicy;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
-import org.hibernate.cache.ReadWriteCache.Item;
+
 import com.model.Story;
 
 
@@ -22,24 +25,23 @@ public class Index {
     private Directory dir;
 
     /**
-     * 打开索引文件，默认
-     * 
+     * 鎵撳紑绱㈠紩鏂囦欢锛岄粯璁�     * 
      * @param dir
      * @throws Exception
      */
     public void open(String dirString) throws Exception {
         dir = FSDirectory.open(new File(dirString));
-        // 设置config
+        // 璁剧疆config
         IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_36,analyzer);
-        // 创建模式，
+        // 鍒涘缓妯″紡锛�        
         config.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
-        // 不删除
+        // 涓嶅垹闄�      
         config.setIndexDeletionPolicy(NoDeletionPolicy.INSTANCE);
         writer = new IndexWriter(dir, config);
     }
 
     /**
-     * 对一批item建立索引
+     * 瀵逛竴鎵筰tem寤虹珛绱㈠紩
      * 
      * @param items
      * @throws Exception
@@ -71,7 +73,7 @@ public class Index {
     }
 
     /**
-     * 关闭writer
+     * 鍏抽棴writer
      * 
      * @throws Exception
      */
@@ -82,7 +84,7 @@ public class Index {
     }
 
     /**
-     * 提交索引
+     * 鎻愪氦绱㈠紩
      * 
      * @throws Exception
      */
@@ -92,8 +94,7 @@ public class Index {
     }
 
     /**
-     * 对一个列表建立索引
-     * 
+     * 瀵逛竴涓垪琛ㄥ缓绔嬬储寮�     * 
      * @param objs
      * @throws Exception
      */
