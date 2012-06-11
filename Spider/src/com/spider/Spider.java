@@ -1,6 +1,7 @@
 package com.spider;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,10 @@ import org.htmlcleaner.TagNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.mongodb.BasicDBObject;
+import com.util.MongoUtil;
+import com.util.SpringFactory;
+
 public class Spider extends Thread {
 
 	private static final Logger LOG = LoggerFactory.getLogger(Spider.class);
@@ -22,6 +27,8 @@ public class Spider extends Thread {
 	private static HtmlCleaner htmlCleaner = new HtmlCleaner();
 
 	private static Map<String, BloomFilter> urlFilter = new HashMap<String, BloomFilter>();
+
+	private static MongoUtil mongoDB = SpringFactory.getBean("mongoDB");
 
 	private static Lock lock = new ReentrantLock();
 
@@ -64,6 +71,8 @@ public class Spider extends Thread {
 				LOG.info("Fetch Html from {} Successfully", page.getUrl());
 
 				updateUrlQueue(page);
+
+				afterCrawled(page);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -144,5 +153,13 @@ public class Spider extends Thread {
 		} else {
 			return true;
 		}
+	}
+
+	private void afterCrawled(Page page) {
+		BasicDBObject result = new BasicDBObject();
+		result.put("url", page.getUrl());
+		result.put("html", page.getHtml());
+		result.put("crawlTime", new Date());
+		mongoDB.insert(result, "page");
 	}
 }

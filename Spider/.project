@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>conf</name>
+			<type>2</type>
+			<location>D:/Workspace/ResourceCommon/conf</location>
+		</link>
+	</linkedResources>
 </projectDescription>
