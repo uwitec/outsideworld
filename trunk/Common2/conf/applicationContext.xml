@@ -21,12 +21,12 @@
 			<value>27017</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>yuqing</value>
+			<value>test</value>
 		</constructor-arg>
 	</bean>
     <bean id="storyDao" class="com.dao.StoryDaoImpl"></bean>
 	<bean id="downLoad" class="com.download.DownLoad"></bean>
-	<bean id="index" class="com.index.Index"></bean>
+	<!--bean id="index" class="com.index.Index"></bean-->
 	<bean id="downLoadEngine" class="com.download.Engine"></bean>
 	<bean id="indexEngine" class="com.index.Engine"></bean>
 	<bean id="downloadPool" class="com.thread.ThreadPool">
