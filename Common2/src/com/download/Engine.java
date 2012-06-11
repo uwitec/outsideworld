@@ -13,13 +13,14 @@ public class Engine {
 
     public void excute() throws Exception {
         while (true) {
-            List<Story> storys = storyDao.poll(100);
-            if (storys != null && storys.size() > 0) {
-                for (Story story : storys) {
-                    downloadPool.run(new DownLoadThread(downLoad, story));
-                }
+            List<Story> storys = storyDao.pollReadyToDownLoad(100);
+            if (storys == null || storys.size()<= 0) {
+            	Thread.sleep(1000*60*60);
             }
-            Thread.sleep(1000*60*60);
+            for (Story story : storys) {
+                downloadPool.run(new DownLoadThread(downLoad, story));
+            }
+            
         }
     }
 

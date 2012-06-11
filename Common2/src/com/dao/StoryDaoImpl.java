@@ -22,7 +22,7 @@ public class StoryDaoImpl implements StoryDao {
     }
     
     @Override
-    public List<Story> poll(int num) throws Exception {
+    public List<Story> pollReadyToDownLoad(int num) throws Exception {
         DBObject query = new BasicDBObject();
         query.put("isDownLoad", false);
         List<BasicDBObject> objects = mongoDB.pollByPage("story",num,query);
@@ -39,6 +39,7 @@ public class StoryDaoImpl implements StoryDao {
         result.put("downloadUrl", story.getDownloadUrl());
         result.put("category", story.getCategory());
         result.put("isDownLoad", story.isDownLoad());
+        result.put("result", false);
         return result;
     }
     
@@ -59,4 +60,17 @@ public class StoryDaoImpl implements StoryDao {
     public void setMongoDB(MongoUtil mongoDB) {
         this.mongoDB = mongoDB;
     }
+
+	@Override
+	public List<Story> pollHasBeenDownLoad(int num) throws Exception {
+		DBObject query = new BasicDBObject();
+        query.put("isDownLoad", true);
+        query.put("isIndexed", false);
+        List<BasicDBObject> objects = mongoDB.pollByPage("story",num,query);
+        List<Story> results = new ArrayList<Story>();
+        for (BasicDBObject o : objects) {
+            results.add(trans(o));
+        }
+        return results;
+	}
 }

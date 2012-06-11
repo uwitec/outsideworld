@@ -5,7 +5,10 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+
 import org.apache.commons.lang.StringUtils;
+import org.bson.types.ObjectId;
+
 import com.dao.StoryDao;
 import com.model.Story;
 import com.mongodb.BasicDBObject;
@@ -16,6 +19,11 @@ public class DownLoad {
     private StoryDao storyDao;
 
     public boolean download(Story story) {
+    	String dir = story.getCategory();
+    	File directory = new File(dir);
+    	if(!directory.exists()){
+    		directory.mkdir();
+    	}
         String fileName = fileName(story);
         if (StringUtils.isBlank(fileName)) {
             return false;
@@ -23,7 +31,7 @@ public class DownLoad {
         try {
             download(story.getDownloadUrl(),fileName);
             DBObject query = new BasicDBObject();
-            query.put("_id", story.getId());
+            query.put("_id", new ObjectId(story.getId()));
             DBObject value = new BasicDBObject();
             value.put("$set", new BasicDBObject().append("isDownLoad", true));
             storyDao.update(query, value);
@@ -37,7 +45,12 @@ public class DownLoad {
         if (StringUtils.isBlank(story.getId()) || StringUtils.isBlank(story.getCategory())) {
             return "";
         }
-        return story.getCategory() + File.pathSeparator + story.getId();
+        String postfix = "";
+        int index = -1;
+        if((index = StringUtils.lastIndexOf(story.getDownloadUrl(), "."))>0){
+        	postfix = story.getDownloadUrl().substring(index);
+        }
+        return story.getCategory() + File.separator + story.getId()+postfix;
     }
 
     private void download(String urlstr, String fileName) throws Exception {
