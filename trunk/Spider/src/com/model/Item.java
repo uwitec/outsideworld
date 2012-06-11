@@ -3,6 +3,7 @@ package com.model;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import com.model.rule.Template;
 
 /**
  * 爬虫类
@@ -38,6 +39,8 @@ public class Item {
      * 表示抓取的时间
      */
     private Date date;
+    
+    private Template template;
     
     public String getType() {
         return type;
@@ -79,5 +82,11 @@ public class Item {
     }
     public void setDate(Date date) {
         this.date = date;
+    }
+    public Template getTemplate() {
+        return template;
+    }
+    public void setTemplate(Template template) {
+        this.template = template;
     }
 }
