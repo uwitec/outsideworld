@@ -338,6 +338,27 @@ public class Setup {
 
 		commonDAO.save(s1);
 	}
+	
+	
+	public static void testPicture(){
+		Element e1 = new Element();
+		e1.setName("title");
+		e1.setDefine("/div[7]/div/div[2]/div/h1/a");
+		e1.setType(ElementType.XPATH);
+		
+		Template t1 = new Template();
+		t1.setDomain("hd.penshow.cn");
+		t1.setUrlRegex("^http://hd.penshow.cn/\\d+/\\d+/\\d+/\\w+.html");
+		t1.setFetchInterval(1000 * 60);
+		t1.getElements().add(e1);
+		
+		Source s1 = new Source();
+		s1.setName("图片素材");
+		s1.setType(SourceType.WEBSITE);
+		s1.setUrl("http://hd.penshow.cn/");
+		s1.getTempaltes().add(t1);
+		commonDAO.save(s1);
+	}
 
 	public static void testTianya() {
 		Element e1 = new Element();
@@ -419,6 +440,14 @@ public class Setup {
 		p1.setValue1("/data/index");
 		commonDAO.save(p1);
 	}
+	
+	public static void cacheFile() {
+		Param p1 = new Param();
+		p1.setName1("corpus_file");
+		p1.setType("corpus_file");
+		p1.setValue1("/data/SogouLabDic.dic");
+		commonDAO.save(p1);
+	}
 
 	public static void main(String[] args) {
 		clear();
@@ -429,6 +458,7 @@ public class Setup {
 		testSinaBlog();
 		testTianya();
 		indexDir();
+		cacheFile();
 		System.exit(0);
 	}
 
