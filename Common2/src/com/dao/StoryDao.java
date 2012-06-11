@@ -7,6 +7,6 @@ import com.mongodb.DBObject;
 
 public interface StoryDao {
     public void insert(Story story) throws Exception;
-    public void update(DBObject object) throws Exception;
+    public void update(DBObject query,DBObject value) throws Exception;
     public List<Story> poll(int num) throws Exception;
 }

@@ -50,18 +50,6 @@ public class MongoUtil {
 		}
 		return null;
 	}
-
-	public WriteResult update(DBObject o, String tableName) {
-		DBCollection coll = null;
-		if (!StringUtils.isBlank(tableName)) {
-			coll = db.getCollection(tableName);
-			DBObject updateCondition = new BasicDBObject();
-			updateCondition.put("url", o.get("url").toString());
-			DBObject updateSetValue = new BasicDBObject("$set", o);
-			coll.update(updateCondition, updateSetValue);
-		}
-		return null;
-	}
 	
 	public WriteResult update(DBObject query,DBObject o, String tableName) {
 		DBCollection coll = null;

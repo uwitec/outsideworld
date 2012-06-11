@@ -17,14 +17,14 @@ public class StoryDaoImpl implements StoryDao {
     }
 
     @Override
-    public void update(DBObject object) throws Exception {
-        mongoDB.update(object, "story");
+    public void update(DBObject query,DBObject value) throws Exception {
+        mongoDB.update(query,value, "story");
     }
     
     @Override
     public List<Story> poll(int num) throws Exception {
         DBObject query = new BasicDBObject();
-        query.put("isDownLoad", true);
+        query.put("isDownLoad", false);
         List<BasicDBObject> objects = mongoDB.pollByPage("story",num,query);
         List<Story> results = new ArrayList<Story>();
         for (BasicDBObject o : objects) {
@@ -48,6 +48,7 @@ public class StoryDaoImpl implements StoryDao {
         result.setDownLoad(o.getBoolean("isDownLoad", false));
         result.setDescription(o.getString("description"));
         result.setDownloadUrl(o.getString("downloadUrl"));
+        result.setId(o.getString("_id"));
         return result;
     }
 
