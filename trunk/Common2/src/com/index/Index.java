@@ -65,6 +65,12 @@ public class Index {
                     Field.Index.NO);
             doc.add(downloadUrlFiled);
         }
+        String path = o.getPath();
+        if (!StringUtils.isBlank(downloadUrl)) {
+            Field pathField = new Field("path", downloadUrl, Field.Store.YES,
+                    Field.Index.NO);
+            doc.add(pathField);
+        }
         String category = o.getCategory();
         if(!StringUtils.isBlank(category)){
             Field categoryField = new Field("category",category,Field.Store.YES,Field.Index.NOT_ANALYZED);
