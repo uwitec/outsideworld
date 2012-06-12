@@ -21,11 +21,11 @@ public class Search {
         indexSearcher = new IndexSearcher(dir, true);
     }
 
-    public List<Story> search(Query query, int num) throws Exception {
-        List<Story> result = new ArrayList<Story>();
-        TopDocs hits = indexSearcher.search(query, num);
-        for (ScoreDoc scoreDoc : hits.scoreDocs) {
-            Document doc = indexSearcher.doc(scoreDoc.doc);
+    public List<Story> search(Query query, int from,int num) throws Exception {
+        List<Story> result = new ArrayList<Story>();        
+        TopDocs hits = indexSearcher.search(query, from*num);
+        for (int i=(from-1)*num;i<from*num;i++) {
+            Document doc =indexSearcher.doc(hits.scoreDocs[i].doc);
             Story model = new Story();
             model.setDescription(doc.get("description"));
             model.setId(doc.get("id"));

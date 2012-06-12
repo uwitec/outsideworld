@@ -11,9 +11,9 @@ import com.model.Story;
 public class SearchService {
     private Analyzer analyzer;
     private Search search;
-    public List<Story> search(String query) throws Exception{
+    public List<Story> search(String query,int from,int num) throws Exception{
         Query q = new TermQuery(new Term(query));
-        List<Story> result = search.search(q, 100);
+        List<Story> result = search.search(q, from,num);
         return result;
     }
     

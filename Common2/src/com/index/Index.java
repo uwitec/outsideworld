@@ -9,6 +9,7 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.MergeScheduler;
 import org.apache.lucene.index.NoDeletionPolicy;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -83,6 +84,7 @@ public class Index {
      */
     public void close() throws Exception {
         if (writer != null) {
+        	writer.forceMerge(1);
             writer.close();
         }
     }
