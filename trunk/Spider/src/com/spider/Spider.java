@@ -106,6 +106,16 @@ public class Spider extends Thread {
 			page.setUrl(url);
 			page.setDepth(0);
 			urlQueue.add(page);
+
+			/* Get BloomFilter */
+			String host = page.getUrl().getHost();
+			BloomFilter bloomFilter = urlFilter.get(host);
+			if (bloomFilter == null || bloomFilter.isExpire()) {
+				int interval = intervalMap.get(host);
+				bloomFilter = new BloomFilter(interval * 3600 * 1000);
+				urlFilter.put(host, bloomFilter);
+			}
+			bloomFilter.add(url.getPath());
 		}
 	}
 
@@ -122,11 +132,7 @@ public class Spider extends Thread {
 		/* Get BloomFilter */
 		String host = page.getUrl().getHost();
 		BloomFilter bloomFilter = urlFilter.get(host);
-		if (bloomFilter == null) {
-			int interval = intervalMap.get(host);
-			bloomFilter = new BloomFilter(interval * 3600 * 1000);
-		}
-		if (bloomFilter.isExpire()) {
+		if (bloomFilter == null || bloomFilter.isExpire()) {
 			int interval = intervalMap.get(host);
 			bloomFilter = new BloomFilter(interval * 3600 * 1000);
 			urlFilter.put(host, bloomFilter);
