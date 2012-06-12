@@ -186,9 +186,6 @@ public class Spider extends Thread {
 		BasicDBObject result = new BasicDBObject();
 		result.put("url", page.getUrl().toString());
 		result.put("html", page.getHtml());
-		if (page.getHtml() == null || page.getHtml().length() < 1)
-			System.out.println("------------" + page.getUrl().toString());
-		;
 		result.put("crawlTime", new Date());
 		mongoDB.insert(result, "page");
 	}
