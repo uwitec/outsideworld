@@ -71,34 +71,24 @@ public class Fetcher {
 			String html = null;
 
 			/* Detect Actual Encoding */
-			String detectContent = null;
 			String actualEncoding = null;
 			InputStream ins = entity.getContent();
-			StringBuffer out = new StringBuffer();
-			byte[] b = new byte[10];
-			int length = 0;
-			int n = -1;
-			boolean detected = false;
-			for (; (n = ins.read(b)) != -1;) {
-				length += n;
-				out.append(new String(b, 0, n));
-				detectContent = out.toString();
-				actualEncoding = getMetaCharset(detectContent);
-				if (detected) {
-					break;
-				}
-				if (detected || actualEncoding != null || length > 500) {
-					detected = true;
-				}
-			}
+			byte[] b = new byte[500];
+			int n = ins.read(b);
+			actualEncoding = getMetaCharset(b);
+
 			/* Get Content */
 			if (n == -1) {
-				html = detectContent;
+				html = "";
+			} else if (n < 500 && actualEncoding == null) {
+				html = new String(b, 0, n);
+			} else if (n < 500 && actualEncoding != null) {
+				html = new String(b, 0, n, actualEncoding);
 			} else if (actualEncoding != null) {
-				html = detectContent
+				html = new String(b, actualEncoding)
 						+ EntityUtils.toString(entity, actualEncoding);
 			} else {
-				html = detectContent + EntityUtils.toString(entity);
+				html = new String(b) + EntityUtils.toString(entity);
 			}
 			page.setHtml(html);
 			LOG.debug("Fetch Content Successfully from: {}", page.getUrl());
@@ -107,10 +97,10 @@ public class Fetcher {
 		}
 	}
 
-	private String getMetaCharset(String content) {
+	private String getMetaCharset(byte[] content) {
 		String regEx = "<meta[^>]*?charset=['\"\\s]*(.*?)['\"\\s>]+";
 		Pattern pattern = Pattern.compile(regEx, Pattern.CASE_INSENSITIVE);
-		Matcher matcher = pattern.matcher(content);
+		Matcher matcher = pattern.matcher(new String(content));
 		if (matcher.find()) {
 			return matcher.group(1);
 		} else {
