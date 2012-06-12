@@ -1,9 +1,16 @@
 package com.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -33,6 +40,10 @@ public class Source {
 	/* 抓取间隔（小时） */
 	@Column(name = "fetch_interval")
 	private int interval = 3;
+
+	@OneToMany(targetEntity = Template.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "source_id")
+	private Set<Template> tempaltes = new HashSet<Template>();
 
 	public int getId() {
 		return id;
@@ -72,5 +83,13 @@ public class Source {
 
 	public void setDepth(int depth) {
 		this.depth = depth;
+	}
+
+	public Set<Template> getTempaltes() {
+		return tempaltes;
+	}
+
+	public void setTempaltes(Set<Template> tempaltes) {
+		this.tempaltes = tempaltes;
 	}
 }
