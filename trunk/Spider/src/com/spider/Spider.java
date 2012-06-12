@@ -2,7 +2,6 @@ package com.spider;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -111,7 +110,6 @@ public class Spider extends Thread {
 	}
 
 	private void updateUrlQueue(Page page) throws Exception {
-		List<Page> pages = new ArrayList<Page>();
 		if (page.getHtml() == null) {
 			return;
 		}
@@ -135,6 +133,7 @@ public class Spider extends Thread {
 		}
 
 		Page subPage = null;
+		int pageCount = 0;
 		for (Object href : hrefs) {
 			/* filter invalid link */
 			String link = href.toString();
@@ -163,12 +162,12 @@ public class Spider extends Thread {
 			} else {
 				bloomFilter.add(url.getPath());
 
-				pages.add(subPage);
 				subPage.setDepth(page.getDepth() + 1);
+				urlQueue.offer(subPage);
+				pageCount++;
 			}
 		}
-		urlQueue.addAll(pages);
-		LOG.info("Collect {} URLs from {}", pages.size(), page.getUrl());
+		LOG.info("Collect {} URLs from {}", pageCount, page.getUrl());
 	}
 
 	private boolean filterUrl(String url) {
