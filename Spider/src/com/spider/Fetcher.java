@@ -52,11 +52,17 @@ public class Fetcher {
 		LOG.info("Successfully init Fetcher...");
 	}
 
-	public void fetch(Page page) throws Exception {
+	public void fetch(Page page) {
 		String url = page.getUrl().toString();
 
 		HttpGet httpget = new HttpGet(url);
-		HttpResponse response = httpclient.execute(httpget);
+		HttpResponse response = null;
+		try {
+			response = httpclient.execute(httpget);
+		} catch (Exception e) {
+			LOG.error("Get Response from {} error", url);
+			return;
+		}
 
 		/* Status Filter */
 		int statusCode = response.getStatusLine().getStatusCode();
@@ -67,7 +73,11 @@ public class Fetcher {
 		}
 
 		HttpEntity entity = response.getEntity();
-		if (entity != null) {
+		if (entity == null) {
+			LOG.error("Get empty entity from {}", url);
+			return;
+		}
+		try {
 			String html = null;
 
 			/* Detect Actual Encoding */
@@ -91,9 +101,15 @@ public class Fetcher {
 				html = new String(b) + EntityUtils.toString(entity);
 			}
 			page.setHtml(html);
-			LOG.debug("Fetch Content Successfully from: {}", page.getUrl());
-		} else {
-			throw new Exception();
+			LOG.debug("Fetch content successfully from: {}", url);
+		} catch (Exception e) {
+			LOG.error("Fetch from {} error", url);
+		} finally {
+			try {
+				EntityUtils.consume(entity);
+			} catch (IOException e) {
+				// Ignore
+			}
 		}
 	}
 
