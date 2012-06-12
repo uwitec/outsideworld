@@ -1,5 +1,7 @@
 package com.spider;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,6 +16,8 @@ import org.htmlcleaner.TagNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.dao.CommonDAO;
+import com.entity.Source;
 import com.mongodb.BasicDBObject;
 import com.util.MongoUtil;
 import com.util.SpringFactory;
@@ -27,6 +31,12 @@ public class Spider extends Thread {
 	private static HtmlCleaner htmlCleaner = new HtmlCleaner();
 
 	private static Map<String, BloomFilter> urlFilter = new HashMap<String, BloomFilter>();
+
+	private static Map<String, Integer> depthMap = new HashMap<String, Integer>();
+
+	private static Map<String, Integer> intervalMap = new HashMap<String, Integer>();
+
+	private static CommonDAO commonDAO = SpringFactory.getBean("commonDAO");
 
 	private static MongoUtil mongoDB = SpringFactory.getBean("mongoDB");
 
@@ -56,21 +66,17 @@ public class Spider extends Thread {
 	public void run() {
 		while (true) {
 			try {
-				LOG.debug("URL Queue size: {}", urlQueue.size());
-				if (urlQueue.size() == 0) {
+				Page page = null;
+				if ((page = urlQueue.poll()) == null) {
 					LOG.info("Waiting for URL Queue");
 					Thread.sleep(1000);
 					continue;
 				}
 
-				LOG.debug("Try to get URL from URL Queue");
-				Page page = urlQueue.poll();
-
-				LOG.info("Fetch {}", page.getUrl());
 				fetcher.fetch(page);
 				LOG.info("Fetch Html from {} Successfully", page.getUrl());
 
-				if (page.getDepth() < 5) {// TODO
+				if (page.getDepth() < depthMap.get(page.getUrl().getHost())) {
 					updateUrlQueue(page);
 				}
 
@@ -82,37 +88,25 @@ public class Spider extends Thread {
 	}
 
 	private void initUrlQueue() {
-		// TODO
-		Page p1 = new Page();
-		p1.setUrl("http://www.163.com/");
-		urlQueue.add(p1);
+		List<Source> sources = commonDAO.getAll(Source.class);
+		Page page = null;
 
-		Page p2 = new Page();
-		p2.setUrl("http://www.ifeng.com/");
-		urlQueue.add(p2);
+		for (Source source : sources) {
+			URL url = null;
+			try {
+				url = new URL(source.getUrl());
+			} catch (MalformedURLException e) {
+				LOG.error("Error URL: {}", source.getUrl());
+				continue;
+			}
 
-		Page p3 = new Page();
-		p3.setUrl("http://www.qq.com/");
-		urlQueue.add(p3);
-	}
+			depthMap.put(url.getHost(), source.getDepth());
+			intervalMap.put(url.getHost(), source.getInterval());
 
-	private boolean isValid(Page page) {
-		String domain = "";// TODO
-		BloomFilter bloomFilter = urlFilter.get(domain);
-		if (bloomFilter == null) {
-			bloomFilter = new BloomFilter(3600);// TODO
-			return true;
-		}
-		if (bloomFilter.isExpire()) {
-			bloomFilter = new BloomFilter(3600);// TODO
-			urlFilter.put(domain, bloomFilter);
-		}
-
-		if (bloomFilter.contains(page.getUrl())) {
-			return false;
-		} else {
-			bloomFilter.add(page.getUrl());
-			return true;
+			page = new Page();
+			page.setUrl(url);
+			page.setDepth(0);
+			urlQueue.add(page);
 		}
 	}
 
@@ -127,16 +121,48 @@ public class Spider extends Thread {
 		TagNode doc = htmlCleaner.clean(page.getHtml());
 		Object[] hrefs = doc.evaluateXPath("//a/@href");
 
+		/* Get BloomFilter */
+		String host = page.getUrl().getHost();
+		BloomFilter bloomFilter = urlFilter.get(host);
+		if (bloomFilter == null) {
+			int interval = intervalMap.get(host);
+			bloomFilter = new BloomFilter(interval * 3600 * 1000);
+		}
+		if (bloomFilter.isExpire()) {
+			int interval = intervalMap.get(host);
+			bloomFilter = new BloomFilter(interval * 3600 * 1000);
+			urlFilter.put(host, bloomFilter);
+		}
+
 		Page subPage = null;
 		for (Object href : hrefs) {
-			String url = href.toString();
-			if (!filterUrl(url)) {
+			/* filter invalid link */
+			String link = href.toString();
+			if (!filterUrl(link)) {
+				continue;
+			}
+
+			URL url = null;
+			try {
+				url = new URL(link);
+			} catch (Exception e) {
+				continue;
+			}
+
+			/* whether inner link */
+			if (!url.getHost().equals(page.getUrl().getHost())) {
 				continue;
 			}
 
 			subPage = new Page();
 			subPage.setUrl(url);
-			if (isValid(subPage)) {
+
+			/* check duplicated and interval */
+			if (bloomFilter.contains(url.getPath())) {
+				continue;
+			} else {
+				bloomFilter.add(url.getPath());
+
 				pages.add(subPage);
 				subPage.setDepth(page.getDepth() + 1);
 			}
@@ -159,8 +185,11 @@ public class Spider extends Thread {
 
 	private void afterCrawled(Page page) {
 		BasicDBObject result = new BasicDBObject();
-		result.put("url", page.getUrl());
+		result.put("url", page.getUrl().toString());
 		result.put("html", page.getHtml());
+		if (page.getHtml() == null || page.getHtml().length() < 1)
+			System.out.println("------------" + page.getUrl().toString());
+		;
 		result.put("crawlTime", new Date());
 		mongoDB.insert(result, "page");
 	}

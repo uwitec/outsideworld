@@ -53,7 +53,7 @@ public class Fetcher {
 	}
 
 	public void fetch(Page page) throws Exception {
-		String url = page.getUrl();
+		String url = page.getUrl().toString();
 
 		HttpGet httpget = new HttpGet(url);
 		HttpResponse response = httpclient.execute(httpget);

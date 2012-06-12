@@ -22,7 +22,7 @@ public class BloomFilter {
 	}
 
 	public boolean isExpire() {
-		return System.currentTimeMillis() - createTime > interval * 1000;
+		return System.currentTimeMillis() - createTime > interval;
 	}
 
 	public void add(String value) {

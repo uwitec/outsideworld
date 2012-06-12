@@ -1,18 +1,20 @@
 package com.spider;
 
+import java.net.URL;
+
 public class Page {
 
-	private String url;
+	private URL url;
 
 	private int depth = 0;
 
 	private String html;
 
-	public String getUrl() {
+	public URL getUrl() {
 		return url;
 	}
 
-	public void setUrl(String url) {
+	public void setUrl(URL url) {
 		this.url = url;
 	}
 
