@@ -66,6 +66,6 @@ public class Extracter extends Thread {
 	}
 
 	private void extract(Template template, Page page) {
-
+		// TODO
 	}
 }
