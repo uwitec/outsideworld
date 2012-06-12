@@ -3,8 +3,6 @@ package com.index;
 import java.io.File;
 import java.util.List;
 
-import net.paoding.analysis.analyzer.PaodingAnalyzer;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
@@ -20,7 +18,7 @@ import com.model.Story;
 
 
 public class Index {
-    protected static Analyzer analyzer = new PaodingAnalyzer();
+    private Analyzer analyzer;
     private IndexWriter writer;
     private Directory dir;
 
@@ -110,4 +108,16 @@ public class Index {
         }
         commit();
     }
+
+    
+    public Analyzer getAnalyzer() {
+        return analyzer;
+    }
+
+    
+    public void setAnalyzer(Analyzer analyzer) {
+        this.analyzer = analyzer;
+    }
+    
+    
 }

@@ -7,8 +7,6 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.Sort;
-import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -25,8 +23,7 @@ public class Search {
 
     public List<Story> search(Query query, int num) throws Exception {
         List<Story> result = new ArrayList<Story>();
-        Sort s = new Sort(new SortField("pubTime", SortField.LONG));
-        TopDocs hits = indexSearcher.search(query, num, s);
+        TopDocs hits = indexSearcher.search(query, num);
         for (ScoreDoc scoreDoc : hits.scoreDocs) {
             Document doc = indexSearcher.doc(scoreDoc.doc);
             Story model = new Story();
