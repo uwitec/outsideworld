@@ -33,7 +33,7 @@ public class DownLoad {
             DBObject query = new BasicDBObject();
             query.put("_id", new ObjectId(story.getId()));
             DBObject value = new BasicDBObject();
-            value.put("$set", new BasicDBObject().append("isDownLoad", true));
+            value.put("$set", new BasicDBObject().append("isDownLoad", true).append("path", fileName));
             storyDao.update(query, value);
         } catch (Exception e) {
             return false;

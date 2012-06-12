@@ -50,6 +50,7 @@ public class StoryDaoImpl implements StoryDao {
         result.setDescription(o.getString("description"));
         result.setDownloadUrl(o.getString("downloadUrl"));
         result.setId(o.getString("_id"));
+        result.setPath(o.getString("path"));
         return result;
     }
 
