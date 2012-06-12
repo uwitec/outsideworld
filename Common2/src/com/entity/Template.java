@@ -2,6 +2,8 @@ package com.entity;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -37,6 +40,9 @@ public class Template {
 
 	@ManyToOne(targetEntity = Source.class)
 	private Source source;
+
+	@Transient
+	private Pattern pattern;
 
 	public int getId() {
 		return id;
@@ -68,6 +74,7 @@ public class Template {
 
 	public void setUrlRegex(String urlRegex) {
 		this.urlRegex = urlRegex;
+		this.pattern = Pattern.compile(urlRegex);
 	}
 
 	public Source getSource() {
@@ -76,5 +83,15 @@ public class Template {
 
 	public void setSource(Source source) {
 		this.source = source;
+	}
+
+	public boolean match(String url) {
+		Matcher matcher = this.pattern.matcher(url);
+		if (matcher.find()) {
+			return true;
+		} else {
+			return false;
+		}
+
 	}
 }
