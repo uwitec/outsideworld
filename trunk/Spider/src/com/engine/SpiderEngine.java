@@ -1,10 +1,12 @@
-package com.spider;
+package com.engine;
 
-public class SpiderController {
+import com.spider.Spider;
+
+public class SpiderEngine {
 
 	private int spiderNum = 3;
 
-	private SpiderController() {
+	private SpiderEngine() {
 
 		/* Start spiders */
 		Thread[] spiders = new Thread[spiderNum];
@@ -15,7 +17,7 @@ public class SpiderController {
 	}
 
 	public static void main(String[] args) {
-		new SpiderController();
+		new SpiderEngine();
 	}
 
 }
