@@ -11,6 +11,43 @@
            http://www.springframework.org/schema/tx/spring-tx-3.0.xsd"
 	default-autowire="byName">
 
+	<!-- Data Source -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url"
+			value="jdbc:mysql://localhost:3306/spider?useUnicode=true&amp;characterEncoding=UTF8" />
+		<property name="username" value="root" />
+		<property name="password" value="password" />
+	</bean>
+
+	<!-- Session Factory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan">
+			<list>
+				<value>com.entity</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- HibernateTemplate -->
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!-- CommonDAO -->
+	<bean id="commonDAO" class="com.dao.CommonDAO">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
 
 	<!-- MongoDB -->
 	<bean id="mongoDB" class="com.util.MongoUtil">
@@ -24,14 +61,14 @@
 			<value>test</value>
 		</constructor-arg>
 	</bean>
-    <bean id="storyDao" class="com.dao.StoryDaoImpl"></bean>
+	<bean id="storyDao" class="com.dao.StoryDaoImpl"></bean>
 	<bean id="downLoad" class="com.download.DownLoad"></bean>
-	<!--bean id="index" class="com.index.Index"></bean-->
+	<!--bean id="index" class="com.index.Index"></bean -->
 	<bean id="downLoadEngine" class="com.download.Engine"></bean>
 	<bean id="indexEngine" class="com.index.Engine"></bean>
 	<bean id="downloadPool" class="com.thread.ThreadPool">
-	    <property name="threadNum">
-	        <value>10</value>
-	    </property>
+		<property name="threadNum">
+			<value>10</value>
+		</property>
 	</bean>
 </beans>
