@@ -26,8 +26,12 @@ public class Source {
 	@Column(name = "entry", nullable = false, length = 200, unique = true)
 	private String url;
 
-	/* 抓取间隔（小时） */
+	/* 抓取深度 */
 	@Column
+	private int depth = 5;
+
+	/* 抓取间隔（小时） */
+	@Column(name = "fetch_interval")
 	private int interval = 3;
 
 	public int getId() {
@@ -60,5 +64,13 @@ public class Source {
 
 	public void setInterval(int interval) {
 		this.interval = interval;
+	}
+
+	public int getDepth() {
+		return depth;
+	}
+
+	public void setDepth(int depth) {
+		this.depth = depth;
 	}
 }
