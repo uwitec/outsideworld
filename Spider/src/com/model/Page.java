@@ -1,4 +1,4 @@
-package com.spider;
+package com.model;
 
 import java.net.URL;
 
