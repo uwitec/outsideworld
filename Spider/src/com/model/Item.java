@@ -96,4 +96,11 @@ public class Item {
 	public void setDate(Date date) {
 		this.date = date;
 	}
+	
+	public boolean isNoField(){
+	    if(fields.size()==0){
+	        return true;
+	    }
+	    return false;
+	}
 }
