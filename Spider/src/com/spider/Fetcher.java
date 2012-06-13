@@ -84,16 +84,16 @@ public class Fetcher {
 			/* Detect Actual Encoding */
 			String actualEncoding = null;
 			InputStream ins = entity.getContent();
-			byte[] b = new byte[500];
+			byte[] b = new byte[1000];
 			int n = ins.read(b);
 			actualEncoding = getMetaCharset(b);
 
 			/* Get Content */
 			if (n == -1) {
 				html = "";
-			} else if (n < 500 && actualEncoding == null) {
+			} else if (n < 1000 && actualEncoding == null) {
 				html = new String(b, 0, n);
-			} else if (n < 500 && actualEncoding != null) {
+			} else if (n < 1000 && actualEncoding != null) {
 				html = new String(b, 0, n, actualEncoding);
 			} else if (actualEncoding != null) {
 				html = new String(b, actualEncoding)

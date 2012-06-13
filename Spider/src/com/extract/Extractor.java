@@ -141,11 +141,15 @@ public class Extractor extends Thread {
 				if (obj instanceof TagNode) {
 					text = extractTxt((TagNode) obj);
 					if (!text.trim().isEmpty()) {
-						item.addField(element.getName(), text);
 						break;
 					}
+				} else if (obj instanceof String) {
+					text = obj.toString();
+					break;
 				}
 			}
+			text = element.match(text);
+			item.addField(element.getName(), text);
 		} catch (XPatherException e) {
 			LOG.error("Extract {} error from page {}", element.getDefine(),
 					page.getUrl().toString());
