@@ -18,13 +18,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.dao.CommonDAO;
+import com.dao.StoryDao;
 import com.entity.Element;
 import com.entity.Template;
 import com.model.Item;
 import com.model.Page;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
-import com.util.MongoUtil;
+import com.model.Story;
 import com.util.SpringFactory;
 
 public class Extractor extends Thread {
@@ -37,7 +36,7 @@ public class Extractor extends Thread {
 
 	private static CommonDAO commonDAO = SpringFactory.getBean("commonDAO");
 
-	private static MongoUtil mongoDB = SpringFactory.getBean("mongoDB");
+	private static StoryDao storyDao = SpringFactory.getBean("storyDao");
 
 	private static Lock lock = new ReentrantLock();
 
@@ -102,7 +101,7 @@ public class Extractor extends Thread {
 		}
 	}
 
-	private void extract(Page page) {
+	private void extract(Page page) throws Exception {
 		String host = page.getUrl().getHost();
 		List<Template> templates = templateMap.get(host);
 		if (templates == null) {
@@ -118,7 +117,7 @@ public class Extractor extends Thread {
 		}
 	}
 
-	private void extract(Template template, Page page) {
+	private void extract(Template template, Page page) throws Exception {
 		LOG.info("Extract form {}", page.getUrl());
 
 		if (template.getElements() == null) {
@@ -176,14 +175,14 @@ public class Extractor extends Thread {
 		return node.getText().toString();
 	}
 
-	private void afterExtract(Item item) {
-		DBObject obj = new BasicDBObject();
-		obj.put("type", item.getType());
-		obj.put("page", item.getUrl().toString());
-		obj.put("url", item.getField("download"));
-		obj.put("title", item.getField("title"));
-		obj.put("time", new Date());
-		mongoDB.insert(obj, "download");
+	private void afterExtract(Item item) throws Exception {
+		Story story = new Story();
+		story.setCategory("picture");
+		story.setDescription(item.getField("title"));
+		story.setRefer(item.getUrl());
+		story.setDownloadUrlFinal(item.getField("download"));
+		story.setDownloadUrl(item.getField("downloadPre"));
+		storyDao.insert(story);
 	}
 
 }
