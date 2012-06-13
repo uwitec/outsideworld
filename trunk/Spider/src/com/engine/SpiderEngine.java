@@ -1,19 +1,29 @@
 package com.engine;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import com.dao.CommonDAO;
 import com.entity.Element;
 import com.entity.Source;
 import com.entity.Template;
 import com.extract.Extractor;
 import com.spider.Spider;
-import com.util.SpringFactory;
 
 public class SpiderEngine {
 
-	private static CommonDAO commonDAO = SpringFactory.getBean("commonDAO");
+	private static ApplicationContext context = new ClassPathXmlApplicationContext(
+			"SpiderContext.xml");
+
+	private static CommonDAO commonDAO = SpiderEngine.getBean("commonDAO");
 
 	private int spiderNum = 3;
 	private int extractorNum = 5;
+
+	@SuppressWarnings("unchecked")
+	public static <T> T getBean(String beanid) {
+		return (T) context.getBean(beanid);
+	}
 
 	private SpiderEngine() {
 
@@ -79,7 +89,7 @@ public class SpiderEngine {
 		Element e2 = new Element();
 		e2.setName("download");
 		e2.setDefine("//div[@class='font_box_2 ce']/img/@src");
-		
+
 		Element e3 = new Element();
 		e3.setName("thumb");
 		e3.setDefine("//div[@class='font_box_2 ce']/img/@src");
