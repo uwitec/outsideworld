@@ -2,7 +2,10 @@ package com.model;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * 爬虫类
@@ -34,17 +37,13 @@ public class Item {
 	 */
 	private Map<String, String> fields = new HashMap<String, String>();
 	/**
-	 * 记录当前item处于抓取的层次
-	 */
-	private int level = 0;
-	/**
-	 * 表示相同url的抓取间隔
-	 */
-	private int interval = 0;
-	/**
 	 * 表示抓取的时间
 	 */
 	private Date date;
+
+	public Set<Entry<String, String>> fieldSet() {
+		return fields.entrySet();
+	}
 
 	public String getType() {
 		return type;
@@ -68,22 +67,6 @@ public class Item {
 
 	public void addField(String key, String value) {
 		fields.put(key, value);
-	}
-
-	public int getLevel() {
-		return level;
-	}
-
-	public void setLevel(int level) {
-		this.level = level;
-	}
-
-	public int getInterval() {
-		return interval;
-	}
-
-	public void setInterval(int interval) {
-		this.interval = interval;
 	}
 
 	public Date getDate() {
