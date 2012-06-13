@@ -4,11 +4,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.apache.commons.httpclient.Header;
-import org.apache.commons.httpclient.HeaderElement;
+
 import org.apache.commons.httpclient.HttpException;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpResponseInterceptor;
+import org.apache.http.client.entity.GzipDecompressingEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HttpContext;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.model.Page;
 
 public class Fetcher {
@@ -27,9 +35,10 @@ public class Fetcher {
 					final HttpContext context) throws HttpException,
 					IOException {
 				HttpEntity entity = response.getEntity();
-				Header ceheader = entity.getContentEncoding();
+				org.apache.http.Header ceheader = entity.getContentEncoding();
 				if (ceheader != null) {
-					HeaderElement[] codecs = ceheader.getElements();
+					org.apache.http.HeaderElement[] codecs = ceheader
+							.getElements();
 					for (int i = 0; i < codecs.length; i++) {
 						if (codecs[i].getName().equalsIgnoreCase("gzip")) {
 							response.setEntity(new GzipDecompressingEntity(
