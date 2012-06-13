@@ -2,7 +2,6 @@ package com.spider;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,9 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.dao.CommonDAO;
 import com.entity.Source;
+import com.extract.Extractor;
 import com.model.Page;
-import com.mongodb.BasicDBObject;
-import com.util.MongoUtil;
 import com.util.SpringFactory;
 
 public class Spider extends Thread {
@@ -35,8 +33,6 @@ public class Spider extends Thread {
 	private static Map<String, Integer> intervalMap = new HashMap<String, Integer>();
 
 	private static CommonDAO commonDAO = SpringFactory.getBean("commonDAO");
-
-	private static MongoUtil mongoDB = SpringFactory.getBean("mongoDB");
 
 	private static Lock lock = new ReentrantLock();
 
@@ -126,6 +122,7 @@ public class Spider extends Thread {
 		LOG.info("Collect URLs from {}", page.getUrl());
 
 		TagNode doc = htmlCleaner.clean(page.getHtml());
+		page.setDoc(doc);
 		Object[] hrefs = doc.evaluateXPath("//a/@href");
 
 		/* Get BloomFilter */
@@ -188,10 +185,6 @@ public class Spider extends Thread {
 	}
 
 	private void afterCrawled(Page page) {
-		BasicDBObject result = new BasicDBObject();
-		result.put("url", page.getUrl().toString());
-		result.put("html", page.getHtml());
-		result.put("crawlTime", new Date());
-		mongoDB.insert(result, "page");
+		Extractor.addPage(page);
 	}
 }
