@@ -38,6 +38,10 @@ public class Template {
 	@Column(name = "url_regex", nullable = false)
 	private String urlRegex;
 
+	/* 资源类型 */
+	@Column(nullable = false)
+	private String type;
+
 	@ManyToOne(targetEntity = Source.class)
 	private Source source;
 
@@ -85,7 +89,19 @@ public class Template {
 		this.source = source;
 	}
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public boolean match(String url) {
+		if (this.pattern == null) {
+			this.pattern = Pattern.compile(urlRegex);
+		}
+
 		Matcher matcher = this.pattern.matcher(url);
 		if (matcher.find()) {
 			return true;
