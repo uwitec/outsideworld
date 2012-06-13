@@ -2,6 +2,8 @@ package com.model;
 
 import java.net.URL;
 
+import org.htmlcleaner.TagNode;
+
 public class Page {
 
 	private URL url;
@@ -9,6 +11,8 @@ public class Page {
 	private int depth = 0;
 
 	private String html;
+
+	private TagNode doc;
 
 	public URL getUrl() {
 		return url;
@@ -32,5 +36,13 @@ public class Page {
 
 	public void setDepth(int depth) {
 		this.depth = depth;
+	}
+
+	public TagNode getDoc() {
+		return doc;
+	}
+
+	public void setDoc(TagNode doc) {
+		this.doc = doc;
 	}
 }
