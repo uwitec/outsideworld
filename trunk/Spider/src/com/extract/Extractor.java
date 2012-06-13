@@ -136,6 +136,9 @@ public class Extractor extends Thread {
 	}
 
 	private void extract(Item item, Element element, Page page) {
+		if (page.getDoc() == null) {
+			return;
+		}
 		try {
 			Object[] objs = page.getDoc().evaluateXPath(element.getDefine());
 			if (objs == null || objs.length < 1) {
