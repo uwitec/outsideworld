@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -23,6 +22,9 @@ import com.entity.Element;
 import com.entity.Template;
 import com.model.Item;
 import com.model.Page;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import com.util.MongoUtil;
 import com.util.SpringFactory;
 
 public class Extractor extends Thread {
@@ -34,6 +36,8 @@ public class Extractor extends Thread {
 	private static Map<String, ArrayList<Template>> templateMap = new HashMap<String, ArrayList<Template>>();
 
 	private static CommonDAO commonDAO = SpringFactory.getBean("commonDAO");
+
+	private static MongoUtil mongoDB = SpringFactory.getBean("mongoDB");
 
 	private static Lock lock = new ReentrantLock();
 
@@ -170,10 +174,13 @@ public class Extractor extends Thread {
 	}
 
 	private void afterExtract(Item item) {
-		System.out.println(item.getUrl());
-		for (Entry<String, String> field : item.fieldSet()) {
-			System.out.println(field.getKey() + ":" + field.getValue());
-		}
+		DBObject obj = new BasicDBObject();
+		obj.put("type", item.getType());
+		obj.put("page", item.getUrl().toString());
+		obj.put("url", item.getField("download"));
+		obj.put("title", item.getField("title"));
+		obj.put("time", new Date());
+		mongoDB.insert(obj, "download");
 	}
 
 }
