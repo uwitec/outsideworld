@@ -5,12 +5,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import com.entity.Element;
 import com.entity.Template;
+import com.model.Item;
 import com.model.Page;
+import com.util.HtmlCleanUtil;
 
 public class Extracter extends Thread {
 
@@ -49,23 +50,39 @@ public class Extracter extends Thread {
 		}
 	}
 
-	private void extract(Page page) {
+	private Item extract(Page page) {
 		String host = page.getUrl().getHost();
 		List<Template> templates = templateMap.get(host);
 		if (templates == null) {
-			return;
+			return null;
 		}
 
 		String url = page.getUrl().toString();
 		for (Template template : templates) {
 			if (template.match(url)) {
-				extract(template, page);
-				break;
+				return extract(template, page);
 			}
 		}
+		return null;
 	}
 
-	private void extract(Template template, Page page) {
-		// TODO
+	private Item extract(Template template, Page page) {
+		Item item = new Item();
+		item.setUrl(page.getUrl().toString());
+		if(template.getElements()!=null&&template.getElements().size()>0){
+		    for(Element element:template.getElements()){
+		        String value = "";
+                try {
+                    value = HtmlCleanUtil.parse(page.getHtml(), element.getDefine(), "");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+		        item.addField(element.getName(), value);
+		    }
+		}
+		if(item.isNoField()){
+		    return null;
+		}
+		return item;
 	}
 }
