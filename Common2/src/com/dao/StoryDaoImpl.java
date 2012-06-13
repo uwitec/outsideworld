@@ -40,6 +40,8 @@ public class StoryDaoImpl implements StoryDao {
         result.put("category", story.getCategory());
         result.put("isDownLoad", story.isDownLoad());
         result.put("isIndexed", false);
+        result.put("refer", story.getRefer());
+        result.put("downloadUrlFinal", story.getDownloadUrlFinal());
         return result;
     }
     
@@ -49,6 +51,8 @@ public class StoryDaoImpl implements StoryDao {
         result.setDownLoad(o.getBoolean("isDownLoad", false));
         result.setDescription(o.getString("description"));
         result.setDownloadUrl(o.getString("downloadUrl"));
+        result.setDownloadUrlFinal(o.getString("downloadUrlFinal"));
+        result.setRefer(o.getString("refer"));
         result.setId(o.getString("_id"));
         result.setPath(o.getString("path"));
         return result;
