@@ -41,27 +41,22 @@ public class SpiderEngine {
 
 		Element e1 = new Element();
 		e1.setName("title");
-		e1.setDefine("//h1[@id='h1title']");
+		e1.setDefine("//div[@class='contter']/h1/a");
 
 		Element e2 = new Element();
-		e2.setName("content");
-		e2.setDefine("//div[@id='endText']");
-
-		Element e3 = new Element();
-		e3.setName("pubTime");
-		e3.setDefine("//div[@class='endContent']/span");
+		e2.setName("download");
+		e2.setDefine("//li[@class='download']/a/@href");
 
 		Template t1 = new Template();
-		t1.setDomain("news.163.com");
-		t1.setUrlRegex("^http://news.163.com/\\d+/\\d+/\\d+/\\w+.html");
+		t1.setDomain("vector.penshow.cn");
+		t1.setUrlRegex("^http://vector.penshow.cn/\\d+.shtml");
 		t1.setType("Image");
 		t1.getElements().add(e1);
 		t1.getElements().add(e2);
-		t1.getElements().add(e3);
 
 		Source s1 = new Source();
-		s1.setName("网易新闻");
-		s1.setUrl("http://news.163.com/");
+		s1.setName("笔秀网");
+		s1.setUrl("http://vector.penshow.cn/");
 		s1.getTempaltes().add(t1);
 
 		commonDAO.save(s1);
