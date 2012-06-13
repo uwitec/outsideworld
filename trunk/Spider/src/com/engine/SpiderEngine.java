@@ -51,12 +51,17 @@ public class SpiderEngine {
 		e2.setName("download");
 		e2.setDefine("//li[@class='download']/a/@href");
 
+		Element e3 = new Element();
+		e3.setName("thumb");
+		e3.setDefine("//ul[@class='ul']/p/img/@src");
+
 		Template t1 = new Template();
 		t1.setDomain("vector.penshow.cn");
 		t1.setUrlRegex("^http://vector.penshow.cn/\\d+.shtml");
 		t1.setType("Image");
 		t1.getElements().add(e1);
 		t1.getElements().add(e2);
+		t1.getElements().add(e3);
 
 		Source s1 = new Source();
 		s1.setName("笔秀网");
@@ -74,6 +79,10 @@ public class SpiderEngine {
 		Element e2 = new Element();
 		e2.setName("download");
 		e2.setDefine("//div[@class='font_box_2 ce']/img/@src");
+		
+		Element e3 = new Element();
+		e3.setName("thumb");
+		e3.setDefine("//div[@class='font_box_2 ce']/img/@src");
 
 		Template t1 = new Template();
 		t1.setDomain("www.ttcnn.com");
@@ -81,6 +90,7 @@ public class SpiderEngine {
 		t1.setType("Image");
 		t1.getElements().add(e1);
 		t1.getElements().add(e2);
+		t1.getElements().add(e3);
 
 		Source s1 = new Source();
 		s1.setName("天天素材");
