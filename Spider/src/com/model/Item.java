@@ -2,7 +2,6 @@ package com.model;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -79,11 +78,11 @@ public class Item {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	
-	public boolean isNoField(){
-	    if(fields.size()==0){
-	        return true;
-	    }
-	    return false;
+
+	public boolean isNoField() {
+		if (fields.size() == 0) {
+			return true;
+		}
+		return false;
 	}
 }
