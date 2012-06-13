@@ -90,7 +90,6 @@ public class Extractor extends Thread {
 			try {
 				Page page = null;
 				if ((page = pageQueue.poll()) == null) {
-					LOG.info("Waiting for new Page");
 					Thread.sleep(1000);
 					continue;
 				}
@@ -181,7 +180,7 @@ public class Extractor extends Thread {
 		story.setDescription(item.getField("title"));
 		story.setRefer(item.getUrl());
 		story.setDownloadUrlFinal(item.getField("download"));
-		story.setDownloadUrl(item.getField("downloadPre"));
+		story.setDownloadUrl(item.getField("thumb"));
 		storyDao.insert(story);
 	}
 

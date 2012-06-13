@@ -62,7 +62,6 @@ public class Spider extends Thread {
 			try {
 				Page page = null;
 				if ((page = urlQueue.poll()) == null) {
-					LOG.debug("Waiting for URL Queue");
 					Thread.sleep(3000);
 					continue;
 				}
