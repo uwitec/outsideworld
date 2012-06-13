@@ -99,7 +99,6 @@ public class Extractor extends Thread {
 	}
 
 	private void extract(Page page) {
-		LOG.info("Extract form {}", page.getUrl());
 		String host = page.getUrl().getHost();
 		List<Template> templates = templateMap.get(host);
 		if (templates == null) {
@@ -116,6 +115,8 @@ public class Extractor extends Thread {
 	}
 
 	private void extract(Template template, Page page) {
+		LOG.info("Extract form {}", page.getUrl());
+
 		if (template.getElements() == null) {
 			return;
 		}

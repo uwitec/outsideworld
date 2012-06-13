@@ -139,7 +139,7 @@ public class Spider extends Thread {
 		for (Object href : hrefs) {
 			/* filter invalid link */
 			String link = href.toString();
-			if (!filterUrl(link)) {
+			if ((link = filterUrl(page.getUrl(), link)) == null) {
 				continue;
 			}
 
@@ -172,15 +172,21 @@ public class Spider extends Thread {
 		LOG.info("Collect {} URLs from {}", pageCount, page.getUrl());
 	}
 
-	private boolean filterUrl(String url) {
+	private String filterUrl(URL parentUrl, String url) {
 		if (url == null || url.isEmpty()) {
-			return false;
+			return null;
 		} else if (url.equals("#")) {
-			return false;
+			return null;
 		} else if (url.startsWith("javascript:")) {
-			return false;
+			return null;
+		} else if (!url.startsWith("http://")) {
+			try {
+				return new URL(parentUrl, url).toString();
+			} catch (MalformedURLException e) {
+				return null;
+			}
 		} else {
-			return true;
+			return url;
 		}
 	}
 

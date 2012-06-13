@@ -17,7 +17,9 @@ public class SpiderEngine {
 
 	private SpiderEngine() {
 
-		setup();
+		clear();
+		test1();
+		test2();
 
 		/* Start spiders */
 		Thread[] spiders = new Thread[spiderNum];
@@ -34,11 +36,13 @@ public class SpiderEngine {
 		}
 	}
 
-	private void setup() {
+	private void clear() {
 		commonDAO.update("delete from Element");
 		commonDAO.update("delete from Template");
 		commonDAO.update("delete from Source");
+	}
 
+	private void test1() {
 		Element e1 = new Element();
 		e1.setName("title");
 		e1.setDefine("//div[@class='contter']/h1/a");
@@ -57,6 +61,30 @@ public class SpiderEngine {
 		Source s1 = new Source();
 		s1.setName("笔秀网");
 		s1.setUrl("http://vector.penshow.cn/");
+		s1.getTempaltes().add(t1);
+
+		commonDAO.save(s1);
+	}
+
+	private void test2() {
+		Element e1 = new Element();
+		e1.setName("title");
+		e1.setDefine("//div[@class='font_box_2 ce']/h2");
+
+		Element e2 = new Element();
+		e2.setName("download");
+		e2.setDefine("//div[@class='font_box_2 ce']/img/@src");
+
+		Template t1 = new Template();
+		t1.setDomain("www.ttcnn.com");
+		t1.setUrlRegex("^http://www.ttcnn.com/vector/vector/\\d+.html");
+		t1.setType("Image");
+		t1.getElements().add(e1);
+		t1.getElements().add(e2);
+
+		Source s1 = new Source();
+		s1.setName("天天素材");
+		s1.setUrl("http://www.ttcnn.com/vector/");
 		s1.getTempaltes().add(t1);
 
 		commonDAO.save(s1);
