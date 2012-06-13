@@ -19,12 +19,12 @@ import org.slf4j.LoggerFactory;
 
 import com.dao.CommonDAO;
 import com.dao.StoryDao;
+import com.engine.SpiderEngine;
 import com.entity.Element;
 import com.entity.Template;
 import com.model.Item;
 import com.model.Page;
 import com.model.Story;
-import com.util.SpringFactory;
 
 public class Extractor extends Thread {
 
@@ -34,9 +34,9 @@ public class Extractor extends Thread {
 
 	private static Map<String, ArrayList<Template>> templateMap = new HashMap<String, ArrayList<Template>>();
 
-	private static CommonDAO commonDAO = SpringFactory.getBean("commonDAO");
+	private static CommonDAO commonDAO = SpiderEngine.getBean("commonDAO");
 
-	private static StoryDao storyDao = SpringFactory.getBean("storyDao");
+	private static StoryDao storyDao = SpiderEngine.getBean("storyDao");
 
 	private static Lock lock = new ReentrantLock();
 
