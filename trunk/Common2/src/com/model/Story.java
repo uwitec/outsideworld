@@ -8,7 +8,15 @@ public class Story {
      */
     private String description;
     /**
-     * 下载的url
+     * 源站点的url
+     */
+    private String refer;
+    /**
+     * 最终下载的url
+     */
+    private String downloadUrlFinal;
+    /**
+     * 缩略图下载的url
      */
     private String downloadUrl;
     /**
@@ -71,4 +79,20 @@ public class Story {
     public void setPath(String path) {
         this.path = path;
     }
+
+	public String getRefer() {
+		return refer;
+	}
+
+	public void setRefer(String refer) {
+		this.refer = refer;
+	}
+
+	public String getDownloadUrlFinal() {
+		return downloadUrlFinal;
+	}
+
+	public void setDownloadUrlFinal(String downloadUrlFinal) {
+		this.downloadUrlFinal = downloadUrlFinal;
+	}
 }
