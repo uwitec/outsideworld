@@ -9,10 +9,12 @@ import org.htmlcleaner.TagNode;
 import com.entity.Template;
 import com.model.Item;
 import com.model.Page;
+import com.spider.filter.DuplicatedUrlFilter;
 
 public class UrlExtractor implements Extractor {
 
     private HtmlCleaner htmlCleaner;
+    private DuplicatedUrlFilter duplicatedUrlFilter;
 
     @Override
     public Item extract(Page page, List<Template> templates) throws Exception {
@@ -35,7 +37,19 @@ public class UrlExtractor implements Extractor {
                         }
                     }
                 }
-                //2、因为这里是目录页，所以较验host抓取时间是否已经过了，如果没有过的话，再进行抓取
+                //2、这里将urls分类，如果是目录页，则使用interval Filter，查看是否过期，如果是抽取页面，则使用bloom过滤器进行
+                for(String link:links){
+                    for(Template template : templates){
+                        if (template.match(link)){
+                            //结果页面
+                            if(duplicatedUrlFilter.filter(item)){
+                                break;
+                            }
+                        }
+                    
+                    }
+                    //目录页面，查看时间
+                }
             }
         }
         return null;
@@ -47,5 +61,14 @@ public class UrlExtractor implements Extractor {
 
     public void setHtmlCleaner(HtmlCleaner htmlCleaner) {
         this.htmlCleaner = htmlCleaner;
+    }
+    
+    public DuplicatedUrlFilter getDuplicatedUrlFilter() {
+        return duplicatedUrlFilter;
+    }
+
+    
+    public void setDuplicatedUrlFilter(DuplicatedUrlFilter duplicatedUrlFilter) {
+        this.duplicatedUrlFilter = duplicatedUrlFilter;
     }
 }
