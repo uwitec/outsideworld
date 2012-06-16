@@ -1,6 +1,6 @@
 package com.spider.filter;
 
-import com.model.Item;
+import com.model.Page;
 
 
 public interface Filter {
@@ -11,5 +11,5 @@ public interface Filter {
      * @return
      * @throws Exception
      */
-    public boolean filter(Item item) throws Exception;
+    public boolean filter(Page item) throws Exception;
 }
