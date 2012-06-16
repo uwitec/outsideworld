@@ -12,15 +12,14 @@ import org.dom4j.io.SAXReader;
 
 import com.tencent.weibo.beans.OAuth;
 import com.tencent.weibo.beans.QParameter;
- 
+
 import com.tencent.weibo.utils.OAuthClient;
 import com.tencent.weibo.utils.QHttpClient;
- 
 
 /**
  * Request Remote Server API
  * 
- * @author <a href="http://blog.javawind.net">Xuefang Xu</a> 
+ * @author <a href="http://blog.javawind.net">Xuefang Xu</a>
  * @Data 2010-01-21
  * @Version 1.0.0
  */
@@ -28,8 +27,9 @@ import com.tencent.weibo.utils.QHttpClient;
 public class RequestAPI {
 	QHttpClient http = new QHttpClient();// 使用同步HTTP方式
 	private static Log log = LogFactory.getLog(RequestAPI.class);
+
 	// QHttpClient http = new AsyncHttpClient();//使用异步HTTP方式
-//	AsyncCallBack callBack = new AsyncCallBack();
+	// AsyncCallBack callBack = new AsyncCallBack();
 
 	/**
 	 * get json or xml resource from remote api
@@ -70,8 +70,8 @@ public class RequestAPI {
 		String queryString = oac.getOauthParams(url, "POST",
 				oauth.getOauth_consumer_secret(),
 				oauth.getOauth_token_secret(), parameters);
-		
-		log.info("RequestAPI postContent queryString = "+queryString);
+
+		log.info("RequestAPI postContent queryString = " + queryString);
 		return http.httpPost(url, queryString);
 	}
 
@@ -124,11 +124,11 @@ public class RequestAPI {
 				break;
 			}
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			log.error("Tencent Weibo error", e);
 			arr[0] = "4";
 			arr[1] = e.toString();
 		} catch (DocumentException e) {
-			e.printStackTrace();
+			log.error("Tencent Weibo error", e);
 			arr[0] = "4";
 			arr[1] = e.toString();
 		}
