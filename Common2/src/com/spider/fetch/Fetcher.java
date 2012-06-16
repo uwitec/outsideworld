@@ -26,7 +26,7 @@ import com.util.HttpUtil;
 
 public class Fetcher {
 	private ConcurrentLinkedQueue<Page> extractQueue;
-	private Map<String,Long> lastUpdateMap;
+	private Map<String, Long> lastUpdateMap;
 
 	private boolean found = false;
 	private String result = "";
@@ -36,31 +36,38 @@ public class Fetcher {
 	 * 
 	 * @param item
 	 * @param queue
-	 * @throws Exception 
+	 * @throws Exception
 	 * @throws Exception
 	 */
 	public void fetch(Page page) throws Exception {
-		//先要记录一下当前抓取的主机信息是多少小时以前抓取的
-		if(page.getSource()!=null){
-			String host = new URL(page.getSource().getUrl()).getHost();
-			if(lastUpdateMap.get(host)==null){
-				lastUpdateMap.put(host, new Date().getTime());
-			}
-		}
+		// 先要记录一下当前抓取的主机信息是多少小时以前抓取的
 		HttpGet httpget = new HttpGet(page.getUrl().toString());
 		HttpContext context = new BasicHttpContext();
 		try {
 			// 执行get方法
+			long start = System.currentTimeMillis();
 			HttpResponse response = HttpUtil.getHttpClient().execute(httpget,
 					context);
+			long stop = System.currentTimeMillis();
+			System.out.println("fetch http:" + (stop - start));
 			// 获得字符串
 			HttpEntity entity = response.getEntity();
+			Header[] headers = response.getAllHeaders();
 			byte[] bytes = EntityUtils.toByteArray(entity);
 			String encoding = getEncoding(entity, bytes);
 			if (entity != null) {
 				page.setHtml(new String(bytes, encoding));
 				extractQueue.add(page);
 				entity.consumeContent();
+			}
+			page.setDomain(page.getUrl().getHost());
+			// 如果当前domain不为空，则设置domain
+			if (lastUpdateMap.get(page.getDomain()) == null) {
+				lastUpdateMap.put(page.getDomain(), new Date().getTime());
+
+			}
+			if (StringUtils.isBlank(page.getDomain())) {
+				System.out.println("没有获得domain!");
 			}
 
 		} catch (Exception e) {
@@ -123,6 +130,7 @@ public class Fetcher {
 	 * @return
 	 */
 	private synchronized String[] guestCharSet(byte[] in) throws Exception {
+		long start = System.currentTimeMillis();
 		found = false;
 		result = "";
 		int lang = nsPSMDetector.CHINESE;
@@ -158,6 +166,8 @@ public class Fetcher {
 		} else {
 			prob = det.getProbableCharsets();
 		}
+		long stop = System.currentTimeMillis();
+		System.out.println("fetcher encoding:" + (stop - start));
 		return prob;
 	}
 
@@ -169,11 +179,11 @@ public class Fetcher {
 		this.extractQueue = extractQueue;
 	}
 
-	public Map<String,Long> getLastUpdateMap() {
+	public Map<String, Long> getLastUpdateMap() {
 		return lastUpdateMap;
 	}
 
-	public void setLastUpdateMap(Map<String,Long> lastUpdateMap) {
+	public void setLastUpdateMap(Map<String, Long> lastUpdateMap) {
 		this.lastUpdateMap = lastUpdateMap;
 	}
 }

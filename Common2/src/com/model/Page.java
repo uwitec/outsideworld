@@ -17,6 +17,8 @@ public class Page {
 	private String html;
 
 	private TagNode doc;
+	
+	private String domain;
 	/**
 	 * 表明当前的是什么类型，是抽取页面还是目录页面0表示目录页面
 	 */
@@ -68,5 +70,13 @@ public class Page {
 
 	public void setSource(Source source) {
 		this.source = source;
+	}
+
+	public String getDomain() {
+		return domain;
+	}
+
+	public void setDomain(String domain) {
+		this.domain = domain;
 	}
 }

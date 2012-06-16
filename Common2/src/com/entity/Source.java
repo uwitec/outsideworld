@@ -40,6 +40,9 @@ public class Source {
 	/* 抓取间隔（小时） */
 	@Column(name = "fetch_interval")
 	private int interval = 3;
+	
+	@Column(name = "domain")
+	private String domain;
 
 	@OneToMany(targetEntity = Template.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "source_id")
@@ -91,5 +94,13 @@ public class Source {
 
 	public void setTempaltes(Set<Template> tempaltes) {
 		this.tempaltes = tempaltes;
+	}
+
+	public String getDomain() {
+		return domain;
+	}
+
+	public void setDomain(String domain) {
+		this.domain = domain;
 	}
 }
