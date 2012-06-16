@@ -409,6 +409,36 @@ public class Setup {
 		commonDAO.save(s1);
 	}
 
+	public static void site01() {
+		Element e1 = new Element("title", "//title");
+		Element e2 = new Element("content", "//td[@class='box-content']/script");
+		e2.setRegex("new TextParser\\('(.*)', '.*'\\);");
+		e2.setFormat("javascript");
+		Element e3 = new Element("pubTime",
+				"//td[@class='box-title-treecontent']");
+		Element e4 = new Element("replyNum",
+				"//td[@class='box-title-treecontent2']");
+		e4.setRegex(".*跟贴总数：(\\d+)");
+
+		Template t1 = new Template();
+		t1.setDomain("bbs1.people.com.cn");
+		t1.setUrlRegex("^http://bbs1.people.com.cn/postDetail.do\\?boardId=\\d+&treeView=\\d+&view=\\d+&id=\\d+");
+		t1.setFetchInterval(1000 * 60);
+		t1.getElements().add(e1);
+		t1.getElements().add(e2);
+		t1.getElements().add(e3);
+		t1.getElements().add(e4);
+
+		Source s1 = new Source();
+		s1.setId(50001);
+		s1.setName("人民网-强国社区 ");
+		s1.setType(SourceType.WEBSITE);
+		s1.setUrl("http://bbs1.people.com.cn/");
+		s1.getTempaltes().add(t1);
+
+		commonDAO.save(s1);
+	}
+
 	public static void testSinaBlog() {
 		Element e1 = new Element();
 		e1.setName("title");
@@ -463,9 +493,10 @@ public class Setup {
 		meta();
 		topic();
 		weibo();
-		test163();
-		testSinaBlog();
-		testTianya();
+		site01();
+		// test163();
+		// testSinaBlog();
+		// testTianya();
 		indexDir();
 		cacheFile();
 		System.exit(0);
