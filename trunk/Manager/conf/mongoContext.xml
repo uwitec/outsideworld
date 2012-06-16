@@ -11,6 +11,20 @@
            http://www.springframework.org/schema/tx/spring-tx-3.0.xsd"
 	default-autowire="byName">
 
-	<import resource="hibernateContext.xml" />
+	<!-- MongoDB -->
+	<bean id="mongoDB" class="com.util.MongoUtil">
+		<constructor-arg index="0">
+			<value>182.50.3.54</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>27017</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>yuqing</value>
+		</constructor-arg>
+	</bean>
 
+	<bean id="itemDao" class="com.dao.mongo.ItemDaoImpl">
+		<property name="mongoDB" ref="mongoDB" />
+	</bean>
 </beans>
