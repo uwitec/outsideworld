@@ -1,5 +1,8 @@
 package com.nutch.manager;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import com.dao.CommonDAO;
 import com.model.policy.Element;
 import com.model.policy.Element.ElementType;
@@ -8,14 +11,21 @@ import com.model.policy.Source;
 import com.model.policy.Source.SourceType;
 import com.model.policy.Template;
 import com.model.policy.Topic;
-import com.util.SpringFactory;
 import com.weibo.client.SinaWeiboClient;
 import com.weibo.client.SohuWeiboClient;
 import com.weibo.client.TencentWeiboClient;
 
 public class Setup {
 
-	private static CommonDAO commonDAO = SpringFactory.getBean("commonDAO");
+	private static ApplicationContext context = new ClassPathXmlApplicationContext(
+			"setupContext.xml");
+
+	@SuppressWarnings("unchecked")
+	public static <T> T getBean(String beanid) {
+		return (T) context.getBean(beanid);
+	}
+
+	private static CommonDAO commonDAO = Setup.getBean("commonDAO");
 
 	public static void clear() {
 		/* clear sites */
@@ -338,20 +348,19 @@ public class Setup {
 
 		commonDAO.save(s1);
 	}
-	
-	
-	public static void testPicture(){
+
+	public static void testPicture() {
 		Element e1 = new Element();
 		e1.setName("title");
 		e1.setDefine("/div[7]/div/div[2]/div/h1/a");
 		e1.setType(ElementType.XPATH);
-		
+
 		Template t1 = new Template();
 		t1.setDomain("hd.penshow.cn");
 		t1.setUrlRegex("^http://hd.penshow.cn/\\d+/\\d+/\\d+/\\w+.html");
 		t1.setFetchInterval(1000 * 60);
 		t1.getElements().add(e1);
-		
+
 		Source s1 = new Source();
 		s1.setName("图片素材");
 		s1.setType(SourceType.WEBSITE);
@@ -440,7 +449,7 @@ public class Setup {
 		p1.setValue1("/data/index");
 		commonDAO.save(p1);
 	}
-	
+
 	public static void cacheFile() {
 		Param p1 = new Param();
 		p1.setName1("corpus_file");
