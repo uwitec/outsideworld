@@ -23,7 +23,7 @@ public class Element {
 	private String name;
 
 	@Enumerated(EnumType.STRING)
-	private ElementType type;
+	private ElementType type = ElementType.XPATH;
 
 	@Column(nullable = false, length = 200)
 	private String define;
@@ -33,6 +33,15 @@ public class Element {
 
 	@Column(length = 200)
 	private String format;
+
+	public Element() {
+
+	}
+
+	public Element(String name, String define) {
+		this.name = name;
+		this.define = define;
+	}
 
 	public String getRegex() {
 		return regex;
