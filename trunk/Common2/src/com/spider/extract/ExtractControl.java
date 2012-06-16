@@ -19,6 +19,7 @@ public class ExtractControl implements Runnable {
 			Page page = extractQueue.poll();
 			try{
 			if(page == null){
+				System.out.println("Extract thread sleep!");
 				Thread.sleep(1*1000);
 			}
 			else{
@@ -35,5 +36,31 @@ public class ExtractControl implements Runnable {
 		}
 
 	}
+
+	public List<Extractor> getExtractorChain() {
+		return extractorChain;
+	}
+
+	public void setExtractorChain(List<Extractor> extractorChain) {
+		this.extractorChain = extractorChain;
+	}
+
+	public ConcurrentLinkedQueue<Page> getExtractQueue() {
+		return extractQueue;
+	}
+
+	public void setExtractQueue(ConcurrentLinkedQueue<Page> extractQueue) {
+		this.extractQueue = extractQueue;
+	}
+
+	public Map<Integer, Set<Template>> getTemplateMap() {
+		return templateMap;
+	}
+
+	public void setTemplateMap(Map<Integer, Set<Template>> templateMap) {
+		this.templateMap = templateMap;
+	}
+	
+	
 	
 }

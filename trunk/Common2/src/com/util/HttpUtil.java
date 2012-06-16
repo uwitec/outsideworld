@@ -62,8 +62,8 @@ public class HttpUtil {
 		HttpConnectionParams.setSoTimeout(httpParams, READ_TIMEOUT);
 
 		// 设置coolies
-		HttpClientParams.setCookiePolicy(httpParams,
-				CookiePolicy.RFC_2109);
+//		HttpClientParams.setCookiePolicy(httpParams,
+//				CookiePolicy.RFC_2109);
 		SchemeRegistry registry = new SchemeRegistry();
 		registry.register(new Scheme("http", PlainSocketFactory
 				.getSocketFactory(), 80));

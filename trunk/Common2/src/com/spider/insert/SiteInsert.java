@@ -34,6 +34,7 @@ public class SiteInsert implements Runnable {
 			page.setUrl(url);
 			page.setDepth(0);
 			page.setSource(source);
+			page.setDomain(source.getDomain());
 			fetchQueue.add(page);
 		}
 		try {

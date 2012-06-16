@@ -13,6 +13,7 @@ public class FetchControl implements Runnable {
 			Page page = fetchQueue.poll();
 			try {
 				if (page == null) {
+					System.out.println("Fetcher thread sleep!");
 					Thread.sleep(1*1000);
 				} else {
 					fetcher.fetch(page);
