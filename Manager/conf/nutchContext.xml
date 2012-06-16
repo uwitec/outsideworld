@@ -11,6 +11,8 @@
            http://www.springframework.org/schema/tx/spring-tx-3.0.xsd"
 	default-autowire="byName">
 
+	<import resource="extractorContext.xml" />
 	<import resource="hibernateContext.xml" />
+	<import resource="mongoContext.xml" />
 
 </beans>

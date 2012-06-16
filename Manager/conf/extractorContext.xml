@@ -1,0 +1,41 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+           http://www.springframework.org/schema/context  
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd  
+           http://www.springframework.org/schema/aop  
+           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd  
+           http://www.springframework.org/schema/tx   
+           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd"
+	default-autowire="byName">
+
+	<!-- Extractors -->
+	<bean id="contentExtract" class="com.extract.ContentExtract" />
+	<bean id="decodingExtract" class="com.extract.Decoding" />
+	<bean id="ourlsExtract" class="com.extract.OUrlsExtract" />
+	<bean id="pubTimeExtract" class="com.extract.PubTimeExtract" />
+	<bean id="replyNumberExtract" class="com.extract.ReplyNumExtract" />
+	<bean id="templateExtract" class="com.extract.TemplateExtract" />
+	<bean id="titleExtract" class="com.extract.TitleExtract" />
+	<bean id="authorExtract" class="com.extract.AuthorExtract" />
+	<bean id="authorIpExtract" class="com.extract.AuthorIPExtract" />
+
+	<!-- ExtractChain -->
+	<bean id="extractChain" class="com.extract.ExtractChain">
+		<property name="extracts">
+			<list>
+				<ref bean="decodingExtract" />
+				<ref bean="ourlsExtract" />
+				<ref bean="templateExtract" />
+				<ref bean="titleExtract" />
+				<ref bean="contentExtract" />
+				<ref bean="pubTimeExtract" />
+				<ref bean="replyNumberExtract" />
+				<ref bean="authorExtract" />
+				<ref bean="authorIpExtract" />
+			</list>
+		</property>
+	</bean>
+</beans>
