@@ -5,23 +5,30 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.dao.CommonDAO;
-import com.dao.ItemDao;
-import com.dao.mongo.ItemDaoImpl;
 import com.extract.Extract;
 import com.model.Item;
 import com.model.policy.Template;
 import com.util.Fetcher;
-import com.util.SpringFactory;
 import com.util.TemplateCache;
 
 public class ExtractTest {
 
-	private CommonDAO commonDAO = SpringFactory.getBean("commonDAO");
+	private static ApplicationContext appContext = new ClassPathXmlApplicationContext(
+			"nutchContext.xml");
+
+	@SuppressWarnings("unchecked")
+	public static <T> T getBean(String beanid) {
+		return (T) appContext.getBean(beanid);
+	}
+
+	private CommonDAO commonDAO = ExtractTest.getBean("commonDAO");
 	private Fetcher fetcher = new Fetcher();
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-	private Extract extract = SpringFactory.getBean("extractChain");
+	private Extract extract = ExtractTest.getBean("extractChain");
 
 	@Before
 	public void setUp() {
@@ -35,7 +42,7 @@ public class ExtractTest {
 	public void testExtract() throws Exception {
 		Item item = new Item();
 		// item.setUrl("http://news.163.com/12/0408/18/7UJBEMPK0001124J.html");
-		item.setUrl("http://news.163.com/12/0604/01/8349K5SC00014JB6.html");
+		item.setUrl("http://bbs1.people.com.cn/postDetail.do?boardId=2&treeView=1&view=2&id=119774374");
 		// item.setUrl("http://blog.sina.com.cn/s/blog_613c0d86010126wf.html?tj=1");
 		fetcher.fetch(item);
 		extract.process(item);
