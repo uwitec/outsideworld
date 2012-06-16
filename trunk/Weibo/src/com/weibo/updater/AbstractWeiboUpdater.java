@@ -1,5 +1,7 @@
 package com.weibo.updater;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -38,10 +40,18 @@ public abstract class AbstractWeiboUpdater implements Runnable {
 			log.error("can not login " + source, e);
 		}
 		while (true) {
+			Calendar today = Calendar.getInstance();
+			today.setTime(new Date());
+
+			Calendar before = Calendar.getInstance();
+			before.setTime(new Date());
+			before.add(Calendar.DATE, -3);
+
 			DBObject sample = new BasicDBObject();
 			sample.put("type", "weibo");
 			sample.put("source", source);
-			// TODO 时间范围
+			sample.put("crawTime", new BasicDBObject("$gt", before.getTime())
+					.append("$lte", today.getTime()));
 			StringBuilder sb = new StringBuilder();
 			try {
 				DBCursor cursor = itemDAO.getCursor(sample);
@@ -56,6 +66,7 @@ public abstract class AbstractWeiboUpdater implements Runnable {
 						result = getStatus(sb.toString());
 						update(result);
 						sb.delete(0, sb.length());
+						Thread.sleep(1000 * 3);
 					}
 				}
 				cursor.close();
@@ -63,7 +74,7 @@ public abstract class AbstractWeiboUpdater implements Runnable {
 					result = getStatus(sb.toString());
 					update(result);
 				} else {
-					Thread.sleep(1000 * 60);
+					Thread.sleep(1000 * 3600);
 				}
 				sb.delete(0, sb.length());
 			} catch (NeedLoginException e) {
