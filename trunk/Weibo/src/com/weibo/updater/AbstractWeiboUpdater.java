@@ -8,14 +8,14 @@ import com.dao.ItemDao;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import com.util.SpringFactory;
 import com.weibo.NeedLoginException;
+import com.weibo.WeiboUpdater;
 
 public abstract class AbstractWeiboUpdater implements Runnable {
 
 	private static Logger log = Logger.getLogger(AbstractWeiboUpdater.class);
 
-	private ItemDao itemDAO = SpringFactory.getBean("itemDao");
+	private ItemDao itemDAO = WeiboUpdater.getBean("itemDao");
 
 	private String source;
 	private int chunk;

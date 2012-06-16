@@ -8,11 +8,10 @@ import com.algorithm.ConcentricString;
 import com.dao.CommonDAO;
 import com.model.Item;
 import com.model.policy.Topic;
-import com.util.SpringFactory;
 
 public class WeiboFilter {
 
-	private static CommonDAO commonDAO = SpringFactory.getBean("commonDAO");
+	private static CommonDAO commonDAO = WeiboClient.getBean("commonDAO");
 
 	private static Set<String> topic = new HashSet<String>();
 
