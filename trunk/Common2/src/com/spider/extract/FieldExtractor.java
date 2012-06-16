@@ -10,20 +10,21 @@ import com.entity.Template;
 import com.model.Item;
 import com.model.Page;
 
-public class CommonExtractor {
+public class FieldExtractor implements Extractor{
 
     private HtmlCleaner htmlCleaner;
 
-    public Item extract(Page page, List<Template> templates) throws Exception {
+    public int extract(Page page, List<Template> templates) throws Exception {
         if (templates != null && templates.size() > 0) {
             String url = page.getUrl().toString();
             for (Template template : templates) {
                 if (template.match(url)) {
-                    return extract(page, template);
+                     Item item = extract(page, template); 
+                     return -1;
                 }
             }
         }
-        return null;
+        return 0;
     }
 
     private Item extract(Page page, Template template) throws Exception {

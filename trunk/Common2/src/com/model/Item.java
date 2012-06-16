@@ -24,6 +24,7 @@ import java.util.Set;
  * @since Jun 11, 2012
  */
 public class Item {
+	private String id;
 	/**
 	 * 表明当前Item是何种类型
 	 */
@@ -40,19 +41,7 @@ public class Item {
 	 * 表示抓取的时间
 	 */
 	private Date date;	
-	/**
-	 * 记录当前页面抓取出来的url
-	 */
-	private Set<String> urls = new HashSet<String>();
-	/**
-	 * 记录原始站点的信息
-	 */
-	private String host;
 
-	
-    public Set<String> getUrls() {
-        return urls;
-    }
 
     public Set<Entry<String, String>> fieldSet() {
 		return fields.entrySet();
@@ -81,6 +70,10 @@ public class Item {
 	public void addField(String key, String value) {
 		fields.put(key, value);
 	}
+	
+	public Set<String> getKeys(){
+		return fields.keySet();
+	}
 
 	public Date getDate() {
 		return date;
@@ -97,11 +90,11 @@ public class Item {
 		return false;
 	}
 
-    public String getHost() {
-        return host;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public void setHost(String host) {
-        this.host = host;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 }
