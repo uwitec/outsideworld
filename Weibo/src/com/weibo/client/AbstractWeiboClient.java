@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 
 import com.dao.ItemDao;
 import com.model.Item;
-import com.util.SpringFactory;
+import com.weibo.WeiboClient;
 import com.weibo.WeiboFilter;
 
 public abstract class AbstractWeiboClient<T> implements Runnable {
@@ -20,7 +20,7 @@ public abstract class AbstractWeiboClient<T> implements Runnable {
 
 	private Set<Serializable> cache;
 
-	protected ItemDao itemDAO = SpringFactory.getBean("itemDao");
+	protected ItemDao itemDAO = WeiboClient.getBean("itemDao");
 
 	private int MAX_RETRY = 5;
 
