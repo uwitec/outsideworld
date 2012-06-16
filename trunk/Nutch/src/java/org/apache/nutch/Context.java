@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import com.dao.CommonDAO;
 import com.model.policy.Source;
 import com.model.policy.Template;
-import com.util.SpringFactory;
 import com.util.TemplateCache;
 
 public class Context {
