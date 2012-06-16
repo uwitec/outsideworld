@@ -25,6 +25,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.nutch.NutchCrawler;
 import org.apache.nutch.metadata.Metadata;
 import org.apache.nutch.parse.Outlink;
 import org.apache.nutch.parse.ParseData;
@@ -44,7 +45,6 @@ import com.dao.ItemDao;
 import com.extract.Extract;
 import com.model.Item;
 import com.model.OUrl;
-import com.util.SpringFactory;
 
 public class HtmlParser implements Parser {
 	public static final Logger LOG = LoggerFactory
@@ -62,7 +62,10 @@ public class HtmlParser implements Parser {
 	private static Pattern charsetPattern = Pattern.compile(
 			"charset=\\s*([a-z][_\\-0-9a-z]*)", Pattern.CASE_INSENSITIVE);
 
-	private ItemDao itemDao = SpringFactory.getBean("itemDao");
+	private ItemDao itemDao = NutchCrawler.getBean("itemDao");
+
+	private Extract extract = NutchCrawler.getBean("extractChain");
+
 	/**
 	 * Given a <code>byte[]</code> representing an html file of an
 	 * <em>unknown</em> encoding, read out 'charset' parameter in the meta tag
@@ -135,7 +138,6 @@ public class HtmlParser implements Parser {
 			if (LOG.isTraceEnabled()) {
 				LOG.trace("Parsing...");
 			}
-			Extract extract = (Extract) SpringFactory.getBean("extractChain");
 			extract.process(item);
 
 			/* URLs */
