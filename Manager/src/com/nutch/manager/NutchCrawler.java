@@ -5,10 +5,20 @@ import java.util.List;
 
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.nutch.crawl.Crawl;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.model.policy.Source;
 
 public class NutchCrawler {
+
+	private static ApplicationContext appContext = new ClassPathXmlApplicationContext(
+			"nutchContext.xml");
+
+	@SuppressWarnings("unchecked")
+	public static <T> T getBean(String beanid) {
+		return (T) appContext.getBean(beanid);
+	}
 
 	private static Context context = new Context();
 
