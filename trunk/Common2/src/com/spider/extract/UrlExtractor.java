@@ -3,6 +3,7 @@ package com.spider.extract;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.apache.commons.lang.StringUtils;
@@ -24,7 +25,7 @@ public class UrlExtractor implements Extractor {
     
 
     @Override
-    public int extract(Page page, List<Template> templates) throws Exception {
+    public int extract(Page page, Set<Template> templates) throws Exception {
     	//如果depth深度超过，则不进行解析
     	if(page.getDepth()>=page.getSource().getDepth()){
     		return -1;
