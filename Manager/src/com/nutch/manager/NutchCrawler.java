@@ -1,10 +1,8 @@
 package com.nutch.manager;
 
-import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.nutch.crawl.Crawl;
 
@@ -14,10 +12,8 @@ public class NutchCrawler {
 
 	private static Context context = new Context();
 
-	/* 启动 Crawl */
+	/* 启动 Nutch */
 	private static int startCrawl() throws Exception {
-		// clear crawl DB
-		FileUtils.cleanDirectory(new File(context.getCrawlDB()));
 
 		/* inject root URLs */
 		List<String> urls = new LinkedList<String>();
