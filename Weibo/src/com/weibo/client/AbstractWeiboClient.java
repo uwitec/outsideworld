@@ -38,7 +38,7 @@ public abstract class AbstractWeiboClient<T> implements Runnable {
 		try {
 			login();
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("Login weibo error", e);
 		}
 		int retry = 0;
 		while (true) {
@@ -46,13 +46,13 @@ public abstract class AbstractWeiboClient<T> implements Runnable {
 				weibos = getWeibos();
 				retry = 1;
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOG.error("Get Weibo error", e);
 				if (retry < MAX_RETRY) {
 					retry++;
 					try {
 						login();
 					} catch (Exception ex) {
-						ex.printStackTrace();
+						LOG.error("Login weibo error", e);
 					}
 					continue;
 				} else {
@@ -65,13 +65,13 @@ public abstract class AbstractWeiboClient<T> implements Runnable {
 				saveItems(items);
 				items = null;
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOG.error("Handle weibo error", e);
 			}
 			if (getInterval() > 0) {
 				try {
 					Thread.sleep(getInterval() * 1000);
 				} catch (InterruptedException e) {
-					e.printStackTrace();
+					// ignore
 				}
 			}
 		}
@@ -116,7 +116,7 @@ public abstract class AbstractWeiboClient<T> implements Runnable {
 				cache.add(getIdentifier(newItem));
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("Remove duplicated weibo error", e);
 		} finally {
 			lock.unlock();
 		}
