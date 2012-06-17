@@ -13,10 +13,6 @@ public class ParsedHtml {
 
 	private TagNode node;
 
-	public static TagNode parse(String html) {
-		return htmlCleaner.clean(html);
-	}
-
 	public ParsedHtml(String html) {
 		doc = Jsoup.parse(html);
 		node = htmlCleaner.clean(html);
