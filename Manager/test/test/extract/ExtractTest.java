@@ -50,6 +50,20 @@ public class ExtractTest {
 		item.setUrl("http://bbs1.people.com.cn/postDetail.do?boardId=71&view=1&id=119798777");
 		// 3.天涯百姓声音
 		item.setUrl("http://www.tianya.cn/techforum/content/828/1/196138.shtml");
+		// 4.天涯实话实说
+		item.setUrl("http://www.tianya.cn/techforum/content/972/1/25427.shtml");
+		// 5.网易江苏论坛
+		item.setUrl("http://bbs.local.163.com/bbs/localjs/252866772.html");
+		// 6.网易房产论坛
+		item.setUrl("http://bbs.gz.house.163.com/bbs/share/253012755.html");
+		// 7.搜房保利西山林语业主论坛
+		item.setUrl("http://bbs.soufun.com/1010187111~8~9586/165158771_165158771.htm");
+		// 8.搜狐保利西山林语业主论坛
+		item.setUrl("http://house.focus.cn/msgview/5158/233980246.html");
+		// 9.长城论坛-名声热线
+		item.setUrl("http://bbs.hebei.com.cn/thread-3985441-1-1.html");
+		// 10.长城论坛-名声热线
+		item.setUrl("http://club.kdnet.net/dispbbs.asp?page=1&boardid=1&id=8373738");
 		// item.setUrl("http://blog.sina.com.cn/s/blog_613c0d86010126wf.html?tj=1");
 		fetcher.fetch(item);
 		extract.process(item);
