@@ -422,7 +422,7 @@ public class Setup {
 
 		Template t1 = new Template();
 		t1.setDomain("bbs1.people.com.cn");
-		t1.setUrlRegex("^http://bbs1.people.com.cn/postDetail.do\\?boardId=\\d+&treeView=\\d+&view=\\d+&id=\\d+");
+		t1.setUrlRegex("^http://bbs1.people.com.cn/postDetail.do\\?boardId=1.*");
 		t1.setFetchInterval(1000 * 60);
 		t1.getElements().add(e1);
 		t1.getElements().add(e2);
@@ -431,9 +431,37 @@ public class Setup {
 
 		Source s1 = new Source();
 		s1.setId(50001);
-		s1.setName("人民网-强国社区 ");
+		s1.setName("人民网-强国社区-经济论坛 ");
 		s1.setType(SourceType.WEBSITE);
-		s1.setUrl("http://bbs1.people.com.cn/");
+		s1.setUrl("http://bbs1.people.com.cn/boardList.do?action=postList&boardId=11");
+		s1.getTempaltes().add(t1);
+
+		commonDAO.save(s1);
+	}
+
+	public static void site02() {
+		Element e1 = new Element("title", "//title");
+		Element e2 = new Element("content", "//td[@class='box-content']/script");
+		e2.setRegex("new TextParser\\('(.*)', '.*'\\);");
+		e2.setFormat("javascript");
+		Element e3 = new Element("pubTime", "//td[@class='box-time']");
+		Element e4 = new Element("replyNum", "//td[@class='box-vote']");
+		e4.setRegex(".*共 (\\d+) 个跟贴");
+
+		Template t1 = new Template();
+		t1.setDomain("bbs1.people.com.cn");
+		t1.setUrlRegex("^http://bbs1.people.com.cn/postDetail.do\\?boardId=71.*");
+		t1.setFetchInterval(1000 * 60);
+		t1.getElements().add(e1);
+		t1.getElements().add(e2);
+		t1.getElements().add(e3);
+		t1.getElements().add(e4);
+
+		Source s1 = new Source();
+		s1.setId(50002);
+		s1.setName("人民网-强国社区-百姓监督 ");
+		s1.setType(SourceType.WEBSITE);
+		s1.setUrl("http://bbs1.people.com.cn/boardList.do?action=postList&boardId=71");
 		s1.getTempaltes().add(t1);
 
 		commonDAO.save(s1);
@@ -494,12 +522,12 @@ public class Setup {
 		topic();
 		weibo();
 		site01();
-		// test163();
-		// testSinaBlog();
-		// testTianya();
+		site02();
+		test163();
+		testSinaBlog();
+		testTianya();
 		indexDir();
 		cacheFile();
-		System.exit(0);
 	}
 
 }
