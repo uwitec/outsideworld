@@ -17,6 +17,8 @@ public class OUrlsExtract implements Extract {
 	public void process(Item item) throws Exception {
 		List<String> urls = CssUtil.getResults(item.getParsedHtml().getDoc(),
 				"a", "href");
+		urls.addAll(CssUtil.getResults(item.getParsedHtml().getDoc(), "iframe",
+				"src"));
 		for (String url : urls) {
 			if (url == null || url.isEmpty()) {
 				continue;
