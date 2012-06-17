@@ -44,6 +44,7 @@ public abstract class AExtract implements Extract {
 		}
 		if (element != null && "javascript".equals(element.getFormat())) {
 			text = getJavascript(item, text);
+			text = ParsedHtml.parse(text).getText().toString();
 		}
 		return text;
 	}
