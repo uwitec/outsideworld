@@ -383,13 +383,13 @@ public class Setup {
 		Element e3 = new Element();
 		e3.setName("pubTime");
 		e3.setType(ElementType.XPATH);
-		e3.setDefine("body//div[4]//table//tbody//tr//td");
+		e3.setDefine("//div[@class='vcard']");
 
 		Element e4 = new Element();
 		e4.setName("replyNum");
 		e4.setType(ElementType.XPATH);
 		e4.setDefine("//div[@class='info']");
-		e4.setRegex(".*回复：(\\d+)");
+		e4.setRegex(".*回复.{0,1}：(\\d+)");
 
 		Template t1 = new Template();
 		t1.setDomain("www.tianya.cn");
@@ -467,6 +467,32 @@ public class Setup {
 		commonDAO.save(s1);
 	}
 
+	public static void site03() {
+		// Element e1 = new Element("title", "//title");
+		// Element e2 = new Element("content", "//div[@class='post']");
+		// Element e3 = new Element("pubTime", "//div[@class='vcard']");
+		// Element e4 = new Element("replyNum", "//div[@class='info']");
+		// e4.setRegex(".*回复数：(\\d+)");
+		//
+		// Template t1 = new Template();
+		// t1.setDomain("www.tianya.cn");
+		// t1.setUrlRegex("^http://bbs1.people.com.cn/postDetail.do\\?boardId=71.*");
+		// t1.setFetchInterval(1000 * 60);
+		// t1.getElements().add(e1);
+		// t1.getElements().add(e2);
+		// t1.getElements().add(e3);
+		// t1.getElements().add(e4);
+
+		Source s1 = new Source();
+		s1.setId(50003);
+		s1.setName("天涯网-百姓声音 ");
+		s1.setType(SourceType.WEBSITE);
+		s1.setUrl("http://www.tianya.cn/techforum/articleslist/0/828.shtml");
+		// s1.getTempaltes().add(t1);
+
+		commonDAO.save(s1);
+	}
+
 	public static void testSinaBlog() {
 		Element e1 = new Element();
 		e1.setName("title");
@@ -523,6 +549,7 @@ public class Setup {
 		weibo();
 		site01();
 		site02();
+		site03();
 		test163();
 		testSinaBlog();
 		testTianya();
