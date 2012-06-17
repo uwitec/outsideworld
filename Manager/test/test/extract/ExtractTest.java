@@ -12,6 +12,7 @@ import com.dao.CommonDAO;
 import com.extract.Extract;
 import com.model.Item;
 import com.model.policy.Template;
+import com.nutch.manager.Setup;
 import com.util.Fetcher;
 import com.util.TemplateCache;
 
@@ -32,6 +33,7 @@ public class ExtractTest {
 
 	@Before
 	public void setUp() {
+		Setup.main(null);
 		List<Template> templates = commonDAO.getAll(Template.class);
 		for (Template template : templates) {
 			TemplateCache.addTemplate(template);
@@ -43,6 +45,7 @@ public class ExtractTest {
 		Item item = new Item();
 		// item.setUrl("http://news.163.com/12/0408/18/7UJBEMPK0001124J.html");
 		item.setUrl("http://bbs1.people.com.cn/postDetail.do?boardId=2&treeView=1&view=2&id=119774374");
+		item.setUrl("http://bbs1.people.com.cn/postDetail.do?boardId=71&view=1&id=119798777");
 		// item.setUrl("http://blog.sina.com.cn/s/blog_613c0d86010126wf.html?tj=1");
 		fetcher.fetch(item);
 		extract.process(item);
