@@ -109,7 +109,7 @@ public class Login {
 			content = URLEncoder.encode(content, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 		}
-		Map<String, Object> params = new HashMap<String, Object>();
+		Map<String, String> params = new HashMap<String, String>();
 		params.put("r", content);
 		String result = HttpUtil
 				.doPost(channelLoginUrl, "utf-8", params, refer);
