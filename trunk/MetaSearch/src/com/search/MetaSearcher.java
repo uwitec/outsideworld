@@ -15,7 +15,6 @@ import com.model.Item;
 import com.model.policy.Param;
 import com.model.policy.Topic;
 import com.util.Fetcher;
-import com.util.SpringFactory;
 
 public class MetaSearcher implements Runnable {
 
@@ -26,15 +25,16 @@ public class MetaSearcher implements Runnable {
 	public static final String OFFSET = "${OFFSET}";
 
 	private static HtmlCleaner htmlCleaner = new HtmlCleaner();
-	private static CommonDAO commonDAO = SpringFactory.getBean("commonDAO");
-	private static Extract extracter = SpringFactory.getBean("extractChain");
-	private static ItemDao itemDAO = SpringFactory.getBean("itemDao");
+	private static CommonDAO commonDAO = MetaSearcherClient
+			.getBean("commonDAO");
+	private static Extract extracter = MetaSearcherClient
+			.getBean("extractChain");
+	private static ItemDao itemDAO = MetaSearcherClient.getBean("itemDao");
 
 	private Fetcher fetcher = new Fetcher();
 
 	private List<Item> generateItems() {
 		List<Item> items = new ArrayList<Item>();
-		// TODO filter
 		List<Topic> topics = commonDAO.query("from Topic t");
 		List<Param> list = commonDAO
 				.query("from Param p where p.type = 'metasearch'");
