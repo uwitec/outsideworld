@@ -45,7 +45,7 @@ public abstract class AExtract implements Extract {
 		String text = extract(item, element);
 
 		/* 解析正则表达式 */
-		if (StringUtils.isEmpty(element.getRegex())) {
+		if (!StringUtils.isEmpty(element.getRegex())) {
 			extract(text, element.getRegex());
 		}
 
