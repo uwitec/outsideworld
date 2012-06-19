@@ -2,12 +2,9 @@ package com.util;
 
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.httpclient.HttpState;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.params.CookiePolicy;
