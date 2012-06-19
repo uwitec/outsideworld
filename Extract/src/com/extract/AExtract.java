@@ -27,26 +27,54 @@ public abstract class AExtract implements Extract {
 		if (template == null) {
 			return "";
 		}
-		String text = "";
+
+		/* 找到对应的Element */
 		Element element = null;
 		Set<Element> elements = template.getElements();
 		for (Element e : elements) {
 			if (StringUtils.equals(field, e.getName())) {
 				element = e;
-				if (StringUtils.isEmpty(e.getRegex())) {
-					text = getString(item.getParsedHtml(), e);
-				} else {
-					text = parse(getString(item.getParsedHtml(), e),
-							e.getRegex());
-				}
 				break;
 			}
 		}
-		if (element != null && "javascript".equals(element.getFormat())) {
+		if (element == null) {
+			return "";
+		}
+
+		/* 解析XAPTH/CSS */
+		String text = extract(item, element);
+
+		/* 解析正则表达式 */
+		if (StringUtils.isEmpty(element.getRegex())) {
+			extract(text, element.getRegex());
+		}
+
+		/* 解析format */
+		if ("javascript".equals(element.getFormat())) {
 			text = getJavascript(item, text);
 			text = new ParsedHtml(text).getDoc().text();
 		}
 		return text;
+	}
+
+	private String extract(Item item, Element element) {
+		String text = "";
+		try {
+			text = getString(item.getParsedHtml(), element);
+		} catch (Exception e) {
+			return text;
+		}
+		return text;
+	}
+
+	private String extract(String value, String regex) {
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(value);
+		if (matcher.find()) {
+			return matcher.group(1);
+		} else {
+			return value;
+		}
 	}
 
 	private String getJavascript(Item item, String url) {
@@ -71,16 +99,6 @@ public abstract class AExtract implements Extract {
 			} catch (UnsupportedEncodingException e1) {
 				return "";
 			}
-		}
-	}
-
-	private String parse(String value, String regex) {
-		Pattern pattern = Pattern.compile(regex);
-		Matcher matcher = pattern.matcher(value);
-		if (matcher.find()) {
-			return matcher.group(1);
-		} else {
-			return value;
 		}
 	}
 
