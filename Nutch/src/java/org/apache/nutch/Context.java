@@ -27,6 +27,7 @@ public class Context {
 	private String crawlDepth;
 	private String crawlTopN;
 	private String crawlUrls;
+	private String crawlFilter;
 
 	private List<Source> sites;
 	private List<Template> templates;
@@ -53,6 +54,7 @@ public class Context {
 		crawlThread = properties.getProperty("crawl.threads");
 		crawlDepth = properties.getProperty("crawl.depth");
 		crawlTopN = properties.getProperty("crawl.top");
+		crawlFilter = properties.getProperty("crawl.filter");
 
 		/* check parameters */
 		if (!new File(crawlDB).exists()) {
@@ -100,5 +102,9 @@ public class Context {
 
 	public List<Source> getSites() {
 		return sites;
+	}
+
+	public String getCrawlFilter() {
+		return crawlFilter;
 	}
 }
