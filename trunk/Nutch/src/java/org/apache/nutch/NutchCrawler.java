@@ -35,30 +35,33 @@ public class NutchCrawler {
 	}
 
 	/* 启动 Nutch */
-	private static int startCrawl() throws Exception {
+	private static void startCrawl() throws Exception {
 
-		/* inject root URLs */
-		List<String> urls = new LinkedList<String>();
-		for (Source site : context.getSites()) {
-			urls.add(site.getUrl());
+		while (true) {
+			/* inject root URLs */
+			List<String> urls = new LinkedList<String>();
+			for (Source site : context.getSites()) {
+				urls.add(site.getUrl());
+			}
+			new UrlManager(context).injectRootURLs(urls);
+
+			/* crawl parameters */
+			String[] args = new String[9];
+			args[0] = context.getCrawlUrls();
+			args[1] = "-dir";
+			args[2] = context.getCrawlDB();
+			args[3] = "-threads";
+			args[4] = context.getCrawlThread();
+			args[5] = "-depth";
+			args[6] = context.getCrawlDepth();
+			args[7] = "-topN";
+			args[8] = context.getCrawlTopN();
+
+			/* start Crawl */
+			ToolRunner.run(context.getNutchConfig(), new Crawl(), args);
+
+			Thread.sleep(1000 * 1800);
 		}
-		new UrlManager(context).injectRootURLs(urls);
-
-		/* crawl parameters */
-		String[] args = new String[9];
-		args[0] = context.getCrawlUrls();
-		args[1] = "-dir";
-		args[2] = context.getCrawlDB();
-		args[3] = "-threads";
-		args[4] = context.getCrawlThread();
-		args[5] = "-depth";
-		args[6] = context.getCrawlDepth();
-		args[7] = "-topN";
-		args[8] = context.getCrawlTopN();
-
-		/* start Crawl */
-		int rc = ToolRunner.run(context.getNutchConfig(), new Crawl(), args);
-		return rc;
 	}
 
 	public static void main(String[] args) throws Exception {
