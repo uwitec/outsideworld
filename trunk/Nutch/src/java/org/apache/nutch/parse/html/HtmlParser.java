@@ -171,6 +171,7 @@ public class HtmlParser implements Parser {
 				item.setType("web");
 				item.setCrawlTime(new Date());
 				itemDao.insert(item);
+				NutchCrawler.addUrl(item.getUrl());
 			}
 		} catch (IOException e) {
 			return new ParseStatus(e).getEmptyParseResult(content.getUrl(),

@@ -1,5 +1,6 @@
 package org.apache.nutch;
 
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,6 +22,17 @@ public class NutchCrawler {
 	}
 
 	private static Context context = new Context();
+
+	private static BloomFilter bloomFilter = new BloomFilter(new File(
+			context.getCrawlFilter()), 3600 * 1000);
+
+	public static void addUrl(String url) {
+		bloomFilter.add(url);
+	}
+
+	public static boolean contains(String url) {
+		return bloomFilter.contains(url);
+	}
 
 	/* 启动 Nutch */
 	private static int startCrawl() throws Exception {
