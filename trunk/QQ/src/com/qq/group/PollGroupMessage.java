@@ -4,20 +4,25 @@ import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import org.apache.commons.lang.StringUtils;
 import atg.taglib.json.util.JSONArray;
 import atg.taglib.json.util.JSONException;
 import atg.taglib.json.util.JSONObject;
 import com.dao.ItemDao;
 import com.model.Item;
+import com.model.policy.QQGroupInfo;
 import com.util.HttpUtil;
 import com.util.SpringFactory;
 
 public class PollGroupMessage extends Thread {
 	private Map<String, String> param;
 	private ItemDao itemDao = SpringFactory.getBean("itemDao");
+	private Set<QQGroupInfo> groups;
 
-	public PollGroupMessage(Map<String, String> param) {
+	public PollGroupMessage(Map<String, String> param,Set<QQGroupInfo> groups) {
 		this.param = param;
+		this.groups = groups;
 	}
 
 	@Override
@@ -51,7 +56,9 @@ public class PollGroupMessage extends Thread {
 					} else if ("group_message".equals(poll_type)) {// 群消息
 						System.out.println(value);
 						Item item = transToItem(value);
+						if(item!=null){
 						itemDao.insert(item);
+						}
 					}
 				}
 				Thread.sleep(5000);
@@ -64,13 +71,26 @@ public class PollGroupMessage extends Thread {
 	}
 
 	private Item transToItem(JSONObject jsonValue) throws JSONException {
-		Item item = new Item();
-		String content = jsonValue.getJSONArray("content").get(1).toString();
-		item.setContent(content);
-		item.setType("QQ");
-		String sourceId = jsonValue.get("group_code").toString();
-		item.setSourceId(sourceId);
-		item.setCrawlTime(new Date());
-		return item;
+	    String sourceId = jsonValue.get("group_code").toString();
+	    for(QQGroupInfo group:groups){
+	        if(StringUtils.equals(sourceId, group.getGroupCode())){
+	            Item item = new Item();
+	            String content = jsonValue.getJSONArray("content").get(1).toString();
+	            item.setContent(content);
+	            item.setType("QQ");
+	            item.setSourceId(sourceId);
+	            item.setCrawlTime(new Date());
+	            return item;
+	        }
+	    }
+		return null;
 	}
+
+    public Set<QQGroupInfo> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(Set<QQGroupInfo> groups) {
+        this.groups = groups;
+    }
 }
