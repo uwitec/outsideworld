@@ -108,7 +108,7 @@ public class HttpUtil {
 	}
 
 	public static String doPost(String url, String encoding,
-			Map<String, String> param, Map<String,String> headers) throws Exception {
+			Map<String, String> param,String contentType,Map<String,String> headers) throws Exception {
 		HttpPost httpget = new HttpPost(url);
 
 		// 构造最简单的字符串数据
@@ -119,7 +119,9 @@ public class HttpUtil {
 			}
 			StringEntity reqEntity = new StringEntity(paramStr);
 			// 设置类型
-			reqEntity.setContentType("application/x-www-form-urlencoded");
+			if(!StringUtils.isBlank(contentType)){
+			reqEntity.setContentType(contentType);
+			}
 			httpget.setEntity(reqEntity);
 			
 		}
