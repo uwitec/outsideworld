@@ -73,7 +73,7 @@ public class HttpUtil {
 		httpClient = new DefaultHttpClient(cm, httpParams);
 		HttpHost proxy = new HttpHost("172.17.18.84", 8080);  
         //将代理服务器信息添加的httpclient     
-		httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY,proxy);
+		//httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY,proxy);
 	}
 
 	public static DefaultHttpClient getHttpClient() {
@@ -119,7 +119,7 @@ public class HttpUtil {
 			}
 			StringEntity reqEntity = new StringEntity(paramStr);
 			// 设置类型
-			//reqEntity.setContentType("application/x-www-form-urlencoded");
+			reqEntity.setContentType("application/x-www-form-urlencoded");
 			httpget.setEntity(reqEntity);
 			
 		}
