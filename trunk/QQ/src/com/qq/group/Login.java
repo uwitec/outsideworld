@@ -110,10 +110,12 @@ public class Login {
 	}
 
 	private String loginAfter(String ptWebQQ) throws Exception {
-		String refer = "http://d.web2.qq.com/proxy.html?v=20101025002";
+		String refer = "http://d.web2.qq.com/proxy.html?v=20110331002&callback=2";
+		Map<String,String> headers = new HashMap<String,String>();
+		headers.put("Referer", refer);
 		String channelLoginUrl = "http://d.web2.qq.com/channel/login2";
-		String content = "{\"status\":\"\",\"ptwebqq\":" + "\"" + ptWebQQ
-				+ "\",\"passwd_sig\":\"\",\"clientid\":\"" + clientid + "\"}";
+		String content = "{\"status\":\"online\",\"ptwebqq\":" + "\"" + ptWebQQ
+				+ "\",\"passwd_sig\":\"\",\"clientid\":\"" + clientid + "\",\"psessionid\":\"null\"}";
 		System.out.println(content);
 		try {
 			content = URLEncoder.encode(content, "UTF-8");
@@ -122,7 +124,7 @@ public class Login {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("r", content);
 		String result = HttpUtil
-				.doPost(channelLoginUrl, "utf-8", params, null);
+				.doPost(channelLoginUrl, "utf-8", params, headers);
 		System.out.println(result);
 		return result;
 
