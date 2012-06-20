@@ -23,7 +23,7 @@ public class PollGroupMessage extends Thread {
 		while (true) {
 			try {
 				String refer = "http://d.web2.qq.com/proxy.html?v=20101025002";
-				String ret = HttpUtil.doGet(pollUrl, "utf-8", refer, null);
+				String ret = HttpUtil.doGet(pollUrl, "utf-8", null);
 				System.out.println(ret);
 				JSONObject retJ = new JSONObject(ret);
 				int retcode = retJ.getInt("retcode");
