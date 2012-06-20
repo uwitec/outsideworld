@@ -121,7 +121,7 @@ public class Login {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("r", content);
 		String result = HttpUtil
-				.doPost(channelLoginUrl, "utf-8", params, headers);
+				.doPost(channelLoginUrl, "utf-8", params,"application/x-www-form-urlencoded",headers);
 		System.out.println(result);
 		return result;
 
