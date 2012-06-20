@@ -3,7 +3,9 @@ package com.util;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -11,13 +13,12 @@ import org.apache.http.client.params.CookiePolicy;
 import org.apache.http.client.params.HttpClientParams;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.params.ConnManagerParams;
+import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.cookie.Cookie;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.AbstractHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.params.BasicHttpParams;
@@ -60,7 +61,7 @@ public class HttpUtil {
 
 		// 设置coolies
 		HttpClientParams.setCookiePolicy(httpParams,
-				CookiePolicy.RFC_2109);
+				CookiePolicy.BROWSER_COMPATIBILITY);
 		SchemeRegistry registry = new SchemeRegistry();
 		registry.register(new Scheme("http", PlainSocketFactory
 				.getSocketFactory(), 80));
@@ -70,21 +71,21 @@ public class HttpUtil {
 		ClientConnectionManager cm = new ThreadSafeClientConnManager(
 				httpParams, registry);
 		httpClient = new DefaultHttpClient(cm, httpParams);
+		HttpHost proxy = new HttpHost("172.17.18.80", 8080);  
+        //将代理服务器信息添加的httpclient     
+		httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY,proxy);
 	}
 
 	public static DefaultHttpClient getHttpClient() {
 		return httpClient;
 	}
 
-	public static String doGet(String url, String encoding,String Refer,List<Cookie> cookies) throws Exception {
+	public static String doGet(String url, String encoding,Map<String,String> headers) throws Exception {
 		HttpGet httpget = new HttpGet(url);
-		if (!StringUtils.isBlank(Refer)) {
-			httpget.setHeader("Referer", Refer);
-		}
-		if(cookies!=null){
-			for(Cookie cookie:cookies){
-				((AbstractHttpClient)httpClient).getCookieStore().addCookie(cookie);
-			}
+		if(headers!=null&&headers.size()>0){
+		    for(Map.Entry<String, String> header:headers.entrySet()){
+		        httpget.setHeader(header.getKey(),header.getValue());
+		    }
 		}
 		HttpContext context = new BasicHttpContext();
 		String result = null;
@@ -107,13 +108,13 @@ public class HttpUtil {
 	}
 
 	public static String doPost(String url, String encoding,
-			Map<String, Object> param, String Refer) throws Exception {
+			Map<String, String> param, Map<String,String> headers) throws Exception {
 		HttpPost httpget = new HttpPost(url);
 
 		// 构造最简单的字符串数据
 		String paramStr = "";
 		if (param != null) {
-			for (Map.Entry<String, Object> p : param.entrySet()) {
+			for (Map.Entry<String, String> p : param.entrySet()) {
 				paramStr += p.getKey() + "=" + p.getValue() + "&";
 			}
 			StringEntity reqEntity = new StringEntity(paramStr);
@@ -122,10 +123,11 @@ public class HttpUtil {
 			httpget.setEntity(reqEntity);
 			
 		}
-		if (!StringUtils.isBlank(Refer)) {
-			httpget.setHeader("Referer", Refer);
+		if (headers!=null&&headers.size()>0) {
+		    for(Map.Entry<String, String> header:headers.entrySet()){
+                httpget.setHeader(header.getKey(),header.getValue());
+            }
 		}
-
 		HttpContext context = new BasicHttpContext();
 		String result = null;
 		try {
