@@ -18,7 +18,7 @@ import com.util.SpringFactory;
 
 public class PollGroupMessage extends Thread {
 	private Map<String, String> param;
-	//private ItemDao itemDao = SpringFactory.getBean("itemDao");
+	private ItemDao itemDao = SpringFactory.getBean("itemDao");
 	private Set<QQGroupInfo> groups;
 
 	public PollGroupMessage(Map<String, String> param, Set<QQGroupInfo> groups) {
@@ -65,7 +65,7 @@ public class PollGroupMessage extends Thread {
 						System.out.println(value);
 						Item item = transToItem(value);
 						if (item != null) {
-							//itemDao.insert(item);
+							itemDao.insert(item);
 						}
 					}
 				}
