@@ -3,7 +3,6 @@ package com.qq.group;
 import java.io.FileReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,10 +15,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.http.cookie.Cookie;
 import atg.taglib.json.util.JSONObject;
 import com.util.HttpUtil;
-import com.util.MD5;
 
 public class Login {
-	private MD5 md = new MD5();
 	private int clientid = 35599910;
 	private static final String appid="1003903";
 

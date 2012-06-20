@@ -1,5 +1,6 @@
 package com.qq.group;
 
+import java.net.URLEncoder;
 import java.util.Map;
 
 import atg.taglib.json.util.JSONArray;
@@ -17,13 +18,16 @@ public class PollGroupMessage extends Thread {
 
 	@Override
 	public void run() {
-		String pollUrl = "http://d.web2.qq.com/channel/poll2?clientid="
-				+ param.get("clientid") + "&psessionid="
-				+ param.get("psessionid");
+		String pollUrl = "http://d.web2.qq.com/channel/poll2";
+		String clientid =param.get("clientid");
+		String psessionid = param.get("psessionid");
+		String r = "{\"clientid\":\"" + clientid + "\",\"psessionid\":\""+psessionid+"\",\"key\":0,\"ids\":[]}";
+		System.out.println(r);
 		while (true) {
 			try {
-				String refer = "http://d.web2.qq.com/proxy.html?v=20101025002";
-				String ret = HttpUtil.doGet(pollUrl, "utf-8", null);
+			    r = URLEncoder.encode(r, "UTF-8");
+			    param.put("r", r);
+				String ret = HttpUtil.doPost(pollUrl, "utf-8", param, null);
 				System.out.println(ret);
 				JSONObject retJ = new JSONObject(ret);
 				int retcode = retJ.getInt("retcode");
