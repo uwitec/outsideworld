@@ -11,6 +11,6 @@ public class AuthorIPExtract extends AExtract {
 			return;
 		}
 		String authorIp = extract("authorIP", item);
-		item.setAuthor(authorIp);
+		item.setAuthorIP(authorIp);
 	}
 }
