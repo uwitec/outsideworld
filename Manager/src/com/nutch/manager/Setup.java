@@ -174,7 +174,7 @@ public class Setup {
 		p1.setName1("appkey");
 		p1.setValue1("1222837781");
 		p1.setName2("interval");
-		p1.setValue2("10");
+		p1.setValue2("30");
 		p1.setType("sinaweibo");
 		commonDAO.save(p1);
 
@@ -183,7 +183,7 @@ public class Setup {
 		p2.setValue1("1222837781");
 		p2.setType("sinaweibo");
 		p2.setName2("interval");
-		p2.setValue2("10");
+		p2.setValue2("30");
 		commonDAO.save(p2);
 
 		Param p3 = new Param();
@@ -191,7 +191,7 @@ public class Setup {
 		p3.setValue1("1222837781");
 		p3.setType("sinaweibo");
 		p3.setName2("interval");
-		p3.setValue2("10");
+		p3.setValue2("30");
 		commonDAO.save(p3);
 
 		Param p4 = new Param();
@@ -204,7 +204,7 @@ public class Setup {
 		p4.setName4("token_secret");
 		p4.setValue4("51ea6188ac86c8f2656d7d98bb051a6d");
 		p4.setName5("interval");
-		p4.setValue5("10");
+		p4.setValue5("30");
 		p4.setType("tencentweibo");
 		commonDAO.save(p4);
 
@@ -218,7 +218,7 @@ public class Setup {
 		p5.setName4("token_secret");
 		p5.setValue4("51ea6188ac86c8f2656d7d98bb051a6d");
 		p5.setName5("interval");
-		p5.setValue5("10");
+		p5.setValue5("30");
 		p5.setType("tencentweibo");
 		commonDAO.save(p5);
 
@@ -232,7 +232,7 @@ public class Setup {
 		p6.setName4("token_secret");
 		p6.setValue4("51ea6188ac86c8f2656d7d98bb051a6d");
 		p6.setName5("interval");
-		p6.setValue5("10");
+		p6.setValue5("30");
 		p6.setType("tencentweibo");
 		commonDAO.save(p6);
 
@@ -246,7 +246,7 @@ public class Setup {
 		p7.setName4("p4");
 		p7.setValue4("yftEFtbWH2N#MVZoW!^CdEu8RC*S!N1x8P6FFKo5");
 		p7.setName5("interval");
-		p7.setValue5("10");
+		p7.setValue5("30");
 		p7.setType("sohuweibo");
 		commonDAO.save(p7);
 
@@ -260,7 +260,7 @@ public class Setup {
 		p8.setName4("p4");
 		p8.setValue4("yftEFtbWH2N#MVZoW!^CdEu8RC*S!N1x8P6FFKo5");
 		p8.setName5("interval");
-		p8.setValue5("10");
+		p8.setValue5("30");
 		p8.setType("sohuweibo");
 		commonDAO.save(p8);
 
@@ -274,7 +274,7 @@ public class Setup {
 		p9.setName4("p4");
 		p9.setValue4("yftEFtbWH2N#MVZoW!^CdEu8RC*S!N1x8P6FFKo5");
 		p9.setName5("interval");
-		p9.setValue5("10");
+		p9.setValue5("30");
 		p9.setType("sohuweibo");
 		commonDAO.save(p9);
 	}
