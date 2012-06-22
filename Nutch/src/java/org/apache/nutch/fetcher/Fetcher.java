@@ -673,13 +673,14 @@ public class Fetcher extends Configured implements Tool,
           try {
             if (LOG.isInfoEnabled()) { LOG.info("fetching " + fit.url); }
             
+            //TODO
             /*过滤已经抓取过的URL*/
-            if(fit != null && fit.getUrl()!=null && NutchCrawler.contains(fit.getUrl().toString())){
-            	 fetchQueues.finishFetchItem(fit);
-            	 activeThreads.decrementAndGet(); // count threads
-            	 output(fit.url, fit.datum, null, ProtocolStatus.STATUS_SUCCESS, CrawlDatum.STATUS_DB_FETCHED);
-            	 continue;
-            }
+//            if(fit != null && fit.getUrl()!=null && NutchCrawler.contains(fit.getUrl().toString())){
+//            	 fetchQueues.finishFetchItem(fit);
+//            	 activeThreads.decrementAndGet(); // count threads
+//            	 output(fit.url, fit.datum, null, ProtocolStatus.STATUS_SUCCESS, CrawlDatum.STATUS_DB_FETCHED);
+//            	 continue;
+//            }
             // fetch the page
             redirecting = false;
             redirectCount = 0;
