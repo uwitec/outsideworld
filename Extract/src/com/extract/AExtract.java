@@ -46,6 +46,8 @@ public abstract class AExtract implements Extract {
 
 		/* 解析正则表达式 */
 		if (!StringUtils.isEmpty(element.getRegex())) {
+			text = text.replace("&nbsp;", "").replace("\r\n", "")
+					.replace("&#91;", "[").replace("&#93;", "]");
 			text = extract(text, element.getRegex());
 		}
 
