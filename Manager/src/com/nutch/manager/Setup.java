@@ -282,13 +282,8 @@ public class Setup {
 	public static void topic() {
 		Topic t1 = new Topic();
 		t1.setName("test");
-		t1.setInclude("中国");
+		t1.setInclude("中国;北京");
 		commonDAO.save(t1);
-
-		Topic t2 = new Topic();
-		t2.setName("test1");
-		t2.setInclude("吃");
-		commonDAO.save(t2);
 
 		Topic t3 = new Topic();
 		t3.setName("test2");
@@ -297,7 +292,7 @@ public class Setup {
 
 		Topic t4 = new Topic();
 		t4.setName("test3");
-		t4.setInclude("手机");
+		t4.setInclude("手机;苹果");
 		commonDAO.save(t4);
 
 		Topic t5 = new Topic();
