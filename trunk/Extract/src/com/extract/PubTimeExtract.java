@@ -30,13 +30,12 @@ public class PubTimeExtract extends AExtract {
 		}
 		String pubTime = extract("pubTime", item);
 		String tmp = "";
-		Date result = null;
+		Date result = new Date();
 		Matcher matcher1 = regx1.matcher(pubTime);
 		Matcher matcher2 = regx2.matcher(pubTime);
 		Matcher matcher3 = regx3.matcher(pubTime);
 		if (StringUtils.isBlank(pubTime)) {
 			// 如果没有抽取到，则使用默认的抽取策略
-			result = new Date();
 		} else if (matcher1.find()) {
 			tmp = matcher1.group();
 			String[] tmps = tmp.split("-|\\s");
