@@ -468,6 +468,515 @@ public class Setup {
 		testTianya();
 		indexDir();
 		cacheFile();
+		site01();
+		site02();
+		site03();
+		site04();
+		site05();
+		site06();
+		site07();
+		site08();
+		site09();
+		site10();
+		site11();
+		site12();
+		site13();
+		site14();
+		site15();
+		site16();
+		site17();
+
 	}
 
+	public static void site01() {
+		Element e1 = new Element("title", "//title");
+		Element e2 = new Element("content", "//td[@class='box-content']/script");
+		e2.setRegex("new TextParser\\('(\\S*)', '\\S*'\\);");
+		e2.setFormat("javascript");
+		Element e3 = new Element("pubTime",
+				"//td[@class='box-title-treecontent']");
+		Element e4 = new Element("replyNum",
+				"//td[@class='box-title-treecontent2']");
+		e4.setRegex("跟贴总数：(\\d+)");
+		Element e5 = new Element("author", "//a[@class='link-username']");
+		e5.setRegex("\\[(.*)\\]");
+
+		Template t1 = new Template();
+		t1.setDomain("bbs1.people.com.cn");
+		t1.setUrlRegex("^http://bbs1.people.com.cn/postDetail.do\\?boardId=9\\S*");
+		t1.setFetchInterval(1000 * 60);
+		t1.getElements().add(e1);
+		t1.getElements().add(e2);
+		t1.getElements().add(e3);
+		t1.getElements().add(e4);
+		t1.getElements().add(e5);
+
+		Source s1 = new Source();
+		s1.setId(5001);
+		s1.setName("人民网-强国社区-法制论坛 ");
+		s1.setType(SourceType.WEBSITE);
+		s1.setUrl("http://bbs1.people.com.cn/boardList.do?action=postList&boardId=9");
+		s1.getTempaltes().add(t1);
+
+		commonDAO.save(s1);
+	}
+
+	public static void site02() {
+		Element e1 = new Element("title", "//h1[@id='hTitle']");
+		e1.setRegex("『\\S+』(\\S*)");
+		Element e2 = new Element("content", "//div[@class='post']");
+		Element e3 = new Element("pubTime", "//div[@class='vcard']");
+		Element e4 = new Element("replyNum", "//div[@class='info']");
+		e4.setRegex("回复数：(\\d+)");
+		Element e5 = new Element("author", "//div[@class='vcard']");
+		e5.setRegex("作者：(\\S+)");
+
+		Template t1 = new Template();
+		t1.setDomain("www.tianya.cn");
+		t1.setUrlRegex("^http://www.tianya.cn/techforum/content/828/\\d+/\\d+.shtml");
+		t1.setFetchInterval(1000 * 60);
+		t1.getElements().add(e1);
+		t1.getElements().add(e2);
+		t1.getElements().add(e3);
+		t1.getElements().add(e4);
+		t1.getElements().add(e5);
+
+		Source s1 = new Source();
+		s1.setId(5002);
+		s1.setName("天涯网-百姓声音 ");
+		s1.setType(SourceType.WEBSITE);
+		s1.setUrl("http://www.tianya.cn/techforum/articleslist/0/828.shtml");
+		s1.getTempaltes().add(t1);
+
+		commonDAO.save(s1);
+	}
+
+	public static void site03() {
+		Element e1 = new Element("title", "//div[@class='posts-title']");
+		e1.setRegex("\\[\\S*\\](\\S+)");
+		Element e2 = new Element("content", "//div[@class='posts-cont']");
+		Element e3 = new Element("pubTime", "//div[@class='posts-posted']");
+		Element e4 = new Element("replyNum", "//div[@class='posts-stat-c']");
+		e4.setRegex("(\\d+) 个回复");
+		Element e5 = new Element("author", "//span[@class='c-main']");
+
+		Template t1 = new Template();
+		t1.setDomain("club.kdnet.net");
+		t1.setUrlRegex("^http://club.kdnet.net/dispbbs.asp\\?page=\\d+&boardid=1&id=\\d+");
+		t1.setFetchInterval(1000 * 60);
+		t1.getElements().add(e1);
+		t1.getElements().add(e2);
+		t1.getElements().add(e3);
+		t1.getElements().add(e4);
+		t1.getElements().add(e5);
+
+		Source s1 = new Source();
+		s1.setId(5003);
+		s1.setName("凯迪社区-猫眼看人");
+		s1.setType(SourceType.WEBSITE);
+		s1.setUrl("http://club.kdnet.net/list.asp?boardid=1");
+		s1.getTempaltes().add(t1);
+
+		commonDAO.save(s1);
+	}
+
+	public static void site04() {
+		Element e1 = new Element("title", "//h1[@id='js-title']");
+		Element e2 = new Element("content", "//div[@class='mainpart']");
+		Element e3 = new Element("pubTime", "//div[@class='tzsm']");
+		Element e4 = new Element("replyNum", "//div[@class='tzsm']");
+		e4.setRegex("(\\d+)回复");
+		Element e5 = new Element("author", "//div[@class='tzsm']");
+		e5.setRegex("楼主：(\\S+)");
+
+		Template t1 = new Template();
+		t1.setDomain("tt.mop.com");
+		t1.setUrlRegex("^http://tt.mop.com/read_\\S+.html");
+		t1.setFetchInterval(1000 * 60);
+		t1.getElements().add(e1);
+		t1.getElements().add(e2);
+		t1.getElements().add(e3);
+		t1.getElements().add(e4);
+		t1.getElements().add(e5);
+
+		Source s1 = new Source();
+		s1.setId(5004);
+		s1.setName("猫扑社会广角 ");
+		s1.setType(SourceType.WEBSITE);
+		s1.setUrl("http://tt.mop.com/topic/list_70_19_0_0.html");
+		s1.getTempaltes().add(t1);
+
+		commonDAO.save(s1);
+	}
+
+	public static void site05() {
+		Element e1 = new Element("title", "//title");
+		Element e2 = new Element("content", "//p[@class='bbsp']");
+		Element e3 = new Element("pubTime", "//div[@class='gray']");
+		Element e4 = new Element("replyNum", "//div[@class='titr']");
+		e4.setRegex("共(\\d+)个阅读者");
+		Element e5 = new Element("author", "//td[@class='bbsname']");
+
+		Template t1 = new Template();
+		t1.setDomain("bbs.tiexue.net");
+		t1.setUrlRegex("^http://bbs.tiexue.net/post_\\S+.html");
+		t1.setFetchInterval(1000 * 60);
+		t1.getElements().add(e1);
+		t1.getElements().add(e2);
+		t1.getElements().add(e3);
+		t1.getElements().add(e4);
+		t1.getElements().add(e5);
+
+		Source s1 = new Source();
+		s1.setId(5005);
+		s1.setName("铁血社会聚焦");
+		s1.setType(SourceType.WEBSITE);
+		s1.setUrl("http://bbs.tiexue.net/default.htm?ListUrl=http://bbs.tiexue.net/bbs68-0-1.html");
+		s1.getTempaltes().add(t1);
+
+		commonDAO.save(s1);
+	}
+
+	public static void site06() {
+		Element e1 = new Element("title", "//title");
+		Element e2 = new Element("content", "//div[@class='cont f14']");
+		Element e3 = new Element("pubTime", "//div[@class='myInfo_up']");
+		Element e4 = new Element("replyNum", "//div[@class='mybbs_cont']");
+		e4.setRegex("回复(\\d+)次");
+		Element e5 = new Element("author", "//div[@class='myInfo_up']/a");
+
+		Template t1 = new Template();
+		t1.setDomain("forum.book.sina.com.cn");
+		t1.setUrlRegex("^http://forum.book.sina.com.cn/thread-\\S+.html");
+		t1.setFetchInterval(1000 * 60);
+		t1.getElements().add(e1);
+		t1.getElements().add(e2);
+		t1.getElements().add(e3);
+		t1.getElements().add(e4);
+		t1.getElements().add(e5);
+
+		Source s1 = new Source();
+		s1.setId(5006);
+		s1.setName("新浪杂谈");
+		s1.setType(SourceType.WEBSITE);
+		s1.setUrl("http://forum.book.sina.com.cn/forum-51-1.html");
+		s1.getTempaltes().add(t1);
+
+		commonDAO.save(s1);
+	}
+
+	public static void site07() {
+		Element e1 = new Element("title", "//div[@class='mainsub']/h1");
+		Element e2 = new Element("content", "//div[@class='cont f14']");
+		Element e3 = new Element("pubTime", "//div[@class='myInfo_up']");
+		Element e4 = new Element("replyNum", "//div[@class='mybbs_cont']");
+		e4.setRegex("回复(\\d+)次");
+		Element e5 = new Element("author", "//div[@class='myInfo_up']/a");
+
+		Template t1 = new Template();
+		t1.setDomain("club.life.sina.com.cn");
+		t1.setUrlRegex("^http://club.life.sina.com.cn/health/thread-\\S+.html");
+		t1.setFetchInterval(1000 * 60);
+		t1.getElements().add(e1);
+		t1.getElements().add(e2);
+		t1.getElements().add(e3);
+		t1.getElements().add(e4);
+		t1.getElements().add(e5);
+
+		Source s1 = new Source();
+		s1.setId(5007);
+		s1.setName("新浪杂谈暴光台");
+		s1.setType(SourceType.WEBSITE);
+		s1.setUrl("http://club.life.sina.com.cn/health/forum-45-1.html");
+		s1.getTempaltes().add(t1);
+
+		commonDAO.save(s1);
+	}
+
+	public static void site08() {
+		Element e1 = new Element("title", "//title");
+		Element e2 = new Element("content", "//div[@class='articleCont']");
+		Element e3 = new Element("pubTime", "//div[@class='right']");
+		Element e4 = new Element("replyNum", "//div[@class='summary']");
+		e4.setRegex("(\\d+)回帖");
+		Element e5 = new Element("author", "//div[@class='name']");
+
+		Template t1 = new Template();
+		t1.setDomain("bbs.news.163.com");
+		t1.setUrlRegex("^http://bbs.news.163.com/bbs/shishi/\\d+.html");
+		t1.setFetchInterval(1000 * 60);
+		t1.getElements().add(e1);
+		t1.getElements().add(e2);
+		t1.getElements().add(e3);
+		t1.getElements().add(e4);
+		t1.getElements().add(e5);
+
+		Source s1 = new Source();
+		s1.setId(5008);
+		s1.setName("网易论坛");
+		s1.setType(SourceType.WEBSITE);
+		s1.setUrl("http://bbs.news.163.com/list/shishi.html");
+		s1.getTempaltes().add(t1);
+
+		commonDAO.save(s1);
+	}
+
+	public static void site09() {
+		Element e1 = new Element("title", "//a[@id='thread_subject']");
+		Element e2 = new Element("content", "//td[@class='t_fsz']");
+		Element e3 = new Element("pubTime", "//div[@class='authi']/em");
+		Element e4 = new Element("replyNum", "//span[@class='vcnt']");
+		e4.setRegex("回复\\[(\\d+)\\]");
+		Element e5 = new Element("author", "//div[@class='authi']/a/strong");
+
+		Template t1 = new Template();
+		t1.setDomain("bbs.news.qq.com");
+		t1.setUrlRegex("^http://bbs.news.qq.com/t-\\d+-\\d+.htm");
+		t1.setFetchInterval(1000 * 60);
+		t1.getElements().add(e1);
+		t1.getElements().add(e2);
+		t1.getElements().add(e3);
+		t1.getElements().add(e4);
+		t1.getElements().add(e5);
+
+		Source s1 = new Source();
+		s1.setId(5009);
+		s1.setName("腾讯实话实说");
+		s1.setType(SourceType.WEBSITE);
+		s1.setUrl("http://bbs.news.qq.com/qqnews/12");
+		s1.getTempaltes().add(t1);
+
+		commonDAO.save(s1);
+	}
+
+	public static void site10() {
+		Element e1 = new Element("title", "//title");
+		Element e2 = new Element("content", "//div[@id='content']/script/src");
+		e2.setFormat("javascript");
+		Element e3 = new Element("pubTime", "//div[@class='txtright']");
+		Element e4 = new Element("replyNum", "//div[@class='right']");
+		e4.setRegex("回复(\\d+)");
+		Element e5 = new Element("author", "//span[@class='txtblue']");
+
+		Template t1 = new Template();
+		t1.setDomain("club.news.sohu.com");
+		t1.setUrlRegex("^http://club.news.sohu.com/r-\\S+.html");
+		t1.setFetchInterval(1000 * 60);
+		t1.getElements().add(e1);
+		t1.getElements().add(e2);
+		t1.getElements().add(e3);
+		t1.getElements().add(e4);
+		t1.getElements().add(e5);
+
+		Source s1 = new Source();
+		s1.setId(5009);
+		s1.setName("搜狐实话实说");
+		s1.setType(SourceType.WEBSITE);
+		s1.setUrl("http://club.news.sohu.com/l-zz0081-0-0-0-0.html");
+		s1.getTempaltes().add(t1);
+
+		commonDAO.save(s1);
+	}
+
+	public static void site11() {
+		Element e1 = new Element("title", "//title");
+		Element e2 = new Element("content", "//div[@class='article clearfix']");
+		Element e3 = new Element("pubTime", "//ul[@class='right']");
+		Element e4 = new Element("replyNum", "//ul[@class='right']");
+		e4.setRegex("回复：(\\d+)");
+		Element e5 = new Element("author", "//div[@class='member']");
+		e5.setRegex("作者：(\\S+)");
+
+		Template t1 = new Template();
+		t1.setDomain("bbs.ifeng.com");
+		t1.setUrlRegex("^http://bbs.ifeng.com/viewthread.php\\?tid=\\S+");
+		t1.setFetchInterval(1000 * 60);
+		t1.getElements().add(e1);
+		t1.getElements().add(e2);
+		t1.getElements().add(e3);
+		t1.getElements().add(e4);
+		t1.getElements().add(e5);
+
+		Source s1 = new Source();
+		s1.setId(5011);
+		s1.setName("凤凰杂谈");
+		s1.setType(SourceType.WEBSITE);
+		s1.setUrl("http://bbs.ifeng.com/forumdisplay.php?fid=144");
+		s1.getTempaltes().add(t1);
+
+		commonDAO.save(s1);
+	}
+
+	public static void site12() {
+		Element e1 = new Element("title", "//title");
+		Element e2 = new Element("content", "//div[@class='content']");
+		Element e3 = new Element("pubTime",
+				"//*[@id='form1']/div/table/tbody/tr");
+		Element e4 = new Element("replyNum",
+				"//*[@id='form1']/div/table/tbody/tr");
+		e4.setRegex("回复：(\\d+)");
+		Element e5 = new Element("author",
+				"//*[@id='form1']/div/table/tbody/tr/td[2]/font/font");
+		e5.setRegex("作者：(\\S+)提交日期");
+
+		Template t1 = new Template();
+		t1.setDomain("groups.tianya.cn");
+		t1.setUrlRegex("^http://groups.tianya.cn/tribe/showArticle.jsp\\?groupId=\\S+&articleId=\\S+");
+		t1.setFetchInterval(1000 * 60);
+		t1.getElements().add(e1);
+		t1.getElements().add(e2);
+		t1.getElements().add(e3);
+		t1.getElements().add(e4);
+		t1.getElements().add(e5);
+
+		Source s1 = new Source();
+		s1.setId(5012);
+		s1.setName("天涯车友会 ");
+		s1.setType(SourceType.WEBSITE);
+		s1.setUrl("http://groups.tianya.cn/carArticleList.jsp");
+		s1.getTempaltes().add(t1);
+
+		commonDAO.save(s1);
+	}
+
+	public static void site13() {
+		Element e1 = new Element("title", "//span[@id='title']");
+		Element e2 = new Element("content", "//div[@class='main']");
+		// Element e3 = new Element("pubTime", "");
+		Element e4 = new Element("replyNum",
+				"//div[@class='infobar']/div[@class='inner']");
+		e4.setRegex("回复数：(\\d+)");
+		Element e5 = new Element("author", "//div[@id='lzxx_fun']/div/a");
+
+		Template t1 = new Template();
+		t1.setDomain("dzh.mop.com");
+		t1.setUrlRegex("^http://dzh.mop.com/tgzq/\\S+.shtml");
+		t1.setFetchInterval(1000 * 60);
+		t1.getElements().add(e1);
+		t1.getElements().add(e2);
+		// t1.getElements().add(e3);
+		t1.getElements().add(e4);
+		t1.getElements().add(e5);
+
+		Source s1 = new Source();
+		s1.setId(5013);
+		s1.setName("猫扑汽车频道");
+		s1.setType(SourceType.WEBSITE);
+		s1.setUrl("http://dzh.mop.com/autoclub");
+		s1.getTempaltes().add(t1);
+
+		commonDAO.save(s1);
+	}
+
+	public static void site14() {
+		Element e1 = new Element("title", "//title");
+		Element e2 = new Element("content", "//div[@class='pcb']");
+		Element e3 = new Element("pubTime", "//div[@class='authi']/em");
+		Element e4 = new Element("replyNum", "//td[@class='pls']");
+		e4.setRegex("回复: (\\d+)");
+		Element e5 = new Element("author", "//div[@class='authi']");
+
+		Template t1 = new Template();
+		t1.setDomain("club.auto.qq.com");
+		t1.setUrlRegex("^http://club.auto.qq.com/thread-\\S+.html");
+		t1.setFetchInterval(1000 * 60);
+		t1.getElements().add(e1);
+		t1.getElements().add(e2);
+		t1.getElements().add(e3);
+		t1.getElements().add(e4);
+		t1.getElements().add(e5);
+
+		Source s1 = new Source();
+		s1.setId(5014);
+		s1.setName("腾讯侃车天地版");
+		s1.setType(SourceType.WEBSITE);
+		s1.setUrl("http://club.auto.qq.com/forum-16-1.html");
+		s1.getTempaltes().add(t1);
+
+		commonDAO.save(s1);
+	}
+
+	public static void site15() {
+		Element e1 = new Element("title", "//title");
+		Element e2 = new Element("content", "//div[@class='a-content']");
+		Element e3 = new Element("pubTime", "//div[@class='a-content']");
+		Element e4 = new Element("replyNum", "//li[@class='page-pre']");
+		e4.setRegex("贴数:(\\d+)");
+		Element e5 = new Element("author", "//div[@class='a-u-uid']");
+
+		Template t1 = new Template();
+		t1.setDomain("www.newsmth.net");
+		t1.setUrlRegex("^http://www.newsmth.net/nForum/#!article/RealEstate/\\d+");
+		t1.setFetchInterval(1000 * 60);
+		t1.getElements().add(e1);
+		t1.getElements().add(e2);
+		t1.getElements().add(e3);
+		t1.getElements().add(e4);
+		t1.getElements().add(e5);
+
+		Source s1 = new Source();
+		s1.setId(5015);
+		s1.setName("水木房地产 ");
+		s1.setType(SourceType.WEBSITE);
+		s1.setUrl("http://www.newsmth.net/nForum/board/RealEstate");
+		s1.getTempaltes().add(t1);
+
+		commonDAO.save(s1);
+	}
+
+	public static void site16() {
+		Element e1 = new Element("title", "//title");
+		Element e2 = new Element("content", "//div[@class='articleCont']");
+		Element e3 = new Element("pubTime", "//span[@class='right']");
+		Element e4 = new Element("replyNum", "//div[@class='summary']");
+		e4.setRegex(".*浏览(\\d+)回帖");
+		Element e5 = new Element("author", "//div[@class='name']");
+
+		Template t1 = new Template();
+		t1.setDomain("bbs.local.163.com");
+		t1.setUrlRegex("^http://bbs.local.163.com/bbs/localjs/\\d+.html");
+		t1.setFetchInterval(1000 * 60);
+		t1.getElements().add(e1);
+		t1.getElements().add(e2);
+		t1.getElements().add(e3);
+		t1.getElements().add(e4);
+		t1.getElements().add(e5);
+
+		Source s1 = new Source();
+		s1.setId(5016);
+		s1.setName("网易江苏版本");
+		s1.setType(SourceType.WEBSITE);
+		s1.setUrl("http://bbs.local.163.com/list/localjs.html");
+		s1.getTempaltes().add(t1);
+
+		commonDAO.save(s1);
+	}
+
+	public static void site17() {
+		Element e1 = new Element("title", "//div[@id='threadtitle']");
+		Element e2 = new Element("content", "//div[@class='t_msgfontfix']");
+		Element e3 = new Element("pubTime",
+				"//div[@class='authorinfo']/em/span/@title");
+		// Element e4 = new Element("replyNum", "");
+		Element e5 = new Element("author", "//a[@class='posterlink']");
+
+		Template t1 = new Template();
+		t1.setDomain("bbs.ynet.com");
+		t1.setUrlRegex("^http://bbs.ynet.com/viewthread.php\\?tid=\\d+&\\S+");
+		t1.setFetchInterval(1000 * 60);
+		t1.getElements().add(e1);
+		t1.getElements().add(e2);
+		t1.getElements().add(e3);
+		// t1.getElements().add(e4);
+		t1.getElements().add(e5);
+
+		Source s1 = new Source();
+		s1.setId(5017);
+		s1.setName("北青论坛");
+		s1.setType(SourceType.WEBSITE);
+		s1.setUrl("http://bbs.ynet.com/index.php");
+		s1.getTempaltes().add(t1);
+
+		commonDAO.save(s1);
+	}
 }
