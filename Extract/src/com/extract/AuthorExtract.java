@@ -11,6 +11,8 @@ public class AuthorExtract extends AExtract {
 			return;
 		}
 		String author = extract("author", item);
+		author = author.replace("[", "").replace("]", "").replace("\r\n", "")
+				.trim();
 		item.setAuthor(author);
 	}
 }
