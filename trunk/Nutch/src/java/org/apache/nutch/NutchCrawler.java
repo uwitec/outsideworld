@@ -58,7 +58,11 @@ public class NutchCrawler {
 			args[8] = context.getCrawlTopN();
 
 			/* start Crawl */
-			ToolRunner.run(context.getNutchConfig(), new Crawl(), args);
+			try {
+				ToolRunner.run(context.getNutchConfig(), new Crawl(), args);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
 			Thread.sleep(1000 * 1800);
 		}
