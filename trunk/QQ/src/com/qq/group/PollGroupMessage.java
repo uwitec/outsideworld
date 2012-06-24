@@ -14,11 +14,10 @@ import com.dao.ItemDao;
 import com.model.Item;
 import com.model.policy.QQGroupInfo;
 import com.util.HttpUtil;
-import com.util.SpringFactory;
 
 public class PollGroupMessage extends Thread {
 	private Map<String, String> param;
-	private ItemDao itemDao = SpringFactory.getBean("itemDao");
+	private ItemDao itemDao = Main.getBean("itemDao");
 	private Set<QQGroupInfo> groups;
 
 	public PollGroupMessage(Map<String, String> param, Set<QQGroupInfo> groups) {
@@ -36,7 +35,7 @@ public class PollGroupMessage extends Thread {
 				+ psessionid + "\",\"key\":0,\"ids\":[]}";
 		System.out.println(r);
 		String refer = "http://d.web2.qq.com/proxy.html?v=20110331002&callback=2";
-		Map<String,String> headers = new HashMap<String,String>();
+		Map<String, String> headers = new HashMap<String, String>();
 		headers.put("Referer", refer);
 		try {
 			r = URLEncoder.encode(r, "UTF-8");
@@ -48,8 +47,9 @@ public class PollGroupMessage extends Thread {
 		newParam.put("clientid", clientid);
 		newParam.put("psessionid", psessionid);
 		while (true) {
-			try {				
-				String ret = HttpUtil.doPost(pollUrl, "GBK", newParam,"application/x-www-form-urlencoded", headers);
+			try {
+				String ret = HttpUtil.doPost(pollUrl, "GBK", newParam,
+						"application/x-www-form-urlencoded", headers);
 				System.out.println(ret);
 				JSONObject retJ = new JSONObject(ret);
 				int retcode = retJ.getInt("retcode");
