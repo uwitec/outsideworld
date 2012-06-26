@@ -1,14 +1,14 @@
 package com.download;
 
-import com.model.Story;
+import com.mongodb.DBObject;
 
 
 public class DownLoadThread implements Runnable {
     private DownLoad download;
-    private Story story;
+    private DBObject story;
     
     
-    public DownLoadThread(DownLoad download, Story story) {
+    public DownLoadThread(DownLoad download, DBObject story) {
         this.download = download;
         this.story = story;
     }
@@ -16,17 +16,5 @@ public class DownLoadThread implements Runnable {
     @Override
     public void run() {
         download.download(story);
-    }
-    public DownLoad getDownload() {
-        return download;
-    }
-    public void setDownload(DownLoad download) {
-        this.download = download;
-    }
-    public Story getStory() {
-        return story;
-    }
-    public void setStory(Story story) {
-        this.story = story;
     }
 }

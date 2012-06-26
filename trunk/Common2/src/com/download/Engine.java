@@ -1,27 +1,36 @@
 package com.download;
 
 import java.util.List;
-import com.dao.StoryDao;
-import com.model.Story;
+import com.model.FieldConstant;
+import com.model.TableConstant;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import com.thread.ThreadPool;
+import com.util.MongoUtil;
 
 public class Engine {
 
     private DownLoad downLoad;
     private ThreadPool downloadPool;
-    private StoryDao storyDao;
+    private MongoUtil mongoDB;
 
     public void excute() throws Exception {
         while (true) {
-            List<Story> storys = storyDao.pollReadyToDownLoad(100);
-            if (storys == null || storys.size()<= 0) {
-            	Thread.sleep(1000*60*60);
+            List<BasicDBObject> storys = pollReadyToDownLoad(100);
+            if (storys == null || storys.size() <= 0) {
+                Thread.sleep(1000 * 60 * 60);
             }
-            for (Story story : storys) {
+            for (BasicDBObject story : storys) {
                 downloadPool.run(new DownLoadThread(downLoad, story));
             }
-            
         }
+    }
+
+    private List<BasicDBObject> pollReadyToDownLoad(int num) throws Exception {
+        DBObject query = new BasicDBObject();
+        query.put(FieldConstant.ISDOWNLOAD, false);
+        List<BasicDBObject> objects = mongoDB.pollByPage(TableConstant.TABLESTORY, num, query);
+        return objects;
     }
 
     public DownLoad getDownLoad() {
@@ -40,11 +49,11 @@ public class Engine {
         this.downloadPool = downloadPool;
     }
 
-    public StoryDao getStoryDao() {
-        return storyDao;
+    public MongoUtil getMongoDB() {
+        return mongoDB;
     }
 
-    public void setStoryDao(StoryDao storyDao) {
-        this.storyDao = storyDao;
+    public void setMongoDB(MongoUtil mongoDB) {
+        this.mongoDB = mongoDB;
     }
 }
