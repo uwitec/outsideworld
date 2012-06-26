@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -23,8 +24,11 @@ import com.entity.Element;
 import com.entity.Template;
 import com.model.Item;
 import com.model.Page;
-import com.model.Story;
+import com.model.TableConstant;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import com.spider.BloomFilter;
+import com.util.MongoUtil;
 
 public class Extractor extends Thread {
 
@@ -35,7 +39,7 @@ public class Extractor extends Thread {
     private static StoryDao storyDao = SpiderEngine.getBean("storyDao");
     private static Lock lock = new ReentrantLock();
     private static BloomFilter downloadUrlFilter = new BloomFilter(1000);
-
+    private MongoUtil mongoDB = SpiderEngine.getBean("mongoDB");
     public static void addPage(Page page) {
         pageQueue.add(page);
     }
@@ -166,13 +170,14 @@ public class Extractor extends Thread {
     private void afterExtract(Item item) throws Exception {
         if (!StringUtils.isBlank(item.getField("download"))
                 && downloadUrlFilter.contains(item.getField("download"))) {
-            Story story = new Story();
-            story.setCategory("picture");
-            story.setDescription(item.getField("title"));
-            story.setRefer(item.getUrl());
-            story.setDownloadUrlFinal(item.getField("download"));
-            story.setDownloadUrl(item.getField("thumb"));
-            storyDao.insert(story);
+            DBObject result = new BasicDBObject();
+            result.put("url", item.getUrl());
+            result.put("crawltime", item.getDate());
+            result.put("type", item.getType());
+            for(Entry<String, String> entry:item.fieldSet()){
+                result.put(entry.getKey(), entry.getValue());
+            }
+            mongoDB.insert(result, TableConstant.TABLESTORY);
             downloadUrlFilter.add(item.getField("download"));
         }
     }
