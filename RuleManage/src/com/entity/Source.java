@@ -3,6 +3,8 @@ package com.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
-
+@ManagedBean(name="source")
+@SessionScoped
 @Entity
 @Table(name = "source")
 public class Source implements Model{

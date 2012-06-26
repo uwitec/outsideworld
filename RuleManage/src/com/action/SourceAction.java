@@ -3,12 +3,16 @@ package com.action;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
-import com.entity.Model;
 import com.entity.Source;
-public class SourceAction extends AbstractAction{
+@ManagedBean(name="sourceAction")
+@SessionScoped
+public class SourceAction extends AbstractAction<Source> {
+	@ManagedProperty(value = "#{source}")
     private Source source;
+	@ManagedProperty(value = "#{sources}")
     private List<Source> sources;
 
 	public Source getSource() {
@@ -27,7 +31,13 @@ public class SourceAction extends AbstractAction{
 		this.sources = sources;
 	}
 	
-	public Model getModel(){
+	public Source getModel(){
 		return source;
+	}
+
+	@Override
+	protected void setQueryResults(List<Source> results) {
+		sources = results;
+		
 	}
 }
