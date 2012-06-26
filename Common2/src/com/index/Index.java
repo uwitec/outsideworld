@@ -63,13 +63,19 @@ public class Index {
         }
         String path = (String)o.get(FieldConstant.PATH);
         if (!StringUtils.isBlank(downloadUrl)) {
-            Field pathField = new Field(FieldConstant.PATH, downloadUrl, Field.Store.YES,
+            Field pathField = new Field(FieldConstant.PATH, path, Field.Store.YES,
                     Field.Index.NO);
             doc.add(pathField);
         }
         String category = (String)o.get(FieldConstant.CATEGORY);
         if(!StringUtils.isBlank(category)){
             Field categoryField = new Field(FieldConstant.CATEGORY,category,Field.Store.YES,Field.Index.NOT_ANALYZED);
+            doc.add(categoryField);
+        }
+        String preferer = (String)o.get(FieldConstant.PREFERER);
+        if(!StringUtils.isBlank(category)){
+            Field prefererField = new Field(FieldConstant.PREFERER,preferer,Field.Store.YES,Field.Index.NOT_ANALYZED);
+            doc.add(prefererField);
         }
         writer.addDocument(doc);
     }
