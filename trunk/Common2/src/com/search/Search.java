@@ -6,11 +6,12 @@ import java.util.List;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import com.model.Story;
+import com.model.FieldConstant;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 
 
 public class Search {
@@ -21,15 +22,16 @@ public class Search {
         indexSearcher = new IndexSearcher(dir, true);
     }
 
-    public List<Story> search(Query query, int from,int num) throws Exception {
-        List<Story> result = new ArrayList<Story>();        
+    public List<DBObject> search(Query query, int from,int num) throws Exception {
+        List<DBObject> result = new ArrayList<DBObject>();        
         TopDocs hits = indexSearcher.search(query, from*num);
         for (int i=(from-1)*num;i<from*num;i++) {
             Document doc =indexSearcher.doc(hits.scoreDocs[i].doc);
-            Story model = new Story();
-            model.setDescription(doc.get("description"));
-            model.setId(doc.get("id"));
-            model.setPath(doc.get("path"));
+            DBObject model = new BasicDBObject();
+            model.put(FieldConstant.CATEGORY,doc.get(FieldConstant.CATEGORY));
+            model.put(FieldConstant.ID,doc.get(FieldConstant.ID));
+            model.put(FieldConstant.PATH,doc.get(FieldConstant.PATH));
+            model.put(FieldConstant.PREFERER,doc.get(FieldConstant.PREFERER));
             result.add(model);
         }
         return result;
