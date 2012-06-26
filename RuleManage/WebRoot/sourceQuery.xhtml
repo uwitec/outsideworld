@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+<ui:composition template="/WEB-INF/templates/BasicTemplate.xhtml">
+	<ui:define name="content">
+		<h:form>
+			<h:inputText value="#{sourceAction.source.id}"></h:inputText>
+			<h:commandButton id="query" value="query"
+				action="#{sourceAction.search}"
+				style='line-height: normal; color: #0080FF; font-family: "Courier New", Courier'></h:commandButton>
+		</h:form>
+		
+	</ui:define>
+</ui:composition>
+<ui:composition template="/WEB-INF/templates/BasicTemplate.xhtml">
+<h:dataTable border="1" id="result" value="#{sourceAction.sources}" var="source" width="10" style="color: #FFFF00">
+	<h:column id="id">
+			<h:outputText value="#{source.id}" id="id"></h:outputText>
+	</h:column>
+	<h:column id="name">
+			<h:outputText value="#{source.id}" id="name"></h:outputText>
+	</h:column>
+	<h:column id="url">
+			<h:outputText value="#{source.url}" id="id"></h:outputText>
+	</h:column>
+	<h:column id="depth">
+			<h:outputText value="#{source.depth}" id="id"></h:outputText>
+	</h:column>
+	<h:column id="interval">
+			<h:outputText value="#{source.interval}" id="interval"></h:outputText>
+	</h:column>
+	<h:column id="domain">
+			<h:outputText value="#{source.domain}" id="domain"></h:outputText>
+	</h:column>
+</h:dataTable>
+</ui:composition>
+</html>
