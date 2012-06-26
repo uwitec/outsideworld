@@ -5,11 +5,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
     version="2.0">
-	<managed-bean>
-		<managed-bean-name>loginBean</managed-bean-name>
-		<managed-bean-class>com.tutorial.LoginBean</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
-	</managed-bean>
+    <!-- 
 	<managed-bean>
 		<managed-bean-name>sourceAction</managed-bean-name>
 		<managed-bean-class>com.action.SourceAction</managed-bean-class>		
@@ -19,12 +15,26 @@
 		    <property-class>com.entity.Source</property-class>
 		    <value>#{source}</value>
 		</managed-property>
+		<managed-property>
+		    <property-name>sources</property-name>
+		    <property-class>java.util.ArrayList</property-class>
+		    <value>#{sources}</value>
+		</managed-property>
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>source</managed-bean-name>
 		<managed-bean-class>com.entity.Source</managed-bean-class>		
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>sources</managed-bean-name>
+		<managed-bean-class>java.util.ArrayList</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+		<list-entries>
+			<value-class>com.entity.Source</value-class>
+		</list-entries>
+	</managed-bean>
+	 -->
 	<navigation-rule>
 		<display-name>login.xhtml</display-name>
 		<from-view-id>/login.xhtml</from-view-id>
