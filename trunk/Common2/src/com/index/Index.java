@@ -2,20 +2,18 @@ package com.index;
 
 import java.io.File;
 import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.MergeScheduler;
 import org.apache.lucene.index.NoDeletionPolicy;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
-
-import com.model.Story;
+import com.model.FieldConstant;
+import com.mongodb.DBObject;
 
 
 public class Index {
@@ -24,62 +22,60 @@ public class Index {
     private Directory dir;
 
     /**
-     * 鎵撳紑绱㈠紩鏂囦欢锛岄粯璁�     * 
+     * 打开dirString 
      * @param dir
      * @throws Exception
      */
     public void open(String dirString) throws Exception {
         dir = FSDirectory.open(new File(dirString));
-        // 璁剧疆config
+        //配置config
         IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_36,analyzer);
-        // 鍒涘缓妯″紡锛�        
+        //配置config模式     
         config.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
-        // 涓嶅垹闄�      
+        //配置删除策略    
         config.setIndexDeletionPolicy(NoDeletionPolicy.INSTANCE);
         writer = new IndexWriter(dir, config);
     }
 
     /**
-     * 瀵逛竴鎵筰tem寤虹珛绱㈠紩
-     * 
+     * 对object建立索引
      * @param items
      * @throws Exception
      */
-    public void index(Story o) throws Exception {
+    public void index(DBObject o) throws Exception {
         Document doc = new Document();
-        String id = o.getId();
+        String id = (String)o.get(FieldConstant.ID);
         if (!StringUtils.isBlank(id)) {
-            Field idFiled = new Field("id", id, Field.Store.YES, Field.Index.NO);
+            Field idFiled = new Field(FieldConstant.ID, id, Field.Store.YES, Field.Index.NO);
             doc.add(idFiled);
         }
-        String description = o.getDescription();
+        String description = (String)o.get(FieldConstant.DESCRIPTION);
         if (!StringUtils.isBlank(description)) {
-            Field descriptionField = new Field("description", description, Field.Store.YES,
+            Field descriptionField = new Field(FieldConstant.DESCRIPTION, description, Field.Store.YES,
                     Field.Index.ANALYZED);
             doc.add(descriptionField);
         }
-        String downloadUrl = o.getDownloadUrl();
+        String downloadUrl = (String)o.get(FieldConstant.DOWNLOAD);
         if (!StringUtils.isBlank(downloadUrl)) {
-            Field downloadUrlFiled = new Field("downloadUrl", downloadUrl, Field.Store.YES,
+            Field downloadUrlFiled = new Field(FieldConstant.DOWNLOAD, downloadUrl, Field.Store.YES,
                     Field.Index.NO);
             doc.add(downloadUrlFiled);
         }
-        String path = o.getPath();
+        String path = (String)o.get(FieldConstant.PATH);
         if (!StringUtils.isBlank(downloadUrl)) {
-            Field pathField = new Field("path", downloadUrl, Field.Store.YES,
+            Field pathField = new Field(FieldConstant.PATH, downloadUrl, Field.Store.YES,
                     Field.Index.NO);
             doc.add(pathField);
         }
-        String category = o.getCategory();
+        String category = (String)o.get(FieldConstant.CATEGORY);
         if(!StringUtils.isBlank(category)){
-            Field categoryField = new Field("category",category,Field.Store.YES,Field.Index.NOT_ANALYZED);
+            Field categoryField = new Field(FieldConstant.CATEGORY,category,Field.Store.YES,Field.Index.NOT_ANALYZED);
         }
         writer.addDocument(doc);
     }
 
     /**
-     * 鍏抽棴writer
-     * 
+     * 关闭索引
      * @throws Exception
      */
     public void close() throws Exception {
@@ -90,8 +86,7 @@ public class Index {
     }
 
     /**
-     * 鎻愪氦绱㈠紩
-     * 
+     *提交
      * @throws Exception
      */
     public void commit() throws Exception {
@@ -100,12 +95,12 @@ public class Index {
     }
 
     /**
-     * 瀵逛竴涓垪琛ㄥ缓绔嬬储寮�     * 
+     * index
      * @param objs
      * @throws Exception
      */
-    public void index(List<Story> objs) throws Exception {
-        for (Story o : objs) {
+    public void index(List<DBObject> objs) throws Exception {
+        for (DBObject o : objs) {
             index(o);
         }
         commit();
