@@ -5,15 +5,15 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
-import com.model.Story;
+import com.mongodb.DBObject;
 
 
 public class SearchService {
     private Analyzer analyzer;
     private Search search;
-    public List<Story> search(String query,int from,int num) throws Exception{
+    public List<DBObject> search(String query,int from,int num) throws Exception{
         Query q = new TermQuery(new Term(query));
-        List<Story> result = search.search(q, from,num);
+        List<DBObject> result = search.search(q, from,num);
         return result;
     }
     
