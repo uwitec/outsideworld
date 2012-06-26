@@ -140,7 +140,7 @@ public class Spider extends Thread {
 		for (Object href : hrefs) {
 			/* filter invalid link */
 			String link = href.toString();
-			if ((link = filterUrl(page.getUrl(), link)) == null) {
+			if ((link = normalizeUrl(page.getUrl(), link)) == null) {
 				continue;
 			}
 
@@ -173,7 +173,7 @@ public class Spider extends Thread {
 		LOG.info("Collect {} URLs from {}", pageCount, page.getUrl());
 	}
 
-	private String filterUrl(URL parentUrl, String url) {
+	private String normalizeUrl(URL parentUrl, String url) {
 		if (url == null || url.isEmpty()) {
 			return null;
 		} else if (url.equals("#")) {
@@ -181,13 +181,23 @@ public class Spider extends Thread {
 		} else if (url.startsWith("javascript:")) {
 			return null;
 		} else if (!url.startsWith("http://")) {
+			if (url.contains("#")) {
+				url = url.substring(0, url.lastIndexOf("#"));
+			}
 			try {
 				return new URL(parentUrl, url).toString();
 			} catch (MalformedURLException e) {
 				return null;
 			}
 		} else {
-			return url;
+			if (url.contains("#")) {
+				url = url.substring(0, url.lastIndexOf("#"));
+			}
+			try {
+				return new URL(url).toString();
+			} catch (MalformedURLException e) {
+				return null;
+			}
 		}
 	}
 
