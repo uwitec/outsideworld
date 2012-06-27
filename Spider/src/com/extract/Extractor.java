@@ -18,7 +18,6 @@ import org.htmlcleaner.XPatherException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.dao.CommonDAO;
-import com.dao.StoryDao;
 import com.engine.SpiderEngine;
 import com.entity.Element;
 import com.entity.Template;
@@ -36,7 +35,6 @@ public class Extractor extends Thread {
     private static ConcurrentLinkedQueue<Page> pageQueue = new ConcurrentLinkedQueue<Page>();
     private static Map<String, ArrayList<Template>> templateMap = new HashMap<String, ArrayList<Template>>();
     private static CommonDAO commonDAO = SpiderEngine.getBean("commonDAO");
-    private static StoryDao storyDao = SpiderEngine.getBean("storyDao");
     private static Lock lock = new ReentrantLock();
     private static BloomFilter downloadUrlFilter = new BloomFilter(1000);
     private MongoUtil mongoDB = SpiderEngine.getBean("mongoDB");
