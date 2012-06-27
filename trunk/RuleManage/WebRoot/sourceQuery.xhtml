@@ -5,37 +5,39 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core">
-<ui:composition template="/WEB-INF/templates/BasicTemplate.xhtml">
-	<ui:define name="content">
-		<h:form>
-			<h:inputText value="#{sourceAction.source.id}"></h:inputText>
-			<h:commandButton id="query" value="query"
-				action="#{sourceAction.search}"
-				style='line-height: normal; color: #0080FF; font-family: "Courier New", Courier'></h:commandButton>
-		</h:form>
-		
-	</ui:define>
-</ui:composition>
-<ui:composition template="/WEB-INF/templates/BasicTemplate.xhtml">
-<h:dataTable border="1" id="result" value="#{sourceAction.sources}" var="source" width="10" style="color: #FFFF00">
-	<h:column id="id">
-			<h:outputText value="#{source.id}" id="id"></h:outputText>
+<h:body>
+	<h:form>
+		<h:inputText value="#{sourceAction.source.id}"></h:inputText>
+		<h:commandButton id="query" value="query"
+			action="#{sourceAction.search}"
+			style='line-height: normal; color: #0080FF; font-family: "Courier New", Courier'></h:commandButton>
+	</h:form>
+	<h:dataTable border="1" id="result" value="#{sourceAction.sources}"
+		var="source" width="10" style="color: #FFFF00">
+		<h:column id="id">
+			<f:facet name="header">id</f:facet>
+	#{source.id}
 	</h:column>
-	<h:column id="name">
-			<h:outputText value="#{source.id}" id="name"></h:outputText>
+		<h:column id="name">
+			<f:facet name="header">name</f:facet>
+	#{source.name}
 	</h:column>
-	<h:column id="url">
-			<h:outputText value="#{source.url}" id="id"></h:outputText>
+		<h:column id="url">
+			<f:facet name="header">url</f:facet>
+	#{source.url}
 	</h:column>
-	<h:column id="depth">
-			<h:outputText value="#{source.depth}" id="id"></h:outputText>
+		<h:column id="depth">
+			<f:facet name="header">depth</f:facet>
+	#{source.depth}
 	</h:column>
-	<h:column id="interval">
-			<h:outputText value="#{source.interval}" id="interval"></h:outputText>
+		<h:column id="interval">
+			<f:facet name="header">interval</f:facet>
+	#{source.interval}
 	</h:column>
-	<h:column id="domain">
-			<h:outputText value="#{source.domain}" id="domain"></h:outputText>
+		<h:column id="domain">
+			<f:facet name="header">domain</f:facet>
+	#{source.domain}
 	</h:column>
-</h:dataTable>
-</ui:composition>
+	</h:dataTable>
+</h:body>
 </html>
