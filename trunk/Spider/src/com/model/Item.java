@@ -39,6 +39,8 @@ public class Item {
 	 * 表示抓取的时间
 	 */
 	private Date date;
+	private String channel;
+	private String format;
 
 	public Set<Entry<String, String>> fieldSet() {
 		return fields.entrySet();
@@ -85,4 +87,20 @@ public class Item {
 		}
 		return false;
 	}
+
+    public String getChannel() {
+        return channel;
+    }
+
+    public void setChannel(String channel) {
+        this.channel = channel;
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
+    }
 }
