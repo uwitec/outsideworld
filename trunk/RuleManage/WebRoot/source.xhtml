@@ -13,7 +13,10 @@
 			<h:form>
 				<h:dataTable var="item" value="#{sourceAction.sources}">
 					<h:column>
+						<h:outputLabel id="name" value="名称：" />
 						<h:outputText value="${item.name}" />
+						<h:outputLabel id="id" value="id：" />
+						<h:outputText value="${item.id}" />
 					</h:column>
 				</h:dataTable>
 			</h:form>
@@ -21,6 +24,73 @@
 	</ui:define>
 
 	<ui:define name="content">
+		<rich:panel header="编辑区">
+			<h:form>
+				<h:inputHidden value="insert"></h:inputHidden>
+				<h:inputHidden value="#{sourceAction.source.id}"></h:inputHidden>
+				<br />
+				<br />
+				<br />
+				<h:outputLabel id="name" value="名称："></h:outputLabel>
+				<h:inputText value="#{sourceAction.source.name}" label="name"></h:inputText>
+				<br />
+				<br />
+				<br />
+				<h:outputLabel id="url" value="链接："></h:outputLabel>
+				<h:inputText value="#{sourceAction.source.url}" label="url"></h:inputText>
+				<br />
+				<br />
+				<br />
+				<h:outputLabel id="depth" value="抓取深度："></h:outputLabel>
+				<h:selectOneMenu value="#{sourceAction.source.depth}" label="depth">
+					<f:selectItem itemValue="1" itemLabel="1" />
+					<f:selectItem itemValue="2" itemLabel="2" />
+					<f:selectItem itemValue="3" itemLabel="3" />
+					<f:selectItem itemValue="4" itemLabel="4" />
+					<f:selectItem itemValue="5" itemLabel="5" />
+				</h:selectOneMenu>
+				<br />
+				<br />
+				<br />
+				<h:outputLabel id="interval" value="抓取间隔："></h:outputLabel>
+				<h:selectOneMenu value="#{sourceAction.source.interval}"
+					label="interval">
+					<f:selectItem itemValue="1" itemLabel="1" />
+					<f:selectItem itemValue="2" itemLabel="2" />
+					<f:selectItem itemValue="3" itemLabel="3" />
+					<f:selectItem itemValue="4" itemLabel="4" />
+					<f:selectItem itemValue="5" itemLabel="5" />
+				</h:selectOneMenu>
+				<br />
+				<br />
+				<br />
+				<h:outputLabel id="domain" value="域名："></h:outputLabel>
+				<h:inputText value="#{sourceAction.source.domain}" label="domain"></h:inputText>
+				<br />
+				<br />
+				<br />
+				<h:outputLabel id="format" value="类别："></h:outputLabel>
+				<h:selectOneMenu value="#{sourceAction.source.format}"
+					label="format">
+					<f:selectItem itemValue="pic" itemLabel="pic" />
+					<f:selectItem itemValue="flash" itemLabel="flash" />
+					<f:selectItem itemValue="other" itemLabel="other" />
+				</h:selectOneMenu>
+				<br />
+				<br />
+				<br />
+				<h:outputLabel id="channel" value="频道："></h:outputLabel>
+				<h:selectOneMenu value="#{sourceAction.source.channel}"
+					label="channel">
+					<f:selectItem itemValue="sucai" itemLabel="sucai" />
+					<f:selectItem itemValue="other" itemLabel="other" />
+				</h:selectOneMenu>
+				<br />
+				<br />
+				<br />
+				<h:commandButton value="保存" action="#{sourceAction.insert}"></h:commandButton>
+			</h:form>
+		</rich:panel>
 	</ui:define>
 </ui:composition>
 </html>
