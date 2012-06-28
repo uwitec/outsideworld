@@ -12,6 +12,8 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
 import org.htmlcleaner.TagNode;
 import org.htmlcleaner.XPatherException;
@@ -21,6 +23,7 @@ import com.dao.CommonDAO;
 import com.engine.SpiderEngine;
 import com.entity.Element;
 import com.entity.Template;
+import com.model.FieldConstant;
 import com.model.Item;
 import com.model.Page;
 import com.model.TableConstant;
@@ -54,13 +57,14 @@ public class Extractor extends Thread {
                 List<Template> templates = commonDAO.getAll(Template.class);
                 if (templates != null && templates.size() > 0) {
                     for (Template template : templates) {
+                        if(template.getSource()!=null){
                         URL url = null;
                         try {
                             url = new URL(template.getSource().getUrl());
                         } catch (MalformedURLException e) {
                             LOG.error("Error URL: {}", template.getSource().getUrl());
                             continue;
-                        }
+                        }                       
                         String host = url.getHost();
                         ArrayList<Template> subTemplates = templateMap.get(host);
                         if (subTemplates == null) {
@@ -68,6 +72,7 @@ public class Extractor extends Thread {
                             templateMap.put(host, subTemplates);
                         }
                         subTemplates.add(template);
+                        }
                     }
                 }
             }
@@ -136,7 +141,7 @@ public class Extractor extends Thread {
             String text = "";
             for (Object obj : objs) {
                 if (obj instanceof TagNode) {
-                    text = extractTxt((TagNode) obj);
+                    text = extractTxt((TagNode) obj,element.getRegex());
                     if (!text.trim().isEmpty()) {
                         break;
                     }
@@ -154,7 +159,7 @@ public class Extractor extends Thread {
     }
 
     @SuppressWarnings("unchecked")
-    public static String extractTxt(TagNode node) {
+    public static String extractTxt(TagNode node,String regx) {
         List<TagNode> children = node.getAllElementsList(true);
         for (TagNode child : children) {
             if (child.getName().equalsIgnoreCase("script")) {
@@ -162,21 +167,30 @@ public class Extractor extends Thread {
                 node.removeChild(child);
             }
         }
-        return node.getText().toString();
+        String rawResult = node.getText().toString();
+        String result = rawResult;
+        if(!StringUtils.isBlank(rawResult)&&!StringUtils.isBlank(regx)){
+            Pattern pattern = Pattern.compile(regx);
+            Matcher matcher = pattern.matcher(rawResult);
+            if(matcher.find()){
+               result = matcher.group(); 
+            }
+        }
+        return result;
     }
 
     private void afterExtract(Item item) throws Exception {
-        if (!StringUtils.isBlank(item.getField("download"))
-                && downloadUrlFilter.contains(item.getField("download"))) {
+        if (!StringUtils.isBlank(item.getField(FieldConstant.DOWNLOAD))
+                && downloadUrlFilter.contains(item.getField(FieldConstant.DOWNLOAD))) {
             DBObject result = new BasicDBObject();
-            result.put("url", item.getUrl());
-            result.put("crawltime", item.getDate());
-            result.put("type", item.getType());
+            result.put(FieldConstant.URL, item.getUrl());
+            result.put(FieldConstant.CRAWLTIME, item.getDate());
+            result.put(FieldConstant.TYPE, item.getType());
             for(Entry<String, String> entry:item.fieldSet()){
                 result.put(entry.getKey(), entry.getValue());
             }
             mongoDB.insert(result, TableConstant.TABLESTORY);
-            downloadUrlFilter.add(item.getField("download"));
+            downloadUrlFilter.add(item.getField(FieldConstant.DOWNLOAD));
         }
     }
 }
