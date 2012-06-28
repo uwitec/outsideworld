@@ -10,4 +10,9 @@ public interface FieldConstant {
     public static final String DESCRIPTION = "description";
     public static final String ISINDEXED = "isIndexed";
     public static final String PREFERER="freferer";
+    public static final String URL="url";
+    public static final String CRAWLTIME ="crawltime";
+    public static final String TYPE ="type";
+    public static final String CHANNEL ="channel";
+    public static final String FORMAT ="format";
 }
