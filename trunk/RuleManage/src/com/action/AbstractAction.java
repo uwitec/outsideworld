@@ -1,7 +1,7 @@
 package com.action;
 
+import java.util.ArrayList;
 import java.util.List;
-
 import com.dao.CommonDAO;
 import com.entity.Model;
 import com.util.SpringFactory;
@@ -13,6 +13,19 @@ public abstract class AbstractAction<T extends Model> {
 	protected String message;
 
 	protected abstract T getModel();
+	protected abstract List<T> getModels();
+	protected void addModel(T t){
+	    List<T> result = getModels();
+	    if(result!=null){
+	        result.add(t);
+	    }
+	    else{
+	        result = new ArrayList<T>();
+	        result.add(t);
+	        setQueryResults(result);
+	    }
+	}
+	protected abstract Class<T> getModelClass();
 	protected abstract void setQueryResults(List<T> results);
 
 	public String delete() {
@@ -32,6 +45,7 @@ public abstract class AbstractAction<T extends Model> {
 			return FAIL;
 		}
 		commonDao.save(object);
+		addModel(object);
 		return SUCCESS;
 	}
 
@@ -56,6 +70,13 @@ public abstract class AbstractAction<T extends Model> {
 		List<T> models = (List<T>)commonDao.find(query.getClass(), query);
 		setQueryResults(models);
 		return SUCCESS;
+	}
+	
+	public String searchAll() {
+	    Class<T> cla = getModelClass();
+	    List<T> models = (List<T>)commonDao.getAll(cla);
+        setQueryResults(models);
+        return SUCCESS;
 	}
 
 	public String getMessage() {

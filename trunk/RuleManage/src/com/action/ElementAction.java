@@ -39,4 +39,10 @@ public class ElementAction extends AbstractAction<Element> {
     public void setElements(List<Element> elements) {
         this.elements = elements;
     }
+
+    @Override
+    protected Class<Element> getModelClass() {
+        // TODO Auto-generated method stub
+        return Element.class;
+    }
 }
