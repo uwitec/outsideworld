@@ -32,8 +32,10 @@
 		<rich:panel header="编辑区">
 			<h:form>
 				<rich:toolbar height="26px">
-					<h:commandLink value="新建模板" action="#{templateAction.create}" size="100"/>
-					<h:commandLink value="删除模板" action="#{templateAction.delete}" size="100"/>
+					<h:commandLink value="新建模板" action="#{templateAction.create}"
+						size="100" />
+					<h:commandLink value="删除模板" action="#{templateAction.delete}"
+						size="100" />
 					<h:commandLink value="取消" action="#{templateAction.cancel}" />
 				</rich:toolbar>
 			</h:form>
@@ -43,14 +45,14 @@
 					<h:inputText value="#{templateAction.template.domain}" id="domain"
 						label="域名">
 					</h:inputText>
-					<br/>
-					<br/>
+					<br />
+					<br />
 					<h:outputLabel value="URL" />
 					<h:inputText value="#{templateAction.template.urlRegex}" id="regex"
 						size="50" label="URL">
 					</h:inputText>
-					<br/>
-					<br/>
+					<br />
+					<br />
 					<h:outputLabel value="类型" />
 					<h:inputText value="#{templateAction.template.type}" id="type"
 						label="类型" title="asdfs">
@@ -60,6 +62,56 @@
 					<h:commandButton value="保存" action="#{templateAction.save}" />
 				</center>
 			</h:form>
+
+			<!-- 元素管理 -->
+			<h:panelGrid columns="2" cellspacing="3" cellpadding="3">
+				<rich:panel header="元素列表" style="height:100%;">
+					<h:form>
+						<h:panelGrid columns="2" cellspacing="3" cellpadding="3">
+							<h:dataTable var="element"
+								value="#{templateAction.template.elements}" width="250"
+								border="1" frame="box" rules="all" cellpadding="3"
+								cellspacing="0">
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="名称" />
+									</f:facet>
+									<h:commandLink value="${element.name}"
+										action="#{templateAction.selectElement}">
+										<f:param name="id" value="${element.id}" />
+									</h:commandLink>
+								</h:column>
+							</h:dataTable>
+						</h:panelGrid>
+					</h:form>
+				</rich:panel>
+
+				<rich:panel header="元素信息">
+					<h:form>
+						<h:panelGrid columns="2" cellspacing="3" cellpadding="3"
+							rendered="#{templateAction.element != null}">
+							<h:outputLabel value="名称" />
+							<h:inputText value="#{templateAction.element.name}"
+								id="elementName">
+							</h:inputText>
+
+							<h:outputLabel value="定义" />
+							<h:inputText value="#{templateAction.element.define}"
+								id="elementDefine">
+							</h:inputText>
+
+							<h:outputLabel value="正则表达式" />
+							<h:inputText value="#{templateAction.element.regex}"
+								id="elementRegex">
+							</h:inputText>
+						</h:panelGrid>
+						<center>
+							<h:commandButton value="保存"
+								action="#{templateAction.saveElement}" />
+						</center>
+					</h:form>
+				</rich:panel>
+			</h:panelGrid>
 		</rich:panel>
 	</ui:define>
 </ui:composition>
