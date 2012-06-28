@@ -7,6 +7,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
 import com.entity.Source;
+import com.entity.Template;
 
 @ManagedBean(name = "sourceAction")
 @SessionScoped
@@ -55,4 +56,11 @@ public class SourceAction extends AbstractAction<Source> {
     protected List<Source> getModels() {
         return sources;
     }
+    
+    
+
+	@Override
+	protected void setModel(Source t) {
+		source = t;
+	}
 }

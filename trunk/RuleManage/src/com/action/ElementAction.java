@@ -51,4 +51,9 @@ public class ElementAction extends AbstractAction<Element> {
         // TODO Auto-generated method stub
         return elements;
     }
+
+	@Override
+	protected void setModel(Element t) {
+		element = t;
+	}
 }

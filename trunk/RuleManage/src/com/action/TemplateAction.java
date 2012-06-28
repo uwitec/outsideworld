@@ -41,22 +41,7 @@ public class TemplateAction extends AbstractAction<Template> {
 		this.templates = templates;
 	}
 
-	public void create() {
-		template = new Template();
-	}
-
-	public void save() {
-		if (template.getId() > 0) {
-			commonDao.update(template);
-		} else {
-			commonDao.save(template);
-			template = null;
-		}
-	}
-
-	public void cancel() {
-		template = null;
-	}
+	
 
 	@Override
 	protected Class<Template> getModelClass() {
@@ -69,9 +54,9 @@ public class TemplateAction extends AbstractAction<Template> {
 		// TODO Auto-generated method stub
 		return templates;
 	}
-
-	public void select() {
-		String templateId = getRequestParam("templateId");
-		template = commonDao.get(Template.class, Integer.parseInt(templateId));
+	
+	@Override
+	protected void setModel(Template t) {
+		template = t;
 	}
 }
