@@ -38,4 +38,10 @@ public class TemplateAction extends AbstractAction<Template> {
     public void setTemplates(List<Template> templates) {
         this.templates = templates;
     }
+
+    @Override
+    protected Class<Template> getModelClass() {
+        // TODO Auto-generated method stub
+        return Template.class;
+    }
 }

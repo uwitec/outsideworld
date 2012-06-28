@@ -1,6 +1,5 @@
 package com.action;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -16,12 +15,9 @@ public class SourceAction extends AbstractAction<Source> {
 	private Source source;
 	@ManagedProperty(value = "#{sources}")
 	private List<Source> sources;
+	
 
 	public Source getSource() {
-		sources = new ArrayList<Source>();
-		Source s = new Source();
-		s.setName("test");
-		sources.add(s);
 		return source;
 	}
 
@@ -30,6 +26,9 @@ public class SourceAction extends AbstractAction<Source> {
 	}
 
 	public List<Source> getSources() {
+	    if(sources==null||sources.size()==0){
+	        searchAll();
+	    }
 		return sources;
 	}
 
@@ -44,6 +43,16 @@ public class SourceAction extends AbstractAction<Source> {
 	@Override
 	protected void setQueryResults(List<Source> results) {
 		sources = results;
-
 	}
+
+    @Override
+    protected Class<Source> getModelClass() {
+        // TODO Auto-generated method stub
+        return Source.class;
+    }
+
+    @Override
+    protected List<Source> getModels() {
+        return sources;
+    }
 }
