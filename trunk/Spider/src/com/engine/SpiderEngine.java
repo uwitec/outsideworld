@@ -77,6 +77,8 @@ public class SpiderEngine {
 		s1.setName("笔秀网");
 		s1.setUrl("http://vector.penshow.cn/");
 		s1.getTempaltes().add(t1);
+		s1.setChannel("sucai");
+		s1.setFormat("pic");
 
 		commonDAO.save(s1);
 	}
@@ -106,7 +108,8 @@ public class SpiderEngine {
 		s1.setName("天天素材");
 		s1.setUrl("http://www.ttcnn.com/vector/");
 		s1.getTempaltes().add(t1);
-
+		s1.setChannel("sucai");
+        s1.setFormat("pic");
 		commonDAO.save(s1);
 	}
 
