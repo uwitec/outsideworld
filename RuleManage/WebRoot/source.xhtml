@@ -32,12 +32,12 @@
 				<br />
 				<br />
 				<h:outputLabel id="name" value="名称："></h:outputLabel>
-				<h:inputText value="#{sourceAction.source.name}" label="name"></h:inputText>
+				<h:inputText value="#{sourceAction.source.name}" label="name" required="true"></h:inputText>
 				<br />
 				<br />
 				<br />
 				<h:outputLabel id="url" value="链接："></h:outputLabel>
-				<h:inputText value="#{sourceAction.source.url}" label="url"></h:inputText>
+				<h:inputText value="#{sourceAction.source.url}" label="url" required="true"></h:inputText>
 				<br />
 				<br />
 				<br />
@@ -64,7 +64,7 @@
 				<br />
 				<br />
 				<br />
-				<h:outputLabel id="domain" value="域名："></h:outputLabel>
+				<h:outputLabel id="domain" value="域名：" required="true"></h:outputLabel>
 				<h:inputText value="#{sourceAction.source.domain}" label="domain"></h:inputText>
 				<br />
 				<br />
@@ -80,7 +80,7 @@
 				<br />
 				<br />
 				<h:outputLabel id="channel" value="频道："></h:outputLabel>
-				<h:selectOneMenu value="#{sourceAction.source.channel}"
+				<h:selectOneMenu  value="#{sourceAction.source.channel}"
 					label="channel">
 					<f:selectItem itemValue="sucai" itemLabel="sucai" />
 					<f:selectItem itemValue="other" itemLabel="other" />
