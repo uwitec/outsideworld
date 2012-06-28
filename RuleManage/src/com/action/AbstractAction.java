@@ -8,6 +8,8 @@ import javax.faces.context.FacesContext;
 
 import com.dao.CommonDAO;
 import com.entity.Model;
+import com.entity.Source;
+import com.entity.Template;
 import com.util.SpringFactory;
 
 public abstract class AbstractAction<T extends Model> {
@@ -17,6 +19,7 @@ public abstract class AbstractAction<T extends Model> {
 	protected String message;
 
 	protected abstract T getModel();
+	protected abstract void setModel(T t);
 
 	protected abstract List<T> getModels();
 
@@ -84,6 +87,37 @@ public abstract class AbstractAction<T extends Model> {
 		List<T> models = (List<T>) commonDao.getAll(cla);
 		setQueryResults(models);
 		return SUCCESS;
+	}
+	
+	public void save() {
+		if (getModel().getId() > 0) {
+			commonDao.update(getModel());
+		} else {
+			commonDao.save(getModel());
+			setModel(null);
+		}
+	}
+	
+	public void cancel() {
+		setModel(null);
+	}
+	
+	public void selectById() {
+		String id = getRequestParam("id");
+		T t = commonDao.get(getModelClass(), Integer.parseInt(id));
+		setModel(t);
+	}
+	
+	public void create() {
+		try {
+			setModel(getModelClass().newInstance());
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public String getMessage() {
