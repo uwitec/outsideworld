@@ -19,8 +19,8 @@
 							<h:outputText value="站点" />
 						</f:facet>
 						<h:commandLink value="${item.domain}"
-							action="#{templateAction.select}">
-							<f:param name="templateId" value="${item.id}" />
+							action="#{templateAction.selectById}">
+							<f:param name="id" value="${item.id}" />
 						</h:commandLink>
 					</h:column>
 				</h:dataTable>
@@ -32,8 +32,8 @@
 		<rich:panel header="编辑区">
 			<h:form>
 				<rich:toolbar height="26px">
-					<h:commandLink value="新建模板" action="#{templateAction.create}" />
-					<h:commandLink value="删除模板" action="#{templateAction.delete}" />
+					<h:commandLink value="新建模板" action="#{templateAction.create}" size="100"/>
+					<h:commandLink value="删除模板" action="#{templateAction.delete}" size="100"/>
 					<h:commandLink value="取消" action="#{templateAction.cancel}" />
 				</rich:toolbar>
 			</h:form>
@@ -42,29 +42,19 @@
 					<h:outputLabel value="域名" />
 					<h:inputText value="#{templateAction.template.domain}" id="domain"
 						label="域名">
-						<f:validateLength minimum="2" maximum="20" />
-						<f:validateRequired />
-						<rich:validator />
 					</h:inputText>
-					<rich:message for="domain" />
-
+					<br/>
+					<br/>
 					<h:outputLabel value="URL" />
 					<h:inputText value="#{templateAction.template.urlRegex}" id="regex"
 						size="50" label="URL">
-						<f:validateLength minimum="2" maximum="50" />
-						<f:validateRequired />
-						<rich:validator />
 					</h:inputText>
-					<rich:message for="regex" />
-
+					<br/>
+					<br/>
 					<h:outputLabel value="类型" />
 					<h:inputText value="#{templateAction.template.type}" id="type"
 						label="类型" title="asdfs">
-						<f:validateLength minimum="2" maximum="10" />
-						<f:validateRequired />
-						<rich:validator />
 					</h:inputText>
-					<rich:message for="type" />
 				</h:panelGrid>
 				<center>
 					<h:commandButton value="保存" action="#{templateAction.save}" />
