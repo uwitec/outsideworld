@@ -123,6 +123,8 @@ public class Extractor extends Thread {
         item.setUrl(page.getUrl().toString());
         item.setDate(new Date());
         item.setType(template.getType());
+        item.setChannel(page.getChannel());
+        item.setFormat(page.getFormat());
         for (Element element : template.getElements()) {
             extract(item, element, page);
         }
@@ -186,6 +188,8 @@ public class Extractor extends Thread {
             result.put(FieldConstant.URL, item.getUrl());
             result.put(FieldConstant.CRAWLTIME, item.getDate());
             result.put(FieldConstant.TYPE, item.getType());
+            result.put(FieldConstant.FORMAT, item.getFormat());
+            result.put(FieldConstant.CHANNEL, item.getChannel());
             for(Entry<String, String> entry:item.fieldSet()){
                 result.put(entry.getKey(), entry.getValue());
             }
