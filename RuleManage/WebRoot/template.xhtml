@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.org/rich">
+
+<ui:composition template="/WEB-INF/templates/BasicTemplate.xhtml">
+	<ui:define name="left">
+		<rich:panel header="模板列表" style="height:100%;">
+			<h:form>
+				<h:dataTable var="item" value="#{templateAction.templates}"
+					width="250" border="1" frame="box" rules="all"
+					columnClasses="p3,p5,p2" cellpadding="3" cellspacing="0">
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="站点" />
+						</f:facet>
+						<h:commandLink value="${item.domain}"
+							action="#{templateAction.select}">
+							<f:param name="templateId" value="${item.id}" />
+						</h:commandLink>
+					</h:column>
+				</h:dataTable>
+			</h:form>
+		</rich:panel>
+	</ui:define>
+
+	<ui:define name="content">
+		<rich:panel header="编辑区">
+			<h:form>
+				<rich:toolbar height="26px">
+					<h:commandLink value="新建模板" action="#{templateAction.create}" />
+					<h:commandLink value="删除模板" action="#{templateAction.delete}" />
+				</rich:toolbar>
+			</h:form>
+			<h:form rendered="#{templateAction.template != null}">
+				<h:panelGrid columns="3" cellspacing="3" cellpadding="3">
+					<h:outputLabel value="域名" />
+					<h:inputText value="#{templateAction.template.domain}" id="domain">
+						<f:validateLength minimum="2" maximum="20" />
+						<f:validateRequired />
+						<rich:validator />
+					</h:inputText>
+					<rich:message for="domain" />
+
+					<h:outputLabel value="URL" />
+					<h:inputText value="#{templateAction.template.urlRegex}" id="regex"
+						size="50">
+						<f:validateLength minimum="2" maximum="50" />
+						<f:validateRequired />
+						<rich:validator />
+					</h:inputText>
+					<rich:message for="regex" />
+
+					<h:outputLabel value="类型" />
+					<h:inputText value="#{templateAction.template.type}" id="type">
+						<f:validateLength minimum="2" maximum="10" />
+						<f:validateRequired />
+						<rich:validator />
+					</h:inputText>
+					<rich:message for="type" />
+				</h:panelGrid>
+				<center>
+					<h:commandButton value="保存" action="#{templateAction.save}" />
+					<h:commandButton value="取消" action="#{templateAction.cancel}" />
+				</center>
+			</h:form>
+		</rich:panel>
+	</ui:define>
+</ui:composition>
+</html>
