@@ -19,7 +19,7 @@ public class DownLoad {
     private MongoUtil mongoDB = SpringFactory.getBean("mongoDB");
 
     public boolean download(DBObject object) {
-    	String dir = (String)object.get(FieldConstant.CATEGORY);
+    	String dir = (String)object.get(FieldConstant.CHANNEL)+File.separator+(String)object.get(FieldConstant.FORMAT);
     	File directory = new File(dir);
     	if(!directory.exists()){
     		directory.mkdir();
@@ -31,7 +31,7 @@ public class DownLoad {
         try {
             download((String)object.get(FieldConstant.DOWNLOAD),fileName);
             DBObject query = new BasicDBObject();
-            query.put(FieldConstant.DOWNLOAD, new ObjectId((String)object.get(FieldConstant.DOWNLOAD)));
+            query.put(FieldConstant.ID, new ObjectId((String)object.get(FieldConstant.ID)));
             DBObject value = new BasicDBObject();
             value.put("$set", new BasicDBObject().append(FieldConstant.ISDOWNLOAD, true).append(FieldConstant.PATH, fileName));
             mongoDB.update(query,value, TableConstant.TABLESTORY);
@@ -42,7 +42,7 @@ public class DownLoad {
     }
 
     private String fileName(DBObject object) {
-        if (StringUtils.isBlank((String)object.get(FieldConstant.ID)) || StringUtils.isBlank((String)object.get(FieldConstant.CATEGORY))) {
+        if (StringUtils.isBlank((String)object.get(FieldConstant.ID)) || StringUtils.isBlank((String)object.get(FieldConstant.CHANNEL))||StringUtils.isBlank((String)object.get(FieldConstant.FORMAT))) {
             return "";
         }
         String postfix = "";
@@ -50,7 +50,7 @@ public class DownLoad {
         if((index = StringUtils.lastIndexOf((String)object.get(FieldConstant.DOWNLOAD), "."))>0){
         	postfix = ((String)object.get(FieldConstant.DOWNLOAD)).substring(index);
         }
-        return (String)object.get(FieldConstant.CATEGORY) + File.separator + (String)object.get(FieldConstant.ID)+postfix;
+        return (String)object.get(FieldConstant.CHANNEL) + File.separator + (String)object.get(FieldConstant.FORMAT)+File.separator+(String)object.get(FieldConstant.ID)+postfix;
     }
 
     private void download(String urlstr, String fileName) throws Exception {

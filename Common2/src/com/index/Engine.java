@@ -23,13 +23,14 @@ public class Engine {
     		}
     		Map<String,List<DBObject>> map =  new HashMap<String,List<DBObject>>();
     		 for (DBObject story : stories) {
-                 if(map.containsKey((String)story.get(FieldConstant.CATEGORY))){
-                	 map.get((String)story.get(FieldConstant.CATEGORY)).add(story);
+    		     String key = (String)story.get(FieldConstant.CHANNEL)+File.separator+(String)story.get(FieldConstant.FORMAT);
+                 if(map.containsKey(key)){
+                	 map.get((String)story.get(key)).add(story);
                  }
                  else{
                 	 List<DBObject> value = new ArrayList<DBObject>();
                 	 value.add(story);
-                	 map.put((String)story.get(FieldConstant.CATEGORY), value);
+                	 map.put(key, value);
                  }
                  DBObject query = new BasicDBObject();
                  query.put(FieldConstant.ID, new ObjectId((String)story.get(FieldConstant.ID)));

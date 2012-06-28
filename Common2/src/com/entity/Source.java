@@ -43,6 +43,12 @@ public class Source {
 	
 	@Column(name = "domain")
 	private String domain;
+	
+	@Column(name = "format")
+	private String format = "other";
+	
+	@Column(name = "channel")
+	private String channel = "sucai";
 
 	@OneToMany(targetEntity = Template.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "source_id")
@@ -103,4 +109,20 @@ public class Source {
 	public void setDomain(String domain) {
 		this.domain = domain;
 	}
+
+    public String getFormat() {
+        return format;
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
+    }
+
+    public String getChannel() {
+        return channel;
+    }
+
+    public void setChannel(String channel) {
+        this.channel = channel;
+    }
 }
