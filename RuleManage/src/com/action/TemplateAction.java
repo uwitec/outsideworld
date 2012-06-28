@@ -1,9 +1,12 @@
 package com.action;
 
 import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+
+import com.entity.Element;
 import com.entity.Template;
 
 @ManagedBean(name = "templateAction")
@@ -13,6 +16,8 @@ public class TemplateAction extends AbstractAction<Template> {
 	private Template template;
 	@ManagedProperty(value = "#{templates}")
 	private List<Template> templates;
+
+	private Element element;
 
 	@Override
 	protected Template getModel() {
@@ -41,8 +46,6 @@ public class TemplateAction extends AbstractAction<Template> {
 		this.templates = templates;
 	}
 
-	
-
 	@Override
 	protected Class<Template> getModelClass() {
 		// TODO Auto-generated method stub
@@ -54,9 +57,39 @@ public class TemplateAction extends AbstractAction<Template> {
 		// TODO Auto-generated method stub
 		return templates;
 	}
-	
+
 	@Override
 	protected void setModel(Template t) {
 		template = t;
+	}
+
+	@Override
+	public void selectById() {
+		String id = getRequestParam("id");
+		template = commonDao.get(getModelClass(), Integer.parseInt(id));
+		setModel(template);
+		element = null;
+	}
+
+	public void selectElement() {
+		String id = getRequestParam("id");
+		element = commonDao.get(Element.class, Integer.parseInt(id));
+	}
+
+	public void saveElement() {
+		if (element.getId() > 0) {
+			commonDao.update(element);
+		} else {
+			commonDao.save(element);
+			setModel(null);
+		}
+	}
+
+	public Element getElement() {
+		return element;
+	}
+
+	public void setElement(Element element) {
+		this.element = element;
 	}
 }
