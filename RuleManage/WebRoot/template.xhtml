@@ -34,12 +34,14 @@
 				<rich:toolbar height="26px">
 					<h:commandLink value="新建模板" action="#{templateAction.create}" />
 					<h:commandLink value="删除模板" action="#{templateAction.delete}" />
+					<h:commandLink value="取消" action="#{templateAction.cancel}" />
 				</rich:toolbar>
 			</h:form>
 			<h:form rendered="#{templateAction.template != null}">
 				<h:panelGrid columns="3" cellspacing="3" cellpadding="3">
 					<h:outputLabel value="域名" />
-					<h:inputText value="#{templateAction.template.domain}" id="domain">
+					<h:inputText value="#{templateAction.template.domain}" id="domain"
+						label="域名">
 						<f:validateLength minimum="2" maximum="20" />
 						<f:validateRequired />
 						<rich:validator />
@@ -48,7 +50,7 @@
 
 					<h:outputLabel value="URL" />
 					<h:inputText value="#{templateAction.template.urlRegex}" id="regex"
-						size="50">
+						size="50" label="URL">
 						<f:validateLength minimum="2" maximum="50" />
 						<f:validateRequired />
 						<rich:validator />
@@ -56,7 +58,8 @@
 					<rich:message for="regex" />
 
 					<h:outputLabel value="类型" />
-					<h:inputText value="#{templateAction.template.type}" id="type">
+					<h:inputText value="#{templateAction.template.type}" id="type"
+						label="类型" title="asdfs">
 						<f:validateLength minimum="2" maximum="10" />
 						<f:validateRequired />
 						<rich:validator />
@@ -65,7 +68,6 @@
 				</h:panelGrid>
 				<center>
 					<h:commandButton value="保存" action="#{templateAction.save}" />
-					<h:commandButton value="取消" action="#{templateAction.cancel}" />
 				</center>
 			</h:form>
 		</rich:panel>
