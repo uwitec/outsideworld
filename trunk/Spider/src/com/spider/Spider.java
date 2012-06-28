@@ -101,6 +101,8 @@ public class Spider extends Thread {
 			page = new Page();
 			page.setUrl(url);
 			page.setDepth(0);
+			page.setChannel(source.getChannel());
+			page.setFormat(source.getFormat());
 			urlQueue.add(page);
 
 			/* Get BloomFilter */
@@ -169,6 +171,8 @@ public class Spider extends Thread {
 				urlQueue.offer(subPage);
 				pageCount++;
 			}
+			subPage.setChannel(page.getChannel());
+			subPage.setFormat(page.getFormat());
 		}
 		LOG.info("Collect {} URLs from {}", pageCount, page.getUrl());
 	}

@@ -13,7 +13,11 @@ public class Page {
 	private String html;
 
 	private TagNode doc;
-
+	//表面当前站点下载页面的类型，比如图片(img),(flash)等等
+	private String format;
+    //表明当前站点所属的频道,比如素材(sucai)
+	private String channel; 
+	
 	public URL getUrl() {
 		return url;
 	}
@@ -45,4 +49,20 @@ public class Page {
 	public void setDoc(TagNode doc) {
 		this.doc = doc;
 	}
+
+    public String getFormat() {
+        return format;
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
+    }
+
+    public String getChannel() {
+        return channel;
+    }
+
+    public void setChannel(String channel) {
+        this.channel = channel;
+    }
 }
