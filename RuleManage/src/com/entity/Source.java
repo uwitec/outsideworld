@@ -13,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
 import org.hibernate.annotations.GenericGenerator;
 @ManagedBean(name = "source")
 @SessionScoped
@@ -26,10 +25,13 @@ public class Source implements Model{
 	private int id=-1;
 	/* 鍚嶇О */
 	@Column(nullable = false, length = 200)
+	@NotNull
 	private String name;
 
 	/* URL */
 	@Column(name = "entry", nullable = false, length = 200, unique = true)
+	@NotNull
+	@Pattern
 	private String url;
 
 	/* 鎶撳彇娣卞害 */
