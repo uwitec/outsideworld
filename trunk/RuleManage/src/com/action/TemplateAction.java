@@ -8,7 +8,7 @@ import com.entity.Template;
 
 @ManagedBean(name="templateAction")
 @SessionScoped
-public class TemplateAction extends AbstractAction<Template> {
+public  class TemplateAction extends AbstractAction<Template> {
     @ManagedProperty(value = "#{template}")
     private Template template;
     @ManagedProperty(value = "#{templates}")
@@ -43,5 +43,11 @@ public class TemplateAction extends AbstractAction<Template> {
     protected Class<Template> getModelClass() {
         // TODO Auto-generated method stub
         return Template.class;
+    }
+
+    @Override
+    protected List<Template> getModels() {
+        // TODO Auto-generated method stub
+        return templates;
     }
 }

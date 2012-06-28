@@ -45,4 +45,10 @@ public class ElementAction extends AbstractAction<Element> {
         // TODO Auto-generated method stub
         return Element.class;
     }
+
+    @Override
+    protected List<Element> getModels() {
+        // TODO Auto-generated method stub
+        return elements;
+    }
 }
