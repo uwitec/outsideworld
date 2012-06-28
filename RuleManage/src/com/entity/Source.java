@@ -2,6 +2,7 @@ package com.entity;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.persistence.CascadeType;
@@ -13,16 +14,20 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 import org.hibernate.annotations.GenericGenerator;
+
 @ManagedBean(name = "source")
 @SessionScoped
 @Entity
 @Table(name = "source")
-public class Source implements Model{
+public class Source implements Model {
 	@Id
 	@GeneratedValue(generator = "increment")
 	@GenericGenerator(name = "increment", strategy = "increment")
-	private int id=-1;
+	private int id = -1;
 	/* 鍚嶇О */
 	@Column(nullable = false, length = 200)
 	@NotNull
@@ -31,7 +36,7 @@ public class Source implements Model{
 	/* URL */
 	@Column(name = "entry", nullable = false, length = 200, unique = true)
 	@NotNull
-	@Pattern
+	@Pattern(regexp = "^http://*",message="URL格式不正确！")
 	private String url;
 
 	/* 鎶撳彇娣卞害 */
@@ -41,15 +46,17 @@ public class Source implements Model{
 	/* 鎶撳彇闂撮殧锛堝皬鏃讹級 */
 	@Column(name = "fetch_interval")
 	private int interval = 3;
-	
+
 	@Column(name = "domain")
+	@NotNull
+	@Pattern(regexp = "^http://*",message="domain格式不正确！")
 	private String domain;
-	
+
 	@Column(name = "format")
-    private String format = "other";
-    
-    @Column(name = "channel")
-    private String channel = "sucai";
+	private String format = "other";
+
+	@Column(name = "channel")
+	private String channel = "sucai";
 
 	@OneToMany(targetEntity = Template.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "source_id")
@@ -111,19 +118,19 @@ public class Source implements Model{
 		this.id = id;
 	}
 
-    public String getFormat() {
-        return format;
-    }
+	public String getFormat() {
+		return format;
+	}
 
-    public void setFormat(String format) {
-        this.format = format;
-    }
+	public void setFormat(String format) {
+		this.format = format;
+	}
 
-    public String getChannel() {
-        return channel;
-    }
+	public String getChannel() {
+		return channel;
+	}
 
-    public void setChannel(String channel) {
-        this.channel = channel;
-    }
+	public void setChannel(String channel) {
+		this.channel = channel;
+	}
 }
