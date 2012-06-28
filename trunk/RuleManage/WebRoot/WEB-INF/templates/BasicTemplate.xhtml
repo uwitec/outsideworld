@@ -1,35 +1,44 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
-<head>
-  <title><ui:insert name="title">Facelets Tutorial</ui:insert></title>
-</head>
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:rich="http://richfaces.org/rich">
+<h:head>
+	<title><ui:insert name="title" /></title>
+	<style type="text/css">
+body,html {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+</style>
+	<link rel="stylesheet" href="dojo-lib/dijit/themes/claro/claro.css"></link>
+	<script type="text/javascript" src="dojo-lib/dojo/dojo.js"
+		djConfig="parseOnLoad: true"></script>
+	<script type="text/javascript">
+		dojo.require("dijit.layout.ContentPane");
+		dojo.require("dijit.layout.BorderContainer");
+		dojo.require("dijit.Toolbar");
+	</script>
+</h:head>
 
-<body>
-
-<div id="header">
-    <ui:insert name="header">
-    	<ui:include src="/WEB-INF/templates/header.xhtml"/>
-    	<!--  include your header file or uncomment the include below and create header.xhtml in this directory -->
-    	<!-- <ui:include src="header.xhtml"/> -->
-    </ui:insert>
-</div>
-
-
-<div id="content">
-  <ui:insert name="content">
-    	<!-- <ui:include src="content.xhtml"/> -->  
-  </ui:insert>
-</div>
-
-<div id="footer">
-  <ui:insert name="footer">
-    	<!--  include your header file or uncomment the include below and create footer.xhtml in this directory -->
-		<ui:include src="/WEB-INF/templates/footer.xhtml"/>
-  </ui:insert>
-</div>
-
-</body>
-
+<h:body class="claro">
+	<div id="container" dojoType="dijit.layout.BorderContainer"
+		style="width: 100%; height: 100%;">
+		<div dojoType="dijit.layout.ContentPane" region="leading"
+			style="width: 300px; padding: 0px;">
+			<ui:insert name="left" />
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="center"
+			style="padding: 0px;">
+			<ui:insert name="content" />
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="top"
+			style="width: 100%; overflow: hidden;">
+			<ui:include src="header.xhtml"></ui:include>
+		</div>
+	</div>
+</h:body>
 </html>
