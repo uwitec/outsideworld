@@ -19,6 +19,9 @@ public class DownLoad {
     private MongoUtil mongoDB = SpringFactory.getBean("mongoDB");
 
     public boolean download(DBObject object) {
+        if(StringUtils.isBlank((String)object.get(FieldConstant.THUBM))){
+            return false;
+        }
     	String dir = (String)object.get(FieldConstant.CHANNEL)+File.separator+(String)object.get(FieldConstant.FORMAT);
     	File directory = new File(dir);
     	if(!directory.exists()){
@@ -29,7 +32,7 @@ public class DownLoad {
             return false;
         }
         try {
-            download((String)object.get(FieldConstant.DOWNLOAD),fileName);
+            download((String)object.get(FieldConstant.THUBM),fileName);
             DBObject query = new BasicDBObject();
             query.put(FieldConstant.ID, new ObjectId((String)object.get(FieldConstant.ID)));
             DBObject value = new BasicDBObject();
@@ -47,8 +50,8 @@ public class DownLoad {
         }
         String postfix = "";
         int index = -1;
-        if((index = StringUtils.lastIndexOf((String)object.get(FieldConstant.DOWNLOAD), "."))>0){
-        	postfix = ((String)object.get(FieldConstant.DOWNLOAD)).substring(index);
+        if((index = StringUtils.lastIndexOf((String)object.get(FieldConstant.THUBM), "."))>0){
+        	postfix = ((String)object.get(FieldConstant.THUBM)).substring(index);
         }
         return (String)object.get(FieldConstant.CHANNEL) + File.separator + (String)object.get(FieldConstant.FORMAT)+File.separator+(String)object.get(FieldConstant.ID)+postfix;
     }
