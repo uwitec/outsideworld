@@ -1,12 +1,12 @@
 package com.action;
 
+import java.util.ArrayList;
 import java.util.List;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-
 import com.entity.Element;
+import com.entity.Source;
 import com.entity.Template;
 
 @ManagedBean(name = "templateAction")
@@ -16,9 +16,9 @@ public class TemplateAction extends AbstractAction<Template> {
 	private Template template;
 	@ManagedProperty(value = "#{templates}")
 	private List<Template> templates;
-
 	private Element element;
-
+	private String sourceId;
+    private List<Integer> allIds;
 	@Override
 	protected Template getModel() {
 		return template;
@@ -62,12 +62,24 @@ public class TemplateAction extends AbstractAction<Template> {
 	protected void setModel(Template t) {
 		template = t;
 	}
+	
+	
 
 	@Override
+    public String insert() {
+	    Source source = commonDao.get(Source.class, Integer.parseInt(sourceId));
+	    template.setSource(source);
+        return super.insert();
+    }
+	
+	
+
+    @Override
 	public void selectById() {
 		String id = getRequestParam("id");
 		template = commonDao.get(getModelClass(), Integer.parseInt(id));
 		setModel(template);
+		sourceId = String.valueOf(template.getSource().getId());
 		element = null;
 	}
 
@@ -92,4 +104,27 @@ public class TemplateAction extends AbstractAction<Template> {
 	public void setElement(Element element) {
 		this.element = element;
 	}
+
+    public List<Integer> getAllIds() {
+        if(allIds==null||allIds.size()==0){
+            List<Source> sources = commonDao.getAll(Source.class);
+            allIds = new ArrayList<Integer>();
+            for(Source s:sources){
+                allIds.add(s.getId());
+            }
+        }
+        return allIds;
+    }
+
+    public void setAllIds(List<Integer> allIds) {
+        this.allIds = allIds;
+    }
+
+    public String getSourceId() {
+        return sourceId;
+    }
+
+    public void setSourceId(String sourceId) {
+        this.sourceId = sourceId;
+    }
 }
