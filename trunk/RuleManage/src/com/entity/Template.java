@@ -30,7 +30,6 @@ public class Template implements Model {
 	private List<Element> elements = new ArrayList<Element>();
 
 	@Column(nullable = false, length = 200)
-	@Max(200)
 	private String domain;
 
 	@Column(name = "url_regex", nullable = false)

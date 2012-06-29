@@ -30,14 +30,12 @@ public class Source implements Model {
 	/* 鍚嶇О */
 	@Column(nullable = false, length = 200)
 	@NotNull
-	@Max(200)
 	private String name;
 
 	/* URL */
 	@Column(name = "entry", nullable = false, length = 200, unique = true)
 	@NotNull
-	@Pattern(regexp = "^http://*",message="URL格式不正确！")
-	@Max(200)
+	@Pattern(regexp = "http://([\\w-]+\\.)+[\\w-]+(/[\\w- ./?%&=]*)?",message="URL格式不正确！")
 	private String url;
 
 	/* 鎶撳彇娣卞害 */
@@ -50,7 +48,6 @@ public class Source implements Model {
 
 	@Column(name = "domain")
 	@NotNull
-	@Pattern(regexp = "^http://*",message="domain格式不正确！")
 	private String domain;
 
 	@Column(name = "format")
