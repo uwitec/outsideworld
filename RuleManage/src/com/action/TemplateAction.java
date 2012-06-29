@@ -12,110 +12,113 @@ import com.entity.Template;
 @ManagedBean(name = "templateAction")
 @SessionScoped
 public class TemplateAction extends AbstractAction<Template> {
-	@ManagedProperty(value = "#{template}")
-	private Template template;
-	@ManagedProperty(value = "#{templates}")
-	private List<Template> templates;
-	private Element element;
-	@ManagedProperty(value = "#{sourceId}")
-	private Integer sourceId;
-	@ManagedProperty(value = "#{allIds}")
+
+    @ManagedProperty(value = "#{template}")
+    private Template template;
+    @ManagedProperty(value = "#{templates}")
+    private List<Template> templates;
+    private Element element;
+    @ManagedProperty(value = "#{sourceId}")
+    private Integer sourceId;
+    @ManagedProperty(value = "#{allIds}")
     private List<Integer> allIds;
-	@Override
-	protected Template getModel() {
-		return template;
-	}
-
-	@Override
-	protected void setQueryResults(List<Template> results) {
-		templates = results;
-	}
-
-	public Template getTemplate() {
-		return template;
-	}
-
-	public void setTemplate(Template template) {
-		this.template = template;
-	}
-
-	public List<Template> getTemplates() {
-		templates = commonDao.getAll(Template.class);
-		return templates;
-	}
-
-	public void setTemplates(List<Template> templates) {
-		this.templates = templates;
-	}
-
-	@Override
-	protected Class<Template> getModelClass() {
-		// TODO Auto-generated method stub
-		return Template.class;
-	}
-
-	@Override
-	protected List<Template> getModels() {
-		// TODO Auto-generated method stub
-		return templates;
-	}
-
-	@Override
-	protected void setModel(Template t) {
-		template = t;
-	}
-	
-	
-
-	@Override
-    public String insert() {
-	    Source source = commonDao.get(Source.class, sourceId);
-	    template.setSource(source);
-        return super.insert();
-    }
-	
-	
 
     @Override
-	public void selectById() {
-		String id = getRequestParam("id");
-		template = commonDao.get(getModelClass(), Integer.parseInt(id));
-		setModel(template);
-		sourceId = template.getSource().getId();
-		element = null;
-	}
+    protected Template getModel() {
+        return template;
+    }
 
-	public void selectElement() {
-		String id = getRequestParam("id");
-		element = commonDao.get(Element.class, Integer.parseInt(id));
-	}
+    @Override
+    protected void setQueryResults(List<Template> results) {
+        templates = results;
+    }
 
-	public void saveElement() {
-		if (element.getId() > 0) {
-			commonDao.update(element);
-		} else {
-			commonDao.save(element);
-			setModel(null);
-		}
-	}
-	
-	public void createElement() {
+    public Template getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(Template template) {
+        this.template = template;
+    }
+
+    public List<Template> getTemplates() {
+        templates = commonDao.getAll(Template.class);
+        return templates;
+    }
+
+    public void setTemplates(List<Template> templates) {
+        this.templates = templates;
+    }
+
+    @Override
+    protected Class<Template> getModelClass() {
+        // TODO Auto-generated method stub
+        return Template.class;
+    }
+
+    @Override
+    protected List<Template> getModels() {
+        // TODO Auto-generated method stub
+        return templates;
+    }
+
+    @Override
+    protected void setModel(Template t) {
+        template = t;
+    }
+
+    @Override
+    public String insert() {
+        Source source = commonDao.get(Source.class, sourceId);
+        template.setSource(source);
+        return super.insert();
+    }
+
+    @Override
+    public void selectById() {
+        String id = getRequestParam("id");
+        template = commonDao.get(getModelClass(), Integer.parseInt(id));
+        setModel(template);
+        sourceId = template.getSource().getId();
         element = null;
     }
 
-	public Element getElement() {
-		return element;
-	}
+    public void selectElement() {
+        String id = getRequestParam("id");
+        element = commonDao.get(Element.class, Integer.parseInt(id));
+    }
 
-	public void setElement(Element element) {
-		this.element = element;
-	}
+    public void saveElement() {
+            if (element.getId() > 0) {
+                commonDao.update(element);
+            } else {
+                if(template!=null){
+                    template.getElements().add(element);
+                    update();
+                }
+                //commonDao.save(element);
+                //setModel(null);
+            }
+        }
+    
+
+    public void createElement() {
+        element = new Element();
+    }
+
+    public Element getElement() {
+        return element;
+    }
+
+    public void setElement(Element element) {
+        this.element = element;
+    }
 
     public List<Integer> getAllIds() {
-        if(allIds==null||allIds.size()==0){
+        if (allIds == null || allIds.size() == 0) {
             List<Source> sources = commonDao.getAll(Source.class);
             allIds = new ArrayList<Integer>();
-            for(Source s:sources){
+            for (Source s : sources) {
                 allIds.add(s.getId());
             }
         }

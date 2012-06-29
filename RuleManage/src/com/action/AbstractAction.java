@@ -71,7 +71,7 @@ public abstract class AbstractAction<T extends Model> {
 			message = "数据不存在!";
 			return FAIL;
 		}
-		commonDao.save(object);
+		commonDao.update(object);
 		return SUCCESS;
 	}
 
