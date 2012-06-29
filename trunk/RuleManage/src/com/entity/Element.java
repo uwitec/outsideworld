@@ -24,16 +24,13 @@ public class Element implements Model{
 
 	@Column(nullable = false, length = 100)
 	@NotNull
-	@Max(100)
 	private String name;
 
 	@Column(nullable = false, length = 200)
 	@NotNull
-	@Max(200)
 	private String define;
 
 	@Column(length = 200)
-	@Max(200)
 	private String regex;
 
 	@Transient
