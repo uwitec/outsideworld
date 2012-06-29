@@ -15,4 +15,5 @@ public interface FieldConstant {
     public static final String TYPE ="type";
     public static final String CHANNEL ="channel";
     public static final String FORMAT ="format";
+    public static final String THUBM ="thubm";
 }
