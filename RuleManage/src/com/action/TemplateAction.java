@@ -17,7 +17,9 @@ public class TemplateAction extends AbstractAction<Template> {
 	@ManagedProperty(value = "#{templates}")
 	private List<Template> templates;
 	private Element element;
-	private String sourceId;
+	@ManagedProperty(value = "#{sourceId}")
+	private Integer sourceId;
+	@ManagedProperty(value = "#{allIds}")
     private List<Integer> allIds;
 	@Override
 	protected Template getModel() {
@@ -67,7 +69,7 @@ public class TemplateAction extends AbstractAction<Template> {
 
 	@Override
     public String insert() {
-	    Source source = commonDao.get(Source.class, Integer.parseInt(sourceId));
+	    Source source = commonDao.get(Source.class, sourceId);
 	    template.setSource(source);
         return super.insert();
     }
@@ -79,7 +81,7 @@ public class TemplateAction extends AbstractAction<Template> {
 		String id = getRequestParam("id");
 		template = commonDao.get(getModelClass(), Integer.parseInt(id));
 		setModel(template);
-		sourceId = String.valueOf(template.getSource().getId());
+		sourceId = template.getSource().getId();
 		element = null;
 	}
 
@@ -120,11 +122,11 @@ public class TemplateAction extends AbstractAction<Template> {
         this.allIds = allIds;
     }
 
-    public String getSourceId() {
+    public Integer getSourceId() {
         return sourceId;
     }
 
-    public void setSourceId(String sourceId) {
+    public void setSourceId(Integer sourceId) {
         this.sourceId = sourceId;
     }
 }
