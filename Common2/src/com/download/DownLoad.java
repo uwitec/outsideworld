@@ -19,9 +19,20 @@ public class DownLoad {
     private MongoUtil mongoDB = SpringFactory.getBean("mongoDB");
 
     public boolean download(DBObject object) {
+        /**
+         * 如果根本没有thubm
+         */
         if(StringUtils.isBlank((String)object.get(FieldConstant.THUBM))){
-            return false;
+            DBObject query = new BasicDBObject();
+            query.put(FieldConstant.ID, new ObjectId((String)object.get(FieldConstant.ID)));
+            DBObject value = new BasicDBObject();
+            value.put("$set", new BasicDBObject().append(FieldConstant.ISDOWNLOAD, true));
+            mongoDB.update(query,value, TableConstant.TABLESTORY);
+            return true;
         }
+        /**
+         * 如果有小样
+         */
     	String dir = (String)object.get(FieldConstant.CHANNEL)+File.separator+(String)object.get(FieldConstant.FORMAT);
     	File directory = new File(dir);
     	if(!directory.exists()){
