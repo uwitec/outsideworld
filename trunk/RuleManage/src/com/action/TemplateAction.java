@@ -98,6 +98,10 @@ public class TemplateAction extends AbstractAction<Template> {
 			setModel(null);
 		}
 	}
+	
+	public void createElement() {
+        element = null;
+    }
 
 	public Element getElement() {
 		return element;
