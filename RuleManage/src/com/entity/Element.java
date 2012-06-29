@@ -2,14 +2,14 @@ package com.entity;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
@@ -23,12 +23,17 @@ public class Element implements Model{
 	
 
 	@Column(nullable = false, length = 100)
+	@NotNull
+	@Max(100)
 	private String name;
 
 	@Column(nullable = false, length = 200)
+	@NotNull
+	@Max(200)
 	private String define;
 
 	@Column(length = 200)
+	@Max(200)
 	private String regex;
 
 	@Transient
