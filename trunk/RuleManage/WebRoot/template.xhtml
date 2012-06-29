@@ -41,6 +41,12 @@
 			</h:form>
 			<h:form rendered="#{templateAction.template != null}">
 				<h:panelGrid columns="3" cellspacing="3" cellpadding="3">
+				    <h:outputLabel value="数据源" />
+				    <h:selectOneMenu value="#{templateAction.sourceId}" label="数据源">
+				    <f:selectItems value="#{templateAction.allIds}"></f:selectItems>
+				    </h:selectOneMenu>
+					<br />
+					<br />
 					<h:outputLabel value="域名" />
 					<h:inputText value="#{templateAction.template.domain}" id="domain"
 						label="域名">
