@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
+import javax.validation.constraints.Max;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
@@ -31,6 +30,7 @@ public class Template implements Model {
 	private List<Element> elements = new ArrayList<Element>();
 
 	@Column(nullable = false, length = 200)
+	@Max(200)
 	private String domain;
 
 	@Column(name = "url_regex", nullable = false)

@@ -2,7 +2,6 @@ package com.entity;
 
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.persistence.CascadeType;
@@ -14,9 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-
 import org.hibernate.annotations.GenericGenerator;
 
 @ManagedBean(name = "source")
@@ -31,12 +30,14 @@ public class Source implements Model {
 	/* 鍚嶇О */
 	@Column(nullable = false, length = 200)
 	@NotNull
+	@Max(200)
 	private String name;
 
 	/* URL */
 	@Column(name = "entry", nullable = false, length = 200, unique = true)
 	@NotNull
 	@Pattern(regexp = "^http://*",message="URL格式不正确！")
+	@Max(200)
 	private String url;
 
 	/* 鎶撳彇娣卞害 */
