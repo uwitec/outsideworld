@@ -183,7 +183,7 @@ public class Extractor extends Thread {
 
     private void afterExtract(Item item) throws Exception {
         if (!StringUtils.isBlank(item.getField(FieldConstant.DOWNLOAD))
-                && downloadUrlFilter.contains(item.getField(FieldConstant.DOWNLOAD))) {
+                && !downloadUrlFilter.contains(item.getField(FieldConstant.DOWNLOAD))) {
             DBObject result = new BasicDBObject();
             result.put(FieldConstant.URL, item.getUrl());
             result.put(FieldConstant.CRAWLTIME, item.getDate());
