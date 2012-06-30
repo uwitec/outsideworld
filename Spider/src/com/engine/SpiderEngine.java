@@ -27,8 +27,8 @@ public class SpiderEngine {
 
 	private SpiderEngine() {
 
-//		clear();
-//		test1();
+	clear();
+		test3();
 		//test2();
 
 		/* Start spiders */
@@ -82,6 +82,34 @@ public class SpiderEngine {
 
 		commonDAO.save(s1);
 	}
+	
+	private void test3() {
+		Element e1 = new Element();
+		e1.setName("title");
+		e1.setDefine("//*[@id='main_r']/h1");
+
+		Element e2 = new Element();
+		e2.setName("download");
+		e2.setDefine("//*[@class='xiazai_l']/li");
+
+
+		Template t1 = new Template();
+		t1.setDomain("www.yinxiao.net");
+		t1.setUrlRegex("^http://www.yinxiao.net/[\\s\\S]*\\d+.html");
+		t1.setType("flash");
+		t1.getElements().add(e1);
+		t1.getElements().add(e2);
+
+		Source s1 = new Source();
+		s1.setName("音效网");
+		s1.setUrl("http://www.yinxiao.net/");
+		s1.getTempaltes().add(t1);
+		s1.setChannel("sucai");
+		s1.setFormat("flash");
+        s1.setDomain("www.yinxiao.net");
+		commonDAO.save(s1);
+	}
+
 
 	private void test2() {
 		Element e1 = new Element();
