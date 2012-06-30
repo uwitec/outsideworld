@@ -62,14 +62,13 @@
 			<value>test</value>
 		</constructor-arg>
 	</bean>
-	<bean id="storyDao" class="com.dao.StoryDaoImpl"></bean>
 	<bean id="downLoad" class="com.download.DownLoad"></bean>
 	<!--bean id="index" class="com.index.Index"></bean -->
 	<bean id="downLoadEngine" class="com.download.Engine"></bean>
 	<bean id="indexEngine" class="com.index.Engine"></bean>
 	<bean id="downloadPool" class="com.thread.ThreadPool">
 		<property name="threadNum">
-			<value>10</value>
+			<value>1</value>
 		</property>
 	</bean>
 	<bean id="analyzer" class="net.paoding.analysis.analyzer.PaodingAnalyzer"></bean>
