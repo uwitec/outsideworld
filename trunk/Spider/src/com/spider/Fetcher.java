@@ -61,8 +61,8 @@ public class Fetcher {
 		try {
 			response = httpclient.execute(httpget);
 		} catch (Exception e) {
+			e.printStackTrace();
 			LOG.error("Get Response from {} error", url);
-			return;
 		}
 
 		/* Status Filter */

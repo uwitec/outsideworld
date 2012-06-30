@@ -17,8 +17,8 @@ public class SpiderEngine {
 
 	private static CommonDAO commonDAO = SpiderEngine.getBean("commonDAO");
 
-	private int spiderNum = 3;
-	private int extractorNum = 5;
+	private int spiderNum = 1;
+	private int extractorNum = 1;
 
 	@SuppressWarnings("unchecked")
 	public static <T> T getBean(String beanid) {
