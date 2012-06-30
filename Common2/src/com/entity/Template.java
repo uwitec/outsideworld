@@ -1,7 +1,7 @@
 package com.entity;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,16 +21,14 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "template")
-public class Template {
-
+public class Template implements Model {
 	@Id
 	@GeneratedValue(generator = "increment")
 	@GenericGenerator(name = "increment", strategy = "increment")
-	private int id;
-
+	private int id = -1;
 	@OneToMany(targetEntity = Element.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "template_id")
-	private Set<Element> elements = new HashSet<Element>();
+	private List<Element> elements = new ArrayList<Element>();
 
 	@Column(nullable = false, length = 200)
 	private String domain;
@@ -48,19 +46,11 @@ public class Template {
 	@Transient
 	private Pattern pattern;
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public Set<Element> getElements() {
+	public List<Element> getElements() {
 		return elements;
 	}
 
-	public void setElements(Set<Element> elements) {
+	public void setElements(List<Element> elements) {
 		this.elements = elements;
 	}
 
@@ -109,5 +99,13 @@ public class Template {
 			return false;
 		}
 
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }
