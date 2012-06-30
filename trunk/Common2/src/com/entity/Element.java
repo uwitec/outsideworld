@@ -2,24 +2,21 @@ package com.entity;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "element")
-public class Element {
-
+public class Element implements Model {
 	@Id
 	@GeneratedValue(generator = "increment")
 	@GenericGenerator(name = "increment", strategy = "increment")
-	private int id;
+	private int id = -1;
 
 	@Column(nullable = false, length = 100)
 	private String name;

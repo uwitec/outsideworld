@@ -12,55 +12,48 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "source")
-public class Source {
-
-	/* ID */
+public class Source implements Model {
 	@Id
 	@GeneratedValue(generator = "increment")
 	@GenericGenerator(name = "increment", strategy = "increment")
-	private int id;
+	private int id = -1;
 
-	/* 名称 */
 	@Column(nullable = false, length = 200)
+	@NotNull
 	private String name;
 
 	/* URL */
 	@Column(name = "entry", nullable = false, length = 200, unique = true)
+	@NotNull
+	@Pattern(regexp = "http://([\\w-]+\\.)+[\\w-]+(/[\\w- ./?%&=]*)?", message = "URL格式不正确！")
 	private String url;
 
-	/* 抓取深度 */
 	@Column
 	private int depth = 5;
 
-	/* 抓取间隔（小时） */
 	@Column(name = "fetch_interval")
 	private int interval = 3;
-	
+
 	@Column(name = "domain")
+	@NotNull
 	private String domain;
-	
+
 	@Column(name = "format")
 	private String format = "other";
-	
+
 	@Column(name = "channel")
 	private String channel = "sucai";
 
 	@OneToMany(targetEntity = Template.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "source_id")
 	private Set<Template> tempaltes = new HashSet<Template>();
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;
@@ -110,19 +103,27 @@ public class Source {
 		this.domain = domain;
 	}
 
-    public String getFormat() {
-        return format;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public void setFormat(String format) {
-        this.format = format;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public String getChannel() {
-        return channel;
-    }
+	public String getFormat() {
+		return format;
+	}
 
-    public void setChannel(String channel) {
-        this.channel = channel;
-    }
+	public void setFormat(String format) {
+		this.format = format;
+	}
+
+	public String getChannel() {
+		return channel;
+	}
+
+	public void setChannel(String channel) {
+		this.channel = channel;
+	}
 }
