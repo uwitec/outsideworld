@@ -7,7 +7,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
 import com.entity.Source;
-import com.entity.Template;
 
 @ManagedBean(name = "sourceAction")
 @SessionScoped
@@ -16,7 +15,6 @@ public class SourceAction extends AbstractAction<Source> {
 	private Source source;
 	@ManagedProperty(value = "#{sources}")
 	private List<Source> sources;
-	
 
 	public Source getSource() {
 		return source;
@@ -27,9 +25,7 @@ public class SourceAction extends AbstractAction<Source> {
 	}
 
 	public List<Source> getSources() {
-	    if(sources==null||sources.size()==0){
-	        searchAll();
-	    }
+		searchAll();
 		return sources;
 	}
 
@@ -46,18 +42,16 @@ public class SourceAction extends AbstractAction<Source> {
 		sources = results;
 	}
 
-    @Override
-    protected Class<Source> getModelClass() {
-        // TODO Auto-generated method stub
-        return Source.class;
-    }
+	@Override
+	protected Class<Source> getModelClass() {
+		// TODO Auto-generated method stub
+		return Source.class;
+	}
 
-    @Override
-    protected List<Source> getModels() {
-        return sources;
-    }
-    
-    
+	@Override
+	protected List<Source> getModels() {
+		return sources;
+	}
 
 	@Override
 	protected void setModel(Source t) {
