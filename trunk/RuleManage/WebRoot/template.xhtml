@@ -42,7 +42,7 @@
 			<h:form rendered="#{templateAction.template != null}">
 				<h:panelGrid columns="3" cellspacing="3" cellpadding="3">
 					<h:outputLabel value="数据源" />
-					<h:selectOneMenu label="数据源">
+					<h:selectOneMenu label="数据源" value="#{templateAction.sourceId}">
 						<f:selectItems var="item" value="#{templateAction.sources}"
 							itemValue="#{item.id}" itemLabel="${item.name}" />
 					</h:selectOneMenu>
