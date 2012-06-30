@@ -3,6 +3,9 @@
     <wb-module deploy-name="RuleManage">
         <wb-resource deploy-path="/" source-path="/WebRoot" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <dependent-module archiveName="ResourceCommon.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ResourceCommon/ResourceCommon">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="RuleManage"/>
         <property name="java-output-path" value="/RuleManage/build/classes"/>
     </wb-module>

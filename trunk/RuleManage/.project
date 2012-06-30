@@ -3,6 +3,7 @@
 	<name>RuleManage</name>
 	<comment></comment>
 	<projects>
+		<project>ResourceCommon</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
