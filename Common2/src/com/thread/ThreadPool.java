@@ -8,9 +8,7 @@ public class ThreadPool {
 	private ExecutorService pool = Executors.newFixedThreadPool(threadNum);
 
 	public void run(Runnable runable) {
-		for (int i = 0; i < threadNum; i++) {
 			pool.execute(runable);
-		}
 	}
 
 	public int getThreadNum() {

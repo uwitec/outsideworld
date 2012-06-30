@@ -25,7 +25,7 @@ public class Engine {
     		 for (DBObject story : stories) {
     		     String key = (String)story.get(FieldConstant.CHANNEL)+File.separator+(String)story.get(FieldConstant.FORMAT);
                  if(map.containsKey(key)){
-                	 map.get((String)story.get(key)).add(story);
+                	 map.get(key).add(story);
                  }
                  else{
                 	 List<DBObject> value = new ArrayList<DBObject>();
@@ -33,13 +33,18 @@ public class Engine {
                 	 map.put(key, value);
                  }
                  DBObject query = new BasicDBObject();
-                 query.put(FieldConstant.ID, new ObjectId((String)story.get(FieldConstant.ID)));
+                 query.put(FieldConstant.ID, new ObjectId(story.get(FieldConstant.ID).toString()));
                  DBObject value = new BasicDBObject();
                  value.put("$set", new BasicDBObject().append(FieldConstant.ISINDEXED, true));
                  mongoDB.update(query,value,TableConstant.TABLESTORY);
              }
     		 for(Map.Entry<String, List<DBObject>> entry:map.entrySet()){
-    			 index.open("index"+File.separator+entry.getKey());
+    			 String dirName = "index"+File.separator+entry.getKey();
+    			 File dir = new File(dirName);
+    			 if(!dir.exists()){
+    				 dir.mkdirs();
+    			 }
+    			 index.open(dirName);
     			 index.index(entry.getValue());
     			 index.commit();
     			 index.close();

@@ -44,7 +44,7 @@ public class Index {
      */
     public void index(DBObject o) throws Exception {
         Document doc = new Document();
-        String id = (String)o.get(FieldConstant.ID);
+        String id = o.get(FieldConstant.ID).toString();
         if (!StringUtils.isBlank(id)) {
             Field idFiled = new Field(FieldConstant.ID, id, Field.Store.YES, Field.Index.NO);
             doc.add(idFiled);
@@ -73,7 +73,7 @@ public class Index {
             doc.add(categoryField);
         }
         String preferer = (String)o.get(FieldConstant.PREFERER);
-        if(!StringUtils.isBlank(category)){
+        if(!StringUtils.isBlank(preferer)){
             Field prefererField = new Field(FieldConstant.PREFERER,preferer,Field.Store.YES,Field.Index.NOT_ANALYZED);
             doc.add(prefererField);
         }
