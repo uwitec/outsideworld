@@ -72,7 +72,11 @@ public class TemplateAction extends AbstractAction<Template> {
 	public String insert() {
 		Source source = commonDao.get(Source.class, sourceId);
 		template.setSource(source);
-		return super.insert();
+		if (template.getId() < 0) {
+			return super.insert();
+		} else {
+			return super.update();
+		}
 	}
 
 	@Override
