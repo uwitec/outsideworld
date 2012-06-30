@@ -12,6 +12,7 @@ import org.apache.http.HttpResponseInterceptor;
 import org.apache.http.client.entity.GzipDecompressingEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
@@ -27,7 +28,7 @@ public class Fetcher {
 
 	public Fetcher() {
 		LOG.info("Init Fetcher...");
-		httpclient = new DefaultHttpClient();
+		httpclient = new DefaultHttpClient(new ThreadSafeClientConnManager());
 
 		/* GZip Intercepter */
 		httpclient.addResponseInterceptor(new HttpResponseInterceptor() {
