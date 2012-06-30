@@ -11,19 +11,18 @@
 	<ui:define name="left">
 		<rich:panel header="模板列表" style="height:100%;">
 			<h:form>
-				<h:dataTable var="item" value="#{templateAction.templates}"
-					width="250" border="1" frame="box" rules="all"
-					columnClasses="p3,p5,p2" cellpadding="3" cellspacing="0">
-					<h:column>
+				<rich:dataTable border="1" styleClass="itemlist" var="item"
+					value="#{templateAction.templates}" style="width:250px;">
+					<rich:column>
 						<f:facet name="header">
-							<h:outputText value="站点" />
+							<h:outputText value="站点地址" />
 						</f:facet>
 						<h:commandLink value="${item.domain}"
 							action="#{templateAction.selectById}">
 							<f:param name="id" value="${item.id}" />
 						</h:commandLink>
-					</h:column>
-				</h:dataTable>
+					</rich:column>
+				</rich:dataTable>
 			</h:form>
 		</rich:panel>
 	</ui:define>
@@ -35,19 +34,21 @@
 					<h:commandLink value="新建模板" action="#{templateAction.create}"
 						size="100" />
 					<h:commandLink value="删除模板" action="#{templateAction.delete}"
-						size="100" />
+						size="100"
+						disabled="#{templateAction.template == null or templateAction.template.id == -1}" />
 					<h:commandLink value="取消" action="#{templateAction.cancel}" />
 				</rich:toolbar>
 			</h:form>
 			<h:form rendered="#{templateAction.template != null}">
 				<h:panelGrid columns="3" cellspacing="3" cellpadding="3">
-				    <h:outputLabel value="数据源" />
-				    <h:selectOneMenu value="#{templateAction.sourceId}" label="数据源">
-				    <f:selectItems value="#{templateAction.allIds}"></f:selectItems>
-				    </h:selectOneMenu>
+					<h:outputLabel value="数据源" />
+					<h:selectOneMenu label="数据源">
+						<f:selectItems var="item" value="#{templateAction.sources}"
+							itemValue="#{item.id}" itemLabel="${item.name}" />
+					</h:selectOneMenu>
 					<br />
 					<br />
-					<h:outputLabel value="域名" />
+					<h:outputLabel value=" 域名" />
 					<h:inputText value="#{templateAction.template.domain}" id="domain"
 						label="域名">
 					</h:inputText>
@@ -69,16 +70,18 @@
 				</center>
 			</h:form>
 
+			<hr></hr>
+
 			<!-- 元素管理 -->
-			<h:panelGrid columns="2" cellspacing="3" cellpadding="3">
-				<rich:panel header="元素列表" style="height:100%;">
+			<h:panelGrid columns="2" cellspacing="3" cellpadding="3"
+				rendered="#{templateAction.template != null}" width="500">
+
+				<rich:panel header="元素列表" style="height:100%; width:150px;">
 					<h:form>
 						<h:panelGrid columns="2" cellspacing="3" cellpadding="3">
-							<h:dataTable var="element"
-								value="#{templateAction.template.elements}" width="250"
-								border="1" frame="box" rules="all" cellpadding="3"
-								cellspacing="0">
-								<h:column>
+							<rich:dataTable var="element" border="1"
+								value="#{templateAction.template.elements}" style="width:125px;">
+								<rich:column>
 									<f:facet name="header">
 										<h:outputText value="名称" />
 									</f:facet>
@@ -86,13 +89,13 @@
 										action="#{templateAction.selectElement}">
 										<f:param name="id" value="${element.id}" />
 									</h:commandLink>
-								</h:column>
-							</h:dataTable>
+								</rich:column>
+							</rich:dataTable>
 						</h:panelGrid>
 					</h:form>
 				</rich:panel>
 
-				<rich:panel header="元素信息">
+				<rich:panel header="元素信息" style="width:300px;">
 					<h:form>
 						<h:panelGrid columns="2" cellspacing="3" cellpadding="3"
 							rendered="#{templateAction.element != null}">
@@ -114,7 +117,7 @@
 						<center>
 							<h:commandButton value="保存"
 								action="#{templateAction.saveElement}" />
-								<h:commandButton value="新建"
+							<h:commandButton value="新建"
 								action="#{templateAction.createElement}" />
 						</center>
 					</h:form>
