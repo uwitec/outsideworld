@@ -45,7 +45,7 @@
 				<rich:toolbar height="26px">
 					<h:commandLink value="新建模板" action="#{sourceAction.create}" />
 					<h:commandLink value="删除模板" action="#{sourceAction.delete}"
-						disabled="#{sourceAction.source.id == -1}" />
+						disabled="#{sourceAction.source == null or sourceAction.source.id == -1}" />
 				</rich:toolbar>
 			</h:form>
 			<h:form rendered="#{sourceAction.source != null}">
