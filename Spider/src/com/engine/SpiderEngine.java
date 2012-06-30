@@ -27,9 +27,9 @@ public class SpiderEngine {
 
 	private SpiderEngine() {
 
-		clear();
-		test1();
-		test2();
+//		clear();
+//		test1();
+//		test2();
 
 		/* Start spiders */
 		Thread[] spiders = new Thread[spiderNum];
