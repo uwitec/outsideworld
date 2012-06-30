@@ -186,10 +186,13 @@ public class Extractor extends Thread {
                 && !downloadUrlFilter.contains(item.getField(FieldConstant.DOWNLOAD))) {
             DBObject result = new BasicDBObject();
             result.put(FieldConstant.URL, item.getUrl());
+            result.put(FieldConstant.PREFERER, item.getUrl());
             result.put(FieldConstant.CRAWLTIME, item.getDate());
             result.put(FieldConstant.TYPE, item.getType());
             result.put(FieldConstant.FORMAT, item.getFormat());
             result.put(FieldConstant.CHANNEL, item.getChannel());
+            result.put(FieldConstant.ISDOWNLOAD, false);
+            result.put(FieldConstant.ISINDEXED, false);
             for(Entry<String, String> entry:item.fieldSet()){
                 result.put(entry.getKey(), entry.getValue());
             }
