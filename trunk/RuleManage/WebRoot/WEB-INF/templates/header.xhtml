@@ -10,8 +10,13 @@
 <c:set var="basePath" value="#{request.contextPath}" />
 
 <rich:toolbar height="30px">
-	<h:outputLink value="${basePath}/source.xhtml">源站点管理</h:outputLink>
-	<h:outputLink value="${basePath}/template.xhtml">抽取模板管理</h:outputLink>
+	<rich:toolbarGroup>
+		<h:outputText>资源采集后台管理系统</h:outputText>
+	</rich:toolbarGroup>
+	<rich:toolbarGroup>
+		<h:outputLink value="${basePath}/source.xhtml">源站点管理</h:outputLink>
+		<h:outputLink value="${basePath}/template.xhtml">抽取模板管理</h:outputLink>
+	</rich:toolbarGroup>
 </rich:toolbar>
 
 </html>
