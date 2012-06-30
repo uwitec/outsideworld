@@ -1,7 +1,17 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<body>
-<div style="width:100%;font-size:36px;line-height:48px;background-color:navy;color:white">My Facelet Application</div>
-</body>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+<c:set var="basePath" value="#{request.contextPath}" />
+
+<rich:toolbar height="30px">
+	<h:outputLink value="${basePath}/source.xhtml">源站点管理</h:outputLink>
+	<h:outputLink value="${basePath}/template.xhtml">抽取模板管理</h:outputLink>
+</rich:toolbar>
+
 </html>
