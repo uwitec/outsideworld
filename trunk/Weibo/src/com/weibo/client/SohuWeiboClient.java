@@ -41,7 +41,7 @@ public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 			"E MMM dd hh:mm:ss yyyy", Locale.US);
 
 	private int interval = 0;
-	
+
 	public static int typeId = 100003;
 
 	public SohuWeiboClient(String[] params) {
@@ -83,13 +83,6 @@ public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 		List<Map<String, Object>> models = trans(jsonObjs);
 		LOG.info("Retrieve " + models.size() + " weibo from Sohuweibo");
 		return models;
-	}
-
-	@Override
-	public void saveItems(List<Item> items) throws Exception {
-		for (Item item : items) {
-			itemDAO.insert(item);
-		}
 	}
 
 	@Override
