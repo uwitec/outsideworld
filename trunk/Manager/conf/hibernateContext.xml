@@ -18,7 +18,7 @@
 		<property name="url"
 			value="jdbc:mysql://localhost:3306/yuqing?useUnicode=true&amp;characterEncoding=UTF8" />
 		<property name="username" value="root" />
-		<property name="password" value="password" />
+		<property name="password" value="root" />
 	</bean>
 
 	<!-- Session Factory -->
