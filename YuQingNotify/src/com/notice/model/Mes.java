@@ -8,9 +8,13 @@ import java.io.Serializable;
  */
 public class Mes implements Serializable {
 	private static final long serialVersionUID = 2049875287866199263L;
+	//邮件标题
 	private String title;
+	//邮件内容
 	private String content;
+	//接受者的邮箱地址
 	private String to;
+	//使用什么协议发送，"email:"表示邮件
 	private String protocal;
 
 	/**
