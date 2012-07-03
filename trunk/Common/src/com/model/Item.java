@@ -84,6 +84,8 @@ public class Item {
 	 * 用于计算过程的临时量，和前台无关
 	 */
 	private String topicIds;
+	//临时记录高亮的结果
+	private String fragmenter;
 
 	public String getContent() {
 		return content;
@@ -259,5 +261,13 @@ public class Item {
 
 	public void setAuthorIP(String authorIP) {
 		this.authorIP = authorIP;
+	}
+
+	public String getFragmenter() {
+		return fragmenter;
+	}
+
+	public void setFragmenter(String fragmenter) {
+		this.fragmenter = fragmenter;
 	}
 }
