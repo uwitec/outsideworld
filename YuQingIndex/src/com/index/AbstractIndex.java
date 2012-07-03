@@ -124,4 +124,8 @@ public abstract class AbstractIndex {
 		return dir;
 	}
 	
+	public static Analyzer getAnalyzer(){
+		return analyzer;
+	}
+	
 }

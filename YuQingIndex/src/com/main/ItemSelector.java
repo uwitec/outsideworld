@@ -17,6 +17,13 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.highlight.Formatter;
+import org.apache.lucene.search.highlight.Fragmenter;
+import org.apache.lucene.search.highlight.Highlighter;
+import org.apache.lucene.search.highlight.QueryScorer;
+import org.apache.lucene.search.highlight.Scorer;
+import org.apache.lucene.search.highlight.SimpleFragmenter;
+import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
 
 import com.dao.ItemDao;
 import com.index.AbstractIndex;
@@ -42,7 +49,7 @@ import com.util.SpringFactory;
  * @since May 3, 2012
  */
 public class ItemSelector {
-    private static Logger LOG = Logger.getLogger(ItemSelector.class);
+	private static Logger LOG = Logger.getLogger(ItemSelector.class);
 	private ItemDao itemDao;
 	private CacheStore cache;
 	private AbstractIndex index;
@@ -50,7 +57,7 @@ public class ItemSelector {
 	private ItemIndexer itemIndexer;
 	private IndexSearcher searcher;
 
-	public List<Item> select(List<Item> items, List<Topic> topics,String dir)
+	public List<Item> select(List<Item> items, List<Topic> topics, String dir)
 			throws Exception {
 		if (items == null || items.size() <= 0) {
 			return new ArrayList<Item>();
@@ -96,28 +103,39 @@ public class ItemSelector {
 			}
 			query.add(titleQuery, BooleanClause.Occur.SHOULD);
 			query.add(contentQuery, BooleanClause.Occur.SHOULD);
-			LOG.debug("The query is "+query.toString());
+			LOG.debug("The query is " + query.toString());
 			TopDocs hits = searcher.search(query, items.size());
+			//准备高亮显示，将高亮的文本存储到数据库中
+			Formatter formatter = new SimpleHTMLFormatter("<span class=\"highlighter\">", "</span>");   
+            Scorer fragmentScorer = new QueryScorer(query);   
+            Highlighter highlighter = new Highlighter(formatter, fragmentScorer);   
+            Fragmenter fragmenter = new SimpleFragmenter(100);   //高亮范围   
+            highlighter.setTextFragmenter(fragmenter);   
+
 			if (hits != null && hits.totalHits > 0) {
-			    LOG.debug("There is "+hits.totalHits+" items found!");
+				LOG.debug("There is " + hits.totalHits + " items found!");
 				for (ScoreDoc scoreDoc : hits.scoreDocs) {
 					Document doc = searcher.doc(scoreDoc.doc);
 					String id = doc.get("id");
 					Item item = map.get(id);
 					if (item != null) {
 						item.setScore(scoreDoc.score);
-						if(!StringUtils.isBlank(item.getTopicIds())){
-						item.setTopicIds(item.getTopicIds() + topic.getId()
-								+ ",");
+						if (!StringUtils.isBlank(item.getTopicIds())) {
+							item.setTopicIds(item.getTopicIds() + topic.getId()
+									+ ",");
+						} else {
+							item.setTopicIds("" + topic.getId());
 						}
-						else{
-							item.setTopicIds(""+topic.getId());
-						}
+						String fragTitle = highlighter.getBestFragment(AbstractIndex.getAnalyzer(), "title", doc.get("title"));
+						String fragContent = highlighter.getBestFragment(AbstractIndex.getAnalyzer(), "content", doc.get("content"));
+						String frag = (fragTitle!=null?fragTitle:"")+(fragContent!=null?fragContent:"");
+						item.setFragmenter(frag);
 						setResult.add(item);
-						LOG.debug("Item title:"+item.getTitle()+" Item content:"+item.getContent());
+						LOG.debug("Item title:" + item.getTitle()
+								+ " Item content:" + item.getContent());
 					}
 				}
-				LOG.debug("The query "+query.toString()+" selected end!");
+				LOG.debug("The query " + query.toString() + " selected end!");
 			}
 		}
 		index.close();
@@ -127,12 +145,14 @@ public class ItemSelector {
 		List<Item> result = new ArrayList<Item>();
 		result.addAll(setResult);
 		items.removeAll(result);
-		LOG.debug("There is "+result.size()+" items to be published,and "+items.size()+" items to be deleted!");
+		LOG.debug("There is " + result.size() + " items to be published,and "
+				+ items.size() + " items to be deleted!");
 		LOG.debug("Begin to index in disk!");
 		itemIndexer.index(result, items, dir);
 		LOG.debug("End index in disk!");
 		return result;
 	}
+
 
 	public AbstractIndex getIndex() {
 		return index;
@@ -143,30 +163,30 @@ public class ItemSelector {
 	}
 
 	public void select(String dir) throws Exception {
-	    LOG.info("Begin to select...");
+		LOG.info("Begin to select...");
 		List<Item> items = null;
 		List<Topic> topics = cache.get("topic");
 		if (topics == null || topics.size() <= 0) {
-		    LOG.info("There is no topics,so exit!");
+			LOG.info("There is no topics,so exit!");
 			return;
 		}
 		do {
-		    LOG.info("Begin to get items form mongoDB ...");
+			LOG.info("Begin to get items form mongoDB ...");
 			items = itemDao.poll(1000);
 			LOG.info("Got items end!");
 			if (items == null || items.size() <= 0) {
-			    LOG.info("There is no items in mongodb,so thread sleep 60 second!");
+				LOG.info("There is no items in mongodb,so thread sleep 60 second!");
 				Thread.sleep(1000 * 60);
 			}
 			LOG.info("Begin to select items by the topics...");
-			List<Item> result= select(items, topics,dir);
-			LOG.info("There is "+result.size()+" items selected!");
+			List<Item> result = select(items, topics, dir);
+			LOG.info("There is " + result.size() + " items selected!");
 			LOG.info("Begin to publish items ...");
 			itemDao.publish(result);
 			LOG.info("Publish end!");
-			LOG.info( System.getProperty("line.separator"));
-			LOG.info( System.getProperty("line.separator"));
-			LOG.info( System.getProperty("line.separator"));
+			LOG.info(System.getProperty("line.separator"));
+			LOG.info(System.getProperty("line.separator"));
+			LOG.info(System.getProperty("line.separator"));
 		} while (true);
 	}
 
