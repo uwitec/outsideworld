@@ -100,6 +100,7 @@ public class ItemDaoImpl implements ItemDao {
 					DBObject o = new BasicDBObject();
 					o.put("topicId", id);
 					o.put("itemId", item.getId());
+					o.put("frag", item.getFragmenter());
 					result.add(o);
 				}
 			}

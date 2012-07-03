@@ -1,9 +1,9 @@
 package com.util;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
-import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -13,7 +13,6 @@ import org.apache.http.client.params.CookiePolicy;
 import org.apache.http.client.params.HttpClientParams;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.params.ConnManagerParams;
-import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
@@ -148,5 +147,21 @@ public class HttpUtil {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	public static void main(String[] args) throws Exception{
+		String url = "http://www.ttcnn.com/../..//vector/img/vector7/335/072.jpg";
+		Map<String,String> headers = new HashMap<String,String>();
+		headers.put("User-Agent", "Mozilla/5.0 (Windows NT 6.1; rv:13.0) Gecko/20100101 Firefox/13.0.1");
+		headers.put("Cookie", "Hm_lvt_23d1669e4d1c9400abc9e6d1f880d35a=1340976557090");
+		headers.put("Referer", "http://www.ttcnn.com");
+		headers.put("Connection", "keep-alive");
+		headers.put("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+		headers.put("Accept-Encoding", "gzip, deflate");
+		headers.put("Accept-Language", "zh-cn,zh;q=0.8,en-us;q=0.5,en;q=0.3");
+		headers.put("Cache-Control", "	no-cache");
+		headers.put("Host", "www.ttcnn.com");
+		headers.put("Pragma", "no-cache");
+		HttpUtil.doGet(url, "GBK", headers);
 	}
 }
