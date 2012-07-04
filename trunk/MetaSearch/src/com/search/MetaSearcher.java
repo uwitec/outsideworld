@@ -80,7 +80,7 @@ public class MetaSearcher implements Runnable {
 				Item metaItem = new Item();
 				metaItem.setUrl(result[1]);
 				metaItem.setTitle(result[0]);
-				metaItem.setType("MetaSearch");
+				metaItem.setType("METASEARCH");
 				metaItem.setSourceId(item.getSourceId());
 				processMetaItem(metaItem);
 			}
