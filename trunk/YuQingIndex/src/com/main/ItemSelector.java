@@ -126,8 +126,8 @@ public class ItemSelector {
 						} else {
 							item.setTopicIds("" + topic.getId());
 						}
-						String fragTitle = highlighter.getBestFragment(AbstractIndex.getAnalyzer(), "title", doc.get("title"));
-						String fragContent = highlighter.getBestFragment(AbstractIndex.getAnalyzer(), "content", doc.get("content"));
+						String fragTitle = doc.get("title")!=null?highlighter.getBestFragment(AbstractIndex.getAnalyzer(), "title", doc.get("title")):"";
+						String fragContent =  doc.get("content")!=null?highlighter.getBestFragment(AbstractIndex.getAnalyzer(), "content", doc.get("content")):"";
 						String frag = (fragTitle!=null?fragTitle:"")+(fragContent!=null?fragContent:"");
 						item.setFragmenter(frag);
 						setResult.add(item);
