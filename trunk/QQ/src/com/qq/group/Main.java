@@ -7,7 +7,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.dao.CommonDAO;
 import com.model.policy.QQInfo;
-import com.util.SpringFactory;
 
 public class Main {
 
@@ -23,7 +22,7 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception {
-		CommonDAO commonDAO = SpringFactory.getBean("commonDAO");
+		CommonDAO commonDAO = Main.getBean("commonDAO");
 		List<QQInfo> qqs = commonDAO.getAll(QQInfo.class);
 		for (QQInfo qq : qqs) {
 			Login l = new Login();
