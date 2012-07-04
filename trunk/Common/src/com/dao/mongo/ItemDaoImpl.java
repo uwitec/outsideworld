@@ -56,7 +56,7 @@ public class ItemDaoImpl implements ItemDao {
 		item.setReplyNum((Integer) o.get("replyNum"));
 		item.setSourceId((String) o.get("source"));
 		item.setType((String) o.get("type"));
-		item.setUrl(((String)o.get("url")).toString());
+		//item.setUrl(((String)o.get("url")).toString());
 	    item.setNum((Integer) o.get("num"));
 	    item.setAuthor((String)o.get("author"));
 	    item.setAuthorIP((String)o.get("authorIP"));
