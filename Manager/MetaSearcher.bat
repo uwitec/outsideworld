@@ -1,1 +1,1 @@
-java -Xms256m -Xmx1024m -classpath ./bin;./conf;./lib/*;./bin/*; com.nutch.manager.MetaSearcherClient
+java -Xms128m -Xmx256m -classpath ./bin;./conf;./lib/*;./bin/*; com.nutch.manager.MetaSearcherClient

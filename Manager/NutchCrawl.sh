@@ -1,1 +1,1 @@
-java -Xms256m -Xmx1024m -classpath ./bin:./conf:./lib/*:./bin/*: org.apache.nutch.NutchCrawler
+java -Xms256m -Xmx512m -classpath ./bin:./conf:./lib/*:./bin/*: org.apache.nutch.NutchCrawler
