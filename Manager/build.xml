@@ -79,13 +79,13 @@
 		<javac srcdir="../YuQingQQ/src" destdir="../YuQingQQ/bin">
 			<classpath refid="classpath" />
 		</javac>
-		<copy todir="../YuQingQQ/bin">
-			<fileset dir="../YuQingQQ/src" includes="*.js" />
-		</copy>
 	</target>
 
 	<target name="build-qq" depends="compile-qq">
 		<jar destfile="${dist.dir}/bin/qq.jar" basedir="../YuQingQQ/bin" />
+		<copy todir="${dist.dir}/src">
+			<fileset dir="../YuQingQQ/src" includes="*.js" />
+		</copy>
 	</target>
 
 	<target name="compile-meta" depends="init">
