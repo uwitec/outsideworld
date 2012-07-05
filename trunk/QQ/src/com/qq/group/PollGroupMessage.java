@@ -5,22 +5,22 @@ import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import org.apache.commons.lang.StringUtils;
+
 import atg.taglib.json.util.JSONArray;
-import atg.taglib.json.util.JSONException;
 import atg.taglib.json.util.JSONObject;
+
 import com.dao.ItemDao;
 import com.model.Item;
-import com.model.policy.QQGroupInfo;
 import com.util.HttpUtil;
 
 public class PollGroupMessage extends Thread {
+
 	private Map<String, String> param;
 	private ItemDao itemDao = Main.getBean("itemDao");
-	private Set<QQGroupInfo> groups;
+	private Map<String, Integer> groups;
 
-	public PollGroupMessage(Map<String, String> param, Set<QQGroupInfo> groups) {
+	public PollGroupMessage(Map<String, String> param,
+			Map<String, Integer> groups) {
 		this.param = param;
 		this.groups = groups;
 	}
@@ -40,7 +40,6 @@ public class PollGroupMessage extends Thread {
 		try {
 			r = URLEncoder.encode(r, "UTF-8");
 		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		newParam.put("r", r);
@@ -78,30 +77,17 @@ public class PollGroupMessage extends Thread {
 		}
 	}
 
-	private Item transToItem(JSONObject jsonValue) throws JSONException {
-		String sourceId = jsonValue.get("group_code").toString();
-		if (groups == null || groups.size() <= 0) {
-			for (QQGroupInfo group : groups) {
-				if (StringUtils.equals(sourceId, group.getGroupCode())) {
-					Item item = new Item();
-					String content = jsonValue.getJSONArray("content").get(1)
-							.toString();
-					item.setContent(content);
-					item.setType("QQ");
-					item.setSourceId(sourceId);
-					item.setCrawlTime(new Date());
-					return item;
-				}
-			}
-		}
-		return null;
-	}
+	private Item transToItem(JSONObject jsonValue) throws Exception {
+		String qqGroup = jsonValue.getString("info_seq");
+		String sourceId = groups.get(qqGroup).toString();
 
-	public Set<QQGroupInfo> getGroups() {
-		return groups;
-	}
+		Item item = new Item();
+		String content = jsonValue.getJSONArray("content").get(1).toString();
+		item.setContent(content);
+		item.setType("QQ");
+		item.setSourceId(sourceId);
+		item.setCrawlTime(new Date());
 
-	public void setGroups(Set<QQGroupInfo> groups) {
-		this.groups = groups;
+		return item;
 	}
 }
