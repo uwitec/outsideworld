@@ -79,6 +79,9 @@
 		<javac srcdir="../YuQingQQ/src" destdir="../YuQingQQ/bin">
 			<classpath refid="classpath" />
 		</javac>
+		<copy todir="../YuQingQQ/bin">
+			<fileset dir="../YuQingQQ/src" includes="*.js" />
+		</copy>
 	</target>
 
 	<target name="build-qq" depends="compile-qq">
@@ -120,7 +123,7 @@
 		</jar>
 	</target>
 
-	<target name="build" depends="build-common,build-extract,build-weibo,build-indexer,build-paoding,build-nutch,build-meta,build-manager">
+	<target name="build" depends="build-common,build-extract,build-weibo,build-indexer,build-paoding,build-nutch,build-meta,build-qq,build-manager">
 		<copy todir="${dist.dir}/lib" flatten="true">
 			<fileset dir="../Lib/lib" includes="**/*.jar" />
 			<fileset dir="../Nutch/lib" includes="*.jar" />
