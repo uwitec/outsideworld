@@ -15,6 +15,8 @@ public class Main {
 
 	private static ApplicationContext appContext = new ClassPathXmlApplicationContext(
 			"qqContext.xml");
+	
+	private static CommonDAO commonDAO = Main.getBean("commonDAO");
 
 	@SuppressWarnings("unchecked")
 	public static <T> T getBean(String beanid) {
@@ -25,8 +27,9 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception {
-		// QQ
-		CommonDAO commonDAO = Main.getBean("commonDAO");
+		//
+		//setup();
+		// QQ		
 		List<QQInfo> qqs = commonDAO.getAll(QQInfo.class);
 
 		// QQ Group and SourceId
@@ -41,8 +44,20 @@ public class Main {
 		for (QQInfo qq : qqs) {
 			Login l = new Login();
 			PollGroupMessage p = new PollGroupMessage(l.login(qq.getUserName(),
-					qq.getPassword()), groups);
+					qq.getPassword()), groups,l);
 			p.start();
 		}
+	}
+	
+	public static void setup() throws Exception{
+		QQInfo qq = new QQInfo();
+		qq.setUserName("38348450");
+		qq.setPassword("zhdwangtravelsky");
+		commonDAO.save(qq);
+//		Source s = new Source();
+//		s.setType(Source.SourceType.QQ);
+//		s.setUrl("142636675");
+//		s.setName("xxxx");
+//		commonDAO.save(s);
 	}
 }
