@@ -32,6 +32,10 @@ public class Login {
 			throws Exception {
 		//第一步骤，先进行verify的检验，查看是否需要输入验证码
 		String[] checks = abtainedVerify(userName);
+		//新加入对验证码的处理
+//		if(StringUtils.equals("1",checks[0])){
+//			checks[1] = abtainedVerify2(userName);
+//		}
 		//登录的url，每次需要加入一个随机数字才能登录
 		String loginUrl = "http://ptlogin2.qq.com/login?u="
 				+ userName
@@ -82,7 +86,8 @@ public class Login {
 			}
 
 		}
-
+        resultMap.put("userName", userName);
+        resultMap.put("password", password);
 		return resultMap;
 	}
 
@@ -104,6 +109,14 @@ public class Login {
 		String[] checkNum = result.substring(result.indexOf("(") + 1,
 		        result.lastIndexOf(")")).replace("'", "").split(",");
 		return checkNum;
+	}
+	
+	private String abtainedVerify2(String userName) throws Exception {
+		String url="http://captcha.qq.com/getimage?aid="+appid+"&r="+Math.random()+"&uin="+userName;
+		Map<String,String> headers = new HashMap<String,String>();
+		headers.put("User-Agent", "Mozilla/5.0 (Windows NT 5.1; rv:13.0) Gecko/20100101 Firefox/13.0");
+		String result = HttpUtil.doGet(url, "utf-8", headers);
+		return result;
 	}
 
 	private String loginAfter(String ptWebQQ) throws Exception {
@@ -152,6 +165,6 @@ public class Login {
 
 	public static void main(String[] args) throws Exception {
 		Login login = new Login();
-		login.login("38348450", "zhdwangtravelsky");
+		login.login("1836221613", "test123");
 	}
 }
