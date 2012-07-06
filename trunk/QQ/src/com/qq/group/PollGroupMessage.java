@@ -68,7 +68,7 @@ public class PollGroupMessage extends Thread {
 						}
 					}
 				}
-				Thread.sleep(5000);
+				Thread.sleep(2000);
 			} catch (Exception e) {
 				System.out.println("Response PollMessage failure = "
 						+ e.getMessage());
@@ -86,6 +86,7 @@ public class PollGroupMessage extends Thread {
 		item.setContent(content);
 		item.setType("QQ");
 		item.setSourceId(sourceId);
+		item.setReplyNum(1);
 		item.setCrawlTime(new Date());
 
 		return item;
