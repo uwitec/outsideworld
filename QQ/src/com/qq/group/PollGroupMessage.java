@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import atg.taglib.json.util.JSONArray;
 import atg.taglib.json.util.JSONObject;
 
@@ -14,7 +16,7 @@ import com.model.Item;
 import com.util.HttpUtil;
 
 public class PollGroupMessage extends Thread {
-
+	private static Logger LOG = Logger.getLogger(PollGroupMessage.class);
 	private Map<String, String> param;
 	private ItemDao itemDao = Main.getBean("itemDao");
 	private Map<String, Integer> groups;
@@ -50,9 +52,11 @@ public class PollGroupMessage extends Thread {
 			newParam.put("psessionid", psessionid);
 			while (true) {
 				try {
+					LOG.info("abtaining message...");
 					String ret = HttpUtil.doPost(pollUrl, "GBK", newParam,
 							"application/x-www-form-urlencoded", headers);
 					System.out.println(ret);
+					LOG.info("got message!message code is"+ret);
 					JSONObject retJ = new JSONObject(ret);
 					int retcode = retJ.getInt("retcode");
 					if (retcode == 0) {
@@ -65,6 +69,7 @@ public class PollGroupMessage extends Thread {
 						} else if ("buddies_status_change".equals(poll_type)) {// 好友上下线
 						} else if ("group_message".equals(poll_type)) {// 群消息
 							System.out.println(value);
+							LOG.info("Group message,message is:"+value);
 							Item item = transToItem(value);
 							if (item != null) {
 								itemDao.insert(item);
@@ -72,11 +77,15 @@ public class PollGroupMessage extends Thread {
 						}
 					} else if (retcode == 108 || retcode == 121
 							|| retcode == 114 || retcode == 122) {
+						LOG.info("QQ begin to relogin....,the userName is"+this.param.get("userName"));
 						this.param = login.login(this.param.get("userName"),
 								this.param.get("password"));
+						LOG.info("QQ relogin success!the userName is"+this.param.get("userName"));
 						break;
 					}
+					LOG.info("QQ begin to sleeping...");
 					Thread.sleep(2000);
+					LOG.info("QQ woked!");
 				} catch (Exception e) {
 					System.out.println("Response PollMessage failure = "
 							+ e.getMessage());
