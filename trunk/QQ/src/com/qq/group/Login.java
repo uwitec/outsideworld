@@ -13,10 +13,13 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.cookie.Cookie;
+import org.apache.log4j.Logger;
+
 import atg.taglib.json.util.JSONObject;
 import com.util.HttpUtil;
 
 public class Login {
+	private static Logger LOG = Logger.getLogger(Login.class);
 	private int clientid = 35599910;
 	private static final String appid="1003903";
 
@@ -31,12 +34,16 @@ public class Login {
 	public Map<String, String> login(String userName, String password)
 			throws Exception {
 		//第一步骤，先进行verify的检验，查看是否需要输入验证码
+		LOG.info("begin to check verify...");
 		String[] checks = abtainedVerify(userName);
+		LOG.info("end to check verify.the check is:"+checks[0]+"  "+checks[1]);
 		//新加入对验证码的处理
-//		if(StringUtils.equals("1",checks[0])){
-//			checks[1] = abtainedVerify2(userName);
-//		}
+		if(StringUtils.equals("1",checks[0])){
+			LOG.info("the verifyCode is required!");
+			System.exit(-1);
+		}
 		//登录的url，每次需要加入一个随机数字才能登录
+		LOG.info("begin to real login...");
 		String loginUrl = "http://ptlogin2.qq.com/login?u="
 				+ userName
 				+ "&"
@@ -57,11 +64,14 @@ public class Login {
                 "Mozilla/5.0 (Windows NT 5.1; rv:13.0) Gecko/20100101 Firefox/13.0");
 		header.put("Referer", "http://t.qq.com/?from=11");
 		String result = HttpUtil.doGet(loginUrl, "utf-8", header);
+		LOG.info("first logined.the result is:"+result);
 		System.out.println(result);
 		Pattern p = Pattern.compile("登录成功！");
 		Matcher m = p.matcher(result);
 		if (!m.find()) {
 			result = "";
+			LOG.info("real login fail!");
+			System.exit(-1);
 		}
 		Map<String, String> resultMap = new HashMap<String, String>();
         resultMap.put("clientid", String.valueOf(clientid));

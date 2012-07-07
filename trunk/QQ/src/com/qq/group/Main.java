@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -12,7 +13,7 @@ import com.model.policy.QQInfo;
 import com.model.policy.Source;
 
 public class Main {
-
+	private static Logger LOG = Logger.getLogger(Main.class);
 	private static ApplicationContext appContext = new ClassPathXmlApplicationContext(
 			"qqContext.xml");
 	
@@ -31,7 +32,7 @@ public class Main {
 		//setup();
 		// QQ		
 		List<QQInfo> qqs = commonDAO.getAll(QQInfo.class);
-
+		LOG.info("abtained QQ and Group from database!");
 		// QQ Group and SourceId
 		Map<String, Integer> groups = new HashMap<String, Integer>();
 		List<Source> list = commonDAO
@@ -43,6 +44,7 @@ public class Main {
 		// QQ Client
 		for (QQInfo qq : qqs) {
 			Login l = new Login();
+			LOG.info("begin qq,userName:"+qq.getUserName()+",password:"+qq.getPassword());
 			PollGroupMessage p = new PollGroupMessage(l.login(qq.getUserName(),
 					qq.getPassword()), groups,l);
 			p.start();
