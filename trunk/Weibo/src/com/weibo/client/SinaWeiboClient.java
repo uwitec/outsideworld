@@ -54,6 +54,7 @@ public class SinaWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 		item.setContent(weibo.get("query").toString());
 		item.setSourceId(String.valueOf(typeId));
 		item.setPubTime(pubTime);
+		item.setReplyNum(Integer.parseInt(weibo.get("amount").toString()));
 		return item;
 	}
 
