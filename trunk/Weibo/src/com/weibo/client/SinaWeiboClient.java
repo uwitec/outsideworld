@@ -1,13 +1,11 @@
 package com.weibo.client;
 
 import java.io.Serializable;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
@@ -29,11 +27,13 @@ public class SinaWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 	private QHttpClient httpClient = new QHttpClient();
 
 	private static SimpleDateFormat sdf = new SimpleDateFormat(
-			"E MMM dd hh:mm:ss yyyy", Locale.US);
+			"yyyy-MM-dd HH:mm");
 
 	private int interval = 0;
 
 	public static int typeId = 100001;
+
+	private Date pubTime;
 
 	public SinaWeiboClient(String[] params) {
 		super(params);
@@ -51,16 +51,9 @@ public class SinaWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 	@Override
 	public Item wrapItem(Map<String, Object> weibo) {
 		Item item = new Item();
-		item.setContent(weibo.get("text").toString());
-		item.setUrl(weibo.get("id").toString());
+		item.setContent(weibo.get("query").toString());
 		item.setSourceId(String.valueOf(typeId));
-		try {
-			item.setPubTime(sdf.parse(weibo.get("created_at").toString()
-					.replace("+0800 ", "")));
-		} catch (ParseException e) {
-			e.printStackTrace();
-			item.setPubTime(new Date());
-		}
+		item.setPubTime(pubTime);
 		return item;
 	}
 
@@ -71,10 +64,14 @@ public class SinaWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 		ObjectMapper mapper = new ObjectMapper();
 		List<Map<String, Object>> data = null;
 		String jsonStr = httpClient.httpGet(
-				"http://api.t.sina.com.cn/statuses/public_timeline.json",
-				"source=" + params[0] + "&count=200&base_app=0");
+				"http://api.t.sina.com.cn/trends/hourly.json", "source="
+						+ params[0] + "&base_app=0");
 		LOG.info("Get Response to Sinaweibo");
-		data = mapper.readValue(jsonStr, List.class);
+		Map<String, Object> trends = (Map<String, Object>) mapper.readValue(
+				jsonStr, Map.class).get("trends");
+		String key = (String) trends.keySet().toArray()[0];
+		pubTime = sdf.parse(key);
+		data = (List<Map<String, Object>>) trends.get(key);
 		LOG.info("Retrieve " + data.size() + " weibo from Sinaweibo");
 		return data;
 	}
@@ -86,7 +83,7 @@ public class SinaWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 
 	@Override
 	public Serializable getIdentifier(Map<String, Object> weibo) {
-		return weibo.get("mid").toString();
+		return weibo.get("name").toString();
 	}
 
 	@Override
