@@ -14,7 +14,6 @@ import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import com.model.Item;
-import com.tencent.weibo.api.Statuses_API;
 import com.tencent.weibo.api.Trends_API;
 import com.tencent.weibo.beans.OAuth;
 
