@@ -15,6 +15,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import com.model.Item;
 import com.tencent.weibo.api.Statuses_API;
+import com.tencent.weibo.api.Trends_API;
 import com.tencent.weibo.beans.OAuth;
 
 public class TencentWeiboClient extends
@@ -26,10 +27,10 @@ public class TencentWeiboClient extends
 	private static Lock lock = new ReentrantLock();
 
 	private OAuth oauth;
-	private Statuses_API st = new Statuses_API();
+	private Trends_API st = new Trends_API();
 
 	private int interval = 0;
-	
+
 	public static int typeId = 100002;
 
 	public TencentWeiboClient(String[] params) {
@@ -57,9 +58,9 @@ public class TencentWeiboClient extends
 		Item item = new Item();
 		item.setUrl(weibo.get("id").toString());
 		item.setSourceId(String.valueOf(typeId));
-		item.setContent(weibo.get("text").toString());
-		item.setPubTime(new Date(1000 * Long.parseLong(weibo.get("timestamp")
-				.toString())));
+		item.setContent(weibo.get("name").toString());
+		item.setReplyNum(Integer.parseInt(weibo.get("tweetnum").toString()));
+		item.setPubTime(new Date());
 		return item;
 	}
 
@@ -69,7 +70,7 @@ public class TencentWeiboClient extends
 		LOG.info("Send Request to Tencentweibo");
 		ObjectMapper mapper = new ObjectMapper();
 		List<Map<String, Object>> data = null;
-		String jsonStr = st.public_timeline(oauth, "json", "0", "100");
+		String jsonStr = st.ht(oauth, "json", "1", "20", "0");
 		Map<String, Object> m = (Map<String, Object>) mapper.readValue(jsonStr,
 				Map.class).get("data");
 		LOG.info("Get Response to Tencentweibo");
