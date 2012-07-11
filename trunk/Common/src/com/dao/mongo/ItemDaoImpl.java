@@ -101,6 +101,10 @@ public class ItemDaoImpl implements ItemDao {
 					o.put("topicId", id);
 					o.put("itemId", item.getId());
 					o.put("frag", item.getFragmenter());
+					o.put("pubtime", item.getPubTime());
+					o.put("source", item.getSourceId());
+					o.put("type", item.getType());
+					o.put("replynum", item.getReplyNum());
 					result.add(o);
 				}
 			}
