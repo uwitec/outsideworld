@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
@@ -48,9 +49,8 @@ public class MetaSearcher implements Runnable {
 				for (int i = 0; i < page; i++) {
 					int offset = 10 * i;
 					String newUrl = url.replace(KEYWORD, keyword).replace(
-							OFFSET,
-							Integer.toString(offset).replace(PAGE,
-									String.valueOf(i + 1)));
+							OFFSET, Integer.toString(offset));
+					newUrl = newUrl.replace(PAGE, String.valueOf(i + 1));
 					Item item = new Item();
 					item.setUrl(newUrl);
 					item.setMetaTitle(metaTitle);
@@ -94,6 +94,10 @@ public class MetaSearcher implements Runnable {
 			fetcher.fetch(item);
 			extracter.process(item);
 			item.setCrawlTime(new Date());
+			if (StringUtils.isEmpty(item.getTitle())
+					|| StringUtils.isEmpty(item.getContent())) {
+				return;
+			}
 			itemDAO.insert(item);
 		} catch (Exception e) {
 			LOG.error("Processing meta item error", e);
