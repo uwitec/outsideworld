@@ -48,7 +48,7 @@ public class ItemDaoImpl implements ItemDao {
 
 	private Item trans(DBObject o) throws Exception {
 		Item item = new Item();
-		item.setId(((ObjectId)o.get("_id")).toString());
+		item.setId(((ObjectId) o.get("_id")).toString());
 		item.setContent((String) o.get("content"));
 		item.setCrawlTime((Date) o.get("crawlTime"));
 		item.setTitle((String) o.get("title"));
@@ -56,10 +56,10 @@ public class ItemDaoImpl implements ItemDao {
 		item.setReplyNum((Integer) o.get("replyNum"));
 		item.setSourceId((String) o.get("source"));
 		item.setType((String) o.get("type"));
-		//item.setUrl(((String)o.get("url")).toString());
-	    item.setNum((Integer) o.get("num"));
-	    item.setAuthor((String)o.get("author"));
-	    item.setAuthorIP((String)o.get("authorIP"));
+		// item.setUrl(((String)o.get("url")).toString());
+		item.setNum((Integer) o.get("num"));
+		item.setAuthor((String) o.get("author"));
+		item.setAuthorIP((String) o.get("authorIP"));
 		return item;
 	}
 
@@ -94,9 +94,9 @@ public class ItemDaoImpl implements ItemDao {
 		List<DBObject> result = new ArrayList<DBObject>();
 		for (Item item : items) {
 			String idstr = item.getTopicIds();
-			if(!StringUtils.isBlank(idstr)){
+			if (!StringUtils.isBlank(idstr)) {
 				String[] ids = idstr.split(",");
-				for(String id:ids){
+				for (String id : ids) {
 					DBObject o = new BasicDBObject();
 					o.put("topicId", id);
 					o.put("itemId", item.getId());
@@ -110,19 +110,20 @@ public class ItemDaoImpl implements ItemDao {
 			}
 		}
 		int len = items.size();
-        ObjectId[] arr = new ObjectId[len];
-        for(int i=0; i<len; i++){
-            arr[i] = new ObjectId(items.get(i).getId());
-        }
-        DBObject in = new BasicDBObject("$in", arr);
-        DBObject query = new BasicDBObject("_id", in);
-        DBObject updateSetValue = new BasicDBObject("num", -1);
-        DBObject o = new BasicDBObject("$set",updateSetValue);
-		mongoDB.insert(result, "topicItem");
-		mongoDB.update(query,o, "item");
+		if (len > 0) {
+			ObjectId[] arr = new ObjectId[len];
+			for (int i = 0; i < len; i++) {
+				arr[i] = new ObjectId(items.get(i).getId());
+			}
+			DBObject in = new BasicDBObject("$in", arr);
+			DBObject query = new BasicDBObject("_id", in);
+			DBObject updateSetValue = new BasicDBObject("num", -1);
+			DBObject o = new BasicDBObject("$set", updateSetValue);
+			mongoDB.insert(result, "topicItem");
+			mongoDB.update(query, o, "item");
+		}
 	}
 
-	
 	@Override
 	public DBCursor getCursor(DBObject sample) throws Exception {
 		return mongoDB.find("item", sample);
@@ -131,31 +132,31 @@ public class ItemDaoImpl implements ItemDao {
 	@Override
 	public void remove(List<Item> dels) throws Exception {
 		List<String> ids = new ArrayList<String>();
-		for(Item item:dels){
-			ids.add(item.getId());			
+		for (Item item : dels) {
+			ids.add(item.getId());
 		}
 		mongoDB.delete(ids, "item");
 	}
 
-    @Override
-    public List<Item> findByTopicId(String id) throws Exception {
-        //
-        DBObject query = new BasicDBObject();
-        query.put("topicId", id);
-        DBCursor cursor = mongoDB.find("topicItem", query);
-        List<String> ids = new ArrayList<String>();
-        while (cursor != null && cursor.hasNext()) {
-            DBObject o = cursor.next();
-            ids.add((String)o.get("itemId"));
-        }
-        List<Item> items = new ArrayList<Item>();
-        if(ids.size()>0){
-            cursor = mongoDB.find("item", ids);
-            while (cursor != null && cursor.hasNext()) {
-                DBObject o = cursor.next();
-               items.add(trans(o));
-            }
-        }
-        return items;
-    }
+	@Override
+	public List<Item> findByTopicId(String id) throws Exception {
+		//
+		DBObject query = new BasicDBObject();
+		query.put("topicId", id);
+		DBCursor cursor = mongoDB.find("topicItem", query);
+		List<String> ids = new ArrayList<String>();
+		while (cursor != null && cursor.hasNext()) {
+			DBObject o = cursor.next();
+			ids.add((String) o.get("itemId"));
+		}
+		List<Item> items = new ArrayList<Item>();
+		if (ids.size() > 0) {
+			cursor = mongoDB.find("item", ids);
+			while (cursor != null && cursor.hasNext()) {
+				DBObject o = cursor.next();
+				items.add(trans(o));
+			}
+		}
+		return items;
+	}
 }
