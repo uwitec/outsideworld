@@ -37,6 +37,9 @@ public class MongoUtil {
 		DBCollection coll = null;
 		if (!StringUtils.isBlank(tableName)) {
 			coll = db.getCollection(tableName);
+			for(DBObject o:li){
+				o.put("num", 0);
+			}
 			coll.insert(li);
 		}
 		return null;
