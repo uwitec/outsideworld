@@ -177,6 +177,7 @@ public class ItemSelector {
 			if (items == null || items.size() <= 0) {
 				LOG.info("There is no items in mongodb,so thread sleep 60 second!");
 				Thread.sleep(5000);
+				continue;
 			}
 			LOG.info("Begin to select items by the topics...");
 			List<Item> result = select(items, topics, dir);
