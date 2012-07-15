@@ -26,10 +26,37 @@ public abstract class AbstractWeiboClient<T> implements Runnable {
 
 	protected String[] params;
 
+	private long lastRetrieveTime = 0;
+
 	public AbstractWeiboClient(String[] params) {
 		this.params = params;
 		cache = getCache();
 	}
+
+	/* 半小时更新一次热门微博 */
+	private void getHotWeibo() throws Exception {
+		if (System.currentTimeMillis() - lastRetrieveTime < 60 * 1000 * 30) {
+			return;
+		}
+		List<T> list = getHotWeibos();
+		if (list != null) {
+			List<Item> itemList = new ArrayList<Item>(list.size());
+			for (T t : list) {
+				Item item = wrapHotItem(t);
+				itemList.add(item);
+			}
+
+			List<Item> result = filterItem(itemList);
+			saveItems(result);
+		}
+		lastRetrieveTime = System.currentTimeMillis();
+	}
+
+	/* 封装微博 */
+	public abstract Item wrapHotItem(T weibo);
+
+	/* 取得最新的微博 */
+	public abstract List<T> getHotWeibos() throws Exception;
 
 	@Override
 	public void run() {
@@ -42,6 +69,11 @@ public abstract class AbstractWeiboClient<T> implements Runnable {
 		}
 		int retry = 0;
 		while (true) {
+			try {
+				getHotWeibo();
+			} catch (Exception e) {
+				LOG.error("Get Hot Weibo error", e);
+			}
 			try {
 				weibos = getWeibos();
 				retry = 1;
