@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.dao.ItemDao;
@@ -60,6 +61,9 @@ public abstract class AbstractWeiboUpdater implements Runnable {
 				while (cursor.hasNext()) {
 					DBObject s = cursor.next();
 					String id = s.get("url").toString();
+					if (StringUtils.isEmpty(id)) {
+						continue;
+					}
 					sb.append(id + ",");
 					i++;
 					if (i % chunk == 0) {

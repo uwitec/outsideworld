@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import com.model.Item;
+import com.tencent.weibo.api.Statuses_API;
 import com.tencent.weibo.api.Trends_API;
 import com.tencent.weibo.beans.OAuth;
 
@@ -26,7 +27,7 @@ public class TencentWeiboClient extends
 	private static Lock lock = new ReentrantLock();
 
 	private OAuth oauth;
-	private Trends_API st = new Trends_API();
+	private Statuses_API st = new Statuses_API();
 
 	private int interval = 0;
 
@@ -57,9 +58,9 @@ public class TencentWeiboClient extends
 		Item item = new Item();
 		item.setUrl(weibo.get("id").toString());
 		item.setSourceId(String.valueOf(typeId));
-		item.setContent(weibo.get("name").toString());
-		item.setReplyNum(Integer.parseInt(weibo.get("tweetnum").toString()));
-		item.setPubTime(new Date());
+		item.setContent(weibo.get("text").toString());
+		item.setPubTime(new Date(1000 * Long.parseLong(weibo.get("timestamp")
+				.toString())));
 		return item;
 	}
 
@@ -69,7 +70,7 @@ public class TencentWeiboClient extends
 		LOG.info("Send Request to Tencentweibo");
 		ObjectMapper mapper = new ObjectMapper();
 		List<Map<String, Object>> data = null;
-		String jsonStr = st.ht(oauth, "json", "1", "20", "0");
+		String jsonStr = st.public_timeline(oauth, "json", "0", "100");
 		Map<String, Object> m = (Map<String, Object>) mapper.readValue(jsonStr,
 				Map.class).get("data");
 		LOG.info("Get Response to Tencentweibo");
@@ -91,5 +92,33 @@ public class TencentWeiboClient extends
 	@Override
 	public Lock getLock() {
 		return lock;
+	}
+
+	private Trends_API tr = new Trends_API();
+
+	@Override
+	public Item wrapHotItem(Map<String, Object> weibo) {
+		Item item = new Item();
+		item.setUrl(weibo.get("id").toString());
+		item.setSourceId(String.valueOf(typeId));
+		item.setContent(weibo.get("name").toString());
+		item.setReplyNum(Integer.parseInt(weibo.get("tweetnum").toString()));
+		item.setPubTime(new Date());
+		return item;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Map<String, Object>> getHotWeibos() throws Exception {
+		LOG.info("Send Request to Tencentweibo");
+		ObjectMapper mapper = new ObjectMapper();
+		List<Map<String, Object>> data = null;
+		String jsonStr = tr.ht(oauth, "json", "1", "20", "0");
+		Map<String, Object> m = (Map<String, Object>) mapper.readValue(jsonStr,
+				Map.class).get("data");
+		LOG.info("Get Response to Tencentweibo");
+		data = (List<Map<String, Object>>) m.get("info");
+		LOG.info("Retrieve " + data.size() + " weibo from Tencentweibo");
+		return data;
 	}
 }

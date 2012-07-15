@@ -217,4 +217,14 @@ public class SohuWeiboClient extends AbstractWeiboClient<Map<String, Object>> {
 	public Serializable getIdentifier(Map<String, Object> weibo) {
 		return weibo.get("id").toString();
 	}
+
+	@Override
+	public Item wrapHotItem(Map<String, Object> weibo) {
+		return null;
+	}
+
+	@Override
+	public List<Map<String, Object>> getHotWeibos() throws Exception {
+		return null;
+	}
 }
