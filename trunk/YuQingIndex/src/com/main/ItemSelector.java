@@ -163,16 +163,15 @@ public class ItemSelector {
 	}
 
 	public void select(String dir) throws Exception {
-		LOG.info("Begin to select...");
-		List<Item> items = null;
-		List<Topic> topics = cache.get("topic");
-		if (topics == null || topics.size() <= 0) {
-			LOG.info("There is no topics,so exit!");
-			return;
-		}
+		LOG.info("Begin to select...");		
 		do {
+			List<Topic> topics = cache.get("topic");
+			if (topics == null || topics.size() <= 0) {
+				LOG.info("There is no topics,so exit!");
+				return;
+			}
 			LOG.info("Begin to get items form mongoDB ...");
-			items = itemDao.poll(1000);
+			List<Item> items  = itemDao.poll(1000);
 			LOG.info("Got items end!");
 			if (items == null || items.size() <= 0) {
 				LOG.info("There is no items in mongodb,so thread sleep 60 second!");
