@@ -50,7 +50,9 @@
 	</target>
 
 	<target name="build-indexer" depends="compile-indexer">
-		<jar destfile="${dist.dir}/bin/indexer.jar" basedir="../YuqinIndex/bin" />
+		<jar destfile="${dist.dir}/bin/indexer.jar" basedir="../YuqinIndex/bin">
+			<exclude name="*.properties" />
+		</jar>
 	</target>
 
 	<target name="compile-paoding" depends="init">
