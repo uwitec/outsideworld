@@ -21,11 +21,9 @@ public class MetaSearcher implements Runnable {
 
 	private static final Logger LOG = Logger.getLogger(MetaSearcher.class);
 
-	private static final String INCLUDE = "${INCLUDE}";
-	private static final String OPTIONAL = "${OPTIONAL}";
-	private static final String EXCLUDE = "${EXCLUDE}";
-	private static final String PAGE = "${PAGE}";
-	private static final String OFFSET = "${OFFSET}";
+	public static final String KEYWORD = "${KEYWORD}";
+	public static final String PAGE = "${PAGE}";
+	public static final String OFFSET = "${OFFSET}";
 
 	private static HtmlCleaner htmlCleaner = new HtmlCleaner();
 	private static CommonDAO commonDAO = MetaSearcherClient
@@ -43,18 +41,16 @@ public class MetaSearcher implements Runnable {
 				.query("from Param p where p.type = 'metasearch'");
 		LOG.info("Generate Items for metasearch");
 		for (Topic topic : topics) {
-			String keyword = topic.getInclude().replace(";", "+");
-			String optional = topic.getOptional().replace(";", "+");
-			String exclude = topic.getExclude().replace(";", "+");
+			String keyword = topic.getOptional().replace(";", " ");
+			keyword += "\"" + topic.getInclude().replace(";", "\" \"") + "\"";
+			keyword += "-(" + topic.getExclude().replace(";", ") -(") + ")";
 			for (Param param : list) {
 				String url = param.getValue2();
 				String metaTitle = param.getValue4();
 				int page = Integer.parseInt(param.getValue3());
 				for (int i = 0; i < page; i++) {
 					int offset = 10 * i;
-					String newUrl = url.replace(INCLUDE, keyword);
-					newUrl = url.replace(OPTIONAL, optional);
-					newUrl = url.replace(EXCLUDE, exclude);
+					String newUrl = url.replace(KEYWORD, keyword);
 					newUrl = newUrl.replace(OFFSET, Integer.toString(offset));
 					newUrl = newUrl.replace(PAGE, String.valueOf(i + 1));
 					Item item = new Item();
