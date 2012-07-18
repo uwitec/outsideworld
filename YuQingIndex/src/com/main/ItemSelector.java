@@ -102,7 +102,7 @@ public class ItemSelector {
 				}
 			}
 			if(!StringUtils.isBlank(topic.getOptional())){
-			    String[] mustNots = topic.getExclude().split(";");
+			    String[] mustNots = topic.getOptional().split(";");
                 for (String mustNot : mustNots) {
                     BooleanClause.Occur b = BooleanClause.Occur.SHOULD;
                     titleQuery
