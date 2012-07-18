@@ -41,9 +41,14 @@ public class MetaSearcher implements Runnable {
 				.query("from Param p where p.type = 'metasearch'");
 		LOG.info("Generate Items for metasearch");
 		for (Topic topic : topics) {
-			String keyword = topic.getOptional().replace(";", " ");
-			keyword += "\"" + topic.getInclude().replace(";", "\" \"") + "\"";
-			keyword += "-(" + topic.getExclude().replace(";", ") -(") + ")";
+			String keyword = "\"" + topic.getInclude().replace(";", "\" \"")
+					+ "\"";
+			if (StringUtils.isNotEmpty(topic.getOptional()))
+				keyword += topic.getOptional().replace(";", " ");
+			if (StringUtils.isNotEmpty(topic.getExclude()))
+				keyword += "-(" + topic.getExclude().replace(";", ") -(") + ")";
+			keyword = keyword.replace(" ", "%20");
+			keyword = keyword.replace("\"", "%22");
 			for (Param param : list) {
 				String url = param.getValue2();
 				String metaTitle = param.getValue4();

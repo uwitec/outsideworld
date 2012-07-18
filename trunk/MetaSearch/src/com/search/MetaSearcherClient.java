@@ -3,8 +3,6 @@ package com.search;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.search.MetaSearcher;
-
 public class MetaSearcherClient {
 
 	private static ApplicationContext context = new ClassPathXmlApplicationContext(
