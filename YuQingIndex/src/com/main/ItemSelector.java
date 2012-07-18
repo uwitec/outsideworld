@@ -101,6 +101,16 @@ public class ItemSelector {
 							new TermQuery(new Term("content", mustNot)), b);
 				}
 			}
+			if(!StringUtils.isBlank(topic.getOptional())){
+			    String[] mustNots = topic.getExclude().split(";");
+                for (String mustNot : mustNots) {
+                    BooleanClause.Occur b = BooleanClause.Occur.SHOULD;
+                    titleQuery
+                            .add(new TermQuery(new Term("title", mustNot)), b);
+                    contentQuery.add(
+                            new TermQuery(new Term("content", mustNot)), b);
+                }
+			}
 			query.add(titleQuery, BooleanClause.Occur.SHOULD);
 			query.add(contentQuery, BooleanClause.Occur.SHOULD);
 			LOG.debug("The query is " + query.toString());
