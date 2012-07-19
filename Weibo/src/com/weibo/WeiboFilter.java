@@ -39,9 +39,18 @@ public class WeiboFilter {
 			topic.clear();
 			for (Topic t : list) {
 				if (t.getInclude() != null) {
-					String[] ss = t.getInclude().split(";");
-					for (String s : ss) {
-						topic.add(s);
+					String[] ss = null;
+					if (t.getInclude() != null) {
+						ss = t.getInclude().split(";");
+						for (String s : ss) {
+							topic.add(s);
+						}
+					}
+					if (t.getOptional() != null) {
+						ss = t.getOptional().split(";");
+						for (String s : ss) {
+							topic.add(s);
+						}
 					}
 				}
 			}
