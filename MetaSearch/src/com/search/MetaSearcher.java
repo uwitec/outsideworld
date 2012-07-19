@@ -72,7 +72,14 @@ public class MetaSearcher implements Runnable {
 	public void search() {
 		List<Item> items = generateItems();
 		for (Item item : items) {
-			search(item);
+			if (item.getUrl() == null) {
+				continue;
+			}
+			try {
+				search(item);
+			} catch (Exception e) {
+				LOG.error("metasearch: " + item.getUrl() + " error");
+			}
 		}
 	}
 
