@@ -106,6 +106,9 @@ public class MetaSearcher implements Runnable {
 	private void processMetaItem(Item item) {
 		try {
 			fetcher.fetch(item);
+			if (item.getRawData() == null || item.getEncoding() == null) {
+				return;
+			}
 			extracter.process(item);
 			item.setCrawlTime(new Date());
 			if (StringUtils.isEmpty(item.getTitle())
