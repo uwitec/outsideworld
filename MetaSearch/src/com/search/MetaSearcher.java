@@ -115,6 +115,7 @@ public class MetaSearcher implements Runnable {
 					|| StringUtils.isEmpty(item.getContent())) {
 				return;
 			}
+			item.setType("metasearch");
 			itemDAO.insert(item);
 		} catch (Exception e) {
 			LOG.error("Processing meta item error", e);
