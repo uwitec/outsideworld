@@ -41,28 +41,35 @@ public class MetaSearcher implements Runnable {
 				.query("from Param p where p.type = 'metasearch'");
 		LOG.info("Generate Items for metasearch");
 		for (Topic topic : topics) {
-			String keyword = "\"" + topic.getInclude().replace(";", "\" \"")
-					+ "\"";
-			if (StringUtils.isNotEmpty(topic.getOptional()))
-				keyword += topic.getOptional().replace(";", " ");
-			if (StringUtils.isNotEmpty(topic.getExclude()))
-				keyword += "-(" + topic.getExclude().replace(";", ") -(") + ")";
-			keyword = keyword.replace(" ", "%20");
-			keyword = keyword.replace("\"", "%22");
-			for (Param param : list) {
-				String url = param.getValue2();
-				String metaTitle = param.getValue4();
-				int page = Integer.parseInt(param.getValue3());
-				for (int i = 0; i < page; i++) {
-					int offset = 10 * i;
-					String newUrl = url.replace(KEYWORD, keyword);
-					newUrl = newUrl.replace(OFFSET, Integer.toString(offset));
-					newUrl = newUrl.replace(PAGE, String.valueOf(i + 1));
-					Item item = new Item();
-					item.setUrl(newUrl);
-					item.setMetaTitle(metaTitle);
-					item.setSourceId(param.getValue5());
-					items.add(item);
+			String options = topic.getOptional();
+			for (String option : options.split(";")) {
+				String keyword = "";
+				if (StringUtils.isNotEmpty(topic.getInclude())) {
+					keyword = "\"" + topic.getInclude().replace(";", "\" \"")
+							+ "\"";
+				}
+				keyword += option;
+				if (StringUtils.isNotEmpty(topic.getExclude()))
+					keyword += "-(" + topic.getExclude().replace(";", ") -(")
+							+ ")";
+				keyword = keyword.replace(" ", "%20");
+				keyword = keyword.replace("\"", "%22");
+				for (Param param : list) {
+					String url = param.getValue2();
+					String metaTitle = param.getValue4();
+					int page = Integer.parseInt(param.getValue3());
+					for (int i = 0; i < page; i++) {
+						int offset = 10 * i;
+						String newUrl = url.replace(KEYWORD, keyword);
+						newUrl = newUrl.replace(OFFSET,
+								Integer.toString(offset));
+						newUrl = newUrl.replace(PAGE, String.valueOf(i + 1));
+						Item item = new Item();
+						item.setUrl(newUrl);
+						item.setMetaTitle(metaTitle);
+						item.setSourceId(param.getValue5());
+						items.add(item);
+					}
 				}
 			}
 		}
@@ -84,7 +91,7 @@ public class MetaSearcher implements Runnable {
 	}
 
 	private void search(Item item) {
-		LOG.info("Search in " + item.getUrl());
+		LOG.info("Metasearch: " + item.getUrl());
 		try {
 			fetcher.fetch(item);
 			String page = new String(item.getRawData(), item.getEncoding());
@@ -94,7 +101,7 @@ public class MetaSearcher implements Runnable {
 				Item metaItem = new Item();
 				metaItem.setUrl(result[1]);
 				metaItem.setTitle(result[0]);
-				metaItem.setType("METASEARCH");
+				metaItem.setType("metasearch");
 				metaItem.setSourceId(item.getSourceId());
 				processMetaItem(metaItem);
 			}
@@ -104,6 +111,7 @@ public class MetaSearcher implements Runnable {
 	}
 
 	private void processMetaItem(Item item) {
+		LOG.info("Search in Metasearch Result: " + item.getUrl());
 		try {
 			fetcher.fetch(item);
 			if (item.getRawData() == null || item.getEncoding() == null) {
