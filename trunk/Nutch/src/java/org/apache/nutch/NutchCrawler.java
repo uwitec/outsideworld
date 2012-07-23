@@ -1,8 +1,10 @@
 package org.apache.nutch;
 
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.nutch.crawl.Crawl;
 import org.springframework.context.ApplicationContext;
@@ -56,6 +58,10 @@ public class NutchCrawler {
 			args[6] = context.getCrawlDepth();
 			args[7] = "-topN";
 			args[8] = context.getCrawlTopN();
+
+			/* clear crawlDB */
+			File crawlDB = new File(context.getCrawlDB());
+			FileUtils.deleteQuietly(crawlDB);
 
 			/* start Crawl */
 			try {
