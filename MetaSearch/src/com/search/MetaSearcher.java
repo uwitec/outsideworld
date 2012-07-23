@@ -42,7 +42,11 @@ public class MetaSearcher implements Runnable {
 		LOG.info("Generate Items for metasearch");
 		for (Topic topic : topics) {
 			String options = topic.getOptional();
-			for (String option : options.split(";")) {
+			String[] opts = { "" };
+			if (options != null) {
+				opts = options.split(";");
+			}
+			for (String option : opts) {
 				String keyword = "";
 				if (StringUtils.isNotEmpty(topic.getInclude())) {
 					keyword = "\"" + topic.getInclude().replace(";", "\" \"")
