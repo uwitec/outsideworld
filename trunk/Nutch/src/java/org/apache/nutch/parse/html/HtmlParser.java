@@ -20,7 +20,9 @@ package org.apache.nutch.parse.html;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -142,9 +144,15 @@ public class HtmlParser implements Parser {
 
 			/* URLs */
 			if (item.getOurls() != null) {
-				outlinks = new Outlink[item.getOurls().size()];
+				List<OUrl> list = new ArrayList<OUrl>();
+				for(OUrl ourl : item.getOurls()){
+					if(!NutchCrawler.contains(ourl.getUrl())){
+						list.add(ourl);
+					}
+				}
+				outlinks = new Outlink[list.size()];
 				int i = 0;
-				for (OUrl ourl : item.getOurls()) {
+				for (OUrl ourl : list) {
 					Outlink outlink = new Outlink(ourl.getUrl(),
 							ourl.getAuthor());
 					outlinks[i] = outlink;
@@ -170,9 +178,10 @@ public class HtmlParser implements Parser {
 			if (item.getTemplate() != null) {
 				item.setType("web");
 				item.setCrawlTime(new Date());
+				LOG.info("insert item:"+item.getUrl()+" at "+item.getCrawlTime());
 				itemDao.insert(item);
-				//TODO
-				// NutchCrawler.addUrl(item.getUrl());
+				//TODO url filter
+				NutchCrawler.addUrl(item.getUrl());
 			}
 		} catch (IOException e) {
 			return new ParseStatus(e).getEmptyParseResult(content.getUrl(),
