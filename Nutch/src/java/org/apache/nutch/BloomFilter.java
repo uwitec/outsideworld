@@ -1,21 +1,28 @@
 package org.apache.nutch;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.BitSet;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class BloomFilter {
 
-	private static final int DEFAULT_SIZE = 2 << 4;
+	private static final Logger LOG = LoggerFactory
+			.getLogger(BloomFilter.class);
+
+	private static final int DEFAULT_SIZE = 2 << 24;
 	private static final int[] seeds = new int[] { 5, 7, 11, 13, 31, 37, 61 };
 	private BitSet bits = new BitSet(DEFAULT_SIZE);
 	private SimpleHash[] func = new SimpleHash[seeds.length];
 
 	private File file = null;
-	private int interval = 3600 * 1000;
-	private boolean loaded = false;
+	private int interval = 1000 * 10;
 
 	public BloomFilter(File file, int interval) {
 		this.file = file;
@@ -25,16 +32,18 @@ public class BloomFilter {
 			func[i] = new SimpleHash(DEFAULT_SIZE, seeds[i]);
 		}
 
-		new SaveThread().start();
+		load(file);
+
+		new PersistThread().start();
 	}
 
-	public void add(String value) {
+	public synchronized void add(String value) {
 		for (SimpleHash f : func) {
 			bits.set(f.hash(value), true);
 		}
 	}
 
-	public boolean contains(String value) {
+	public synchronized boolean contains(String value) {
 		if (value == null) {
 			return false;
 		}
@@ -65,61 +74,67 @@ public class BloomFilter {
 	}
 
 	public void save(File file) {
-		FileOutputStream fos = null;
+		LOG.debug("Writing {} for bloomfilter", file.getAbsolutePath());
+		long start = System.currentTimeMillis();
+		BufferedOutputStream bos = null;
 		try {
-			fos = new FileOutputStream(file);
+			bos = new BufferedOutputStream(new FileOutputStream(file));
 			for (int i = 0; i < bits.size(); i++) {
 				try {
-					fos.write(bits.get(i) ? '1' : '0');
+					bos.write(bits.get(i) ? '1' : '0');
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
-			fos.flush();
+			bos.flush();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				fos.close();
+				bos.close();
 			} catch (IOException e) {
 				// ignore
 			}
 		}
+		long end = System.currentTimeMillis();
+		LOG.debug("Finish write {} take {} seconds", file.getAbsolutePath(),
+				(end - start) / 1000);
 	}
 
 	public void load(File file) {
 		if (!file.exists()) {
 			return;
 		}
-		FileInputStream fis = null;
+		LOG.debug("Loading {} for bloomfilter", file.getAbsolutePath());
+		long start = System.currentTimeMillis();
+		BufferedInputStream bis = null;
 		try {
 			bits = new BitSet(DEFAULT_SIZE);
-			fis = new FileInputStream(file);
+			bis = new BufferedInputStream(new FileInputStream(file));
 			int b = 0;
 			int i = 0;
-			while ((b = fis.read()) != -1) {
+			while ((b = bis.read()) != -1) {
 				bits.set(i++, b == 49);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				fis.close();
+				bis.close();
 			} catch (IOException e) {
 				// ignore
 			}
-			loaded = true;
 		}
+		long end = System.currentTimeMillis();
+		LOG.debug("Finish load {} take {} seconds", file.getAbsolutePath(),
+				(end - start) / 1000);
 	}
 
-	private class SaveThread extends Thread {
+	private class PersistThread extends Thread {
 
 		@Override
 		public void run() {
 			while (true) {
-				if (!loaded) {
-					load(file);
-				}
 				try {
 					Thread.sleep(interval);
 				} catch (InterruptedException e) {
