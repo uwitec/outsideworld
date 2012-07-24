@@ -18,13 +18,13 @@ import org.mozilla.intl.chardet.nsICharsetDetectionObserver;
 import org.mozilla.intl.chardet.nsPSMDetector;
 
 import com.model.Item;
-import com.util.SpringFactory;
 
 public class Fetcher {
 	private boolean found = false;
 	private String result = "";
 	private int lang;
 
+	@SuppressWarnings("deprecation")
 	public void fetch(Item item) throws Exception {
 		if (item == null || StringUtils.isBlank(item.getUrl())) {
 			return;
@@ -37,6 +37,11 @@ public class Fetcher {
 					context);
 			// 获得字符串
 			HttpEntity entity = response.getEntity();
+			String contentType = entity.getContentType().getValue();
+			if (contentType != null && !contentType.contains("text")
+					&& !contentType.contains("html")) {
+				return;
+			}
 			byte[] bytes = EntityUtils.toByteArray(entity);
 			String encoding = getEncoding(entity, bytes);
 			if (entity != null) {
