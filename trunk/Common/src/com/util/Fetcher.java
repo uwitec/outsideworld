@@ -52,7 +52,7 @@ public class Fetcher {
 
 		} catch (Exception e) {
 			httpget.abort();
-			e.printStackTrace();
+			throw new Exception(e);
 		}
 	}
 
