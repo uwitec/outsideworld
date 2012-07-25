@@ -29,10 +29,12 @@ public class Fetcher {
 		if (item == null || StringUtils.isBlank(item.getUrl())) {
 			return;
 		}
-		HttpGet httpget = new HttpGet(item.getUrl());
-		HttpContext context = new BasicHttpContext();
-		// 执行get方法
+
+		HttpGet httpget = null;
 		try {
+			httpget = new HttpGet(item.getUrl());
+			HttpContext context = new BasicHttpContext();
+			// 执行get方法
 			HttpResponse response = HttpUtil.getHttpClient().execute(httpget,
 					context);
 			// 获得字符串
@@ -51,8 +53,9 @@ public class Fetcher {
 			}
 
 		} catch (Exception e) {
-			httpget.abort();
 			throw new Exception(e);
+		} finally {
+			httpget.abort();
 		}
 	}
 
