@@ -34,12 +34,14 @@ public class MetaSearcher implements Runnable {
 
 	private Fetcher fetcher = new Fetcher();
 
-	private List<Item> generateItems() {
+	private List<Item> generateItems() throws Exception {
+		LOG.info("Generate Items for metasearch");
+
 		List<Item> items = new ArrayList<Item>();
 		List<Topic> topics = commonDAO.query("from Topic t");
 		List<Param> list = commonDAO
 				.query("from Param p where p.type = 'metasearch'");
-		LOG.info("Generate Items for metasearch");
+
 		for (Topic topic : topics) {
 			String options = topic.getOptional();
 			String[] opts = { "" };
@@ -81,7 +83,15 @@ public class MetaSearcher implements Runnable {
 	}
 
 	public void search() {
-		List<Item> items = generateItems();
+		List<Item> items = null;
+		try {
+			items = generateItems();
+		} catch (Exception e) {
+			LOG.error(e.getMessage());
+		}
+		if (items == null) {
+			return;
+		}
 		for (Item item : items) {
 			if (item.getUrl() == null) {
 				continue;
@@ -137,37 +147,50 @@ public class MetaSearcher implements Runnable {
 	private List<String[]> getResults(TagNode node, String xpath)
 			throws Exception {
 		List<String[]> results = new ArrayList<String[]>();
-		Object[] objs = node.evaluateXPath(xpath);
-		if (objs != null && objs.length > 0) {
-			for (Object obj : objs) {
-				if (obj instanceof TagNode) {
-					String[] result = new String[2];
-					result[0] = extractTxt((TagNode) obj);
-					result[1] = ((TagNode) obj).getAttributeByName("href");
-					results.add(result);
+		try {
+			Object[] objs = node.evaluateXPath(xpath);
+			if (objs != null && objs.length > 0) {
+				for (Object obj : objs) {
+					if (obj instanceof TagNode) {
+						String[] result = new String[2];
+						result[0] = extractTxt((TagNode) obj);
+						result[1] = ((TagNode) obj).getAttributeByName("href");
+						results.add(result);
+					}
 				}
 			}
+		} catch (Exception e) {
+			LOG.error(e.getMessage());
 		}
 		return results;
 	}
 
 	@SuppressWarnings("unchecked")
 	private String extractTxt(TagNode node) {
-		List<TagNode> children = node.getAllElementsList(true);
-		for (TagNode child : children) {
-			if (child.getName().equalsIgnoreCase("script")) {
-				child.removeAllChildren();
-				node.removeChild(child);
+		try {
+			List<TagNode> children = node.getAllElementsList(true);
+			for (TagNode child : children) {
+				if (child.getName().equalsIgnoreCase("script")) {
+					child.removeAllChildren();
+					node.removeChild(child);
+				}
 			}
+			return node.getText().toString();
+		} catch (Exception e) {
+			LOG.error(e.getMessage());
+			return "";
 		}
-		return node.getText().toString();
 	}
 
 	@Override
 	public void run() {
 		LOG.info("Start MetaSearch Thread");
 		while (true) {
-			search();
+			try {
+				search();
+			} catch (Exception e) {
+				LOG.error(e.getMessage());
+			}
 			try {
 				Thread.sleep(1000 * 3600);
 			} catch (InterruptedException e) {
