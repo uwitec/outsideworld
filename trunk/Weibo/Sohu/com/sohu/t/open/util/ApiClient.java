@@ -26,17 +26,20 @@ public class ApiClient {
 	public static String doPostMethod(String url, JSONObject json,
 			String encoding) throws Exception {
 		String ret = "";
-
-		HttpClient httpClient = new HttpClient(connectionManager);
-		httpClient.getHttpConnectionManager().getParams()
-				.setConnectionTimeout(TIMEOUT);
-		httpClient.getHttpConnectionManager().getParams().setSoTimeout(TIMEOUT);
-		PostMethod postMethod = new PostMethod(url);
-		postMethod.setRequestHeader("Content-Encoding", "text/html");
-		postMethod.setRequestHeader("Content-Type",
-				"application/x-www-form-urlencoded;charset=" + encoding);
-		postMethod.setRequestHeader("Connection", "closed");
+		PostMethod postMethod = null;
 		try {
+			HttpClient httpClient = new HttpClient(connectionManager);
+			httpClient.getHttpConnectionManager().getParams()
+					.setConnectionTimeout(TIMEOUT);
+			httpClient.getHttpConnectionManager().getParams()
+					.setSoTimeout(TIMEOUT);
+
+			postMethod = new PostMethod(url);
+			postMethod.setRequestHeader("Content-Encoding", "text/html");
+			postMethod.setRequestHeader("Content-Type",
+					"application/x-www-form-urlencoded;charset=" + encoding);
+			postMethod.setRequestHeader("Connection", "closed");
+
 			Iterator iter = json.keys();
 			List<NameValuePair> nvList = new ArrayList<NameValuePair>();
 			while (iter.hasNext()) {
@@ -50,7 +53,8 @@ public class ApiClient {
 		} catch (Exception e) {
 			throw new Exception("TwitterHttpClient:postNew failed.", e);
 		} finally {
-			postMethod.releaseConnection();
+			if (postMethod != null)
+				postMethod.releaseConnection();
 		}
 
 		return ret;
@@ -59,27 +63,28 @@ public class ApiClient {
 	public static String doGetMethod(String url, String encoding)
 			throws Exception {
 		String ret = "";
-
-		HttpClient httpClient = new HttpClient(connectionManager);
-		httpClient.getHttpConnectionManager().getParams()
-				.setConnectionTimeout(TIMEOUT);
-		httpClient.getHttpConnectionManager().getParams().setSoTimeout(TIMEOUT);
-		GetMethod getMethod = new GetMethod(url);
-
-		getMethod.setRequestHeader("Content-Encoding", "text/html");
-		getMethod.setRequestHeader("Content-Type",
-				"application/x-www-form-urlencoded;charset=utf-8");
-		// getMethod.setRequestHeader("Connection", "keep-alive");
-		// SohuOAuth.signRequestGet(httpClient.getHttpConnectionManager().getConnection(new
-		// HostConfiguration()));
+		GetMethod getMethod = null;
 		try {
+			HttpClient httpClient = new HttpClient(connectionManager);
+			httpClient.getHttpConnectionManager().getParams()
+					.setConnectionTimeout(TIMEOUT);
+			httpClient.getHttpConnectionManager().getParams()
+					.setSoTimeout(TIMEOUT);
+
+			getMethod = new GetMethod(url);
+			getMethod.setRequestHeader("Content-Encoding", "text/html");
+			getMethod.setRequestHeader("Content-Type",
+					"application/x-www-form-urlencoded;charset=utf-8");
+			// getMethod.setRequestHeader("Connection", "keep-alive");
+			// SohuOAuth.signRequestGet(httpClient.getHttpConnectionManager().getConnection(new
+			// HostConfiguration()));
 			httpClient.executeMethod(getMethod);
 			ret = getMethod.getResponseBodyAsString();
-
 		} catch (IOException e) {
 			throw new Exception(e);
 		} finally {
-			getMethod.releaseConnection();
+			if (getMethod != null)
+				getMethod.releaseConnection();
 		}
 		return ret;
 	}
