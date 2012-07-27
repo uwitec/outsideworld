@@ -14,7 +14,7 @@ import org.json.JSONObject;
 import com.sohu.t.open.auth.SohuOAuth;
 
 public class ConnectionClient {
-	
+
 	/**
 	 * 发送get请求
 	 * 
@@ -23,21 +23,29 @@ public class ConnectionClient {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String doGetMethod(String url, String encoding) throws Exception {
-		URL urlConn = new URL(SohuOAuth.host+url);
-        HttpURLConnection request = (HttpURLConnection) urlConn.openConnection();
-        SohuOAuth.signRequestGet(request);
-        System.out.println("Sending request...");
-        request.connect();
-        System.out.println("Response: " + request.getResponseCode() + " "  + request.getResponseMessage());
-        BufferedReader reader =new BufferedReader(new InputStreamReader(request.getInputStream(),"utf-8"));
-		String ret = null;
-		while((ret = reader.readLine())!=null){
-			System.out.println(ret);
+	public static String doGetMethod(String url, String encoding)
+			throws Exception {
+		try {
+			URL urlConn = new URL(SohuOAuth.host + url);
+			HttpURLConnection request = (HttpURLConnection) urlConn
+					.openConnection();
+			SohuOAuth.signRequestGet(request);
+			System.out.println("Sending request...");
+			request.connect();
+			System.out.println("Response: " + request.getResponseCode() + " "
+					+ request.getResponseMessage());
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					request.getInputStream(), "utf-8"));
+			String ret = null;
+			while ((ret = reader.readLine()) != null) {
+				System.out.println(ret);
+			}
+			return ret;
+		} catch (Exception e) {
+			throw new Exception(e);
 		}
-		return ret;
 	}
-	
+
 	/**
 	 * 发送post请求
 	 * 
@@ -47,46 +55,56 @@ public class ConnectionClient {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String doPostMethod(String url, JSONObject json, String encoding) throws Exception {
-    	URL urlConn = new URL(SohuOAuth.host+url);
-    	HttpURLConnection request = (HttpURLConnection) urlConn.openConnection();
-    	request.setDoOutput(true);
-    	request.setRequestMethod("POST");
-    	
-    	//oauth sign
-    	request = SohuOAuth.signRequestPost(request,json);
-    	
-        OutputStream ot = request.getOutputStream();
-        
-        if(json!=null){
-	        Iterator iter = json.keys();
-	        int i = 0 ;
-			while (iter.hasNext()) {
-				String linkNote = "";
-				String key = (String) iter.next();
-				if(i>0){
-					linkNote = "&";
+	@SuppressWarnings("rawtypes")
+	public static String doPostMethod(String url, JSONObject json,
+			String encoding) throws Exception {
+		try {
+			URL urlConn = new URL(SohuOAuth.host + url);
+			HttpURLConnection request = (HttpURLConnection) urlConn
+					.openConnection();
+			request.setDoOutput(true);
+			request.setRequestMethod("POST");
+
+			// oauth sign
+			request = SohuOAuth.signRequestPost(request, json);
+
+			OutputStream ot = request.getOutputStream();
+
+			if (json != null) {
+				Iterator iter = json.keys();
+				int i = 0;
+				while (iter.hasNext()) {
+					String linkNote = "";
+					String key = (String) iter.next();
+					if (i > 0) {
+						linkNote = "&";
+					}
+					ot.write((linkNote + key + "=" + TwUtils.encode(
+							json.getString(key), encoding)).getBytes());
+					i++;
 				}
-				ot.write((linkNote+key+"="+TwUtils.encode(json.getString(key),encoding)).getBytes());
-				i++;
 			}
-        }
-        ot.flush();
-        ot.close();
-    	System.out.println("Sending request...");
-    	request.connect();
-    	System.out.println("Response: " + request.getResponseCode() + " " + request.getResponseMessage());
-		BufferedReader reader =new BufferedReader(new InputStreamReader(request.getInputStream(),"utf-8"));
-		String b = null;
-		while((b = reader.readLine())!=null){
-			System.out.println(b);
+			ot.flush();
+			ot.close();
+			System.out.println("Sending request...");
+			request.connect();
+			System.out.println("Response: " + request.getResponseCode() + " "
+					+ request.getResponseMessage());
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					request.getInputStream(), "utf-8"));
+			String b = null;
+			while ((b = reader.readLine()) != null) {
+				System.out.println(b);
+			}
+			return b;
+		} catch (Exception e) {
+			throw new Exception(e);
 		}
-		return b;
 	}
-	
-	
+
 	/**
 	 * 发送post带图片的请求
+	 * 
 	 * @param url
 	 * @param json
 	 * @param encoding
@@ -94,54 +112,61 @@ public class ConnectionClient {
 	 * @return
 	 * @throws Exception
 	 */
-	
-	public static String doPostMethod(String url, JSONObject json, String encoding,String filePath) throws Exception {
+
+	@SuppressWarnings("rawtypes")
+	public static String doPostMethod(String url, JSONObject json,
+			String encoding, String filePath) throws Exception {
 		String name = "pic";
-		if(url.indexOf("update_profile_image")>0){
+		if (url.indexOf("update_profile_image") > 0) {
 			name = "image";
 		}
 		File f = new File(filePath);
-    	URL connUrl = new URL(SohuOAuth.host+url);
-    	HttpURLConnection request = (HttpURLConnection) connUrl.openConnection();
-    	request.setDoOutput(true);
-    	request.setRequestMethod("POST");
-    	
-    	request = SohuOAuth.signRequestPost(request,json);
-        
-    	String boundary = "---------------------------37531613912423";
-    	
-    	request.setRequestProperty("Content-Type", "multipart/form-data; boundary="+boundary); //设置表单类型和分隔符
-    	
-		String pic = "\r\nContent-Disposition: form-data; name=\""+name+"\"; filename=\"postpic.jpg\"\r\nContent-Type: image/jpeg\r\n\r\n";
-    	byte[] end_data = ("\r\n--" + boundary + "--\r\n").getBytes();  
+		URL connUrl = new URL(SohuOAuth.host + url);
+		HttpURLConnection request = (HttpURLConnection) connUrl
+				.openConnection();
+		request.setDoOutput(true);
+		request.setRequestMethod("POST");
+
+		request = SohuOAuth.signRequestPost(request, json);
+
+		String boundary = "---------------------------37531613912423";
+
+		request.setRequestProperty("Content-Type",
+				"multipart/form-data; boundary=" + boundary); // 设置表单类型和分隔符
+
+		String pic = "\r\nContent-Disposition: form-data; name=\""
+				+ name
+				+ "\"; filename=\"postpic.jpg\"\r\nContent-Type: image/jpeg\r\n\r\n";
+		byte[] end_data = ("\r\n--" + boundary + "--\r\n").getBytes();
 		FileInputStream stream = new FileInputStream(f);
-		byte[] file = new byte[(int)f.length()];
+		byte[] file = new byte[(int) f.length()];
 		stream.read(file);
-        
-        OutputStream ot = request.getOutputStream();
-        ot.write(("\r\n--"+boundary).getBytes());
-        if(json!=null){
-	        Iterator iter = json.keys();
-	        int i = 0 ;
+
+		OutputStream ot = request.getOutputStream();
+		ot.write(("\r\n--" + boundary).getBytes());
+		if (json != null) {
+			Iterator iter = json.keys();
 			while (iter.hasNext()) {
-				String key = (String) iter.next();				
-		        ot.write(contentType(key).getBytes());
-		        ot.write(TwUtils.encode(json.getString(key),encoding).getBytes());
-		        ot.write(("\r\n--"+boundary).getBytes());
+				String key = (String) iter.next();
+				ot.write(contentType(key).getBytes());
+				ot.write(TwUtils.encode(json.getString(key), encoding)
+						.getBytes());
+				ot.write(("\r\n--" + boundary).getBytes());
 			}
-        }
-        ot.write(pic.getBytes());
-        ot.write(file);
-        ot.write(end_data);
-        ot.flush();
-        ot.close();
-    	System.out.println("Sending request...");
-    	request.connect();
-    	System.out.println("Response: " + request.getResponseCode() + " "
-    			+ request.getResponseMessage());
-		BufferedReader reader =new BufferedReader(new InputStreamReader(request.getInputStream(),"utf-8"));
+		}
+		ot.write(pic.getBytes());
+		ot.write(file);
+		ot.write(end_data);
+		ot.flush();
+		ot.close();
+		System.out.println("Sending request...");
+		request.connect();
+		System.out.println("Response: " + request.getResponseCode() + " "
+				+ request.getResponseMessage());
+		BufferedReader reader = new BufferedReader(new InputStreamReader(
+				request.getInputStream(), "utf-8"));
 		String b = null;
-		while((b = reader.readLine())!=null){
+		while ((b = reader.readLine()) != null) {
 			System.out.println(b);
 		}
 		return b;
@@ -155,25 +180,29 @@ public class ConnectionClient {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String doDelMethod(String url, String encoding) throws Exception { 
-		URL urlConn = new URL(SohuOAuth.host+url);
-        HttpURLConnection request = (HttpURLConnection) urlConn.openConnection();
-        request.setRequestMethod("DELETE");
-        SohuOAuth.signRequestGet(request);
-        System.out.println("Sending request...");
-        request.connect();
-        System.out.println("Response: " + request.getResponseCode() + " "  + request.getResponseMessage());
-        BufferedReader reader =new BufferedReader(new InputStreamReader(request.getInputStream(),"utf-8"));
+	public static String doDelMethod(String url, String encoding)
+			throws Exception {
+		URL urlConn = new URL(SohuOAuth.host + url);
+		HttpURLConnection request = (HttpURLConnection) urlConn
+				.openConnection();
+		request.setRequestMethod("DELETE");
+		SohuOAuth.signRequestGet(request);
+		System.out.println("Sending request...");
+		request.connect();
+		System.out.println("Response: " + request.getResponseCode() + " "
+				+ request.getResponseMessage());
+		BufferedReader reader = new BufferedReader(new InputStreamReader(
+				request.getInputStream(), "utf-8"));
 		String ret = null;
-		while((ret = reader.readLine())!=null){
+		while ((ret = reader.readLine()) != null) {
 			System.out.println(ret);
 		}
 		return ret;
 	}
-	
-	
+
 	private static String contentType(String key) {
-		return  "\r\nContent-Disposition: form-data; name=\""+key+"\"\r\n\r\n";
+		return "\r\nContent-Disposition: form-data; name=\"" + key
+				+ "\"\r\n\r\n";
 	}
-	
+
 }
