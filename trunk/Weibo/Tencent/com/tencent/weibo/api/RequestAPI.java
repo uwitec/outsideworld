@@ -42,14 +42,17 @@ public class RequestAPI {
 	 */
 	public String getResource(String url, List<QParameter> parameters,
 			OAuth oauth) throws Exception {
+		try {
+			parameters.addAll(oauth.getTokenParams());
 
-		parameters.addAll(oauth.getTokenParams());
-
-		OAuthClient oac = new OAuthClient();
-		String queryString = oac.getOauthParams(url, "GET",
-				oauth.getOauth_consumer_secret(),
-				oauth.getOauth_token_secret(), parameters);
-		return http.httpGet(url, queryString);
+			OAuthClient oac = new OAuthClient();
+			String queryString = oac.getOauthParams(url, "GET",
+					oauth.getOauth_consumer_secret(),
+					oauth.getOauth_token_secret(), parameters);
+			return http.httpGet(url, queryString);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
 	}
 
 	/**
