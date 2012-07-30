@@ -67,16 +67,22 @@ public class TencentWeiboClient extends
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Map<String, Object>> getWeibos() throws Exception {
-		LOG.info("Send Request to Tencentweibo");
-		ObjectMapper mapper = new ObjectMapper();
 		List<Map<String, Object>> data = null;
-		String jsonStr = st.public_timeline(oauth, "json", "0", "100");
-		Map<String, Object> m = (Map<String, Object>) mapper.readValue(jsonStr,
-				Map.class).get("data");
-		LOG.info("Get Response to Tencentweibo");
-		data = (List<Map<String, Object>>) m.get("info");
-		LOG.info("Retrieve " + data.size() + " weibo from Tencentweibo");
-		return data;
+		try {
+			LOG.info("Send Request to Tencentweibo");
+			ObjectMapper mapper = new ObjectMapper();
+
+			String jsonStr = st.public_timeline(oauth, "json", "0", "100");
+			Map<String, Object> m = (Map<String, Object>) mapper.readValue(
+					jsonStr, Map.class).get("data");
+			LOG.info("Get Response to Tencentweibo");
+			data = (List<Map<String, Object>>) m.get("info");
+			LOG.info("Retrieve " + data.size() + " weibo from Tencentweibo");
+			return data;
+		} catch (Exception e) {
+			LOG.error(e.getMessage());
+			return data;
+		}
 	}
 
 	@Override
@@ -110,15 +116,21 @@ public class TencentWeiboClient extends
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Map<String, Object>> getHotWeibos() throws Exception {
-		LOG.info("Send Request to Tencentweibo");
-		ObjectMapper mapper = new ObjectMapper();
 		List<Map<String, Object>> data = null;
-		String jsonStr = tr.ht(oauth, "json", "1", "20", "0");
-		Map<String, Object> m = (Map<String, Object>) mapper.readValue(jsonStr,
-				Map.class).get("data");
-		LOG.info("Get Response to Tencentweibo");
-		data = (List<Map<String, Object>>) m.get("info");
-		LOG.info("Retrieve " + data.size() + " weibo from Tencentweibo");
-		return data;
+		try {
+			LOG.info("Send Request to Tencentweibo");
+			ObjectMapper mapper = new ObjectMapper();
+
+			String jsonStr = tr.ht(oauth, "json", "1", "20", "0");
+			Map<String, Object> m = (Map<String, Object>) mapper.readValue(
+					jsonStr, Map.class).get("data");
+			LOG.info("Get Response to Tencentweibo");
+			data = (List<Map<String, Object>>) m.get("info");
+			LOG.info("Retrieve " + data.size() + " weibo from Tencentweibo");
+			return data;
+		} catch (Exception e) {
+			LOG.error(e);
+			return data;
+		}
 	}
 }
