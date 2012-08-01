@@ -7,11 +7,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.bson.types.ObjectId;
 
 import com.algorithm.SegSentence;
 import com.dao.CommonDAO;
 import com.dao.ItemDao;
+import com.main.ItemSelector;
 import com.model.Item;
 import com.model.WordItem;
 import com.model.policy.Topic;
@@ -22,8 +24,11 @@ import com.util.MongoUtil;
 import com.util.SpringFactory;
 
 public class TopicKeyWorksClient {
+	private static Logger LOG = Logger.getLogger(TopicKeyWorksClient.class);
 	public static void main(String[] args) throws Exception {
+		LOG.info("Begin select keywords!");
 		while (true) {
+			LOG.info("Begin get the topics!");
 			CacheStore cache = SpringFactory.getBean("cache");
 			List<Topic> topics = cache.get("topic");
 			if (topics == null || topics.size() <= 0) {
@@ -35,6 +40,7 @@ public class TopicKeyWorksClient {
 			MongoUtil mongoDB = SpringFactory.getBean("mongoDB");
 			SegSentence sentence = SpringFactory.getBean("segSentence");
 			for (Topic topic : topics) {
+				LOG.info("The topic id is "+topic.getId());
 				int topicId = topic.getId();
 				List<Item> items = itemDao.findByTopicId(String
 						.valueOf(topicId));
@@ -80,6 +86,7 @@ public class TopicKeyWorksClient {
 							result+=wordItems.get(i).getWord()+",";
 						}
 						topic.setKeywords(result);
+						LOG.info("The topic top words is "+result);
 						commonDao.update(topic);
 						for (Map.Entry<String, List<String>> entry : wordsMap
 								.entrySet()) {
@@ -97,7 +104,9 @@ public class TopicKeyWorksClient {
 						}
 					}
 				}
+				LOG.info("End select the keywords for the topic "+topic.getId());
 			}
+			LOG.info("End select the keywords!");
 			Thread.sleep(1000 * 60 * 60 * 24);
 		}
 	}
