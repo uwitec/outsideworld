@@ -92,8 +92,8 @@ public class TopicKeyWorksClient {
 								.entrySet()) {
 							String itemResult = "";
 							for(String k:entry.getValue()){
-							    if(StringUtils.indexOf(result, k)>=0){
-							    	itemResult+=k;
+							    if(StringUtils.indexOf(result, k)>=0&&StringUtils.indexOf(itemResult, k)<0){
+							    	itemResult+=k+",";
 							    }
 							    
 							}
