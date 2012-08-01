@@ -68,6 +68,9 @@ public class Topic {
 
 	@Column(name = "expire_dttm")
 	private Date expireDTTM;
+	//topic的关键词
+	@Column(name = "keywords")
+	private String keywords;
 
 	public int getId() {
 		return id;
@@ -167,5 +170,13 @@ public class Topic {
 
 	public void setExpireDTTM(Date expireDTTM) {
 		this.expireDTTM = expireDTTM;
+	}
+
+	public String getKeywords() {
+		return keywords;
+	}
+
+	public void setKeywords(String keywords) {
+		this.keywords = keywords;
 	}
 }
