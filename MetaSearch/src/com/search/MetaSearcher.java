@@ -114,7 +114,7 @@ public class MetaSearcher implements Runnable {
 				Source source = commonDAO.get(Source.class, ts.getSourceId());
 				if (source.getType().equals(Source.SourceType.METASE)) {
 					isMetasearch = true;
-				} else {
+				} else if (source.getType().equals(Source.SourceType.WEBSITE)) {
 					sourceList.add(source);
 				}
 			}
