@@ -14,7 +14,9 @@ import com.dao.ItemDao;
 import com.extract.Extract;
 import com.model.Item;
 import com.model.policy.Param;
+import com.model.policy.Source;
 import com.model.policy.Topic;
+import com.model.policy.TopicSource;
 import com.util.Fetcher;
 
 public class MetaSearcher implements Runnable {
@@ -36,50 +38,85 @@ public class MetaSearcher implements Runnable {
 
 	private List<Item> generateItems() throws Exception {
 		LOG.info("Generate Items for metasearch");
-
 		List<Item> items = new ArrayList<Item>();
-		List<Topic> topics = commonDAO.query("from Topic t");
-		List<Param> list = commonDAO
-				.query("from Param p where p.type = 'metasearch'");
 
-		for (Topic topic : topics) {
-			String options = topic.getOptional();
-			String[] opts = { "" };
-			if (options != null) {
-				opts = options.split(";");
-			}
-			for (String option : opts) {
-				String keyword = "";
-				if (StringUtils.isNotEmpty(topic.getInclude())) {
-					keyword = "\"" + topic.getInclude().replace(";", "\" \"")
-							+ "\"";
-				}
-				keyword += option;
-				if (StringUtils.isNotEmpty(topic.getExclude()))
-					keyword += "-(" + topic.getExclude().replace(";", ") -(")
-							+ ")";
-				keyword = keyword.replace(" ", "%20");
-				keyword = keyword.replace("\"", "%22");
-				for (Param param : list) {
-					String url = param.getValue2();
-					String metaTitle = param.getValue4();
-					int page = Integer.parseInt(param.getValue3());
-					for (int i = 0; i < page; i++) {
-						int offset = 10 * i;
-						String newUrl = url.replace(KEYWORD, keyword);
-						newUrl = newUrl.replace(OFFSET,
-								Integer.toString(offset));
-						newUrl = newUrl.replace(PAGE, String.valueOf(i + 1));
-						Item item = new Item();
-						item.setUrl(newUrl);
-						item.setMetaTitle(metaTitle);
-						item.setSourceId(param.getValue5());
-						items.add(item);
+		try {
+
+			List<Topic> topics = commonDAO.query("from Topic t");
+			List<Param> list = commonDAO
+					.query("from Param p where p.type = 'metasearch'");
+
+			for (Topic topic : topics) {
+
+				List<Source> sourceList = getSourcesByTopic(topic);
+
+				for (Source source : sourceList) {
+					if (source == null) {
+						continue;
+					}
+					String site = source.getUrl();
+					site = site.replace("http://", "");
+
+					String options = topic.getOptional();
+					String[] opts = { "" };
+					if (options != null) {
+						opts = options.split(";");
+					}
+					for (String option : opts) {
+						String keyword = "site:" + site + " ";
+						if (StringUtils.isNotEmpty(topic.getInclude())) {
+							keyword = "\""
+									+ topic.getInclude().replace(";", "\" \"")
+									+ "\"";
+						}
+						keyword += option;
+						if (StringUtils.isNotEmpty(topic.getExclude()))
+							keyword += "-("
+									+ topic.getExclude().replace(";", ") -(")
+									+ ")";
+						keyword = keyword.replace(" ", "%20");
+						keyword = keyword.replace("\"", "%22");
+						for (Param param : list) {
+							String url = param.getValue2();
+							String metaTitle = param.getValue4();
+							int page = Integer.parseInt(param.getValue3());
+							for (int i = 0; i < page; i++) {
+								int offset = 10 * i;
+								String newUrl = url.replace(KEYWORD, keyword);
+								newUrl = newUrl.replace(OFFSET,
+										Integer.toString(offset));
+								newUrl = newUrl.replace(PAGE,
+										String.valueOf(i + 1));
+								Item item = new Item();
+								item.setUrl(newUrl);
+								item.setMetaTitle(metaTitle);
+								item.setSourceId(param.getValue5());
+								items.add(item);
+							}
+						}
 					}
 				}
 			}
+		} catch (Exception e) {
+			throw new Exception(e);
 		}
 		return items;
+	}
+
+	private List<Source> getSourcesByTopic(Topic topic) throws Exception {
+		try {
+			List<TopicSource> tsList = commonDAO
+					.query("from TopicSource ts where ts.topicId = "
+							+ topic.getId());
+			List<Source> sourceList = new ArrayList<Source>(tsList.size());
+			for (TopicSource ts : tsList) {
+				Source source = commonDAO.get(Source.class, ts.getSourceId());
+				sourceList.add(source);
+			}
+			return sourceList;
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
 	}
 
 	public void search() {
