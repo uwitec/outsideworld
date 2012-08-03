@@ -109,11 +109,20 @@ public class MetaSearcher implements Runnable {
 					.query("from TopicSource ts where ts.topicId = "
 							+ topic.getId());
 			List<Source> sourceList = new ArrayList<Source>(tsList.size());
+			boolean isMetasearch = false;
 			for (TopicSource ts : tsList) {
 				Source source = commonDAO.get(Source.class, ts.getSourceId());
-				sourceList.add(source);
+				if (source.getType().equals(Source.SourceType.METASE)) {
+					isMetasearch = true;
+				} else {
+					sourceList.add(source);
+				}
 			}
-			return sourceList;
+			if (isMetasearch) {
+				return sourceList;
+			} else {
+				return new ArrayList<Source>(0);
+			}
 		} catch (Exception e) {
 			throw new Exception(e);
 		}
