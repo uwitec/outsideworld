@@ -1,5 +1,7 @@
 package com.main;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -8,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.jasper.tagplugins.jstl.core.Url;
 import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Term;
@@ -25,10 +28,14 @@ import org.apache.lucene.search.highlight.Scorer;
 import org.apache.lucene.search.highlight.SimpleFragmenter;
 import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
 
+import com.dao.CommonDAO;
 import com.dao.ItemDao;
 import com.index.AbstractIndex;
 import com.model.Item;
+import com.model.policy.Source;
+import com.model.policy.Source.SourceType;
 import com.model.policy.Topic;
+import com.model.policy.TopicSource;
 import com.util.CacheStore;
 import com.util.SpringFactory;
 
@@ -56,6 +63,7 @@ public class ItemSelector {
 	private AbstractIndex indexImpl;
 	private ItemIndexer itemIndexer;
 	private IndexSearcher searcher;
+	private CommonDAO commonDAO;
 
 	public List<Item> select(List<Item> items, List<Topic> topics, String dir)
 			throws Exception {
@@ -101,27 +109,28 @@ public class ItemSelector {
 							new TermQuery(new Term("content", mustNot)), b);
 				}
 			}
-			if(!StringUtils.isBlank(topic.getOptional())){
-			    String[] mustNots = topic.getOptional().split(";");
-                for (String mustNot : mustNots) {
-                    BooleanClause.Occur b = BooleanClause.Occur.SHOULD;
-                    titleQuery
-                            .add(new TermQuery(new Term("title", mustNot)), b);
-                    contentQuery.add(
-                            new TermQuery(new Term("content", mustNot)), b);
-                }
+			if (!StringUtils.isBlank(topic.getOptional())) {
+				String[] mustNots = topic.getOptional().split(";");
+				for (String mustNot : mustNots) {
+					BooleanClause.Occur b = BooleanClause.Occur.SHOULD;
+					titleQuery
+							.add(new TermQuery(new Term("title", mustNot)), b);
+					contentQuery.add(
+							new TermQuery(new Term("content", mustNot)), b);
+				}
 			}
 			query.add(titleQuery, BooleanClause.Occur.SHOULD);
 			query.add(contentQuery, BooleanClause.Occur.SHOULD);
 			LOG.debug("The query is " + query.toString());
 			TopDocs hits = searcher.search(query, items.size());
-			//准备高亮显示，将高亮的文本存储到数据库中
-			Formatter formatter = new SimpleHTMLFormatter("<span class=\"highlighter\">", "</span>");   
-            Scorer fragmentScorer = new QueryScorer(query);   
-            Highlighter highlighter = new Highlighter(formatter, fragmentScorer);   
-            Fragmenter fragmenter = new SimpleFragmenter(100);   //高亮范围   
-            highlighter.setTextFragmenter(fragmenter);   
-
+			// 准备高亮显示，将高亮的文本存储到数据库中
+			Formatter formatter = new SimpleHTMLFormatter(
+					"<span class=\"highlighter\">", "</span>");
+			Scorer fragmentScorer = new QueryScorer(query);
+			Highlighter highlighter = new Highlighter(formatter, fragmentScorer);
+			Fragmenter fragmenter = new SimpleFragmenter(100); // 高亮范围
+			highlighter.setTextFragmenter(fragmenter);
+			List<Source> sources = getSourcesByTopic(topic);
 			if (hits != null && hits.totalHits > 0) {
 				LOG.debug("There is " + hits.totalHits + " items found!");
 				for (ScoreDoc scoreDoc : hits.scoreDocs) {
@@ -129,6 +138,10 @@ public class ItemSelector {
 					String id = doc.get("id");
 					Item item = map.get(id);
 					if (item != null) {
+						if (sources != null && sources.size() > 0
+								&& !filter(item, sources)) {
+							continue;
+						}
 						item.setScore(scoreDoc.score);
 						if (!StringUtils.isBlank(item.getTopicIds())) {
 							item.setTopicIds(item.getTopicIds() + topic.getId()
@@ -136,9 +149,14 @@ public class ItemSelector {
 						} else {
 							item.setTopicIds("" + topic.getId());
 						}
-						String fragTitle = doc.get("title")!=null?highlighter.getBestFragment(AbstractIndex.getAnalyzer(), "title", doc.get("title")):"";
-						String fragContent =  doc.get("content")!=null?highlighter.getBestFragment(AbstractIndex.getAnalyzer(), "content", doc.get("content")):"";
-						String frag = (fragTitle!=null?fragTitle:"")+(fragContent!=null?fragContent:"");
+						String fragTitle = doc.get("title") != null ? highlighter
+								.getBestFragment(AbstractIndex.getAnalyzer(),
+										"title", doc.get("title")) : "";
+						String fragContent = doc.get("content") != null ? highlighter
+								.getBestFragment(AbstractIndex.getAnalyzer(),
+										"content", doc.get("content")) : "";
+						String frag = (fragTitle != null ? fragTitle : "")
+								+ (fragContent != null ? fragContent : "");
 						item.setFragmenter(frag);
 						setResult.add(item);
 						LOG.debug("Item title:" + item.getTitle()
@@ -163,7 +181,6 @@ public class ItemSelector {
 		return result;
 	}
 
-
 	public AbstractIndex getIndex() {
 		return index;
 	}
@@ -172,8 +189,46 @@ public class ItemSelector {
 		this.index = index;
 	}
 
+	private List<Source> getSourcesByTopic(Topic topic) throws Exception {
+		try {
+			List<TopicSource> tsList = commonDAO
+					.query("from TopicSource ts where ts.topicId = "
+							+ topic.getId());
+			List<Source> sourceList = new ArrayList<Source>(tsList.size());
+			for (TopicSource ts : tsList) {
+				Source source = commonDAO.get(Source.class, ts.getSourceId());
+				if (source.getType()!=null&&source.getType().equals(SourceType.WEBSITE)) {
+					sourceList.add(source);
+				}
+			}
+			return sourceList;
+
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+	}
+
+	private boolean filter(Item item, List<Source> sources)
+			throws MalformedURLException {
+		if (!StringUtils.equalsIgnoreCase(item.getType(), "web")) {
+			return true;
+		}
+		for (Source source : sources) {
+			String url = item.getUrl();
+			if (StringUtils.isBlank(url)) {
+				return false;
+			}
+			String host = new URL(url).getHost();
+			String sourceHost = new URL(source.getUrl()).getHost();
+			if (StringUtils.equals(host, sourceHost)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public void select(String dir) throws Exception {
-		LOG.info("Begin to select...");		
+		LOG.info("Begin to select...");
 		do {
 			List<Topic> topics = cache.get("topic");
 			if (topics == null || topics.size() <= 0) {
@@ -181,10 +236,10 @@ public class ItemSelector {
 				return;
 			}
 			LOG.info("Begin to get items form mongoDB ...");
-			List<Item> items  = itemDao.poll(1000);
+			List<Item> items = itemDao.poll(1000);
 			LOG.info("Got items end!");
 			if (items == null || items.size() <= 0) {
-				LOG.info("There is no items in mongodb,so thread sleep 60 second!");
+				LOG.info("There is no items in mongodb,so thread sleep 50 seconds!");
 				Thread.sleep(5000);
 				continue;
 			}
@@ -237,6 +292,14 @@ public class ItemSelector {
 
 	public void setItemIndexer(ItemIndexer itemIndexer) {
 		this.itemIndexer = itemIndexer;
+	}
+
+	public CommonDAO getCommonDAO() {
+		return commonDAO;
+	}
+
+	public void setCommonDAO(CommonDAO commonDAO) {
+		this.commonDAO = commonDAO;
 	}
 
 }
