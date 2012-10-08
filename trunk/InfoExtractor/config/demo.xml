@@ -1,0 +1,8 @@
+<source>
+	<template adapter="mongodb">
+		<element name="title" handler="xpathparser" xpath="//title" />
+
+		<variable name="content_url" handler="xpathparser" xpath="/content/url" />
+		<element name="content" handler="fetcher" url="${content_url}" />
+	</template>
+</source>
