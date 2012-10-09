@@ -1,8 +1,47 @@
-<source>
-	<template adapter="mongodb">
-		<element name="title" handler="xpathparser" xpath="//title" />
+<resource>
+	<source>
+		<urls>
+			<url>http://www.163.com</url>
+			<url>http://news.163.com</url>
+		</urls>
+		<type>html</type>
+		<depth>5</depth>
+		<interval>30</interval>
+		<threads>3</threads>
+	</source>
+	<!-- 将抓取的页面封装为Map，包括：页面内容，URL，页面深度等信息 -->
+	<processer>
+		<!-- 根据URL进行正则表达式匹配，如果返回true则执行过滤器中的内容 ,$表示参数从Map中取得 -->
+		<filter handler="regexfilter" regex="http://news.163.com/\\S+.html"
+			text="${url}">
+			<!-- 提取title,xpathparser 为Spring中对应的处理类 -->
+			<element name="title" handler="xpathparser" xpath="//title"
+				doc="${html}" />
 
-		<variable name="content_url" handler="xpathparser" xpath="/content/url" />
-		<element name="content" handler="fetcher" url="${content_url}" />
-	</template>
-</source>
+			<!-- 提取具体内容的URL -->
+			<variable name="content_url" handler="xpathparser" xpath="/content/url" />
+			<!-- 下载内容 -->
+			<element name="content" handler="fetcher" url="${content_url}" />
+
+			<!-- 根据正则表达式过滤，是否包含作者信息 -->
+			<filter handler="regexfilter" regex="[\\S+]" text="${content}">
+				<element name="author" handler="regexparser" regex="[\\S+]"
+					text="content" />
+			</filter>
+
+			<!-- 保存当前processer所有得到的element -->
+			<output handler="mongodb" url="localhost" user="user"
+				password="password" />
+		</filter>
+	</processer>
+	<processer>
+		<!-- 图片下载 -->
+		<filter handler="regexfilter" regex="http://news.163.com/\\S+.html"
+			text="${url}">
+			<variable name="path" handler="xpathparser" xpath="/pic/category" />
+			<element name="picurl" handler="xpathparser" xpath="/pic/url"
+				doc="${html}" />
+			<output handler="downloader" path="${path}" />
+		</filter>
+	</processer>
+</resource>
