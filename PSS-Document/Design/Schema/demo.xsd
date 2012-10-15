@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.example.org/demo/"
+	targetNamespace="http://www.example.org/demo/">
+
+    <complexType name="FilterType">
+    	<sequence>
+    		<element name="param" type="tns:ParamType"
+    			maxOccurs="unbounded" minOccurs="1">
+    		</element>
+            <element name="variable" type="tns:VariableType" maxOccurs="unbounded" minOccurs="0">
+    		</element>
+            <element name="filter" type="tns:FilterType"
+    			maxOccurs="unbounded" minOccurs="0">
+    		</element>
+            <element name="element" type="tns:ElementType"
+    			maxOccurs="unbounded" minOccurs="0">
+    		</element>
+
+    	</sequence>
+    	<attribute name="handler" type="string"></attribute>
+    </complexType>
+
+    <complexType name="VariableType">
+
+    	<sequence>
+    		<element name="param" type="tns:ParamType" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    	<attribute name="name" type="string"></attribute>
+    	<attribute name="handler" type="string"></attribute>
+    </complexType>
+
+    <complexType name="ElementType">
+    	<sequence>
+    		<element name="param" type="tns:ParamType" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    	<attribute name="name" type="string"></attribute>
+    	<attribute name="handler" type="string"></attribute>
+    </complexType>
+
+
+    <complexType name="OutputType">
+    	<sequence>
+    		<element name="param" type="tns:ParamType" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    	<attribute name="handler" type="string"></attribute>
+    </complexType>
+
+
+    <complexType name="ResourceType">
+    	<sequence>
+    		<element name="processer" type="tns:ProcesserType" maxOccurs="unbounded" minOccurs="1"></element>
+    	</sequence></complexType>
+
+    <element name="resource" type="tns:ResourceType"></element>
+
+    <complexType name="ProcesserType">
+    	<sequence>
+    		<element name="filter" type="tns:FilterType" maxOccurs="unbounded" minOccurs="0"></element>
+    		<element name="variable" type="tns:VariableType" maxOccurs="unbounded" minOccurs="0"></element>
+    		<element name="element" type="tns:ElementType" maxOccurs="unbounded" minOccurs="0"></element>
+    		<element name="output" type="tns:OutputType" maxOccurs="unbounded" minOccurs="1"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="ParamType">
+    	<attribute name="name" type="string"></attribute>
+    	<attribute name="value" type="string"></attribute>
+    	<attribute name="ref" type="string"></attribute>
+    </complexType>
+</schema>
