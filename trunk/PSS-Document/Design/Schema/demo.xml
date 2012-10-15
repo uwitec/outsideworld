@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:resource xmlns:tns="http://www.example.org/demo/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/demo/ demo.xsd ">
+	<processer>
+		<!-- 根据URL进行正则表达式匹配，如果返回true则执行过滤器中的内容 ,$表示参数从Map中取得 -->
+		<filter handler="regexfilter">
+			<param name="regex" value="http://news.163.com/\\S+.html" />
+			<param name="text" ref="url" />
+
+			<!-- 提取具体内容的URL -->
+			<variable name="content_url" handler="xpathparser">
+				<param name="xpath" value="/content/url" />
+			</variable>
+
+			<!-- 根据正则表达式过滤，是否包含作者信息 -->
+			<filter handler="regexfilter">
+				<param name="regex" value="[\\S+]" />
+				<param name="text" ref="content" />
+
+				<element name="author" handler="regexparser">
+					<param name="regex" value="[\\S+]" />
+					<param name="text" ref="content" />
+				</element>
+			</filter>
+
+			<!-- 下载内容 -->
+			<element name="content" handler="fetcher">
+				<param name="url" ref="${content_url}" />
+			</element>
+			<!-- 提取title,xpathparser 为Spring中对应的处理类 -->
+			<element name="title" handler="xpathparser">
+				<param name="xpath" value="//title" />
+				<param name="doc" ref="html" />
+			</element>
+		</filter>
+		<!-- 保存当前processer所有得到的element -->
+		<output handler="mongodb">
+			<param name="url" value="localhost" />
+			<param name="user" ref="user" />
+		</output>
+	</processer>
+	<processer>
+		<!-- 图片下载 -->
+		<filter handler="regexfilter">
+			<param name="regex" value="http://news.163.com/\\S+.html" />
+			<param name="text" ref="url" />
+
+			<variable name="path" handler="xpathparser">
+				<param name="xpath" value="/pic/category" />
+				<param name="doc" ref="html" />
+			</variable>
+
+			<element name="picurl" handler="xpathparser">
+				<param name="xpath" value="/pic/url" />
+				<param name="doc" ref="html" />
+			</element>
+		</filter>
+		<output handler="downloader">
+			<param name="path" ref="path" />
+		</output>
+	</processer>
+</tns:resource>
