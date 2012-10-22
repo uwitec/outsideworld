@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tns:processors xmlns:tns="http://www.example.org/demo/"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.example.org/demo/ demo.xsd ">
+	xsi:schemaLocation="http://www.example.org/demo/ processor.xsd ">
 
 	<processor>
 		<!-- 根据URL进行正则表达式匹配，如果返回true则执行过滤器中的内容 ,$表示参数从Map中取得 -->
@@ -43,7 +43,7 @@
 	</processor>
 
 	<processor abstract="true" name="news_pic">
-		<param name="urlRegex"/>
+		<param name="urlRegex" />
 		<!-- 图片下载 -->
 		<filter handler="regexfilter">
 			<!-- 引用模板中的参数 -->
