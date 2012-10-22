@@ -46,17 +46,21 @@
     </complexType>
 
 
-    <complexType name="ResourceType">
+    <complexType name="ProcessorsType">
     	<sequence>
-    		<element name="processer" type="tns:ProcesserType" maxOccurs="unbounded" minOccurs="1"></element>
+            <element name="processor" type="tns:ProcessorType" maxOccurs="unbounded" minOccurs="1">
+    		</element>
+            <element name="processorFactory" type="tns:ProcessorFactoryType" maxOccurs="unbounded" minOccurs="0"></element>
     	</sequence></complexType>
 
-    <element name="processors" type="tns:ResourceType"></element>
+    <element name="processors" type="tns:ProcessorsType"></element>
 
-    <complexType name="ProcesserType">
+    <complexType name="ProcessorType">
     	<sequence>
-            <element name="param" type="tns:ParamType" maxOccurs="unbounded" minOccurs="0"></element>
-            <element name="filter" type="tns:FilterType"
+    		<element name="param" type="tns:ParamType"
+    			maxOccurs="unbounded" minOccurs="0">
+    		</element>
+    		<element name="filter" type="tns:FilterType"
     			maxOccurs="unbounded" minOccurs="0">
     		</element>
     		<element name="variable" type="tns:VariableType"
@@ -67,7 +71,8 @@
     		</element>
     		<element name="output" type="tns:OutputType"
     			maxOccurs="unbounded" minOccurs="0">
-    		</element>
+    		</element>
+
     	</sequence>
     	<attribute name="abstract" type="boolean"></attribute>
     	<attribute name="name" type="string"></attribute>
@@ -83,4 +88,14 @@
 
     <attribute name="NewAttribute" type="string"></attribute>
 
+
+    <complexType name="ProcessorFactoryType">
+    	<sequence>
+    		<element name="processor" type="tns:ProcessorType"
+    			maxOccurs="1" minOccurs="1">
+    		</element>
+    	</sequence>
+    	<attribute name="file" type="string"></attribute>
+    	<attribute name="dir" type="string"></attribute>
+    </complexType>
 </schema>
