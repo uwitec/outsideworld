@@ -51,15 +51,28 @@
     		<element name="processer" type="tns:ProcesserType" maxOccurs="unbounded" minOccurs="1"></element>
     	</sequence></complexType>
 
-    <element name="resource" type="tns:ResourceType"></element>
+    <element name="processors" type="tns:ResourceType"></element>
 
     <complexType name="ProcesserType">
     	<sequence>
-    		<element name="filter" type="tns:FilterType" maxOccurs="unbounded" minOccurs="0"></element>
-    		<element name="variable" type="tns:VariableType" maxOccurs="unbounded" minOccurs="0"></element>
-    		<element name="element" type="tns:ElementType" maxOccurs="unbounded" minOccurs="0"></element>
-    		<element name="output" type="tns:OutputType" maxOccurs="unbounded" minOccurs="1"></element>
+            <element name="param" type="tns:ParamType" maxOccurs="unbounded" minOccurs="0"></element>
+            <element name="filter" type="tns:FilterType"
+    			maxOccurs="unbounded" minOccurs="0">
+    		</element>
+    		<element name="variable" type="tns:VariableType"
+    			maxOccurs="unbounded" minOccurs="0">
+    		</element>
+    		<element name="element" type="tns:ElementType"
+    			maxOccurs="unbounded" minOccurs="0">
+    		</element>
+    		<element name="output" type="tns:OutputType"
+    			maxOccurs="unbounded" minOccurs="0">
+    		</element>
     	</sequence>
+    	<attribute name="abstract" type="boolean"></attribute>
+    	<attribute name="name" type="string"></attribute>
+
+    	<attribute name="ref" type="string"></attribute>
     </complexType>
 
     <complexType name="ParamType">
@@ -67,4 +80,7 @@
     	<attribute name="value" type="string"></attribute>
     	<attribute name="ref" type="string"></attribute>
     </complexType>
+
+    <attribute name="NewAttribute" type="string"></attribute>
+
 </schema>
