@@ -3,12 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.example.org/demo/ demo.xsd ">
 
-	<processer ref="news">
-		<param name="var" value="testVar" />
-	</processer>
-
-	<processer abstract="true" name="news">
-		<param name="var" />
+	<processor>
 		<!-- 根据URL进行正则表达式匹配，如果返回true则执行过滤器中的内容 ,$表示参数从Map中取得 -->
 		<filter handler="regexfilter">
 			<param name="regex" value="http://news.163.com/\\S+.html" />
@@ -45,11 +40,14 @@
 			<param name="url" value="localhost" />
 			<param name="user" ref="user" />
 		</output>
-	</processer>
-	<processer>
+	</processor>
+
+	<processor abstract="true" name="news_pic">
+		<param name="urlRegex"/>
 		<!-- 图片下载 -->
 		<filter handler="regexfilter">
-			<param name="regex" value="http://news.163.com/\\S+.html" />
+			<!-- 引用模板中的参数 -->
+			<param name="regex" ref="urlRegex" />
 			<param name="text" ref="url" />
 
 			<variable name="path" handler="xpathparser">
@@ -65,5 +63,20 @@
 		<output handler="downloader">
 			<param name="path" ref="path" />
 		</output>
-	</processer>
+	</processor>
+
+	<!-- 以abstract processor为基础创建processor实例 -->
+	<processor ref="news">
+		<param name="urlRegex" value="http://news.163.com/\\S+.html" />
+	</processor>
+
+	<!-- 以文件properties文件key-value作为参数创建processor -->
+	<processorFactory file="d:/test/test.properties">
+		<processor ref="name" />
+	</processorFactory>
+
+	<!-- 遍历该目录下的所有文件,创建多个processors -->
+	<processorFactory dir="d:/dir">
+		<processor ref="name" />
+	</processorFactory>
 </tns:processors>
