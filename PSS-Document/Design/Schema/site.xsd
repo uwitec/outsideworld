@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.example.org/site/" targetNamespace="http://www.example.org/site/">
+    <complexType name="source_site">
+    	<sequence>
+    		<element name="login" type="tns:login" maxOccurs="1" minOccurs="0"></element>
+    		<element name="refer" type="tns:refer" maxOccurs="1" minOccurs="0"></element>
+    		<element name="httpclient" type="tns:httpclient" maxOccurs="1" minOccurs="0"></element>
+    	</sequence>
+    	<attribute name="interval" type="string"></attribute>
+    	<attribute name="depth" type="int"></attribute>
+    	<attribute name="thread_num" type="int"></attribute>
+    	<attribute name="url" type="string"></attribute>
+    </complexType>
+
+    <complexType name="login">
+    	<attribute name="url" type="string"></attribute>
+    	<attribute name="username" type="string"></attribute>
+    	<attribute name="password" type="string"></attribute>
+    	<attribute name="isValidate" type="boolean"></attribute>
+    	<attribute ref="tns:NewAttribute"></attribute>
+    </complexType>
+    
+    <complexType name="httpclient">
+    	<attribute name="cookiePolicy" type="string"></attribute>
+    </complexType>
+
+    <complexType name="refer">
+    	<attribute name="policy" type="string"></attribute>
+    	<attribute name="url" type="string"></attribute>
+    </complexType>
+
+    <attribute name="NewAttribute" type="string"></attribute>
+
+
+    <element name="NewElement" type="tns:refer"></element>
+
+    <element name="login" type="string"></element>
+
+    <element name="refer" type="tns:refer"></element>
+</schema>
