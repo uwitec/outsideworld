@@ -1,6 +1,6 @@
 package com.instructure.queue;
 
-public class BDBQueue<T> implements Queue<T> {
+public class EhcacheQueue<T> implements Queue<T> {
 
 	@Override
 	public T poll() {
