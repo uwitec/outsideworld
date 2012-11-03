@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:processors xmlns:tns="http://www.example.org/demo/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/demo/ processor.xsd ">
+	<processor abstract="true" name="" ref="">
+		<filter handler="">
+			<param name="regex" value="abc" />
+			<param name="text" ref="html" />
+			<element handler="" name="" output="true">
+				<param name="" ref="" value="" />
+			</element>
+			<element handler="" name="" output="true">
+				<param name="" ref="" value="" />
+			</element>
+			<output handler="">
+				<param name="" ref="" value="" />
+			</output>
+		</filter>
+	</processor>
+	<processorFactory path="">
+		<processor>
+			<filter handler="">
+				<param name="" ref="" value="" />
+				<filter handler="" />
+				<element handler="" name="" output="true">
+					<param name="" ref="" value="" />
+				</element>
+			</filter>
+			<element handler="" name="" output="true">
+				<param name="" ref="" value="" />
+			</element>
+			<output handler="">
+				<param name="" ref="" value="" />
+			</output>
+		</processor>
+	</processorFactory>
+</tns:processors>
