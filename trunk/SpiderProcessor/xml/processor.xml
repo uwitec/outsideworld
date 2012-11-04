@@ -2,14 +2,14 @@
 <tns:processors xmlns:tns="http://www.example.org/demo/"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.example.org/demo/ processor.xsd ">
-	<processor abstract="true" name="" ref="">
-		<filter handler="">
-			<param name="regex" value="abc" />
+	<processor name="netease_news">
+		<filter handler="regexFilter">
+			<param name="regex" value=".*" />
 			<param name="text" ref="html" />
-			<element handler="" name="" output="true">
+			<element handler="testHandler" name="" output="true">
 				<param name="" ref="" value="" />
 			</element>
-			<element handler="" name="" output="true">
+			<element handler="testHandler" name="" output="true">
 				<param name="" ref="" value="" />
 			</element>
 			<output handler="">
