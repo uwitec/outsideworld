@@ -13,6 +13,10 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
+
+import com.processor.handler.impl.HandlerAPI;
 import com.processor.model.ProcessorsType;
 
 public class ProcessorEngine {
@@ -22,11 +26,13 @@ public class ProcessorEngine {
 	private static List<Processor> processors = null;
 	private static ThreadPoolExecutor executor = null;
 	private static ArrayBlockingQueue<Runnable> bufferQueue = null;
+	private static ApplicationContext applicationContext = null;
 
 	private int minThreads = 5;
 	private int maxThread = 10;
 	private int expireTime = 5;
 	private int bufferSize = 100;
+	private String config = "config/*.xml";
 
 	public ProcessorEngine() throws Exception {
 		jaxb = JAXBContext.newInstance("com.processor.model");
@@ -36,6 +42,11 @@ public class ProcessorEngine {
 		executor = new ThreadPoolExecutor(minThreads, maxThread, expireTime,
 				TimeUnit.SECONDS, bufferQueue,
 				new ThreadPoolExecutor.AbortPolicy());
+		applicationContext = new FileSystemXmlApplicationContext(config);
+	}
+
+	public static HandlerAPI getHandler(String name) {
+		return applicationContext.getBean(name, HandlerAPI.class);
 	}
 
 	public void load(File path) {
