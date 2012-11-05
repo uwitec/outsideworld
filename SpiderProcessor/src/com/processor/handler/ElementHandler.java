@@ -19,10 +19,11 @@ public class ElementHandler extends AbstractHandler {
 		Map<String, Object> params = getParameters(context, element.getParam());
 		Handler handler = ProcessorEngine.getHandler(element.getHandler());
 		Object result = handler.handle(params);
-		if (element.getOutput()) {
-			context.addOutput(element.getName(), result);
-		} else {
-			context.addElement(element.getName(), result);
+		context.addElement(element.getName(), result);
+		if (element.getCollector() != null) {
+			for (String collector : element.getCollector().split(",")) {
+				context.addCollector(collector, element.getName());
+			}
 		}
 	}
 
