@@ -7,15 +7,14 @@ import java.util.Map;
 
 import com.processor.Context;
 import com.processor.ProcessorEngine;
-import com.processor.handler.impl.HandlerAPI;
 import com.processor.model.ElementType;
 import com.processor.model.FilterType;
 
-public class FilterHandler extends Handler {
+public class FilterHandler extends AbstractHandler {
 
 	private FilterType filter = null;
 
-	private List<Handler> handlers = new ArrayList<Handler>();
+	private List<AbstractHandler> handlers = new ArrayList<AbstractHandler>();
 
 	public FilterHandler(FilterType filter) {
 		this.filter = filter;
@@ -34,7 +33,7 @@ public class FilterHandler extends Handler {
 	@Override
 	public void process(Context context) {
 		Map<String, Object> params = getParameters(context, filter.getParam());
-		HandlerAPI filterHandler = ProcessorEngine.getHandler(filter
+		Handler filterHandler = ProcessorEngine.getHandler(filter
 				.getHandler());
 		Object result = filterHandler.handle(params);
 
@@ -66,7 +65,7 @@ public class FilterHandler extends Handler {
 
 		// following handlers
 		if (flag) {
-			for (Handler handler : handlers) {
+			for (AbstractHandler handler : handlers) {
 				handler.process(context);
 			}
 		}

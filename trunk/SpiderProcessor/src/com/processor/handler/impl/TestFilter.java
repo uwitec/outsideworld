@@ -4,7 +4,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class TestFilter implements HandlerAPI {
+import com.processor.handler.Handler;
+
+public class TestFilter implements Handler {
 
 	private static final String REGEX = "regex";
 	private static final String TEXT = "text";
