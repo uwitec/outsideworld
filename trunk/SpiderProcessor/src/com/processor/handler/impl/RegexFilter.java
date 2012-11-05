@@ -6,12 +6,16 @@ import java.util.regex.Pattern;
 
 import com.processor.handler.Handler;
 
-public class TestFilter implements Handler {
+public class RegexFilter implements Handler {
 
 	private static final String REGEX = "regex";
 	private static final String TEXT = "text";
 
 	public Object handle(Map<String, Object> params) {
+		// check parameters
+		if (!params.containsKey(REGEX) || !params.containsKey(TEXT)) {
+			return null;
+		}
 
 		Pattern pattern = Pattern.compile(params.get(REGEX).toString());
 		String text = params.get(TEXT).toString();
