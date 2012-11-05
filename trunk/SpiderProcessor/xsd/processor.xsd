@@ -27,15 +27,18 @@
     	</sequence>
     	<attribute name="name" type="string"></attribute>
     	<attribute name="handler" type="string"></attribute>
-    	<attribute name="output" type="boolean"></attribute>
+    	<attribute name="collector" type="string"></attribute>
     </complexType>
     
 
 
-    <complexType name="OutputType">
+    <complexType name="CollectorType">
     	<sequence>
-    		<element name="param" type="tns:ParamType" maxOccurs="unbounded" minOccurs="0"></element>
+    		<element name="param" type="tns:ParamType"
+    			maxOccurs="unbounded" minOccurs="0">
+    		</element>
     	</sequence>
+    	<attribute name="name" type="string"></attribute>
     	<attribute name="handler" type="string"></attribute>
     </complexType>
 
@@ -57,7 +60,7 @@
     		<element name="element" type="tns:ElementType"
     			maxOccurs="unbounded" minOccurs="0">
     		</element>
-    		<element name="output" type="tns:OutputType"
+    		<element name="collector" type="tns:CollectorType"
     			maxOccurs="unbounded" minOccurs="0">
     		</element>
 

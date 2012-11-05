@@ -7,25 +7,32 @@ import java.util.Set;
 
 public class Context {
 
-	private Map<String, Object> environment = null;
+	private Map<String, Object> elements = null;
 
-	private Set<String> outputSet = null;
+	private Map<String, Set<String>> collector = null;
 
 	public Context(Map<String, Object> data) {
-		this.environment = new HashMap<String, Object>(data);
-		this.outputSet = new HashSet<String>();
+		this.elements = new HashMap<String, Object>(data);
+		this.collector = new HashMap<String, Set<String>>();
 	}
 
 	public void addElement(String name, Object value) {
-		environment.put(name, value);
+		elements.put(name, value);
 	}
 
-	public void addOutput(String name, Object value) {
-		addElement(name, value);
-		outputSet.add(name);
+	public void addCollector(String collectorName, String elementName) {
+		Set<String> collection = collector.get(collector);
+		if (collection == null) {
+			collection = new HashSet<String>();
+		}
+		collection.add(elementName);
+	}
+
+	public Set<String> getCollector(String collectorName) {
+		return collector.get(collectorName);
 	}
 
 	public Object getParam(String name) {
-		return environment.get(name);
+		return elements.get(name);
 	}
 }
