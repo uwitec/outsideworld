@@ -7,14 +7,14 @@ import java.util.Map;
 
 import com.processor.handler.ElementHandler;
 import com.processor.handler.FilterHandler;
-import com.processor.handler.Handler;
+import com.processor.handler.AbstractHandler;
 import com.processor.model.ElementType;
 import com.processor.model.FilterType;
 import com.processor.model.ProcessorType;
 
 public class Processor implements Runnable {
 
-	private List<Handler> handlers = new ArrayList<Handler>();
+	private List<AbstractHandler> handlers = new ArrayList<AbstractHandler>();
 	private Map<String, String> params = new HashMap<String, String>();
 	private Context context = null;
 
@@ -43,7 +43,7 @@ public class Processor implements Runnable {
 
 	@Override
 	public void run() {
-		for (Handler handler : handlers) {
+		for (AbstractHandler handler : handlers) {
 			handler.process(context);
 		}
 	}

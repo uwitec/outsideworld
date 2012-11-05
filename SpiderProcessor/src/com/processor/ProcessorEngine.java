@@ -16,7 +16,7 @@ import javax.xml.bind.Unmarshaller;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-import com.processor.handler.impl.HandlerAPI;
+import com.processor.handler.Handler;
 import com.processor.model.ProcessorsType;
 
 public class ProcessorEngine {
@@ -45,8 +45,8 @@ public class ProcessorEngine {
 		applicationContext = new FileSystemXmlApplicationContext(config);
 	}
 
-	public static HandlerAPI getHandler(String name) {
-		return applicationContext.getBean(name, HandlerAPI.class);
+	public static Handler getHandler(String name) {
+		return applicationContext.getBean(name, Handler.class);
 	}
 
 	public void load(File path) {
