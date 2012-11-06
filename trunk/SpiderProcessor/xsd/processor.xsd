@@ -54,17 +54,20 @@
 
     <complexType name="ProcessorType">
     	<sequence>
-    		<element name="filter" type="tns:FilterType"
+            <element name="injector" type="tns:InjectorType" maxOccurs="1" minOccurs="1"></element>
+            <element name="filter" type="tns:FilterType"
     			maxOccurs="unbounded" minOccurs="0">
     		</element>
     		<element name="element" type="tns:ElementType"
     			maxOccurs="unbounded" minOccurs="0">
-    		</element>
+    		</element>
+
     		<element name="collector" type="tns:CollectorType"
     			maxOccurs="unbounded" minOccurs="0">
     		</element>
 
-    	</sequence>
+    	</sequence>
+
     	<attribute name="name" type="string"></attribute>
 
     </complexType>
@@ -85,5 +88,11 @@
     		</element>
     	</sequence>
     	<attribute name="path" type="string"></attribute>
+    </complexType>
+
+    <complexType name="InjectorType">
+    	<sequence>
+    		<element name="param" type="tns:ParamType" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
     </complexType>
 </schema>
