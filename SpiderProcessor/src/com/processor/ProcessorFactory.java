@@ -61,7 +61,6 @@ public class ProcessorFactory {
 		}
 
 		Processor processor = new Processor(processorType);
-		processor.setParams(params);
 		processorList.add(processor);
 	}
 }

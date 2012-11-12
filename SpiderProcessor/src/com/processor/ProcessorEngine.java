@@ -3,7 +3,6 @@ package com.processor;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -16,7 +15,8 @@ import javax.xml.bind.Unmarshaller;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-import com.processor.handler.Handler;
+import com.processor.handler.api.Handler;
+import com.processor.handler.api.Injector;
 import com.processor.model.ProcessorsType;
 
 public class ProcessorEngine {
@@ -49,6 +49,10 @@ public class ProcessorEngine {
 		return applicationContext.getBean(name, Handler.class);
 	}
 
+	public static Injector getInjector(String name) {
+		return applicationContext.getBean(name, Injector.class);
+	}
+
 	public void load(File path) {
 		if (path.isFile()) {
 			parse(path);
@@ -60,9 +64,8 @@ public class ProcessorEngine {
 		}
 	}
 
-	public void process(Map<String, Object> data) {
+	public void start() {
 		for (Processor processor : processors) {
-			processor.setData(data);
 			executor.execute(processor);
 		}
 	}

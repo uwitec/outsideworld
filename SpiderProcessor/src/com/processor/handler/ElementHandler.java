@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.processor.Context;
 import com.processor.ProcessorEngine;
+import com.processor.handler.api.Handler;
 import com.processor.model.ElementType;
 
 public class ElementHandler extends AbstractHandler {
@@ -25,6 +26,11 @@ public class ElementHandler extends AbstractHandler {
 				context.addCollector(collector, element.getName());
 			}
 		}
+	}
+
+	@Override
+	public String getName() {
+		return element.getName();
 	}
 
 }

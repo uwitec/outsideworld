@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.example.org/demo/ processor.xsd ">
 	<processor name="netease_news">
+		<injector handler="testInjector"></injector>
 		<filter handler="regexFilter">
 			<param name="regex" value=".*" />
 			<param name="text" ref="html" />
