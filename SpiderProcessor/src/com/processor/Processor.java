@@ -67,18 +67,21 @@ public class Processor implements Runnable {
 			log.error("initialize processor error", e);
 		}
 
+		// get context
+		Context context = new Context();
+		if (processorType.getFailsafe() != null) {
+			context.setFailsafe(processorType.getFailsafe());
+		}
+
 		// process
-		int errors = 0;
 		while (true) {
 			// inject data
 			Map<String, Object> data = null;
 			try {
 				data = injector.next();
 			} catch (Exception e) {
-				errors++;
-				log.error("injector " + injector.getName() + " errors "
-						+ errors + " times", e);
-				if (errors < 5) {
+				context.error(injector, e);
+				if (context.getErrors() < 5) {
 					continue;
 				} else {
 					log.error("injector errors too many times, exit processor "
@@ -87,13 +90,7 @@ public class Processor implements Runnable {
 				}
 
 			}
-			context = new Context(data);
-			if (processorType.getFailsafe() != null) {
-				context.setFailsafe(processorType.getFailsafe());
-			}
-
-			// initialize
-			errors = 0;
+			context.setData(data);
 
 			// process data
 			for (AbstractHandler handler : handlers) {
@@ -101,22 +98,17 @@ public class Processor implements Runnable {
 					handler.process(context);
 				} catch (Exception e) {
 					if (context.isFailsafe()) {
-						log.warn(
-								"processor error at handler "
-										+ handler.getName(), e);
+						context.error(handler, e);
 						continue;
 					} else {
-						log.error(
-								"processor error at handler"
-										+ handler.getName(), e);
-						errors++;
+						context.error(handler, e);
 						break;
 					}
 				}
 			}
 
 			// check fail safe
-			if (!context.isFailsafe() && errors > 0) {
+			if (!context.isFailsafe() && context.getErrors() > 0) {
 				continue;
 			}
 
@@ -126,28 +118,17 @@ public class Processor implements Runnable {
 					collectorHandler.collect(context);
 				} catch (Exception e) {
 					if (context.isFailsafe()) {
-						log.warn("processor error at collector "
-								+ collectorHandler.getName(), e);
+						context.error(collectorHandler, e);
 						continue;
 					} else {
-						log.error("processor error at collector "
-								+ collectorHandler.getName(), e);
-						errors++;
+						context.error(collectorHandler, e);
 						break;
 					}
 				}
 			}
 
 			// log
-			if (errors > 0) {
-				log.warn(errors + " errors happened when processing "
-						+ context.toString());
-			} else {
-				log.warn("process " + context.toString() + " successfully");
-			}
-
-			// initialize
-			errors = 0;
+			context.log();
 		}
 	}
 }
