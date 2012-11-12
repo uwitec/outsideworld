@@ -1,21 +1,35 @@
 package com.processor;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.processor.handler.BaseHandler;
 
 public class Context {
 
-	private boolean failsafe = false;
-	private Map<String, Object> elements = null;
-	private Map<String, Set<String>> collector = null;
+	private static final Log log = LogFactory.getLog(Context.class);
 
-	public Context(Map<String, Object> data) {
-		this.elements = new HashMap<String, Object>(data);
+	private boolean failsafe = false;
+	private Map<String, Object> elements = new HashMap<String, Object>();;
+	private Map<String, Set<String>> collector = new HashMap<String, Set<String>>();
+	private Map<String, Exception> errors = new HashMap<String, Exception>();
+
+	public void setData(Map<String, Object> data) {
+		// set elements
+		this.elements.clear();
+		for (String name : data.keySet()) {
+			elements.put(name, data.get(name));
+		}
+		// clear collector
 		this.collector = new HashMap<String, Set<String>>();
+		// clear errors
+		this.errors.clear();
 	}
 
 	public void addElement(String name, Object value) {
@@ -47,6 +61,20 @@ public class Context {
 	}
 
 	public void error(BaseHandler handler, Exception e) {
-		// TODO
+		errors.put(handler.getName() + ":" + new Date().toString(), e);
+	}
+
+	public int getErrors() {
+		return errors.size();
+	}
+
+	public void log() {
+		if (errors.size() > 0) {
+			for (String name : errors.keySet()) {
+				log.error("handler" + name + " error", errors.get(name));
+			}
+		} else {
+			log.info("process " + this.toString() + " successfully");
+		}
 	}
 }
