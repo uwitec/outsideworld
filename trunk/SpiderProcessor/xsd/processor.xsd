@@ -6,16 +6,23 @@
     	<sequence>
     		<element name="param" type="tns:ParamType"
     			maxOccurs="unbounded" minOccurs="0">
-    		</element>
-
-
-
-
-    		<element name="filter" type="tns:FilterType" maxOccurs="unbounded" minOccurs="0"></element>
-            <element name="element" type="tns:ElementType" maxOccurs="unbounded" minOccurs="0">
     		</element>
-        </sequence>
-    	<attribute name="handler" type="string"></attribute>
+
+
+
+
+
+    		<element name="filter" type="tns:FilterType"
+    			maxOccurs="unbounded" minOccurs="0">
+    		</element>
+    		<element name="element" type="tns:ElementType"
+    			maxOccurs="unbounded" minOccurs="0">
+    		</element>
+    	</sequence>
+        <attribute name="name" type="string"></attribute>
+        <attribute name="handler" type="string"></attribute>
+    	<attribute name="description" type="string"></attribute>
+
     </complexType>
 
     <complexType name="ElementType">
@@ -28,8 +35,9 @@
     	<attribute name="name" type="string"></attribute>
     	<attribute name="handler" type="string"></attribute>
     	<attribute name="collector" type="string"></attribute>
+    	<attribute name="description" type="string"></attribute>
     </complexType>
-    
+
 
 
     <complexType name="CollectorType">
@@ -38,8 +46,10 @@
     			maxOccurs="unbounded" minOccurs="0">
     		</element>
     	</sequence>
-    	<attribute name="name" type="string"></attribute>
-    	<attribute name="handler" type="string"></attribute>
+
+        <attribute name="name" type="string"></attribute>
+        <attribute name="handler" type="string"></attribute>
+    	<attribute name="description" type="string"></attribute>
     </complexType>
 
 
@@ -54,8 +64,10 @@
 
     <complexType name="ProcessorType">
     	<sequence>
-            <element name="injector" type="tns:InjectorType" maxOccurs="1" minOccurs="1"></element>
-            <element name="filter" type="tns:FilterType"
+    		<element name="injector" type="tns:InjectorType"
+    			maxOccurs="1" minOccurs="1">
+    		</element>
+    		<element name="filter" type="tns:FilterType"
     			maxOccurs="unbounded" minOccurs="0">
     		</element>
     		<element name="element" type="tns:ElementType"
@@ -63,13 +75,14 @@
     		</element>
 
     		<element name="collector" type="tns:CollectorType"
-    			maxOccurs="unbounded" minOccurs="0">
+    			maxOccurs="unbounded" minOccurs="1">
     		</element>
 
     	</sequence>
 
     	<attribute name="name" type="string"></attribute>
 
+    	<attribute name="failsafe" type="boolean"></attribute>
     </complexType>
 
     <complexType name="ParamType">
@@ -92,7 +105,12 @@
 
     <complexType name="InjectorType">
     	<sequence>
-    		<element name="param" type="tns:ParamType" maxOccurs="unbounded" minOccurs="0"></element>
+    		<element name="param" type="tns:ParamType"
+    			maxOccurs="unbounded" minOccurs="0">
+    		</element>
     	</sequence>
+    	<attribute name="name" type="string"></attribute>
+    	<attribute name="descriptioin" type="string"></attribute>
+    	<attribute name="handler" type="string"></attribute>
     </complexType>
 </schema>

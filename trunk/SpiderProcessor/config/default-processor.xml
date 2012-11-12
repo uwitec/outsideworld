@@ -1,0 +1,16 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- injector -->
+	<bean name="testInjector" class="com.processor.handler.injector.impl.TestInjector" />
+
+	<!-- filter -->
+	<bean name="regexFilter" class="com.processor.handler.impl.RegexFilter" />
+
+	<!-- handler -->
+	<bean name="testHandler" class="com.processor.handler.impl.XPathExtractor" />
+
+
+
+</beans>

@@ -6,36 +6,43 @@ import java.util.Set;
 
 import com.processor.Context;
 import com.processor.ProcessorEngine;
+import com.processor.handler.api.Handler;
 import com.processor.model.CollectorType;
 
-public class CollectorHandler extends AbstractHandler {
+public class CollectorHandler extends BaseHandler {
 
-	private static final String COLLECTION = "COLLECTION";
+	private CollectorType colletorType = null;
 
-	private CollectorType colletor = null;
-
-	public CollectorHandler(CollectorType collector) {
-		this.colletor = collector;
+	public CollectorHandler(CollectorType collectorType) {
+		this.colletorType = collectorType;
 	}
 
-	@Override
-	public void process(Context context) {
+	public void collect(Context context) throws Exception {
+
+	}
+
+	public void initialize(Context context) {
 		// parameters
-		Map<String, Object> params = getParameters(context, colletor.getParam());
+		Map<String, Object> params = getParameters(context,
+				colletorType.getParam());
 
 		// collection
-		String name = colletor.getName();
+		String name = colletorType.getName();
 		Set<String> keys = context.getCollector(name);
 		Map<String, Object> collection = new HashMap<String, Object>();
 		for (String key : keys) {
 			collection.put(key, context.getParam(key));
 		}
-		params.put(COLLECTION, collection);
 
 		// handler
-		Handler handler = ProcessorEngine.getHandler(colletor.getHandler());
+		Handler handler = ProcessorEngine.getHandler(colletorType.getHandler());
 		Object result = handler.handle(params);
-		context.addElement(colletor.getName(), result);
+		context.addElement(colletorType.getName(), result);
+	}
+
+	@Override
+	public String getName() {
+		return colletorType.getName();
 	}
 
 }

@@ -7,33 +7,35 @@ import java.util.Map;
 
 import com.processor.Context;
 import com.processor.ProcessorEngine;
+import com.processor.handler.api.Handler;
 import com.processor.model.ElementType;
 import com.processor.model.FilterType;
 
 public class FilterHandler extends AbstractHandler {
 
-	private FilterType filter = null;
-
+	private FilterType filterType = null;
 	private List<AbstractHandler> handlers = new ArrayList<AbstractHandler>();
 
-	public FilterHandler(FilterType filter) {
-		this.filter = filter;
+	public FilterHandler(FilterType filterType) {
+		this.filterType = filterType;
 
-		List<FilterType> filterList = filter.getFilter();
+		List<FilterType> filterList = filterType.getFilter();
 		for (FilterType subFilter : filterList) {
 			handlers.add(new FilterHandler(subFilter));
 		}
 
-		List<ElementType> elementList = filter.getElement();
+		List<ElementType> elementList = filterType.getElement();
 		for (ElementType element : elementList) {
 			handlers.add(new ElementHandler(element));
 		}
 	}
 
 	@Override
-	public void process(Context context) {
-		Map<String, Object> params = getParameters(context, filter.getParam());
-		Handler filterHandler = ProcessorEngine.getHandler(filter
+	public void process(Context context) throws Exception {
+		// get filter
+		Map<String, Object> params = getParameters(context,
+				filterType.getParam());
+		Handler filterHandler = ProcessorEngine.getHandler(filterType
 				.getHandler());
 		Object result = filterHandler.handle(params);
 
@@ -66,9 +68,23 @@ public class FilterHandler extends AbstractHandler {
 		// following handlers
 		if (flag) {
 			for (AbstractHandler handler : handlers) {
-				handler.process(context);
+				try {
+					handler.process(context);
+				} catch (Exception e) {
+					context.error(handler, e);
+					if (context.isFailsafe()) {
+						continue;
+					} else {
+						break;
+					}
+				}
 			}
 		}
+	}
+
+	@Override
+	public String getName() {
+		return filterType.getName();
 	}
 
 }
